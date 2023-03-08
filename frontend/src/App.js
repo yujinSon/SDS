@@ -1,7 +1,17 @@
-import "./App.css";
+import './App.css';
+import React, { useState } from 'react';
+import { Route, Routes } from 'react-router-dom';
+
+import MainPage from 'pages/main/MainPage';
 
 function App() {
-  return <div>자유로운 팀의 플젝입니다.</div>;
+  return (
+    <>
+      <Routes>
+        <Route path="/" element={<MainPage />}></Route>
+      </Routes>
+    </>
+  );
 }
 
 export default App;
