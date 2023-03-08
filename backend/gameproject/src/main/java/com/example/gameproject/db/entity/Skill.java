@@ -11,7 +11,10 @@ public class Skill {
     private  boolean isEnemy;
     private int target;
     private int coolDown;
-    private User user;
+
+
+    private Character character;
+    private Villain villain;
 
 
 }
