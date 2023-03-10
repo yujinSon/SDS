@@ -1,8 +1,6 @@
 import React from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 
-import mainPageBgImg from 'assets/img/bg-mainpage.png';
-
 export default function MainPageLayout({ children }) {
   const [Up, Down] = children;
 
@@ -32,7 +30,7 @@ const Container = styled.div`
 
   height: 100%;
 
-  background-image: url(${mainPageBgImg});
+  background-image: url(${({ theme }) => theme.mainPageBgImg});
   background-size: cover;
 `;
 
