@@ -60,4 +60,4 @@
 
 - Figma 구현
 
-<img src = "https://s3-us-west-2.amazonaws.com/secure.notion-static.com/47b42417-b9fa-45e1-a86c-28fd42de82e2/%ED%99%94%EB%A9%B4_%EC%BA%A1%EC%B2%98_2023-03-13_174909.png">
+<img src = "/s3-us-west-2.amazonaws.com/secure.notion-static.com/47b42417-b9fa-45e1-a86c-28fd42de82e2/%ED%99%94%EB%A9%B4_%EC%BA%A1%EC%B2%98_2023-03-13_174909.png">
