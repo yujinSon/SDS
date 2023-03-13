@@ -1,15 +1,18 @@
-package com.example.gameproject.db.entity;
+package com.example.gameproject.db.entity.Vo;
 
 
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
+@Builder // Setter 개념
+@Getter // Getter
 @NoArgsConstructor
-public class Character {
+public class CharacterVo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,13 +22,7 @@ public class Character {
     private String subName;
 
     @OneToOne
-    private CharacterStat characterStat;
-
-    @OneToMany
-    private List<MyCharacter> myCharacters = new ArrayList<>();
-
-    @OneToMany
-    private List<Skill> mySkill = new ArrayList<>();
+    private CharacterStatVo characterStat;
 
 
 }

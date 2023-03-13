@@ -1,8 +1,11 @@
 package com.example.gameproject.db.entity;
 
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 @Entity
+@NoArgsConstructor
 public class UserArtifact {
 
     @Id

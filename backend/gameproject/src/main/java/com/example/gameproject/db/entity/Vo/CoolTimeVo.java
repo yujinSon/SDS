@@ -1,12 +1,15 @@
-package com.example.gameproject.db.entity;
+package com.example.gameproject.db.entity.Vo;
 
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Entity
+@Builder // Setter 개념
+@Getter // Getter
 @NoArgsConstructor
-public class CoolTime {
+public class CoolTimeVo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,10 +18,10 @@ public class CoolTime {
     private int turn;
 
     @ManyToOne
-    private MyCharacter myCharacter;
+    private MyCharacterVo myCharacter;
 
     @ManyToOne
-    private Skill skill;
+    private SkillVo skill;
 
 
 

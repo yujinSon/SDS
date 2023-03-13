@@ -1,11 +1,14 @@
 package com.example.gameproject.db.entity;
 
 
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@NoArgsConstructor
 public class Villain {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

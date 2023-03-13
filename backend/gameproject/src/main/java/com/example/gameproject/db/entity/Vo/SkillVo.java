@@ -1,14 +1,17 @@
-package com.example.gameproject.db.entity;
+package com.example.gameproject.db.entity.Vo;
 
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
+@Builder // Setter 개념
+@Getter // Getter
 @NoArgsConstructor
-public class Skill {
+public class SkillVo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,16 +26,11 @@ public class Skill {
     private int coolTime;
 
     @ManyToOne
-    private Character character;
+    private CharacterVo character;
 
     @ManyToOne
-    private Skill skill;
+    private SkillVo skill;
 
-    @OneToMany
-    private List<EffectTime> effectTimes = new ArrayList<>();
-
-    @OneToMany
-    private List<CoolTime> coolTimes = new ArrayList<>();
 
 
 

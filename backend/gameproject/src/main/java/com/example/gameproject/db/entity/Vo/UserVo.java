@@ -1,14 +1,17 @@
-package com.example.gameproject.db.entity;
+package com.example.gameproject.db.entity.Vo;
 
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
+@Builder // Setter 개념
+@Getter // Getter
 @NoArgsConstructor
-public class User {
+public class UserVo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,11 +25,6 @@ public class User {
     private int turn;
     private int finalScore;
 
-    @OneToMany
-    private List<MyCharacter> myCharacters = new ArrayList<>();
-
-    @OneToMany
-    private List<UserArtifact> userArtifacts = new ArrayList<>();
 
 
 }

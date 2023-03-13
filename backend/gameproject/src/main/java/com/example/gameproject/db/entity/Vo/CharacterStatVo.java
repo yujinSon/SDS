@@ -1,13 +1,16 @@
-package com.example.gameproject.db.entity;
+package com.example.gameproject.db.entity.Vo;
 
 
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Entity
+@Builder // Setter 개념
+@Getter // Getter
 @NoArgsConstructor
-public class CharacterStat {
+public class CharacterStatVo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,7 +30,7 @@ public class CharacterStat {
     private int addAvoid;
 
     @OneToOne
-    private Character character;
+    private CharacterVo character;
 
 
 }
