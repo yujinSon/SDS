@@ -5,22 +5,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class User {
+public class Artifact {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String nickname;
-    private String email;
-    private int bestScore;
-    private int stage;
-    private int subStage;
-    private int turn;
-    private int finalScore;
-
-    @OneToMany
-    private List<MyCharacter> myCharacters = new ArrayList<>();
+    private String name;
+    private Boolean isRange;
+    private int targetClass;
+    private String stat;
+    private int value;
 
     @OneToMany
     private List<UserArtifact> userArtifacts = new ArrayList<>();

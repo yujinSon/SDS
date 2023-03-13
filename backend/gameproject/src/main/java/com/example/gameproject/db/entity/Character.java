@@ -1,22 +1,28 @@
 package com.example.gameproject.db.entity;
 
 
-import javax.persistence.Entity;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Character {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
     private String className;
-    private String name;
     private String subName;
-    private int HP;
-    private int AD;
-    private int AP;
-    private int SPEED;
-    private int CRITICAL;
-    private int AVOID;
 
+    @OneToOne
+    private CharacterStat characterStat;
 
-    // 유저와 중계테이블 연결 필요
+    @OneToMany
+    private List<MyCharacter> myCharacters = new ArrayList<>();
+
+    @OneToMany
+    private List<Skill> mySkill = new ArrayList<>();
 
 
 }

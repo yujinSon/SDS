@@ -1,15 +1,16 @@
 package com.example.gameproject.db.entity;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
 
 @Entity
 public class EffectTime {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    private int skillID;
-    private int lastTurn;
+    private int turn;
 
+    @ManyToOne
+    private Skill skill;
 
-//    private ??? targetObj;  이거 필요하지 않을까 누구에게 썼는지 알아야 되지 않음?
-
-    // MyCharacter 와 연결
 }
