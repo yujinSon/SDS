@@ -59,6 +59,4 @@
 #23.03.13
 
 - Figma 구현
-
-https://www.notion.so/18-2a84aedadf3548b8a9cc316eb741e466?pvs=4#d455f44b85d14264843fa9e4f5481e47
-
+![화면 캡처 2023-03-13 174909.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/47b42417-b9fa-45e1-a86c-28fd42de82e2/%ED%99%94%EB%A9%B4_%EC%BA%A1%EC%B2%98_2023-03-13_174909.png)
