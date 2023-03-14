@@ -14,10 +14,12 @@ public class CoolTime {
 
     private int turn;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "mycharacter_id")
     private MyCharacter myCharacter;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "skill_id")
     private Skill skill;
 
 

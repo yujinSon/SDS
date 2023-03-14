@@ -1,5 +1,6 @@
 package com.example.gameproject.db.entity.Vo;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,6 +10,7 @@ import javax.persistence.*;
 @Builder // Setter 개념
 @Getter // Getter
 @NoArgsConstructor
+@AllArgsConstructor
 public class CoolTimeVo {
 
     @Id

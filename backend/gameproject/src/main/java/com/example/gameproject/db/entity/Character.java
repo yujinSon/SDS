@@ -9,6 +9,7 @@ import java.util.List;
 
 @Entity
 @NoArgsConstructor
+@Table(name = "`character`") // mysql 예약어
 public class Character {
 
     @Id
@@ -19,12 +20,13 @@ public class Character {
     private String subName;
 
     @OneToOne
+    @JoinColumn(name = "characterStat_id")
     private CharacterStat characterStat;
 
-    @OneToMany
+    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
     private List<MyCharacter> myCharacters = new ArrayList<>();
 
-    @OneToMany
+    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
     private List<Skill> mySkill = new ArrayList<>();
 
 

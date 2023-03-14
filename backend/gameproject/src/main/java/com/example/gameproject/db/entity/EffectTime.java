@@ -13,7 +13,11 @@ public class EffectTime {
 
     private int turn;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "skill_id")
     private Skill skill;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "mycharacter_id")
+    private MyCharacter myCharacter;
 }

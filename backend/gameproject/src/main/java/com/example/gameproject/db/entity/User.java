@@ -22,10 +22,10 @@ public class User {
     private int turn;
     private int finalScore;
 
-    @OneToMany
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<MyCharacter> myCharacters = new ArrayList<>();
 
-    @OneToMany
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<UserArtifact> userArtifacts = new ArrayList<>();
 
 

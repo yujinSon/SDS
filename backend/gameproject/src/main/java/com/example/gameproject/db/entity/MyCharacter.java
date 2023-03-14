@@ -33,16 +33,18 @@ public class MyCharacter {
     private int pos;
     private int statPoint;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "character_id")
     private Character character;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private  User user;
 
-    @OneToMany
+    @OneToMany(mappedBy = "myCharacter", cascade = CascadeType.ALL)
     private List<EffectTime> effectTimes = new ArrayList<>();
 
-    @OneToMany
+    @OneToMany(mappedBy = "myCharacter", cascade = CascadeType.ALL)
     private List<CoolTime> coolTimes = new ArrayList<>();
 
 }

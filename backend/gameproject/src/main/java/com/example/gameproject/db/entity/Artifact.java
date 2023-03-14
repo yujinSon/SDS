@@ -23,7 +23,7 @@ public class Artifact {
     private String stat;
     private int value;
 
-    @OneToMany
+    @OneToMany(mappedBy = "artifact", cascade = CascadeType.ALL)
     private List<UserArtifact> userArtifacts = new ArrayList<>();
 
     public Artifact(ArtifactVo artifactVo){

@@ -24,7 +24,7 @@ public class Villain {
     private int avoid;
     private boolean isBoss;
 
-    @OneToMany
+    @OneToMany(mappedBy = "villain", cascade = CascadeType.ALL)
     private List<Skill> mySkill = new ArrayList<>();
 
 

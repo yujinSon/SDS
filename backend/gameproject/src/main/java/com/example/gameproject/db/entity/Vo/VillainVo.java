@@ -1,6 +1,7 @@
 package com.example.gameproject.db.entity.Vo;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,6 +13,7 @@ import java.util.List;
 @Builder // Setter 개념
 @Getter // Getter
 @NoArgsConstructor
+@AllArgsConstructor
 public class VillainVo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

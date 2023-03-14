@@ -27,6 +27,7 @@ public class CharacterStat {
     private int addAvoid;
 
     @OneToOne
+    @JoinColumn(name = "character_id")
     private Character character;
 
 

@@ -22,16 +22,18 @@ public class Skill {
     private String Stat;
     private int coolTime;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "character_id")
     private Character character;
 
-    @ManyToOne
-    private Skill skill;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "villain_id")
+    private Villain villain;
 
-    @OneToMany
+    @OneToMany(mappedBy = "skill", cascade = CascadeType.ALL)
     private List<EffectTime> effectTimes = new ArrayList<>();
 
-    @OneToMany
+    @OneToMany(mappedBy = "skill", cascade = CascadeType.ALL)
     private List<CoolTime> coolTimes = new ArrayList<>();
 
 
