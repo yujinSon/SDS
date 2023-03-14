@@ -39,3 +39,7 @@
     └── relic
 
 ```
+
+# 참고자료
+* [JPA의 findTop()과 findFirst()의 차이는?](https://www.baeldung.com/spring-data-jpa-findfirst-vs-findtop) <br>
+* [GIT 사용법 기초](https://backlog.com/git-tutorial/kr/intro/intro1_1.html)
