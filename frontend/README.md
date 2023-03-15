@@ -1,3 +1,58 @@
+# 230309 새로 공부한 내용들
+
+1. React Layout
+
+   ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/1afdd787-ec8d-4de6-a852-47a1306f4215/Untitled.png)
+
+: React에서 **`children`**은 컴포넌트가 렌더링될 때, 부모 컴포넌트에서 자식 컴포넌트에게 전달되는 prop입니다. **`children`**은 JSX에서 **`<Layout>`**와 같은 태그 내부에 있는 모든 것들을 포함합니다.
+
+**`Layout`** 컴포넌트는 일반적으로 애플리케이션의 전체적인 레이아웃을 담당하는 컴포넌트입니다. **`children`**을 이용하면 **`Layout`** 컴포넌트 안에 들어가는 다른 컴포넌트들을 간편하게 배치할 수 있습니다.
+
+예를 들어, **`Layout`** 컴포넌트가 페이지의 header와 footer를 정의하고 그 사이에 **`children`**을 배치한다면, 각 페이지에서는 **`Layout`** 컴포넌트를 사용하여 header와 footer를 재사용할 수 있습니다. 이런 식으로 **`Layout`** 컴포넌트를 사용하면 코드의 재사용성이 높아지고 유지보수가 쉬워집니다.
+
+아래는 **`children`**을 이용한 간단한 **`Layout`** 컴포넌트의 예시입니다.
+
+```jsx
+import React from "react";
+
+function Layout(**{ children }**) {
+// 이렇게 { children } 으로 받으면 Layout 태그 내부에 있는 것들을 전부다 prop해올 수 있음
+  return (
+    <div>
+      <header>
+        <h1>Header</h1>
+      </header>
+      <main>**{children}**</main>
+      <footer>
+        <p>Footer</p>
+      </footer>
+    </div>
+  );
+}
+
+function HomePage() {
+  return (
+    <Layout>
+      **<h2>Home Page</h2>**  => h2태그와 p태그가 Layout에게 children으로 prop되는 것임
+      **<p>Welcome to my home page!</p>**
+    </Layout>
+  );
+}
+
+function AboutPage() {
+  return (
+    <Layout>
+      <h2>About Page</h2>
+      <p>Learn about us and what we do.</p>
+    </Layout>
+  );
+}
+
+```
+
+- 결과
+  ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8ae479a7-d41d-45bf-8b77-6d890f0fccc4/Untitled.png)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

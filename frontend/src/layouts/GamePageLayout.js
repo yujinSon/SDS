@@ -1,15 +1,15 @@
 import React from 'react';
+import { Outlet } from 'react-router-dom';
 import styled, { createGlobalStyle } from 'styled-components';
 
-export default function MainPageLayout({ children }) {
-  const [Up, Down] = children;
-
+export default function GameMainPageLayout({}) {
   return (
     <>
       <GlobalStyle />
       <Container>
-        <UpperPane>{Up}</UpperPane>
-        <LowerPane>{Down}</LowerPane>
+        <UpperPane>
+          <Outlet />
+        </UpperPane>
       </Container>
     </>
   );
@@ -37,8 +37,4 @@ const Container = styled.div`
 const UpperPane = styled.div`
   width: 100%;
   margin-bottom: 2rem;
-`;
-
-const LowerPane = styled.div`
-  padding: 0rem 2rem;
 `;
