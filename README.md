@@ -40,6 +40,13 @@
 
 ```
 
+# 더미데이터 생성
+## character 테이블
+![character](/uploads/c4d13216b3fcd37ecbf81b175d7734d5/image.png)
+
+## character_stat 테이블
+![character_stat](/uploads/52fa5bfa164fb2683b3896ad760a838f/image.png)
+
 # 참고자료
 * [JPA의 findTop()과 findFirst()의 차이는?](https://www.baeldung.com/spring-data-jpa-findfirst-vs-findtop) <br>
 * [GIT 사용법 기초](https://backlog.com/git-tutorial/kr/intro/intro1_1.html)
