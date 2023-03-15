@@ -18,7 +18,8 @@ public class Artifact {
     private Long id;
 
     private String name;
-    private Boolean isRange;
+    @Column(columnDefinition = "TINYINT(1)")
+    private boolean isRange;
     private int targetClass;
     private String stat;
     private int value;

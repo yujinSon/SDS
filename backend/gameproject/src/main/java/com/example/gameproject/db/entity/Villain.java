@@ -22,6 +22,8 @@ public class Villain {
     private int speed;
     private int critical;
     private int avoid;
+
+    @Column(columnDefinition = "TINYINT(1)")
     private boolean isBoss;
 
     @OneToMany(mappedBy = "villain", cascade = CascadeType.ALL)

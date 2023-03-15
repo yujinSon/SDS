@@ -16,7 +16,8 @@ public class Skill {
     private int skillNum;
     private String skillName;
     private int skillType;
-    private Boolean isRange;
+    @Column(columnDefinition = "TINYINT(1)")
+    private boolean isRange;
     private int value;
     private int skillTarget;
     private String Stat;
