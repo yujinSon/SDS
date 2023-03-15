@@ -18,7 +18,6 @@ public class Artifact {
     private Long id;
 
     private String name;
-    @Column(columnDefinition = "TINYINT(1)")
     private boolean isRange;
     private int targetClass;
     private String stat;
@@ -26,9 +25,4 @@ public class Artifact {
 
     @OneToMany(mappedBy = "artifact", cascade = CascadeType.ALL)
     private List<UserArtifact> userArtifacts = new ArrayList<>();
-
-    public Artifact(ArtifactVo artifactVo){
-        this.id = artifactVo.getId();
-        this.name = artifactVo.getName();
-    }
 }
