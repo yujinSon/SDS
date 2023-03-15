@@ -1,11 +1,13 @@
 package com.example.gameproject.db.entity;
 
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
+@Getter
 @NoArgsConstructor
 public class CharacterStat {
     @Id

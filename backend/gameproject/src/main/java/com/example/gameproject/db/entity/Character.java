@@ -1,6 +1,8 @@
 package com.example.gameproject.db.entity;
 
 
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -8,8 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Getter
 @NoArgsConstructor
-@Table(name = "`character`") // mysql 예약어
+@Table(name = "`character") // mysql 예약어
 public class Character {
 
     @Id
