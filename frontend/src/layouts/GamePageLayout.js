@@ -7,9 +7,9 @@ export default function GameMainPageLayout({}) {
     <>
       <GlobalStyle />
       <Container>
-        <UpperPane>
+        <Pane>
           <Outlet />
-        </UpperPane>
+        </Pane>
       </Container>
     </>
   );
@@ -18,6 +18,7 @@ export default function GameMainPageLayout({}) {
 const GlobalStyle = createGlobalStyle`
   body, html, #root {
     height: 100%;
+    color: white;
   }
 `;
 
@@ -34,7 +35,7 @@ const Container = styled.div`
   background-size: cover;
 `;
 
-const UpperPane = styled.div`
+const Pane = styled.div`
   width: 100%;
   margin-bottom: 2rem;
 `;
