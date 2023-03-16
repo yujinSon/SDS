@@ -1,0 +1,35 @@
+.ranking-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.ranking-titles {
+  display: flex; /* 요소들을 수평으로 정렬합니다. */
+  justify-content: space-between; /* 요소들을 가로 간격을 동일하게 유지하며 배치합니다. */
+  align-items: center; /* 요소들을 수직 중앙 정렬합니다. */
+  width: 100%; /* 부모 요소의 가로폭을 100%로 설정하여 요소들이 전체 가로폭을 차지하도록 합니다. */
+  margin-bottom: 20px;
+}
+
+.ranking-titles h1 {
+  color : white;
+  margin-left: 100px;
+  margin-right: 100px;
+  -webkit-text-stroke: 2px black;
+}
+.ranking-info {
+  display: flex; /* 요소들을 수평으로 정렬합니다. */
+  justify-content: space-between; /* 요소들을 가로 간격을 동일하게 유지하며 배치합니다. */
+  align-items: center; /* 요소들을 수직 중앙 정렬합니다. */
+  width: 100%; /* 부모 요소의 가로폭을 100%로 설정하여 요소들이 전체 가로폭을 차지하도록 합니다. */
+  margin-bottom: 20px;
+  font-size: 40px;
+
+}
+.ranking-info span {
+  color : white;
+  margin-left: 100px;
+  margin-right: 100px;
+}
