@@ -6,14 +6,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
 @NoArgsConstructor
-@Table(name = "`character") // mysql 예약어
-public class Character {
+@Table(name = "`character`") // mysql 예약어
+public class Character implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

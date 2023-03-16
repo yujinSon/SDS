@@ -2,10 +2,12 @@ package com.example.gameproject.dto.response;
 
 
 import com.example.gameproject.db.entity.Character;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Getter
 @NoArgsConstructor
-public class RandomCharacterDto {
+public class TestDto {
     private String ClassName;
     private String Subclass;
     private int level;
@@ -16,8 +18,7 @@ public class RandomCharacterDto {
     private int critical;
     private int avoid;
 
-
-    public RandomCharacterDto(Character character, int level){
+    public TestDto(Character character, int level){
         this.ClassName = character.getClassName();
         this.Subclass = character.getSubName();
         this.level = level;
