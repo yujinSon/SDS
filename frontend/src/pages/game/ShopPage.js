@@ -11,6 +11,7 @@ import Modal from 'components/common/Modal';
 import Recruit from 'pages/game/Recruit';
 import Rest from 'pages/game/Rest';
 import Relics from 'pages/game/Relics';
+import "./ShopPage.css";
 
 export default function ShopPage() {
 
@@ -38,16 +39,27 @@ export default function ShopPage() {
   };
 
   return (
-      <div>
-        <img src = {상점} style = {{marginLeft: '43%'}}/>
-        <div className="Card1" style = {{marginLeft: '10%'}}>
-         <img src = {영입} style={{position: "absolute"}} />
-          <img src = {영입버튼} style={{position: "relative", marginLeft:"8%", marginTop:"30%"}} onClick={onClickRecruitModal}/>
-
-          <img src = {휴식} style={{position: "absolute", marginLeft:"8%"}} />
-          <img src = {휴식버튼} style={{position: "relative", marginLeft:"17%"}} onClick={onClickRestModal}/>
-          <img src = {유물} style={{position: "absolute", marginLeft:"8%"}} />
-          <img src = {유물버튼} style={{position: "relative", marginLeft:"17%"}} onClick={onClickRelicsModal}/>
+      <div className="container">
+        <img src={상점} />
+        <div className="card">
+          <div className="card-item">
+            <img src={영입} />
+            <button onClick={onClickRecruitModal}>
+              <img src={영입버튼} />
+            </button>
+          </div>
+          <div className="card-item">
+            <img src={휴식} />
+            <button onClick={onClickRestModal}>
+              <img src={휴식버튼} />
+            </button>
+          </div>
+          <div className="card-item">
+            <img src={유물} />
+            <button onClick={onClickRelicsModal}>
+              <img src={유물버튼} />
+            </button>
+          </div>
           {recruitModal ? (
               <Modal
                   close={() => setRecruitModal(false)}
