@@ -1,0 +1,12 @@
+.container h3{
+  margin-top: 200px;
+  color : black;
+  font-size: 100px;
+  text-shadow: 2px 2px 2px gray;
+  margin-bottom: 0px;
+}
+.container h2{
+  color : black;
+  text-shadow: 2px 2px 2px gray;
+  margin-bottom: 150px;
+}

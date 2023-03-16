@@ -17,7 +17,8 @@ export default function GameMainPageLayout({}) {
 
 const GlobalStyle = createGlobalStyle`
   body, html, #root {
-    height: 100%;
+    height: 100vh;
+    margin:0;
   }
 `;
 
@@ -28,13 +29,13 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
 
-  height: 100%;
+  height: 100vh;
 
   background-image: url(${({ theme }) => theme.mainPageBgImg});
   background-size: cover;
 `;
 
 const UpperPane = styled.div`
-  width: 100%;
+  width: 100vh;
   margin-bottom: 2rem;
 `;

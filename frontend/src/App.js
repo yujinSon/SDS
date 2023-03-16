@@ -9,6 +9,8 @@ import GameMainPageLayout from 'layouts/GamePageLayout';
 import MainPage from 'pages/main/MainPage';
 import GameMainPage from 'pages/game/GameMainPage';
 import ShopPage from 'pages/game/ShopPage';
+import ClearPage from 'pages/game/ClearPage';
+import FailPage from 'pages/game/FailPage';
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
         <Route path="/game" element={<GameMainPageLayout />}>
           <Route path="start" element={<GameMainPage />} />
           <Route path="shop" element={<ShopPage />} />
+          <Route path="clear" element={<ClearPage />} />
+          <Route path="fail" element={<FailPage />} />
         </Route>
       </Routes>
     </ThemeProvider>

@@ -18,6 +18,7 @@ export default function MainPageLayout({ children }) {
 const GlobalStyle = createGlobalStyle`
   body, html, #root {
     height: 100%;
+    margin:0;
   }
 `;
 
@@ -32,6 +33,7 @@ const Container = styled.div`
 
   background-image: url(${({ theme }) => theme.mainPageBgImg});
   background-size: cover;
+  
 `;
 
 const UpperPane = styled.div`
