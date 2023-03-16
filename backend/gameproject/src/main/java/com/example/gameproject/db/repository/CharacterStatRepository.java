@@ -1,6 +1,5 @@
 package com.example.gameproject.db.repository;
 
-import com.example.gameproject.db.entity.Character;
 import com.example.gameproject.db.entity.CharacterStat;
 import org.springframework.data.jpa.repository.JpaRepository;
 

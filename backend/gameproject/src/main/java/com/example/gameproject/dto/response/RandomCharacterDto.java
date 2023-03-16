@@ -1,9 +1,11 @@
 package com.example.gameproject.dto.response;
 
 
-import com.example.gameproject.db.entity.Character;
+import com.example.gameproject.db.entity.DefaultCharacter;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Getter
 @NoArgsConstructor
 public class RandomCharacterDto {
     private String ClassName;
@@ -17,7 +19,7 @@ public class RandomCharacterDto {
     private int avoid;
 
 
-    public RandomCharacterDto(Character character, int level){
+    public RandomCharacterDto(DefaultCharacter character, int level){
         this.ClassName = character.getClassName();
         this.Subclass = character.getSubName();
         this.level = level;

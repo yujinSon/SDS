@@ -30,7 +30,7 @@ public class CharacterStat {
 
     @OneToOne
     @JoinColumn(name = "character_id")
-    private Character character;
+    private DefaultCharacter defaultCharacter;
 
 
 }
