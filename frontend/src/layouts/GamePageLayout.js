@@ -2,11 +2,10 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 import styled, { createGlobalStyle } from 'styled-components';
 
-export default function GameMainPageLayout({}) {
+export default function GameMainPageLayout({ bgImgUrl }) {
   return (
     <>
-      <GlobalStyle />
-      <Container>
+      <Container bgImgUrl={bgImgUrl}>
         <Pane>
           <Outlet />
         </Pane>
@@ -14,13 +13,6 @@ export default function GameMainPageLayout({}) {
     </>
   );
 }
-
-const GlobalStyle = createGlobalStyle`
-  body, html, #root {
-    height: 100%;
-    color: white;
-  }
-`;
 
 const Container = styled.div`
   position: relative;
@@ -31,7 +23,8 @@ const Container = styled.div`
 
   height: 100%;
 
-  background-image: url(${({ theme }) => theme.mainPageBgImg});
+  background-image: url(${({ theme, bgImgUrl }) =>
+    bgImgUrl || theme.mainPageBgImg});
   background-size: cover;
 `;
 

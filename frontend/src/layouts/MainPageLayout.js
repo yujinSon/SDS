@@ -1,12 +1,11 @@
 import React from 'react';
-import styled, { createGlobalStyle } from 'styled-components';
+import styled from 'styled-components';
 
 export default function MainPageLayout({ children }) {
   const [Up, Down] = children;
 
   return (
     <>
-      <GlobalStyle />
       <Container>
         <UpperPane>{Up}</UpperPane>
         <LowerPane>{Down}</LowerPane>
@@ -14,12 +13,6 @@ export default function MainPageLayout({ children }) {
     </>
   );
 }
-
-const GlobalStyle = createGlobalStyle`
-  body, html, #root {
-    height: 100%;
-  }
-`;
 
 const Container = styled.div`
   position: relative;
