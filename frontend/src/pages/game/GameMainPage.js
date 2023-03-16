@@ -8,7 +8,7 @@ import GameButtons from 'components/game/GameButtons';
 
 export default function GameMainPage() {
   // dummy data
-  const SelectedCharacterDataList = [
+  const selectedChList = [
     {
       name: '턱스크 민수',
       level: 1,
@@ -46,7 +46,7 @@ export default function GameMainPage() {
       pos: 0,
     },
   ];
-  const RandomCharacterDataList = [
+  const RandomChList = [
     {
       name: '비혼주의자 민혁',
       level: 1,
@@ -86,26 +86,34 @@ export default function GameMainPage() {
   ];
 
   const [selectedCharacter, setSelectedCharacter] = useState(0);
+  const [selectedRandomCh, setSelectedRandomCh] = useState(null);
 
   const selectCharacter = (idx) => {
     setSelectedCharacter(idx);
   };
 
+  const addCharacter = () => {
+    selectedChList.push(RandomChList[selectedRandomCh]);
+    console.log();
+  };
   return (
     <>
       <h1>GameMainPage</h1>
       <MainContainer>
         <SubContainer>
           <SelectedCharacterList
-            data={SelectedCharacterDataList}
+            data={selectedChList}
             selectCharacter={selectCharacter}
           />
-          <CharacterDetail
-            data={SelectedCharacterDataList[selectedCharacter]}
-          />
+          <CharacterDetail data={selectedChList[selectedCharacter]} />
         </SubContainer>
         <SubContainer>
-          <RandomCharacterList data={RandomCharacterDataList} />
+          <RandomCharacterList
+            data={RandomChList}
+            selectedRandomCh={selectedRandomCh}
+            setSelectedRandomCh={setSelectedRandomCh}
+            addCharacter={addCharacter}
+          />
           <GameButtons />
         </SubContainer>
       </MainContainer>

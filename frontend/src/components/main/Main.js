@@ -45,7 +45,7 @@ export default function Main() {
               size="large"
               type="gray"
               onClick={() => {
-                navigate('/game/start');
+                navigate('/main');
               }}
               value="Start"
             />
@@ -55,7 +55,7 @@ export default function Main() {
               size="large"
               type="gray"
               onClick={() => {
-                navigate('/game/start');
+                navigate('/main');
               }}
               value="Load"
             />
