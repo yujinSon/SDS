@@ -21,4 +21,10 @@ public class CharacterController {
         return ResponseEntity.ok(result);
     }
 
+    @PostMapping(value = "/save")
+    public ResponseEntity<?> postSaveRandomCharacter(@RequestBody RandomCharacterDto randomCharacterDto) throws Exception{
+        characterService.SaveRandomCharacter(randomCharacterDto);
+        return ResponseEntity.ok("OK");
+    }
+
 }
