@@ -35,7 +35,7 @@ public class MyCharacter {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "character_id")
-    private Character character;
+    private DefaultCharacter defaultCharacter;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
