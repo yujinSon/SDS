@@ -8,8 +8,15 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface SkillRepository extends JpaRepository<Skill, Long> {
+    @Query("select s from Skill s where s.defaultCharacter.id=:id")
+    List<Skill> findByCharacter_id(@Param("id") long characterId);
 
     @Query(value = "select * from skill s where s.character_id = :characterId", nativeQuery = true)
     List<Skill> getskills(@Param("characterId") Long characterId);
+
+    @Query(value = "select * from skill s where s.villain_id = :villainId", nativeQuery = true)
+    List<Skill> getVillainSkills(@Param("villainId") Long villainId);
+
+
 }
 

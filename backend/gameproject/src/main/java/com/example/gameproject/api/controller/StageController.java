@@ -21,10 +21,9 @@ public class StageController {
     private StageService stageService;
 
     // 전투 페이지 진입시 정보 불러오기.
-    @GetMapping(value = "/load/{stage}/{step}")
-    public ResponseEntity<?> getBattleSetting(@PathVariable int stage, @PathVariable int step) throws Exception {
-        Map<String, List> res = stageService.BattleSetting(stage, step);
-//        List<MyCharacterDto> res = stageService.BattleSetting(stage, step);
+    @GetMapping(value = "/load")
+    public ResponseEntity<?> getBattleSetting() throws Exception {
+        Map<String, List> res = stageService.BattleSetting();
 
         return ResponseEntity.ok(res);
     }
