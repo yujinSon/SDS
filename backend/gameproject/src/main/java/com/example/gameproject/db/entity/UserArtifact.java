@@ -1,12 +1,15 @@
 package com.example.gameproject.db.entity;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
+@Getter
 @NoArgsConstructor
-public class UserArtifact {
+public class UserArtifact implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

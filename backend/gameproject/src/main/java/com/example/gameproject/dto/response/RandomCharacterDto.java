@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class RandomCharacterDto {
-    private String ClassName;
-    private String Subclass;
+    private String className;
+    private String subclass;
     private int level;
     private int hp;
     private int ad;
@@ -20,8 +20,8 @@ public class RandomCharacterDto {
 
 
     public RandomCharacterDto(DefaultCharacter character, int level){
-        this.ClassName = character.getClassName();
-        this.Subclass = character.getSubName();
+        this.className = character.getClassName();
+        this.subclass = character.getSubName();
         this.level = level;
         this.hp = character.getCharacterStat().getHp();
         this.ad = character.getCharacterStat().getAd();
