@@ -45,7 +45,7 @@ public class CharacterService {
 
     @Transactional
     public void SaveRandomCharacter(RandomCharacterDto randomCharacterDto) {
-        DefaultCharacter defaultCharacter = defaultCharacterRepository.getByClassNameAndSubName(randomCharacterDto.getClassName(), randomCharacterDto.getSubclass());
+        DefaultCharacter defaultCharacter = defaultCharacterRepository.getByClassNameAndSubName(randomCharacterDto.getClassName(), randomCharacterDto.getSubClass());
         User user = userRepository.getById(1L);
         List<Integer> poseDefine = new ArrayList<>();
         int realPos = 10;
@@ -103,7 +103,7 @@ public class CharacterService {
                                 .isRange(skill.isRange())
                                 .value(skill.getValue())
                                 .skillTarget(skill.getSkillTarget())
-                                .Stat(skill.getStat())
+                                .stat(skill.getStat())
                                 .coolTime(skill.getCoolTime())
                                 .build()
                 );
