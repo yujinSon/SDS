@@ -13,6 +13,6 @@ public class SkillDto {
     private boolean isRange;
     private int value;
     private int skillTarget;
-    private String Stat;
+    private String stat;
     private int coolTime;
 }
