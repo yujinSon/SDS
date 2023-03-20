@@ -14,7 +14,7 @@ public class SkillDto {
     private int value;
     private int skillTarget;
 
-    private String Stat;
+    private String stat;
     private int coolTime;
 
 }

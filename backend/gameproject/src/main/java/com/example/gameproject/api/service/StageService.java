@@ -40,12 +40,14 @@ public class StageService {
         Map<String, List> res = new HashMap<>();
 
         List<MyCharacterDto> characterDtos = new ArrayList<>();
+//        List<SkillListDto> mySkill = new ArrayList<>();
         List<SkillListDto> mySkill = new ArrayList<>();
         List<VillainDto> villain = new ArrayList<>(); // 프론트에 줄 빌런들
 
         List<MyCharacter> myCharacter = myCharacterRepository.getMyCharacters(userId);
 
         List<Villain> villainList = villainRepository.getVillains(stageName); // 랜덤으로 뽑을 빌런들 목록
+        Villain boss =villainRepository.getBoss(stageName); // 해당 스테이지에 보스 뽑기
 
         for (MyCharacter myC : myCharacter) {
             // 캐릭터 객체 받기
@@ -60,8 +62,8 @@ public class StageService {
         }
 
         // 빌런 보스 스테이지가 아닐때.
+        Random random = new Random();
         if (step != 10) {
-            Random random = new Random();
             for (int i = 0; i < 4; i++) {
                 int randomIndex = random.nextInt(villainList.size());
                 Villain randomVillain = villainList.get(randomIndex);
@@ -72,7 +74,6 @@ public class StageService {
             }
         } else {
             // 보스 스테이지 일때.
-            Random random = new Random();
             for (int i = 0; i < 3; i++) {
                 int randomIndex = random.nextInt(villainList.size());
                 Villain randomVillain = villainList.get(randomIndex);
@@ -81,6 +82,10 @@ public class StageService {
                 VillainDto villainDto = new VillainDto(randomVillain, villainSkills);
                 villain.add(villainDto);
             }
+            Long bossId = boss.getId();
+            List<Skill> bossSkills = skillRepository.getVillainSkills(bossId);
+            VillainDto villainDto = new VillainDto(boss, bossSkills);
+            villain.add(villainDto);
         }
 
         res.put("Character", characterDtos);

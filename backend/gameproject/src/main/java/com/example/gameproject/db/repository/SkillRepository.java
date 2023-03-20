@@ -18,5 +18,7 @@ public interface SkillRepository extends JpaRepository<Skill, Long> {
     List<Skill> getVillainSkills(@Param("villainId") Long villainId);
 
 
+
+
 }
 

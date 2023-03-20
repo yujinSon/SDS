@@ -11,7 +11,13 @@ import java.util.List;
 public interface VillainRepository extends JpaRepository<Villain, Long> {
 
     // 보스가 아닌 빌런 뽑기
-    @Query(value = "select * from villain v where v.class_name = :className", nativeQuery = true)
+    @Query(value = "select * from villain v where v.class_name = :className and v.is_boss = false", nativeQuery = true)
     List<Villain> getVillains(@Param("className") String className);
+
+
+    // 보스 뽑기
+    @Query(value = "select * from villain v where v.class_name = :className and v.is_boss = true", nativeQuery = true)
+    Villain getBoss(@Param("className") String className);
+
 }
 
