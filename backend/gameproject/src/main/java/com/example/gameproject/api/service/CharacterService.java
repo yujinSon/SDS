@@ -10,6 +10,8 @@ import com.example.gameproject.db.repository.SkillRepository;
 import com.example.gameproject.db.repository.UserRepository;
 import com.example.gameproject.dto.response.RandomCharacterDto;
 import com.example.gameproject.dto.response.SelectedCharacterDto;
+import com.example.gameproject.dto.response.SkillDto;
+import com.example.gameproject.dto.response.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -82,6 +84,30 @@ public class CharacterService {
             DefaultCharacter defaultCharacter = defaultCharacterRepository.findById(character.getId()).get();
             //스킬 가져오기
             List<Skill> skills = skillRepository.findByCharacter_id(defaultCharacter.getId());
+            List<SkillDto> skillDtos = new ArrayList<>();
+            UserDto userDto = UserDto.builder()
+                    .nickname(user.getNickname())
+                    .email(user.getEmail())
+                    .bestScore(user.getBestScore())
+                    .stage(user.getStage())
+                    .subStage(user.getSubStage())
+                    .finalScore(user.getFinalScore())
+                    .bestScore(user.getBestScore())
+                    .build();
+            for(Skill skill : skills){
+                skillDtos.add(
+                        SkillDto.builder()
+                                .skillNum(skill.getSkillNum())
+                                .skillName(skill.getSkillName())
+                                .skillType(skill.getSkillType())
+                                .isRange(skill.isRange())
+                                .value(skill.getValue())
+                                .skillTarget(skill.getSkillTarget())
+                                .Stat(skill.getStat())
+                                .coolTime(skill.getCoolTime())
+                                .build()
+                );
+            }
             result.add(new SelectedCharacterDto(
                     defaultCharacter.getClassName(),
                     defaultCharacter.getSubName(),
@@ -94,8 +120,8 @@ public class CharacterService {
                     character.getAvoid(),
                     character.getMaxHp(),
                     character.getPos(),
-                    user,
-                    skills
+                    userDto,
+                    skillDtos
             ));
         }//for
         return result;
