@@ -1,10 +1,14 @@
 package com.example.gameproject.dto.response;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class RelicResponse {
 	private String name;
 	private boolean isRange;
