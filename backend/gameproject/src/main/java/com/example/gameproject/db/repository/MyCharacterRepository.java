@@ -9,9 +9,8 @@ import java.util.List;
 
 public interface MyCharacterRepository extends JpaRepository<MyCharacter, Long> {
 
-    @Query(value = "select * from my_character c where c.user_id = :userId", nativeQuery = true)
+    @Query(value = "select * from my_character c where c.user_id = :userId ORDER BY c.pos ASC", nativeQuery = true)
     List<MyCharacter> getMyCharacters(@Param("userId") int userId);
-
 
 }
 

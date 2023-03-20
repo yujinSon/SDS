@@ -28,6 +28,9 @@ public class MyCharacterDto {
     private int pos;
     private int statPoint;
 
+    private String className;
+    private String subName;
+
     public MyCharacterDto(MyCharacter myCharacter) {
         this.level = myCharacter.getLevel();
         this.maxHp = myCharacter.getMaxHp();
@@ -48,6 +51,10 @@ public class MyCharacterDto {
 
         this.pos = myCharacter.getPos();
         this.statPoint = myCharacter.getStatPoint();
+
+        this.className = myCharacter.getDefaultCharacter().getClassName();
+        this.subName = myCharacter.getDefaultCharacter().getSubName();
+
 
     }
 }

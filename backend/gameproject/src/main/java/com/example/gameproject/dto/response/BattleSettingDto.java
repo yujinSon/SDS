@@ -8,7 +8,4 @@ import lombok.NoArgsConstructor;
 public class BattleSettingDto {
 
 
-
-
-
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/stage")
@@ -22,10 +23,9 @@ public class StageController {
     // 전투 페이지 진입시 정보 불러오기.
     @GetMapping(value = "/load/{stage}/{step}")
     public ResponseEntity<?> getBattleSetting(@PathVariable int stage, @PathVariable int step) throws Exception {
-//        Map<String, List> res = stageService.BalttleSetting(stage, step);
-        List<MyCharacterDto> res = stageService.BattleSetting(stage, step);
-        System.out.println("되는 거야 마는 거야???");
-        System.out.println(res);
+        Map<String, List> res = stageService.BattleSetting(stage, step);
+//        List<MyCharacterDto> res = stageService.BattleSetting(stage, step);
+
         return ResponseEntity.ok(res);
     }
 }
