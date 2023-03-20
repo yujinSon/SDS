@@ -37,7 +37,7 @@ public class CharacterService {
         List<DefaultCharacter> characters = defaultCharacterRepository.getRandomCharacters(1 + (randomLevel/10)*6, 6+ (randomLevel/10)*6);
 
         for (DefaultCharacter character : characters){
-                RandomCharacterDto randomCharacterDto = new RandomCharacterDto(character, randomLevel);
+                RandomCharacterDto randomCharacterDto = new RandomCharacterDto(character, randomLevel, skillRepository);
                 result.add(randomCharacterDto);
         }
         return result;
