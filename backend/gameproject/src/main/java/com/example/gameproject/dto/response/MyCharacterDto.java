@@ -1,7 +1,11 @@
 package com.example.gameproject.dto.response;
 
 import com.example.gameproject.db.entity.MyCharacter;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@Getter
+@NoArgsConstructor
 public class MyCharacterDto {
 
     private int level;

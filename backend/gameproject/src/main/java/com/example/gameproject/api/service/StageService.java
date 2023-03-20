@@ -19,12 +19,18 @@ public class StageService {
     private MyCharacterRepository myCharacterRepository;
 
 
-    public List<MyCharacter> BalttleSetting(int stage, int step){
+    public List<MyCharacterDto> BattleSetting(int stage, int step){
+        List<MyCharacterDto> res = new ArrayList<>();
         // 캐릭터 객체 받기
-        int userId = 2; // 나중에 로그인 구현시 바꿔줘야될 부분
+        int userId = 1; // 나중에 로그인 구현시 바꿔줘야될 부분
         List<MyCharacter> myCharacter = myCharacterRepository.getMyCharacters(userId);
 
-        return myCharacter;
+        for (MyCharacter myC : myCharacter) {
+            MyCharacterDto myCharacterDto = new MyCharacterDto(myC);
+            res.add(myCharacterDto);
+        }
+
+        return res;
     }
 
 
