@@ -22,15 +22,23 @@ public class CharacterController {
         return ResponseEntity.ok(result);
     }
 
+    @PostMapping(value = "/save")
+    public ResponseEntity<?> postSaveRandomCharacter(@RequestBody RandomCharacterDto randomCharacterDto) throws Exception {
+        characterService.SaveRandomCharacter(randomCharacterDto);
+        return ResponseEntity.ok("OK");
+    }
+
     /**
      *
      */
-    @GetMapping("/selected/{userId}")
+
 //    @GetMapping("/selected")
+    @GetMapping("/selected/{userId}")
     public ResponseEntity<?> getSelectedCharacterList(@PathVariable("userId") long userId){
         //여기서 access token에서 userId값 가져와야함
         List<SelectedCharacterDto> result = characterService.getCharacterList(userId);
         return ResponseEntity.status(200).body(result);
+
     }
 
 }

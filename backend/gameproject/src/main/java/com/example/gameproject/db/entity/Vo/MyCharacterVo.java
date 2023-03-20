@@ -1,5 +1,6 @@
 package com.example.gameproject.db.entity.Vo;
 
+import com.example.gameproject.dto.response.RandomCharacterDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -44,5 +45,8 @@ public class MyCharacterVo {
     @ManyToOne
     private UserVo user;
 
-
+//    public void SelectRandomCharacter(RandomCharacterDto randomCharacterDto){
+//        this.character =
+//
+//    }
 }
