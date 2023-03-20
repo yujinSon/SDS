@@ -7,6 +7,7 @@ import com.example.gameproject.db.repository.MyCharacterRepository;
 import com.example.gameproject.db.repository.SkillRepository;
 import com.example.gameproject.db.repository.VillainRepository;
 import com.example.gameproject.dto.response.MyCharacterDto;
+import com.example.gameproject.dto.response.SkillDtoCons;
 import com.example.gameproject.dto.response.SkillListDto;
 import com.example.gameproject.dto.response.VillainDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,7 @@ public class StageService {
 
         List<MyCharacterDto> characterDtos = new ArrayList<>();
 //        List<SkillListDto> mySkill = new ArrayList<>();
-        List<SkillListDto> mySkill = new ArrayList<>();
+        List<List<SkillDtoCons>> mySkill = new ArrayList<>();
         List<VillainDto> villain = new ArrayList<>(); // 프론트에 줄 빌런들
 
         List<MyCharacter> myCharacter = myCharacterRepository.getMyCharacters(userId);
@@ -57,7 +58,12 @@ public class StageService {
             // 스킬 받기
             Long characterId = myC.getDefaultCharacter().getId();
             List<Skill> skills = skillRepository.getskills(characterId);
-            SkillListDto skillListDto = new SkillListDto(skills);
+            List<SkillDtoCons> skillListDto = new ArrayList<>();
+            for (Skill skill : skills) {
+                SkillDtoCons skillDto = new SkillDtoCons(skill);
+                skillListDto.add(skillDto);
+            }
+//            SkillListDto skillListDto = new SkillListDto(skills);
             mySkill.add(skillListDto);
         }
 
@@ -82,6 +88,7 @@ public class StageService {
                 VillainDto villainDto = new VillainDto(randomVillain, villainSkills);
                 villain.add(villainDto);
             }
+            // 보스 추가.
             Long bossId = boss.getId();
             List<Skill> bossSkills = skillRepository.getVillainSkills(bossId);
             VillainDto villainDto = new VillainDto(boss, bossSkills);
