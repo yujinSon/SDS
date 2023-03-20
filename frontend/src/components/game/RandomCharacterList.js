@@ -10,29 +10,33 @@ export default function RandomCharacterList({
   setSelectedRandomCh,
   addCharacter,
 }) {
-  const selectRandomCh = (idx) => {
-    setSelectedRandomCh(idx);
-  };
-
   return (
     <>
-      {data.map((character, idx) => (
-        <Container
-          key={idx}
-          onClick={() => selectRandomCh(idx)}
-          selected={selectedRandomCh === idx}
-        >
-          <ImageContainer>
-            <img src={IMG} alt="캐릭터 img" />
-          </ImageContainer>
-          <TextContainer>
-            <div>{character.name}</div>
-            <div>
-              level: {character.level} hp: {character.hp}
-            </div>
-          </TextContainer>
-        </Container>
-      ))}
+      {data
+        ? data.map((character, idx) => (
+            <Container
+              key={idx}
+              onClick={() => setSelectedRandomCh(idx)}
+              selected={selectedRandomCh === idx}
+            >
+              <ImageContainer>
+                <img src={IMG} alt="캐릭터 img" />
+              </ImageContainer>
+              <TextContainer>
+                <div>{character.className}</div>
+                <div>{character.subClass}</div>
+                <div>
+                  level: {character.level} hp: {character.hp}
+                </div>
+                <div>
+                  ad: {character.ad} ap: {character.ap} speed: {character.speed}{' '}
+                  critical: {character.critical} avoid: {character.avoid}
+                </div>
+              </TextContainer>
+            </Container>
+          ))
+        : null}
+
       <ButtonContainer onClick={addCharacter}>
         <Button value="선택" />
       </ButtonContainer>
