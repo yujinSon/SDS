@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+
+import axios from 'libs/axios';
+import api from 'constants/api';
 
 import SelectedCharacterList from 'components/game/SelectedCharacterList';
 import RandomCharacterList from 'components/game/RandomCharacterList';
@@ -7,94 +10,34 @@ import CharacterDetail from 'components/game/CharacterDetail';
 import GameButtons from 'components/game/GameButtons';
 
 export default function GameMainPage() {
-  // dummy data
-  const selectedChList = [
-    {
-      name: '턱스크 민수',
-      level: 1,
-      hp: 100,
-      ad: 10,
-      ap: 30,
-      speed: 100,
-      critical: 20,
-      avoid: 25,
-      maxHP: 1000,
-      pos: 0,
-    },
-    {
-      name: '환경운동가 유진',
-      level: 2,
-      hp: 70,
-      ad: 10,
-      ap: 30,
-      speed: 100,
-      critical: 20,
-      avoid: 25,
-      maxHP: 1000,
-      pos: 0,
-    },
-    {
-      name: '경찰 병진',
-      level: 3,
-      hp: 120,
-      ad: 10,
-      ap: 30,
-      speed: 100,
-      critical: 20,
-      avoid: 25,
-      maxHP: 1000,
-      pos: 0,
-    },
-  ];
-  const RandomChList = [
-    {
-      name: '비혼주의자 민혁',
-      level: 1,
-      hp: 100,
-      ad: 10,
-      ap: 30,
-      speed: 100,
-      critical: 20,
-      avoid: 25,
-      maxHP: 1000,
-      pos: 0,
-    },
-    {
-      name: '예비군 용찬',
-      level: 2,
-      hp: 70,
-      ad: 10,
-      ap: 30,
-      speed: 100,
-      critical: 20,
-      avoid: 25,
-      maxHP: 1000,
-      pos: 0,
-    },
-    {
-      name: '경찰 병진',
-      level: 3,
-      hp: 120,
-      ad: 10,
-      ap: 30,
-      speed: 100,
-      critical: 20,
-      avoid: 25,
-      maxHP: 1000,
-      pos: 0,
-    },
-  ];
-
-  const [selectedCharacter, setSelectedCharacter] = useState(0);
+  const [randomChList, setRandomChList] = useState(null);
   const [selectedRandomCh, setSelectedRandomCh] = useState(null);
+  const [selectedCharacter, setSelectedCharacter] = useState(null);
+  const [selectedChList, setSelectedChList] = useState(null);
 
-  const selectCharacter = (idx) => {
-    setSelectedCharacter(idx);
-  };
+  useEffect(() => {
+    const [url, method] = api('getRandomCh');
+    const config = { url, method };
+    axios(config)
+      .then((res) => {
+        setRandomChList(res.data);
+      })
+      .catch((err) => {});
+  }, [selectedChList]);
 
   const addCharacter = () => {
-    selectedChList.push(RandomChList[selectedRandomCh]);
-    console.log();
+    // 아직 영입한 캐릭터가 없으면 새로운 배열을 만들어 추가
+    if (selectedChList === null) {
+      setSelectedChList([randomChList[selectedRandomCh]]);
+      return;
+      // 이미 영입한 캐릭터가 있으면 배열 복사해서 state 업데이트
+    } else if (selectedChList.length <= 2) {
+      const copy = [...selectedChList, randomChList[selectedRandomCh]];
+      setSelectedChList(copy);
+      return;
+    }
+    alert('캐릭터는 3명까지만 선택 가능합니다.');
+    return;
   };
   return (
     <>
@@ -103,13 +46,19 @@ export default function GameMainPage() {
         <SubContainer>
           <SelectedCharacterList
             data={selectedChList}
-            selectCharacter={selectCharacter}
+            selectedCharacter={selectedCharacter}
+            setSelectedCharacter={setSelectedCharacter}
           />
-          <CharacterDetail data={selectedChList[selectedCharacter]} />
+          {selectedChList ? (
+            <CharacterDetail
+              data={selectedChList}
+              selectedCharacter={selectedCharacter}
+            />
+          ) : null}
         </SubContainer>
         <SubContainer>
           <RandomCharacterList
-            data={RandomChList}
+            data={randomChList}
             selectedRandomCh={selectedRandomCh}
             setSelectedRandomCh={setSelectedRandomCh}
             addCharacter={addCharacter}
