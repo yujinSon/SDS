@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+
+import axios from 'libs/axios';
+import api from 'constants/api';
 
 import Battle from 'components/game/Battle';
 import Information from 'components/game/Information';
@@ -8,6 +11,16 @@ import IMG from 'assets/img/고병진.png';
 import IMG2 from 'assets/img/손민혁.png';
 
 export default function BattlePage() {
+  useEffect(() => {
+    const [url, method] = api('loadStage');
+    const config = { url, method };
+    axios(config)
+      .then((res) => {
+        console.log('전투페이지 불러오기', res.data);
+      })
+      .catch((err) => {});
+  }, []);
+
   const [characters, setCharacters] = useState([
     {
       name: '경찰 병진',
