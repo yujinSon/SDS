@@ -45,7 +45,7 @@ public class CharacterService {
 
     @Transactional
     public void SaveRandomCharacter(RandomCharacterDto randomCharacterDto) {
-        DefaultCharacter defaultCharacter = defaultCharacterRepository.getByClassNameAndSubName(randomCharacterDto.getClassName(), randomCharacterDto.getSubClass());
+        DefaultCharacter defaultCharacter = defaultCharacterRepository.getByClassNameAndSubName(randomCharacterDto.getClassName(), randomCharacterDto.getSubClassName());
         User user = userRepository.getById(1L);
         List<Integer> poseDefine = new ArrayList<>();
         int realPos = 10;

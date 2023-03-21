@@ -40,4 +40,9 @@ public class User implements Serializable {
         this.finalScore = 0;
     }
 
+    public void stageUpdate(int stage, int subStage) {
+        this.stage = stage;
+        this.subStage = subStage;
+    }
+
 }
