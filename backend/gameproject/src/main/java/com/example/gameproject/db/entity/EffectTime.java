@@ -23,4 +23,8 @@ public class EffectTime implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mycharacter_id")
     private MyCharacter myCharacter;
+
+    public void BattleEffectTimeUpdate(int turn){
+        this.turn = turn - 1;
+    }
 }
