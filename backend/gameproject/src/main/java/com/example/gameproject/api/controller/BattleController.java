@@ -19,11 +19,11 @@ public class BattleController {
     BattleService battleService;
 
 //    @PutMapping("/enemy")
-//    @PutMapping("/enemy/{userId}")
-//    ResponseEntity<?> attackedFromEnemy(@RequestBody EnemyAttackDto enemyAttackDto, @PathVariable("userId") long userId) {
-//        List<MyCharacterUpdateDto> result = battleService.updateHp(userId, enemyAttackDto);
-//        return ResponseEntity.status(200).body(result);
-//    }
+    @PutMapping("/enemy/{userId}")
+    ResponseEntity<?> attackedFromEnemy(@RequestBody EnemyAttackDto enemyAttackDto, @PathVariable("userId") long userId) {
+        List<MyCharacterUpdateDto> result = battleService.updateStat(userId, enemyAttackDto);
+        return ResponseEntity.status(200).body(result);
+    }
 
 //    @PostMapping("/player")
     @PostMapping("/player/{userId}")
