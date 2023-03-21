@@ -78,4 +78,12 @@ public class MyCharacter implements Serializable {
     public void updateHP(){
         this.hp = this.maxHp;
     }
+    public void updateStat(int hp, int ap, int ad, int speed, int critical, int avoid){
+        this.hp = hp;
+        this.ap = ap;
+        this.ad = ad;
+        this.speed = speed;
+        this.critical = critical;
+        this.avoid = avoid;
+    }
 }
