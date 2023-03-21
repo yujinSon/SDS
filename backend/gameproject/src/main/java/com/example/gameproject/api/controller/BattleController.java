@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import java.util.HashMap;
+import java.util.List;
+
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/battle")
@@ -18,12 +21,20 @@ public class BattleController {
     BattleService battleService;
 
 //    @PutMapping("/enemy")
-//    ResponseEntity<?> attackedFromEnemy(@RequestBody EnemyAttackDto enemyAttackDto) {
-//        battleService
-//        return;
+//    @PutMapping("/enemy/{userId}")
+//    ResponseEntity<?> attackedFromEnemy(@RequestBody EnemyAttackDto enemyAttackDto, @PathVariable("userId") long userId) {
+//        List<MyCharacterUpdateDto> result = battleService.updateHp(userId, enemyAttackDto);
+//        return ResponseEntity.status(200).body(result);
 //    }
 //    @PostMapping("/player")
-//    ResponseEntity<?>
+    @PostMapping("/player/{userId}")
+    ResponseEntity<?> attackEnemy(@RequestBody PlayerAttackDto playerAttackDto, @PathVariable("userId") long userId){
+//        List<MyCharacterUpdateDto> myCharacterUpdateDtos = battleService.updateMyCharacter();
+        HashMap<String, Object> result = new HashMap<>();
+//        result.put("myCharacter", );
+//        result.put("mySkillCoolTime", );
+        return ResponseEntity.status(200).body(result);
+    }
 
     @GetMapping("/finished")
     public ResponseEntity<?> GetTurnFinished(){

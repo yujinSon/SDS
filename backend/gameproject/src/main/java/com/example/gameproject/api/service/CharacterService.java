@@ -37,7 +37,7 @@ public class CharacterService {
         List<DefaultCharacter> characters = defaultCharacterRepository.getRandomCharacters(1 + (randomLevel/10)*6, 6+ (randomLevel/10)*6);
 
         for (DefaultCharacter character : characters){
-                RandomCharacterDto randomCharacterDto = new RandomCharacterDto(character, randomLevel);
+                RandomCharacterDto randomCharacterDto = new RandomCharacterDto(character, randomLevel, skillRepository);
                 result.add(randomCharacterDto);
         }
         return result;
@@ -45,7 +45,7 @@ public class CharacterService {
 
     @Transactional
     public void SaveRandomCharacter(RandomCharacterDto randomCharacterDto) {
-        DefaultCharacter defaultCharacter = defaultCharacterRepository.getByClassNameAndSubName(randomCharacterDto.getClassName(), randomCharacterDto.getSubClass());
+        DefaultCharacter defaultCharacter = defaultCharacterRepository.getByClassNameAndSubName(randomCharacterDto.getClassName(), randomCharacterDto.getSubClassName());
         User user = userRepository.getById(1L);
         List<Integer> poseDefine = new ArrayList<>();
         int realPos = 10;
@@ -81,7 +81,7 @@ public class CharacterService {
         List<MyCharacter> characters = myCharacterRepository.findByUserId(userId);
         for(MyCharacter character : characters){
             //캐릭터 가져오기
-            DefaultCharacter defaultCharacter = defaultCharacterRepository.findById(character.getId()).get();
+            DefaultCharacter defaultCharacter = defaultCharacterRepository.findById(character.getDefaultCharacter().getId()).get();
             //스킬 가져오기
             List<Skill> skills = skillRepository.findByCharacter_id(defaultCharacter.getId());
             List<SkillDto> skillDtos = new ArrayList<>();

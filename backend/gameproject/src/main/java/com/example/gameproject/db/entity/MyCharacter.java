@@ -75,4 +75,7 @@ public class MyCharacter implements Serializable {
         this.pos = pos;
         this.statPoint = randomCharacterDto.getLevel() - 1;
     }
+    public void updateHP(){
+        this.hp = this.maxHp;
+    }
 }
