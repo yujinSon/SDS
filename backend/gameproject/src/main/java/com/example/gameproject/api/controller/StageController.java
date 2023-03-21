@@ -2,6 +2,7 @@ package com.example.gameproject.api.controller;
 
 import com.example.gameproject.api.service.StageService;
 import com.example.gameproject.db.entity.MyCharacter;
+import com.example.gameproject.dto.request.StageDto;
 import com.example.gameproject.dto.response.MyCharacterDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,4 +26,10 @@ public class StageController {
 
         return ResponseEntity.ok(res);
     }
+
+//    // 내 스테이지 진행상황을 저장한다.
+//    @PutMapping(value = "/save")
+//    public ResponseEntity<?> saveMyStage(@RequestBody StageDto) {
+//
+//    }
 }
