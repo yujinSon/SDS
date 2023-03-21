@@ -15,6 +15,7 @@ public class EffectTime implements Serializable {
     private Long id;
 
     private int turn;
+    private int pos; // 0 ~ 2 , 3 이라면 전체 적용 스킬
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "skill_id")
