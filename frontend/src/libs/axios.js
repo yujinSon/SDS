@@ -10,25 +10,25 @@ const apiRequest = axios.create({
   // withCredentials: true, // 쿠키 사용을 위해 설정
 });
 
-// request 인터셉터
-apiRequest.interceptors.request.use(
-  (config) => {
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  },
-);
+// // request 인터셉터
+// apiRequest.interceptors.request.use(
+//   (config) => {
+//     return config;
+//   },
+//   (error) => {
+//     return Promise.reject(error);
+//   },
+// );
 
-// response 인터셉터
-apiRequest.interceptors.response.use(
-  (response) => {
-    console.log('response', response);
-    return response;
-  },
-  async (error) => {
-    console.log('error', error);
-  },
-);
+// // response 인터셉터
+// apiRequest.interceptors.response.use(
+//   (response) => {
+//     console.log('response', response);
+//     return response;
+//   },
+//   async (error) => {
+//     console.log('error', error);
+//   },
+// );
 
 export default apiRequest;

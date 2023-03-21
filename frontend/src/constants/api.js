@@ -5,16 +5,16 @@ const api = function (type, options = {}) {
 
     // 게임 메인 페이지
     getRandomCh: ['/character/random/1', 'get'],
-    getSelectedCh: ['/api/character/selected', 'get'], // 전투 승리했을 때 한 번 더 불러와야함 (스텟 찍기 전에)
-    saveCh: ['/api/character/save', 'post'],
+    getSelectedCh: ['/character/selected/1', 'get'], // 전투 승리했을 때 한 번 더 불러와야함 (스텟 찍기 전에)
+    saveCh: ['/character/save', 'post'],
 
     // 맵 페이지
-    loadMap: ['/api/map/load', 'get'],
+    loadMap: ['/map/load', 'get'],
     selectMap: ['/api/map/save', 'put'],
     saveStage: ['/api/stage/save', 'put'],
 
     // 전투 페이지
-    loadStage: ['/api/stage/load', 'get'],
+    loadStage: ['/stage/load', 'get'],
     enemysTurn: ['/api/battle/enemy', 'put'],
     playersTurn: ['/api/battle/player', 'post'],
     finishTurn: ['/api/battle/finished', 'put'],

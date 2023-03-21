@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import Button from 'components/common/Button';
 
-export default function GameButtons() {
+export default function GameButtons({ saveCh }) {
   const navigate = useNavigate();
 
   return (

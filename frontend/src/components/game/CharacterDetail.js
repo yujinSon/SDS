@@ -7,8 +7,11 @@ export default function CharacterDetail({ data, selectedCharacter }) {
       {data && selectedCharacter != null ? (
         <div>
           <div>{data[selectedCharacter].className}</div>
-          <div>{data[selectedCharacter].subClass} </div>
+          <div>{data[selectedCharacter].subClassName} </div>
           <div>level: {data[selectedCharacter].level} </div>
+          {/* 수정 필요 */}
+          <div>skills: {data[selectedCharacter].skills} </div>
+          <div>maxHP: {data[selectedCharacter].maxHp} </div>
           <div>hp: {data[selectedCharacter].hp} </div>
           <div>ad: {data[selectedCharacter].ad} </div>
           <div>ap: {data[selectedCharacter].ap} </div>
