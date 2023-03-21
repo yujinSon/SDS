@@ -5,12 +5,13 @@ import com.example.gameproject.db.entity.Skill;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
+// 초기 셋팅이므로 스킬 쿨다임은 부조건 [True, True]
 @Getter
 @NoArgsConstructor
-public class MyCharacterDto {
-
+public class InitialBattleCharacterDto {
     private int level;
     private int maxHp;
 
@@ -34,7 +35,10 @@ public class MyCharacterDto {
     private String className;
     private String subName;
 
-    public MyCharacterDto(MyCharacter myCharacter) {
+    private List<SkillDtoCons> skills;
+    private List<Boolean> skillCoolTime = new ArrayList<>();
+
+    public InitialBattleCharacterDto(MyCharacter myCharacter, List<SkillDtoCons> skills) {
         this.level = myCharacter.getLevel();
         this.maxHp = myCharacter.getMaxHp();
 
@@ -58,9 +62,9 @@ public class MyCharacterDto {
         this.className = myCharacter.getDefaultCharacter().getClassName();
         this.subName = myCharacter.getDefaultCharacter().getSubName();
 
-
-
-
-
+        this.skills = skills;
+        for (int i = 0; i < 2; i++) {
+            this.skillCoolTime.add(true);
+        }
     }
 }

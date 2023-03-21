@@ -6,10 +6,7 @@ import com.example.gameproject.db.entity.Villain;
 import com.example.gameproject.db.repository.MyCharacterRepository;
 import com.example.gameproject.db.repository.SkillRepository;
 import com.example.gameproject.db.repository.VillainRepository;
-import com.example.gameproject.dto.response.MyCharacterDto;
-import com.example.gameproject.dto.response.SkillDtoCons;
-import com.example.gameproject.dto.response.SkillListDto;
-import com.example.gameproject.dto.response.VillainDto;
+import com.example.gameproject.dto.response.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,8 +37,7 @@ public class StageService {
 
         Map<String, List> res = new HashMap<>();
 
-        List<MyCharacterDto> characterDtos = new ArrayList<>();
-//        List<SkillListDto> mySkill = new ArrayList<>();
+        List<InitialBattleCharacterDto> characterDtos = new ArrayList<>();
         List<List<SkillDtoCons>> mySkill = new ArrayList<>();
         List<VillainDto> villain = new ArrayList<>(); // 프론트에 줄 빌런들
 
@@ -51,20 +47,18 @@ public class StageService {
         Villain boss =villainRepository.getBoss(stageName); // 해당 스테이지에 보스 뽑기
 
         for (MyCharacter myC : myCharacter) {
-            // 캐릭터 객체 받기
-            MyCharacterDto myCharacterDto = new MyCharacterDto(myC);
-            characterDtos.add(myCharacterDto);
-
             // 스킬 받기
             Long characterId = myC.getDefaultCharacter().getId();
             List<Skill> skills = skillRepository.getskills(characterId);
-            List<SkillDtoCons> skillListDto = new ArrayList<>();
+            List<SkillDtoCons> skillsDtos = new ArrayList<>();
             for (Skill skill : skills) {
-                SkillDtoCons skillDto = new SkillDtoCons(skill);
-                skillListDto.add(skillDto);
+                SkillDtoCons skillDtoCon = new SkillDtoCons(skill);
+                skillsDtos.add(skillDtoCon);
             }
-//            SkillListDto skillListDto = new SkillListDto(skills);
-            mySkill.add(skillListDto);
+
+            // 캐릭터 객체 받기
+            InitialBattleCharacterDto myCharacterDto = new InitialBattleCharacterDto(myC, skillsDtos);
+            characterDtos.add(myCharacterDto);
         }
 
         // 빌런 보스 스테이지가 아닐때.
@@ -96,7 +90,7 @@ public class StageService {
         }
 
         res.put("Character", characterDtos);
-        res.put("mySkill", mySkill);
+//        res.put("mySkill", mySkill);
         res.put("Villain",  villain);
 
         return res;
