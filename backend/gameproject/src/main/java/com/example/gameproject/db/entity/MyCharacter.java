@@ -66,7 +66,6 @@ public class MyCharacter implements Serializable {
 
 //        double[] randombox = {0.7,0.8,0.9,1.0,1.1,1.2,1.3};
 //        Random random = new Random(); * random.nextInt(randombox.length)
-        System.out.println(1111111);
         this.addHp = (int) Math.round(defaultCharacter.getCharacterStat().getAddHp());
         this.addAd = (int) Math.round(defaultCharacter.getCharacterStat().getAddAd());
         this.addAp = (int) Math.round(defaultCharacter.getCharacterStat().getAddAp());
@@ -75,7 +74,6 @@ public class MyCharacter implements Serializable {
         this.addAvoid = (int) Math.round(defaultCharacter.getCharacterStat().getAddAvoid());
         this.pos = pos;
         this.statPoint = randomCharacterDto.getLevel() - 1;
-
     }
     public void updateHP(){
         this.hp = this.maxHp;
