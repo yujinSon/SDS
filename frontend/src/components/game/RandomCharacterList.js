@@ -24,7 +24,7 @@ export default function RandomCharacterList({
               </ImageContainer>
               <TextContainer>
                 <div>{character.className}</div>
-                <div>{character.subClass}</div>
+                <div>{character.subClassName}</div>
                 <div>
                   level: {character.level} hp: {character.hp}
                 </div>

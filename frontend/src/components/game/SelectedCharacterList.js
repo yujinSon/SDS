@@ -23,7 +23,7 @@ export default function SelectedCharacterList({
                 <img src={IMG} alt="캐릭터 img" />
               </ImageContainer>
               <TextContainer>
-                <div>{character.subClass}</div>
+                <div>{character.subClassName}</div>
                 <div>level: {character.level}</div>
               </TextContainer>
             </CharacterContainer>
