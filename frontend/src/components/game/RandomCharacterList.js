@@ -9,6 +9,7 @@ export default function RandomCharacterList({
   selectedRandomCh,
   setSelectedRandomCh,
   addCharacter,
+  saveCh,
 }) {
   return (
     <>
@@ -37,7 +38,7 @@ export default function RandomCharacterList({
           ))
         : null}
 
-      <ButtonContainer onClick={addCharacter}>
+      <ButtonContainer onClick={saveCh}>
         <Button value="선택" />
       </ButtonContainer>
     </>

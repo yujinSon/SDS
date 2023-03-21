@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import Button from 'components/common/Button';
 
-export default function GameButtons() {
+export default function GameButtons({ saveCh }) {
   const navigate = useNavigate();
 
   return (
@@ -15,12 +15,7 @@ export default function GameButtons() {
       </ButtonContainer>
       <ButtonContainer>
         <Button value="Logout" />
-        <Button
-          value="모험하기"
-          onClick={() => {
-            navigate('/map');
-          }}
-        />
+        <Button value="모험하기" onClick={saveCh} />
       </ButtonContainer>
     </Container>
   );
