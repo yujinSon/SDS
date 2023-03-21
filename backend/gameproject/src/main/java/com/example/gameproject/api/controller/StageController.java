@@ -27,9 +27,10 @@ public class StageController {
         return ResponseEntity.ok(res);
     }
 
-//    // 내 스테이지 진행상황을 저장한다.
-//    @PutMapping(value = "/save")
-//    public ResponseEntity<?> saveMyStage(@RequestBody StageDto) {
-//
-//    }
+    // 내 스테이지 진행상황을 저장한다.
+    @PutMapping(value = "/save")
+    public ResponseEntity<?> saveMyStage(@RequestBody StageDto stageDto) throws Exception {
+        stageService.saveMyStage(stageDto);
+        return ResponseEntity.ok("OK");
+    }
 }

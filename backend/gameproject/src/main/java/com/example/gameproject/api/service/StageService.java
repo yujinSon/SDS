@@ -2,10 +2,13 @@ package com.example.gameproject.api.service;
 
 import com.example.gameproject.db.entity.MyCharacter;
 import com.example.gameproject.db.entity.Skill;
+import com.example.gameproject.db.entity.User;
 import com.example.gameproject.db.entity.Villain;
 import com.example.gameproject.db.repository.MyCharacterRepository;
 import com.example.gameproject.db.repository.SkillRepository;
+import com.example.gameproject.db.repository.UserRepository;
 import com.example.gameproject.db.repository.VillainRepository;
+import com.example.gameproject.dto.request.StageDto;
 import com.example.gameproject.dto.response.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +20,7 @@ import java.util.*;
 @Transactional(readOnly = true)
 public class StageService {
 
+
     @Autowired
     private MyCharacterRepository myCharacterRepository;
 
@@ -25,6 +29,9 @@ public class StageService {
 
     @Autowired
     private VillainRepository villainRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
 
     public Map<String, List> BattleSetting(){
@@ -90,9 +97,19 @@ public class StageService {
         }
 
         res.put("Character", characterDtos);
-//        res.put("mySkill", mySkill);
         res.put("Villain",  villain);
 
         return res;
+    }
+
+    @Transactional
+    public void saveMyStage(StageDto stageDto) {
+        Long userId = 1L; // 나중에 유저 아이디 찾아야 함.
+        User user = userRepository.getById(userId);
+        int stage = stageDto.getStage();
+        int subStage = stageDto.getSubStage();
+
+        user.stageUpdate(stage, subStage);
+        userRepository.save(user);
     }
 }
