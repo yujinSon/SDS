@@ -37,4 +37,8 @@ public class CharacterController {
         return ResponseEntity.status(200).body(result);
     }
 
+//    // 케릭터 한번에 저장하기.
+//    @PostMapping(value = "/saveall")
+//    public ResponseEntity<?> postSaveCharacterAll(@RequestBody List<>)
+
 }
