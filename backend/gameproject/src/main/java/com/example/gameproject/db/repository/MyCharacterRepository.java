@@ -15,5 +15,7 @@ public interface MyCharacterRepository extends JpaRepository<MyCharacter, Long> 
     @Query("select mc from MyCharacter mc where mc.user.id=:id")
     List<MyCharacter> findByUserId(@Param("id") long userId);
 
+
+	List<MyCharacter> findAllByUser_Id(long userId);
 }
 

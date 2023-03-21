@@ -1,6 +1,8 @@
 package com.example.gameproject.db.entity;
 
 import com.example.gameproject.db.entity.Vo.ArtifactVo;
+
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -81,7 +81,7 @@ public class CharacterService {
         List<MyCharacter> characters = myCharacterRepository.findByUserId(userId);
         for(MyCharacter character : characters){
             //캐릭터 가져오기
-            DefaultCharacter defaultCharacter = defaultCharacterRepository.findById(character.getId()).get();
+            DefaultCharacter defaultCharacter = defaultCharacterRepository.findById(character.getDefaultCharacter().getId()).get();
             //스킬 가져오기
             List<Skill> skills = skillRepository.findByCharacter_id(defaultCharacter.getId());
             List<SkillDto> skillDtos = new ArrayList<>();
