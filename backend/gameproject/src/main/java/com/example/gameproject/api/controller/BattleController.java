@@ -3,11 +3,13 @@ package com.example.gameproject.api.controller;
 import com.example.gameproject.api.service.BattleService;
 import com.example.gameproject.dto.request.EnemyAttackDto;
 import com.example.gameproject.dto.request.PlayerAttackDto;
+import com.example.gameproject.dto.response.MyCharacterAttackDto;
 import com.example.gameproject.dto.response.MyCharacterUpdateDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -27,12 +29,11 @@ public class BattleController {
 
 //    @PostMapping("/player")
     @PostMapping("/player/{userId}")
-    ResponseEntity<?> attackEnemy(@RequestBody PlayerAttackDto playerAttackDto, @PathVariable("userId") long userId){
-//        List<MyCharacterUpdateDto> myCharacterUpdateDtos = battleService.updateMyCharacter();
-        HashMap<String, Object> result = new HashMap<>();
-//        result.put("myCharacter", );
-//        result.put("mySkillCoolTime", );
-        return ResponseEntity.status(200).body(result);
+    public ResponseEntity<?> attackEnemy(@RequestBody PlayerAttackDto playerAttackDto, @PathVariable("userId") long userId){
+        List<MyCharacterAttackDto> res = new ArrayList<>();
+
+
+        return ResponseEntity.status(200).body(res);
     }
 
 }
