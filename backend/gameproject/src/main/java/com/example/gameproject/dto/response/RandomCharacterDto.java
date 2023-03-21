@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 public class RandomCharacterDto {
     private String className;
-    private String subClass;
+    private String subClassName;
     private int level;
     private int hp;
     private int ad;
@@ -29,7 +29,7 @@ public class RandomCharacterDto {
 
     public RandomCharacterDto(DefaultCharacter character, int level, SkillRepository skillRepository){
         this.className = character.getClassName();
-        this.subClass = character.getSubName();
+        this.subClassName = character.getSubName();
         this.level = level;
         this.hp = character.getCharacterStat().getHp();
         this.ad = character.getCharacterStat().getAd();
