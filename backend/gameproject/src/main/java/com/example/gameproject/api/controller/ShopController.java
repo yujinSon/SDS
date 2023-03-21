@@ -27,9 +27,15 @@ public class ShopController {
 
 	@PostMapping("/add/{userId}")
 	public ResponseEntity<String> addCharacter(@RequestBody List<ShopAddRequest> characterList , @PathVariable long userId){
-		System.out.println("Controller-----------------------------");
 		shopService.addCharacter(userId, characterList);
 		return ResponseEntity.status(201).body("success");
+	}
+
+	@PutMapping("/chage/{userId}")
+	public ResponseEntity<String> changeCharacter(@RequestBody List<ShopAddRequest> characterList, @PathVariable long userId){
+		shopService.changeCharacter(userId, characterList);
+		return ResponseEntity.status(200).body("success");
+
 	}
 
 	@PutMapping("/rest/{userId}")
