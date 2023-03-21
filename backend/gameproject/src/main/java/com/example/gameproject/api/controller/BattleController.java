@@ -21,18 +21,18 @@ public class BattleController {
 //    @PutMapping("/enemy")
 //    @PutMapping("/enemy/{userId}")
 //    ResponseEntity<?> attackedFromEnemy(@RequestBody EnemyAttackDto enemyAttackDto, @PathVariable("userId") long userId) {
-//        List<MyCharacterUpdateDto> result = battleService.updateHp(userId, enemyAttackDto);
+//        List<MyCharacterUpdateDto> result = battleService.updateStat(userId, enemyAttackDto);
 //        return ResponseEntity.status(200).body(result);
 //    }
 
 //    @PostMapping("/player")
-    @PostMapping("/player/{userId}")
-    ResponseEntity<?> attackEnemy(@RequestBody PlayerAttackDto playerAttackDto, @PathVariable("userId") long userId){
+//    @PostMapping("/player/{userId}")
+//    ResponseEntity<?> attackEnemy(@RequestBody PlayerAttackDto playerAttackDto, @PathVariable("userId") long userId){
 //        List<MyCharacterUpdateDto> myCharacterUpdateDtos = battleService.updateMyCharacter();
-        HashMap<String, Object> result = new HashMap<>();
+//        HashMap<String, Object> result = new HashMap<>();
 //        result.put("myCharacter", );
 //        result.put("mySkillCoolTime", );
-        return ResponseEntity.status(200).body(result);
-    }
+//        return ResponseEntity.status(200).body(result);
+//    }
 
 }
