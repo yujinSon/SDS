@@ -23,6 +23,7 @@ public class RandomCharacterDto {
     private int critical;
     private int avoid;
     private int maxHp;
+    private  int pos;
 
     private List<SkillDtoCons> skills = new ArrayList<>();
 
@@ -38,6 +39,7 @@ public class RandomCharacterDto {
         this.critical = character.getCharacterStat().getCritical();
         this.avoid = character.getCharacterStat().getAvoid();
         this.maxHp = character.getCharacterStat().getHp();
+        this.pos = -1;
 
         List<Skill> skillList = skillRepository.getskills(character.getId());
 
