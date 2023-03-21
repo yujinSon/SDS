@@ -1,8 +1,11 @@
 package com.example.gameproject.api.service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -53,52 +56,47 @@ public class ShopService {
 	@Transactional
 	public RelicResponse getRelic(long userId){
 		Random random = new Random();
-		random.setSeed(System.currentTimeMillis());
+		random.setSeed(System.currentTimeMillis()); //시간에 따라 시드를 설정
+
 		List<Artifact> artifactList = artifactRepository.findAll();
 		List<UserArtifact> relicList = userArtifactRepository.findAllByUser_Id(userId);
-		List<Long> numberList = new ArrayList<>();
+		// numberList에 모든 유물 번호 저장(api 여러번 호출하면 중복되니까 set사용)
+		Set<Long> numberList = new LinkedHashSet<>();
 		for(int i=0;i<artifactList.size();i++){
 			numberList.add(artifactList.get(i).getId());
 		}
 
+		//numberLsit에 내 유물 리스트에 존재하는 유물은 삭제
 		for(int i =0;i<numberList.size();i++){
 			for(int j=0;j<relicList.size();j++){
-				if(numberList.get(i) == relicList.get(j).getArtifact().getId()){
-					numberList.remove(i);
+				long existValue = relicList.get(j).getArtifact().getId();
+				if(numberList.contains(existValue)){
+					numberList.remove(existValue);
 				}
 			}
 		}
 
-		System.out.println("숫자배열리스트 : ");
-		for(int i=0;i<numberList.size();i++){
-			System.out.print(numberList.get(i));
-		}
+		//추가할 수 있는 유물이 없으면 null 리턴
 		if(numberList.size()==0) return null;
 
-		int bound = numberList.size()-1;
-		long value = random.nextInt(bound)+1;
-		numberList.remove(Long.valueOf(value));
+		int bound = numberList.size();
+		int value = random.nextInt(bound);//bound가 6이면 0~5까지만 랜덤으로 나온다
 
-		// System.out.println("list size() : "+relicList.size());
-		// if(relicList.size()>0) {
-		// 	for (int i = 0; i < relicList.size(); i++) {
-		// 		if (value == relicList.get(i).getArtifact().getId()) {
-		// 			value = random.nextInt(bound) + 1;
-		// 			i = -1;
-		// 		}
-		// 	}
-		// }
+		System.out.println("value : "+ value);
+		Object[] arrayList = numberList.toArray();
+		long pos = (long) arrayList[value];
 
-		System.out.println("value : " + value);
+		System.out.println("arrayList : "+ arrayList.length+"value : " + value);
 
 		// 중계 테이블에 artifact 저장
 		UserArtifact userArtifact = UserArtifact.builder()
 			.user(userRepository.findById(userId).orElse(null))
-			.artifact(artifactRepository.findById(value).orElse(null))
+			.artifact(artifactRepository.findById(pos).orElse(null))
 			.build();
 		userArtifactRepository.save(userArtifact);
+
 		//output 데이터 형식으로 저장
-		Artifact artifact = artifactRepository.findById(value).orElse(null);
+		Artifact artifact = artifactRepository.findById(pos).orElse(null);
 		RelicResponse result = null;
 		if(artifact!=null) {
 			RelicResponse relic = RelicResponse.builder()
