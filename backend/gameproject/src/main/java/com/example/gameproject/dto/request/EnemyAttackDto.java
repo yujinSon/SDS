@@ -15,5 +15,5 @@ public class EnemyAttackDto {
 //    boolean isAttack;
 //    int damage;
     int target;
-    SkillDto skill;
+    SkillRequestDto skill;
 }
