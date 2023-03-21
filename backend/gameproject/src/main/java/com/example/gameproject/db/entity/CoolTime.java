@@ -25,6 +25,16 @@ public class CoolTime implements Serializable {
     @JoinColumn(name = "skill_id")
     private Skill skill;
 
+    public void setTurn(int turn) {
+        this.turn = turn;
+    }
 
+    public void setMyCharacter(MyCharacter myCharacter) {
+        this.myCharacter = myCharacter;
+    }
+
+    public void setSkill(Skill skill) {
+        this.skill = skill;
+    }
 
 }

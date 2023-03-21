@@ -79,5 +79,9 @@ public class MyCharacter implements Serializable {
     }
     public void updateHP(){
         this.hp = this.maxHp;
+    } // -> 이건 풀 회복 아님??
+
+    public void setHp(int hp) {
+        this.hp = hp;
     }
 }
