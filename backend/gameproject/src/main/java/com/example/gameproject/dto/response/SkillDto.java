@@ -3,6 +3,8 @@ package com.example.gameproject.dto.response;
 
 import lombok.*;
 
+@Getter
+@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class SkillDto {
