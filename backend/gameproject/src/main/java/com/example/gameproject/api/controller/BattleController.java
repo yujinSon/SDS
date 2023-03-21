@@ -2,6 +2,7 @@ package com.example.gameproject.api.controller;
 
 import com.example.gameproject.api.service.BattleService;
 import com.example.gameproject.dto.request.EnemyAttackDto;
+import com.example.gameproject.dto.request.PlayerAttackDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -43,4 +44,9 @@ public class BattleController {
         return ResponseEntity.ok(battleService.MyCharacterList());
     }
 
+    @DeleteMapping("/end")
+    public ResponseEntity<?> DeleteCoolTimeEffectTime(){
+        battleService.DeleteEffect();
+        return ResponseEntity.ok("delete_ok");
+    }
 }

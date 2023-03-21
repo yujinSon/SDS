@@ -117,4 +117,23 @@ public class BattleService {
 
         return result;
     }
+
+    @Transactional
+    public void DeleteEffect(){
+        // 내 정보를 찾아서
+        List<CoolTime> coolTimes = coolTimeRepository.findAll();
+        List<EffectTime> effectTimes = effectTimeRepository.findAll();
+
+        for (CoolTime coolTime : coolTimes){
+            if (coolTime.getMyCharacter().getUser().getId() == 1L){
+                coolTimeRepository.delete(coolTime);
+            }
+        }
+
+        for (EffectTime effectTime : effectTimes){
+            if (effectTime.getMyCharacter().getUser().getId() == 1L){
+                effectTimeRepository.delete(effectTime);
+            }
+        }
+    }
 }
