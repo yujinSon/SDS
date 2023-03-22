@@ -25,6 +25,10 @@ public class User implements Serializable {
     private int subStage;
     private int turn;
     private int finalScore; // 나중에 지울거 + maxStage, maxSubstage 있어야함.
+    private int nowStage;
+    private int nowSubStage;
+    private int maxStage;
+    private int maxSubStage;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<MyCharacter> myCharacters = new ArrayList<>();
