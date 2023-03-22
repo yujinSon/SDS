@@ -1,6 +1,8 @@
 package com.example.gameproject.db.entity;
 
 import com.example.gameproject.dto.response.RandomCharacterDto;
+
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,6 +16,8 @@ import java.util.Random;
 @Entity
 @Getter
 @NoArgsConstructor
+@Builder
+@AllArgsConstructor
 public class MyCharacter implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,14 +33,21 @@ public class MyCharacter implements Serializable {
     private int critical;
     private int avoid;
 
+    @Column(columnDefinition = "int(1) default 0")
     private int addHp;
+    @Column(columnDefinition = "int(1) default 0")
     private int addAd;
+    @Column(columnDefinition = "int(1) default 0")
     private int addAp;
+    @Column(columnDefinition = "int(1) default 0")
     private int addSpeed;
+    @Column(columnDefinition = "int(1) default 0")
     private int addCritical;
+    @Column(columnDefinition = "int(1) default 0")
     private int addAvoid;
 
     private int pos;
+    @Column(columnDefinition = "int(1) default 0")
     private int statPoint;
 
     @ManyToOne(fetch = FetchType.LAZY)
