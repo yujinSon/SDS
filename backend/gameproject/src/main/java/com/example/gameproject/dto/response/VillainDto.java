@@ -23,9 +23,11 @@ public class VillainDto {
     private int avoid;
     private boolean isBoss;
 
+    private int pos;
+
     private List<SkillDtoCons> skills = new ArrayList<>();
 
-    public VillainDto(Villain villain, List<Skill> skills) {
+    public VillainDto(Villain villain, List<Skill> skills, int pos) {
         this.className = villain.getClassName();
         this.subName = villain.getSubName();
         this.hp = villain.getHp();
@@ -40,6 +42,8 @@ public class VillainDto {
             SkillDtoCons skillDto = new SkillDtoCons(skill);
             this.skills.add(skillDto);
         }
+
+        this.pos = pos;
     }
 
 }
