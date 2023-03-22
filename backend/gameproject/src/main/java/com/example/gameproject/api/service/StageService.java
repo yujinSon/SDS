@@ -76,7 +76,7 @@ public class StageService {
                 Villain randomVillain = villainList.get(randomIndex);
                 Long villainId = randomVillain.getId();
                 List<Skill> villainSkills = skillRepository.getVillainSkills(villainId);
-                VillainDto villainDto = new VillainDto(randomVillain, villainSkills);
+                VillainDto villainDto = new VillainDto(randomVillain, villainSkills, i+3);
                 villain.add(villainDto);
             }
         } else {
@@ -86,18 +86,18 @@ public class StageService {
                 Villain randomVillain = villainList.get(randomIndex);
                 Long villainId = randomVillain.getId();
                 List<Skill> villainSkills = skillRepository.getVillainSkills(villainId);
-                VillainDto villainDto = new VillainDto(randomVillain, villainSkills);
+                VillainDto villainDto = new VillainDto(randomVillain, villainSkills, i+4);
                 villain.add(villainDto);
             }
             // 보스 추가.
             Long bossId = boss.getId();
             List<Skill> bossSkills = skillRepository.getVillainSkills(bossId);
-            VillainDto villainDto = new VillainDto(boss, bossSkills);
+            VillainDto villainDto = new VillainDto(boss, bossSkills, 3);
             villain.add(villainDto);
         }
 
-        res.put("Character", characterDtos);
-        res.put("Villain",  villain);
+        res.put("character", characterDtos);
+        res.put("villain",  villain);
 
         return res;
     }
