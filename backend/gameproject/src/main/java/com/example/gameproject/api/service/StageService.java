@@ -96,6 +96,10 @@ public class StageService {
             villain.add(villainDto);
         }
 
+
+        // 유물 효과 적용
+
+
         res.put("character", characterDtos);
         res.put("villain",  villain);
 
