@@ -27,3 +27,4 @@ COPY --from=build-stage /app/dist /usr/share/nginx/html
 
 # 컨테이너를 실행할 때 실행할 커맨드
 CMD ["nginx", "-g", "daemon off;"]
+
