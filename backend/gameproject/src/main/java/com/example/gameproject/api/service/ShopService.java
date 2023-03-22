@@ -9,12 +9,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.gameproject.db.entity.Artifact;
+import com.example.gameproject.db.entity.CharacterStat;
 import com.example.gameproject.db.entity.DefaultCharacter;
 import com.example.gameproject.db.entity.MyCharacter;
 import com.example.gameproject.db.entity.Skill;
 import com.example.gameproject.db.entity.User;
 import com.example.gameproject.db.entity.UserArtifact;
 import com.example.gameproject.db.repository.ArtifactRepository;
+import com.example.gameproject.db.repository.CharacterStatRepository;
 import com.example.gameproject.db.repository.DefaultCharacterRepository;
 import com.example.gameproject.db.repository.MyCharacterRepository;
 import com.example.gameproject.db.repository.SkillRepository;
@@ -38,6 +40,7 @@ public class ShopService {
 	private final UserRepository userRepository;
 	private final SkillRepository skillRepository;
 	private final DefaultCharacterRepository defaultCharacterRepository;
+	private final CharacterStatRepository characterStatRepository;
 
 	//단순 영입 기능
 	@Transactional
@@ -47,6 +50,7 @@ public class ShopService {
 			ShopAddRequest character = characterList.get(i);
 			User user = userRepository.findById(userId).orElse(null);
 			DefaultCharacter defaultCharacter = defaultCharacterRepository.findBySubName(character.getSubClassName());
+			CharacterStat characterStat = characterStatRepository.findByDefaultCharacterId(defaultCharacter.getId());
 			MyCharacter myCharacter = MyCharacter.builder()
 				.user(user)
 				.defaultCharacter(defaultCharacter)
@@ -59,6 +63,12 @@ public class ShopService {
 				.avoid(character.getAvoid())
 				.maxHp(character.getMaxHP())
 				.pos(character.getPos())
+				.addHp(characterStat.getAddHp())
+				.addAd(characterStat.getAddAd())
+				.addAp(characterStat.getAddAp())
+				.addSpeed(characterStat.getAddSpeed())
+				.addAvoid(characterStat.getAddAvoid())
+				.addCritical(characterStat.getAddCritical())
 				.build();
 			myCharacterRepository.save(myCharacter);
 		}
@@ -71,10 +81,11 @@ public class ShopService {
 		for(int i=0;i<characterList.size();i++) {
 			ShopAddRequest character = characterList.get(i);
 			int pos = character.getPos();
-			MyCharacter deleteMyCharacter = myCharacterRepository.findByUserIdAndPos(userId, pos);
+			myCharacterRepository.findByUserIdAndPos(userId, pos);
 			myCharacterRepository.deleteByUserIdAndPos(userId,pos);
 			User user = userRepository.findById(userId).orElse(null);
 			DefaultCharacter defaultCharacter = defaultCharacterRepository.findBySubName(character.getSubClassName());
+			CharacterStat characterStat = characterStatRepository.findByDefaultCharacterId(defaultCharacter.getId());
 			MyCharacter myCharacter = MyCharacter.builder()
 				.user(user)
 				.defaultCharacter(defaultCharacter)
@@ -87,6 +98,12 @@ public class ShopService {
 				.avoid(character.getAvoid())
 				.maxHp(character.getMaxHP())
 				.pos(character.getPos())
+				.addHp(characterStat.getAddHp())
+				.addAd(characterStat.getAddAd())
+				.addAp(characterStat.getAddAp())
+				.addSpeed(characterStat.getAddSpeed())
+				.addAvoid(characterStat.getAddAvoid())
+				.addCritical(characterStat.getAddCritical())
 				.build();
 			myCharacterRepository.save(myCharacter);
 		}

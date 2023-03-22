@@ -21,7 +21,7 @@ public class SkillDtoCons {
     public SkillDtoCons(Skill skill) {
         this.skillName = skill.getSkillName();
         this.skillNum = skill.getSkillNum();
-        this.skillType = skill.getSkillType();
+        this.skillType = skill.getDurationTurn();
         this.isRange = skill.isRange();
         this.value = skill.getValue();
         this.skillTarget = skill.getSkillTarget();

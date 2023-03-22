@@ -22,7 +22,7 @@ public class Skill implements Serializable {
 
     private int skillNum;
     private String skillName;
-    private int skillType; // 턴 지속시간
+    private int durationTurn; // 턴 지속시간
     private boolean isRange; // 0 : 단일, 1: 범위
     private int value; // 수치
     private int skillTarget; // 0 : 빌런에게 공격, 1: 아군에게 적용
