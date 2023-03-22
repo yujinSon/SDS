@@ -19,11 +19,11 @@ import java.util.List;
 @RequestMapping("/battle")
 public class BattleController {
     @Autowired
-    BattlePlayerTurnService battleService;
+    BattlePlayerTurnService battlePlayerTurnService;
 
     @PostMapping("/player/{userId}")
     public ResponseEntity<?> attackEnemy(@RequestBody PlayerAttackDto playerAttackDto, @PathVariable("userId") long userId){
-        List<MyCharacterAttackDto> res = battleService.myTurnAttack(playerAttackDto, userId);
+        List<MyCharacterAttackDto> res = battlePlayerTurnService.myTurnAttack(playerAttackDto, userId);
 
 
         return ResponseEntity.status(200).body(res);
