@@ -33,17 +33,15 @@ public class MyCharacter implements Serializable {
     private int critical;
     private int avoid;
 
-    @Column(columnDefinition = "int(1) default 0")
     private int addHp;
-    @Column(columnDefinition = "int(1) default 0")
     private int addAd;
-    @Column(columnDefinition = "int(1) default 0")
+
     private int addAp;
-    @Column(columnDefinition = "int(1) default 0")
+
     private int addSpeed;
-    @Column(columnDefinition = "int(1) default 0")
+
     private int addCritical;
-    @Column(columnDefinition = "int(1) default 0")
+
     private int addAvoid;
 
     private int pos;
