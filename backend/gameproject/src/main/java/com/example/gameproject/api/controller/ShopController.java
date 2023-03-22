@@ -31,7 +31,7 @@ public class ShopController {
 		return ResponseEntity.status(201).body("success");
 	}
 
-	@PutMapping("/chage/{userId}")
+	@PutMapping("/change/{userId}")
 	public ResponseEntity<String> changeCharacter(@RequestBody List<ShopAddRequest> characterList, @PathVariable long userId){
 		shopService.changeCharacter(userId, characterList);
 		return ResponseEntity.status(200).body("success");

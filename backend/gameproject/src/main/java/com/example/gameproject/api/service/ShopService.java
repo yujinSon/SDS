@@ -45,16 +45,11 @@ public class ShopService {
 		//내캐릭터에 캐릭터 추가
 		for(int i=0;i<characterList.size();i++) {
 			ShopAddRequest character = characterList.get(i);
-			myCharacterRepository.deleteByUser_IdAndPos(userId,character.getPos());
 			User user = userRepository.findById(userId).orElse(null);
-			DefaultCharacter newCharacter = DefaultCharacter.builder()
-				.className(character.getClassName())
-				.subName(character.getSubClassName())
-				.build();
-			defaultCharacterRepository.save(newCharacter);
+			DefaultCharacter defaultCharacter = defaultCharacterRepository.findBySubName(character.getSubClassName());
 			MyCharacter myCharacter = MyCharacter.builder()
 				.user(user)
-				.defaultCharacter(newCharacter)
+				.defaultCharacter(defaultCharacter)
 				.level(character.getLevel())
 				.hp(character.getHp())
 				.ad(character.getAd())
@@ -66,44 +61,23 @@ public class ShopService {
 				.pos(character.getPos())
 				.build();
 			myCharacterRepository.save(myCharacter);
-
-			System.out.println(character.toString());
-			//테이블에 스킬 추가
-			List<SkillRequest> skillList = character.getSkills();
-			if (skillList.size() > 0) {
-				for (int j = 0; j < skillList.size(); j++) {
-					SkillRequest newSkill = skillList.get(j);
-					Skill skill = Skill.builder()
-						.skillNum(newSkill.getSkillNum())
-						.skillName(newSkill.getSkillName())
-						.skillType(newSkill.getSkillType())
-						.isRange(newSkill.isRange())
-						.value(newSkill.getValue())
-						.skillTarget(newSkill.getSkillTarget())
-						.coolTime(newSkill.getCoolTime())
-						.defaultCharacter(newCharacter)
-						.Stat(newSkill.getStat())
-						.build();
-					skillRepository.save(skill);
-				}
-			}
 		}
 	}
 
+	//캐릭터 변경
 	@Transactional
 	public void changeCharacter(long userId, List<ShopAddRequest> characterList){
 		//변경할 캐릭터 저장
 		for(int i=0;i<characterList.size();i++) {
 			ShopAddRequest character = characterList.get(i);
+			int pos = character.getPos();
+			MyCharacter deleteMyCharacter = myCharacterRepository.findByUserIdAndPos(userId, pos);
+			myCharacterRepository.deleteByUserIdAndPos(userId,pos);
 			User user = userRepository.findById(userId).orElse(null);
-			DefaultCharacter newCharacter = DefaultCharacter.builder()
-				.className(character.getClassName())
-				.subName(character.getSubClassName())
-				.build();
-			defaultCharacterRepository.save(newCharacter);
+			DefaultCharacter defaultCharacter = defaultCharacterRepository.findBySubName(character.getSubClassName());
 			MyCharacter myCharacter = MyCharacter.builder()
 				.user(user)
-				.defaultCharacter(newCharacter)
+				.defaultCharacter(defaultCharacter)
 				.level(character.getLevel())
 				.hp(character.getHp())
 				.ad(character.getAd())
@@ -115,27 +89,7 @@ public class ShopService {
 				.pos(character.getPos())
 				.build();
 			myCharacterRepository.save(myCharacter);
-			//테이블에 스킬 추가
-			List<SkillRequest> skillList = character.getSkills();
-			if (skillList.size() > 0) {
-				for (int j = 0; j < skillList.size(); j++) {
-					SkillRequest newSkill = skillList.get(j);
-					Skill skill = Skill.builder()
-						.skillNum(newSkill.getSkillNum())
-						.skillName(newSkill.getSkillName())
-						.skillType(newSkill.getSkillType())
-						.isRange(newSkill.isRange())
-						.value(newSkill.getValue())
-						.skillTarget(newSkill.getSkillTarget())
-						.coolTime(newSkill.getCoolTime())
-						.defaultCharacter(newCharacter)
-						.Stat(newSkill.getStat())
-						.build();
-					skillRepository.save(skill);
-				}
-			}
 		}
-
 	}
 
 	//휴식 기능

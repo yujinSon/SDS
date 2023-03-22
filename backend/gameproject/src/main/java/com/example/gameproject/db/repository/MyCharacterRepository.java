@@ -17,6 +17,7 @@ public interface MyCharacterRepository extends JpaRepository<MyCharacter, Long> 
 
 
 	List<MyCharacter> findAllByUser_Id(long userId);
-	void deleteByUser_IdAndPos(long userId, int pos);
+	void deleteByUserIdAndPos(long userId, int pos);
+	MyCharacter findByUserIdAndPos(long userId, int pos);
 }
 
