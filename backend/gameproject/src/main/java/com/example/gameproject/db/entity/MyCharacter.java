@@ -97,4 +97,15 @@ public class MyCharacter implements Serializable {
         this.critical = critical;
         this.avoid = avoid;
     }
+
+    public void updateVictoryStat( int maxHp, int hp,int ad, int ap, int speed, int critical, int avoid){
+        this.maxHp = maxHp;
+        this.hp = hp;
+        this.ad = ad;
+        this.ap = ap;
+        this.speed = speed;
+        this.critical = critical;
+        this.avoid = avoid;
+    }
+
 }
