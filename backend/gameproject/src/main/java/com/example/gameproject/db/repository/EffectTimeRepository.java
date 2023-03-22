@@ -8,7 +8,10 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
+import java.util.List;
+
 public interface EffectTimeRepository extends JpaRepository<EffectTime, Long> {
+    List<EffectTime> findAll();
 
     // myCharacter 가 쓴 스킬 가져오기
     @Query(value = "select * from effect_time et where et.mycharacter_id=:id", nativeQuery = true)

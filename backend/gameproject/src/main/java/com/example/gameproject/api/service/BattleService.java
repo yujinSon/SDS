@@ -1,165 +1,252 @@
 package com.example.gameproject.api.service;
 
+import com.example.gameproject.db.entity.MyCharacter;
+import com.example.gameproject.db.entity.User;
+import com.example.gameproject.db.repository.EffectTimeRepository;
+import com.example.gameproject.db.repository.MyCharacterRepository;
+import com.example.gameproject.db.repository.UserRepository;
+import com.example.gameproject.dto.request.EnemyAttackDto;
+import com.example.gameproject.dto.request.SkillRequestDto;
+import com.example.gameproject.dto.response.MyCharacterUpdateDto;
 import com.example.gameproject.db.entity.*;
 import com.example.gameproject.db.repository.*;
-import com.example.gameproject.dto.request.EnemyAttackDto;
-import com.example.gameproject.dto.request.PlayerAttackDto;
-import com.example.gameproject.dto.response.CoolTimePlayerTurnDto;
-import com.example.gameproject.dto.response.MyCharacterAttackDto;
-import com.example.gameproject.dto.response.MyCharacterUpdateDto;
-import com.example.gameproject.dto.response.SkillDtoCons;
+import com.example.gameproject.dto.response.BattleTurnSkillDto;
+import com.example.gameproject.dto.response.MyCharacterTurnDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class BattleService {
-//    private final UserRepository userRepository;
-//    private final MyCharacterRepository myCharacterRepository;
-//    private  final CoolTimeRepository coolTimeRepository;
-//    private final SkillRepository skillRepository;
-//    private final EffectTimeRepository effectTimeRepository;
-//
-//    @Transactional
-//    public List<MyCharacterAttackDto> myTurnAttack(PlayerAttackDto playerAttackDto, Long userId) {
-//        int casterPos = playerAttackDto.getPos(); // 스킬을 쓴 케릭터 위치값
-//        int targetPos = playerAttackDto.getTarget(); // 스킬의 효과를 받은 대상 위치값, 전체라면 3
-//
-//        // 위치값을 가지고 myCharacter 가져오기.
-//        MyCharacter caster = myCharacterRepository.getMyCharacterUsingUserIdPos(userId, casterPos);
-//        Long casterId = caster.getId();
-//
-//        // 스킬 가져오기.
-//        Long skillId = playerAttackDto.getSkill().getSkillId();
-//        Skill skill = skillRepository.findById(skillId).orElse(null);
-//
-//
-//        if (skill.getStat() != "hp") {
-//            // skill.getStat() 이 hp 라면 회복 스킬임 -> 이펙트가 없는 스킬
-//            // 이팩트타임 등록
-//            EffectTime effectTime = new EffectTime();
-//            effectTime.setPos(targetPos); // 스킬적용 대상 위치값
-//            effectTime.setTurn(skill.getSkillType()); // 스킬 효과 지속시간
-//            effectTime.setMyCharacter(caster);
-//            effectTime.setSkill(skill);
-//            effectTimeRepository.save(effectTime);
-//
-//        } else {
-//            List<MyCharacter> myCharacters= myCharacterRepository.getMyCharacters(userId);
-//            // 단순 체력 회복
-//            int addHp = skill.getValue();
-//            if (targetPos == 3) {
-//                // 전체 회복인 경우
-//                for (MyCharacter myc : myCharacters) {
-//                    int value = min(myc.getAd()+addHp, myc.getMaxHp());
-//                    myc.setHp(value);
-//                }
-//            } else {
-//                // 단일 회복인 경우.
-//                for (MyCharacter myc : myCharacters) {
-//                    if (targetPos == myc.getPos()) {
-//                        int value = min(myc.getAd()+addHp, myc.getMaxHp());
-//                        myc.setHp(value);
-//                    }
-//                }
-//            }
-//
-//        }
-//
-//        // 쿨타임 등록
-//        CoolTime coolTime = new CoolTime();
-//        coolTime.setTurn(skill.getCoolTime());
-//        coolTime.setMyCharacter(caster);
-//        coolTime.setSkill(skill);
-//        coolTimeRepository.save(coolTime);
-//
-//
-//        // effectTime에서 효과 적용후 List<MyCharacterAttackDto> 값 리턴.
-//        // List<MyCharacterAttackDto> 만들때 쿨타임 반영
-//        List<MyCharacterAttackDto> myCharacterAttackDtos = new ArrayList<>();
-//        // 1. 내 캐릭터 들고 와서 List<MyCharacterAttackDto> 생성 -> 효과 미적용 상태
-//        List<MyCharacter> myCharacters = myCharacterRepository.getMyCharacters(userId);
-//        // 1 - 1. 내 캐릭터가 쓴 스킬들 가져오기 -> 이펙트타임에 있는 것들 중에
-//        List<EffectTime> mySkills = new ArrayList<>(); // 이건 효과적용할때 쓸꺼임.
-//        for (MyCharacter mc : myCharacters) {
-//            List<EffectTime> myEffects = effectTimeRepository.findByMyCharacterId(mc.getId());
-//            List<CoolTime> myCools = coolTimeRepository.findByMyCharacterId(mc.getId());
-//            List<Skill> myCharacterSkills = new ArrayList<>();
-//            List<Long> coolTimeSkillId = new ArrayList<>();
-//            for (EffectTime et : myEffects) {
-//                myCharacterSkills.add(et.getSkill()); // 내 캐릭중에 mc가 쓴 스킬들
-//                mySkills.add(et); // 내 캐릭들이 쓴 모든 스킬들 ( 이팩트 타임에서 꺼내 쓸꺼임, 누구에게 쓸건지에 대한 값이 필요해서)
-//            }
-//            for (CoolTime ct : myCools) {
-//                coolTimeSkillId.add(ct.getSkill().getId()); // 쿨타임 중인 스킬 아이디 등록
-//            }
-//            // 효과 적용안한 상태. 쿨타임은 적용함. [true, false] 뭐 이런거
-//            MyCharacterAttackDto myCharacterAttackDto = new MyCharacterAttackDto(mc, myCharacterSkills, coolTimeSkillId);
-//            myCharacterAttackDtos.add(myCharacterAttackDto);
-//
-//        }
-//
-//
-//        // 효과 적용하기.
-//        for (EffectTime effSkill : mySkills) {
-//            String stat = effSkill.getSkill().getStat();
-//            int value = effSkill.getSkill().getValue();
-//            if (effSkill.getSkill().isRange() == true) {
-//                // 전체 스킬인 경우 모두 적용
-//                for (MyCharacterAttackDto myc : myCharacterAttackDtos) {
-//                    applyEffect(myc, stat, value);
-//                }
-//            } else {
-//                // 단일 스킬인 경우
-//                // 1. 일단 누구에게쓰는 건지 찾기
-//                int tp = effSkill.getPos();
-//                for (MyCharacterAttackDto myc : myCharacterAttackDtos) {
-//                    if (myc.getPos() == tp) {
-//                        // 찾았으면 적용
-//                        applyEffect(myc, stat, value);
-//                    }
-//                }
-//            }
-//        }
-//
-//        return myCharacterAttackDtos;
-//    }
-//
-//    // MyCharacterAttackDto에 스탯 적용하는 함수
-//    public void applyEffect(MyCharacterAttackDto myCharacterAttackDto, String stat, int value) {
-//        int totalValue;
-//        if (stat == "ad") {
-//            totalValue = myCharacterAttackDto.getAd() + value;
-//            myCharacterAttackDto.setAd(totalValue);
-//        } else if (stat == "ap") {
-//            totalValue = myCharacterAttackDto.getAp() + value;
-//            myCharacterAttackDto.setAp(totalValue);
-//        } else if (stat == "speed") {
-//            totalValue = myCharacterAttackDto.getSpeed() + value;
-//            myCharacterAttackDto.setSpeed(totalValue);
-//        } else if (stat == "avoid") {
-//            totalValue = myCharacterAttackDto.getAvoid() + value;
-//            myCharacterAttackDto.setAvoid(totalValue);
-//        } else {
-//            // critical
-//            totalValue = myCharacterAttackDto.getCritical() + value;
-//            myCharacterAttackDto.setCritical(totalValue);
-//        }
-//    }
-//
-//    // min 함수
-//    public int min(int a, int b) {
-//        if (a > b) {
-//            return b;
-//        } else {
-//            return a;
-//        }
-//    }
+    private final MyCharacterRepository myCharacterRepository;
+    private final DefaultCharacterRepository defaultCharacterRepository;
+    private final UserRepository userRepository;
+    private final SkillRepository skillRepository;
+    private final CoolTimeRepository coolTimeRepository;
+    private final EffectTimeRepository effectTimeRepository;
 
+    // CoolTime에서 Turn을 하나씩 지우는 방식을 사용
+    @Transactional
+    public void CoolTime() {
+        List<CoolTime> coolTimes = coolTimeRepository.findAll();
+        for (CoolTime coolTime : coolTimes) {
+            coolTime.BattleCoolTimeUpdate(coolTime.getTurn());
+            if (coolTime.getTurn() <= 0) {
+                coolTimeRepository.delete(coolTime);
+            } else {
+                coolTimeRepository.save(coolTime);
+                // 여기에 챔피언을 강화시키는 로직 처리 필요
+            }
+        }
+    }
+
+    // Effect Turn을 하나씩 지우는 방식을 사용
+    @Transactional
+    public void EffectTime() {
+        List<EffectTime> effectTimes = effectTimeRepository.findAll();
+        for (EffectTime effectTime : effectTimes) {
+            effectTime.BattleEffectTimeUpdate(effectTime.getTurn());
+            if (effectTime.getTurn() <= 0) {
+                effectTimeRepository.delete(effectTime);
+            } else {
+                effectTimeRepository.save(effectTime);
+            }
+        }
+    }
+
+    public boolean InLIst(int pos, List<Integer> isPos) {
+        for (int p : isPos) {
+            if (p == pos) {
+                return true; // 포함된다.
+            }
+        }
+        return false; // 포함되어 있지 않다.
+    }
+
+    public CoolTime getCoolTime(Long id) {
+        Optional<CoolTime> coolTime = coolTimeRepository.findById(id);
+        if (coolTime.isPresent()) {
+            return coolTime.get();
+        }
+        // User not found
+        return null;
+    }
+
+    public List<MyCharacterTurnDto> MyCharacterList() {
+        List<MyCharacterTurnDto> result = new ArrayList<>();
+        List<Integer> isPos = new ArrayList<>();
+        User user = userRepository.getById(1L);
+        List<EffectTime> effectTimes = effectTimeRepository.findAll();
+        List<CoolTime> coolTimes = coolTimeRepository.findAll();
+        for (EffectTime effectTime : effectTimes) { // 각각의 효과들을 넣는다.
+            if (effectTime.getMyCharacter().getUser().getId() == 1L) { //  해당 로그인한 유저에만 사용이 가능하다.
+                Skill skill = effectTime.getSkill();
+                if (skill.isRange() == false) { // 단일 개체
+                    continue;
+                } else { // 범위 버프
+                    CoolTime coolTime = getCoolTime(effectTime.getMyCharacter().getId());
+                    if (coolTime == null) {
+                        MyCharacterTurnDto myCharacterTurnDto = new MyCharacterTurnDto(effectTime.getMyCharacter(), skill.getStat(), skill.getValue(), 0);
+                        isPos.add(effectTime.getMyCharacter().getPos());
+                        result.add(myCharacterTurnDto);
+                    } else {
+                        MyCharacterTurnDto myCharacterTurnDto = new MyCharacterTurnDto(effectTime.getMyCharacter(), skill.getStat(), skill.getValue(), coolTime.getTurn());
+                        isPos.add(effectTime.getMyCharacter().getPos());
+                        result.add(myCharacterTurnDto);
+                    }
+                }
+            }
+        }
+
+        // 아무런 효과도 받지 않았다면 그냥 저장해줘야한다.
+        for (MyCharacter myCharacter : user.getMyCharacters()) {
+            boolean s = InLIst(myCharacter.getPos(), isPos);
+            System.out.println(s);
+            if (!s) {
+                CoolTime coolTime = getCoolTime(myCharacter.getId());
+                System.out.println(111111);
+                if (coolTime == null) {
+                    MyCharacterTurnDto myCharacterTurnDto = new MyCharacterTurnDto(myCharacter, "no", 0, 0);
+                    isPos.add(myCharacterTurnDto.getPos());
+                    result.add(myCharacterTurnDto);
+                } else {
+                    MyCharacterTurnDto myCharacterTurnDto = new MyCharacterTurnDto(myCharacter, "no", 0, coolTime.getTurn());
+                    isPos.add(myCharacterTurnDto.getPos());
+                    result.add(myCharacterTurnDto);
+                }
+            }
+        }
+
+        return result;
+    }
+
+    @Transactional
+    public void DeleteEffect() {
+        // 내 정보를 찾아서
+        List<CoolTime> coolTimes = coolTimeRepository.findAll();
+        List<EffectTime> effectTimes = effectTimeRepository.findAll();
+
+        for (CoolTime coolTime : coolTimes) {
+            if (coolTime.getMyCharacter().getUser().getId() == 1L) {
+                coolTimeRepository.delete(coolTime);
+            }
+        }
+
+        for (EffectTime effectTime : effectTimes) {
+            if (effectTime.getMyCharacter().getUser().getId() == 1L) {
+                effectTimeRepository.delete(effectTime);
+            }
+        }
+    }
+
+    @Transactional
+    public void updateStat(long userId, EnemyAttackDto enemyAttackDto) {
+        //user에서 mycharacter 가져오기
+        List<MyCharacter> myCharacters = myCharacterRepository.findByUserId(userId);
+        SkillRequestDto skill = enemyAttackDto.getSkill();
+        if (!skill.isRange()) { // 단일
+            //해당 위치
+            MyCharacter targetCharacter = myCharacters.get(enemyAttackDto.getTarget());
+
+            //해당 위치의 플레이어에게 스킬 적용
+            if (skill.getStat().equals("hp")) {
+                if (targetCharacter.getHp() - skill.getValue() < 0)
+                    targetCharacter.updateStat(0, targetCharacter.getAp(), targetCharacter.getAd(),
+                            targetCharacter.getSpeed(), targetCharacter.getCritical(), targetCharacter.getAvoid());
+                else
+                    targetCharacter.updateStat(targetCharacter.getHp() - skill.getValue(), targetCharacter.getAp(), targetCharacter.getAd(),
+                            targetCharacter.getSpeed(), targetCharacter.getCritical(), targetCharacter.getAvoid());
+            } else if (skill.getStat().equals("ap")) {
+                if (targetCharacter.getAp() - skill.getValue() < 0)
+                    targetCharacter.updateStat(targetCharacter.getHp(), 0, targetCharacter.getAd(),
+                            targetCharacter.getSpeed(), targetCharacter.getCritical(), targetCharacter.getAvoid());
+                else
+                    targetCharacter.updateStat(targetCharacter.getHp(), targetCharacter.getAp() - skill.getValue(), targetCharacter.getAd(),
+                            targetCharacter.getSpeed(), targetCharacter.getCritical(), targetCharacter.getAvoid());
+            } else if (skill.getStat().equals("ad")) {
+                if (targetCharacter.getAd() - skill.getValue() < 0)
+                    targetCharacter.updateStat(targetCharacter.getHp(), targetCharacter.getAp(), 0,
+                            targetCharacter.getSpeed(), targetCharacter.getCritical(), targetCharacter.getAvoid());
+                else
+                    targetCharacter.updateStat(targetCharacter.getHp(), targetCharacter.getAp(), targetCharacter.getAd() - skill.getValue(),
+                            targetCharacter.getSpeed(), targetCharacter.getCritical(), targetCharacter.getAvoid());
+            } else if (skill.getStat().equals("speed")) {
+                if (targetCharacter.getSpeed() - skill.getValue() < 0)
+                    targetCharacter.updateStat(targetCharacter.getHp(), targetCharacter.getAp(), targetCharacter.getAd(),
+                            0, targetCharacter.getCritical(), targetCharacter.getAvoid());
+                else
+                    targetCharacter.updateStat(targetCharacter.getHp(), targetCharacter.getAp(), targetCharacter.getAd(),
+                            targetCharacter.getSpeed() - skill.getValue(), targetCharacter.getCritical(), targetCharacter.getAvoid());
+            } else if (skill.getStat().equals("critical")) {
+                if (targetCharacter.getCritical() - skill.getValue() < 0)
+                    targetCharacter.updateStat(targetCharacter.getHp(), targetCharacter.getAp(), targetCharacter.getAd(),
+                            targetCharacter.getSpeed(), 0, targetCharacter.getAvoid());
+                else
+                    targetCharacter.updateStat(targetCharacter.getHp(), targetCharacter.getAp(), targetCharacter.getAd(),
+                            targetCharacter.getSpeed(), targetCharacter.getCritical() - skill.getValue(), targetCharacter.getAvoid());
+            } else if (skill.getStat().equals("avoid")) {
+                if (targetCharacter.getCritical() - skill.getValue() < 0)
+                    targetCharacter.updateStat(targetCharacter.getHp(), targetCharacter.getAp(), targetCharacter.getAd(),
+                            targetCharacter.getSpeed(), targetCharacter.getCritical(), 0);
+                else
+                    targetCharacter.updateStat(targetCharacter.getHp(), targetCharacter.getAp(), targetCharacter.getAd(),
+                            targetCharacter.getSpeed(), targetCharacter.getCritical(), targetCharacter.getAvoid() - skill.getValue());
+            }
+            myCharacterRepository.save(targetCharacter);
+        } else {//전체
+            for (MyCharacter targetCharacter : myCharacters) {
+                //해당 위치의 플레이어에게 스킬 적용
+                if (skill.getStat().equals("hp")) {
+                    if (targetCharacter.getHp() - skill.getValue() < 0)
+                        targetCharacter.updateStat(0, targetCharacter.getAp(), targetCharacter.getAd(),
+                                targetCharacter.getSpeed(), targetCharacter.getCritical(), targetCharacter.getAvoid());
+                    else
+                        targetCharacter.updateStat(targetCharacter.getHp() - skill.getValue(), targetCharacter.getAp(), targetCharacter.getAd(),
+                                targetCharacter.getSpeed(), targetCharacter.getCritical(), targetCharacter.getAvoid());
+                } else if (skill.getStat().equals("ap")) {
+                    if (targetCharacter.getAp() - skill.getValue() < 0)
+                        targetCharacter.updateStat(targetCharacter.getHp(), 0, targetCharacter.getAd(),
+                                targetCharacter.getSpeed(), targetCharacter.getCritical(), targetCharacter.getAvoid());
+                    else
+                        targetCharacter.updateStat(targetCharacter.getHp(), targetCharacter.getAp() - skill.getValue(), targetCharacter.getAd(),
+                                targetCharacter.getSpeed(), targetCharacter.getCritical(), targetCharacter.getAvoid());
+                } else if (skill.getStat().equals("ad")) {
+                    if (targetCharacter.getAd() - skill.getValue() < 0)
+                        targetCharacter.updateStat(targetCharacter.getHp(), targetCharacter.getAp(), 0,
+                                targetCharacter.getSpeed(), targetCharacter.getCritical(), targetCharacter.getAvoid());
+                    else
+                        targetCharacter.updateStat(targetCharacter.getHp(), targetCharacter.getAp(), targetCharacter.getAd() - skill.getValue(),
+                                targetCharacter.getSpeed(), targetCharacter.getCritical(), targetCharacter.getAvoid());
+                } else if (skill.getStat().equals("speed")) {
+                    if (targetCharacter.getSpeed() - skill.getValue() < 0)
+                        targetCharacter.updateStat(targetCharacter.getHp(), targetCharacter.getAp(), targetCharacter.getAd(),
+                                0, targetCharacter.getCritical(), targetCharacter.getAvoid());
+                    else
+                        targetCharacter.updateStat(targetCharacter.getHp(), targetCharacter.getAp(), targetCharacter.getAd(),
+                                targetCharacter.getSpeed() - skill.getValue(), targetCharacter.getCritical(), targetCharacter.getAvoid());
+                } else if (skill.getStat().equals("critical")) {
+                    if (targetCharacter.getCritical() - skill.getValue() < 0)
+                        targetCharacter.updateStat(targetCharacter.getHp(), targetCharacter.getAp(), targetCharacter.getAd(),
+                                targetCharacter.getSpeed(), 0, targetCharacter.getAvoid());
+                    else
+                        targetCharacter.updateStat(targetCharacter.getHp(), targetCharacter.getAp(), targetCharacter.getAd(),
+                                targetCharacter.getSpeed(), targetCharacter.getCritical() - skill.getValue(), targetCharacter.getAvoid());
+                } else if (skill.getStat().equals("avoid")) {
+                    if (targetCharacter.getCritical() - skill.getValue() < 0)
+                        targetCharacter.updateStat(targetCharacter.getHp(), targetCharacter.getAp(), targetCharacter.getAd(),
+                                targetCharacter.getSpeed(), targetCharacter.getCritical(), 0);
+                    else
+                        targetCharacter.updateStat(targetCharacter.getHp(), targetCharacter.getAp(), targetCharacter.getAd(),
+                                targetCharacter.getSpeed(), targetCharacter.getCritical(), targetCharacter.getAvoid() - skill.getValue());
+                }
+                myCharacterRepository.save(targetCharacter);
+            }//for
+        }
+    }
 }

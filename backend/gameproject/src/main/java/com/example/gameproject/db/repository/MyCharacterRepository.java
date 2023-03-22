@@ -21,5 +21,7 @@ public interface MyCharacterRepository extends JpaRepository<MyCharacter, Long> 
     @Query(value = "select * from my_character mc where mc.user_id = :userId and mc.pos = :pos", nativeQuery = true)
     MyCharacter getMyCharacterUsingUserIdPos(@Param("userId") Long userId, @Param("pos") int pos);
 
+	void deleteByUserIdAndPos(long userId, int pos);
+	MyCharacter findByUserIdAndPos(long userId, int pos);
 }
 

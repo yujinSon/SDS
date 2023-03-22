@@ -11,6 +11,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -21,6 +25,23 @@ public class BattleController {
     @Autowired
     BattlePlayerTurnService battlePlayerTurnService;
 
+    @Autowired
+    BattleService battleService;
+
+    //    @PutMapping("/enemy")
+    @PutMapping("/enemy/{userId}")
+    ResponseEntity<?> attackedFromEnemy(@RequestBody EnemyAttackDto enemyAttackDto, @PathVariable("userId") long userId) {
+        try{
+            battleService.updateStat(userId, enemyAttackDto);
+            return ResponseEntity.status(200).body("success");
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(400).body("update error");
+        }
+    }
+
+//    @PostMapping("/player")
     @PostMapping("/player/{userId}")
     public ResponseEntity<?> attackEnemy(@RequestBody PlayerAttackDto playerAttackDto, @PathVariable("userId") long userId){
         List<MyCharacterAttackDto> res = battlePlayerTurnService.myTurnAttack(playerAttackDto, userId);
@@ -29,4 +50,16 @@ public class BattleController {
         return ResponseEntity.status(200).body(res);
     }
 
+    @GetMapping("/finished")
+    public ResponseEntity<?> GetTurnFinished(){
+        battleService.CoolTime();
+        battleService.EffectTime();
+        return ResponseEntity.ok(battleService.MyCharacterList());
+    }
+
+    @DeleteMapping("/end")
+    public ResponseEntity<?> DeleteCoolTimeEffectTime(){
+        battleService.DeleteEffect();
+        return ResponseEntity.ok("delete_ok");
+    }
 }
