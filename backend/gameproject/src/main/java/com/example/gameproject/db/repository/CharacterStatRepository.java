@@ -5,5 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CharacterStatRepository extends JpaRepository<CharacterStat, Long> {
     CharacterStat getById(Long id);
+    CharacterStat findByDefaultCharacterId(long id);
 }
 

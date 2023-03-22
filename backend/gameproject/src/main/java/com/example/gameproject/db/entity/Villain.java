@@ -26,6 +26,7 @@ public class Villain implements Serializable {
     private int critical;
     private int avoid;
     private boolean isBoss;
+    private int maxHp;
 
     @OneToMany(mappedBy = "villain", cascade = CascadeType.ALL)
     private List<Skill> mySkill = new ArrayList<>();

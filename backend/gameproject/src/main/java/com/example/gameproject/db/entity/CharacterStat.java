@@ -32,6 +32,4 @@ public class CharacterStat implements Serializable {
     @OneToOne
     @JoinColumn(name = "character_id")
     private DefaultCharacter defaultCharacter;
-
-
 }

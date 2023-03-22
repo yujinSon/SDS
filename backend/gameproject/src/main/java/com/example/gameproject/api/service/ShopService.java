@@ -1,26 +1,29 @@
 package com.example.gameproject.api.service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PutMapping;
 
 import com.example.gameproject.db.entity.Artifact;
+import com.example.gameproject.db.entity.CharacterStat;
+import com.example.gameproject.db.entity.DefaultCharacter;
 import com.example.gameproject.db.entity.MyCharacter;
+import com.example.gameproject.db.entity.Skill;
 import com.example.gameproject.db.entity.User;
 import com.example.gameproject.db.entity.UserArtifact;
-import com.example.gameproject.db.entity.Vo.MyCharacterVo;
 import com.example.gameproject.db.repository.ArtifactRepository;
+import com.example.gameproject.db.repository.CharacterStatRepository;
+import com.example.gameproject.db.repository.DefaultCharacterRepository;
 import com.example.gameproject.db.repository.MyCharacterRepository;
+import com.example.gameproject.db.repository.SkillRepository;
 import com.example.gameproject.db.repository.UserArtifactRepository;
 import com.example.gameproject.db.repository.UserRepository;
+import com.example.gameproject.dto.request.ShopAddRequest;
+import com.example.gameproject.dto.request.SkillRequest;
 import com.example.gameproject.dto.response.RelicResponse;
 
 import lombok.Builder;
@@ -35,12 +38,76 @@ public class ShopService {
 	private final ArtifactRepository artifactRepository;
 	private final UserArtifactRepository userArtifactRepository;
 	private final UserRepository userRepository;
+	private final SkillRepository skillRepository;
+	private final DefaultCharacterRepository defaultCharacterRepository;
+	private final CharacterStatRepository characterStatRepository;
 
-	// //영입기능
-	// @Transactional
-	// public void addCharacter(long userId){
-	//
-	// }
+	//단순 영입 기능
+	@Transactional
+	public void addCharacter(long userId, List<ShopAddRequest> characterList){
+		//내캐릭터에 캐릭터 추가
+		for(int i=0;i<characterList.size();i++) {
+			ShopAddRequest character = characterList.get(i);
+			User user = userRepository.findById(userId).orElse(null);
+			DefaultCharacter defaultCharacter = defaultCharacterRepository.findBySubName(character.getSubClassName());
+			CharacterStat characterStat = characterStatRepository.findByDefaultCharacterId(defaultCharacter.getId());
+			MyCharacter myCharacter = MyCharacter.builder()
+				.user(user)
+				.defaultCharacter(defaultCharacter)
+				.level(character.getLevel())
+				.hp(character.getHp())
+				.ad(character.getAd())
+				.ap(character.getAp())
+				.speed(character.getSpeed())
+				.critical(character.getCritical())
+				.avoid(character.getAvoid())
+				.maxHp(character.getMaxHP())
+				.pos(character.getPos())
+				.addHp(characterStat.getAddHp())
+				.addAd(characterStat.getAddAd())
+				.addAp(characterStat.getAddAp())
+				.addSpeed(characterStat.getAddSpeed())
+				.addAvoid(characterStat.getAddAvoid())
+				.addCritical(characterStat.getAddCritical())
+				.build();
+			myCharacterRepository.save(myCharacter);
+		}
+	}
+
+	//캐릭터 변경
+	@Transactional
+	public void changeCharacter(long userId, List<ShopAddRequest> characterList){
+		//변경할 캐릭터 저장
+		for(int i=0;i<characterList.size();i++) {
+			ShopAddRequest character = characterList.get(i);
+			int pos = character.getPos();
+			myCharacterRepository.findByUserIdAndPos(userId, pos);
+			myCharacterRepository.deleteByUserIdAndPos(userId,pos);
+			User user = userRepository.findById(userId).orElse(null);
+			DefaultCharacter defaultCharacter = defaultCharacterRepository.findBySubName(character.getSubClassName());
+			CharacterStat characterStat = characterStatRepository.findByDefaultCharacterId(defaultCharacter.getId());
+			MyCharacter myCharacter = MyCharacter.builder()
+				.user(user)
+				.defaultCharacter(defaultCharacter)
+				.level(character.getLevel())
+				.hp(character.getHp())
+				.ad(character.getAd())
+				.ap(character.getAp())
+				.speed(character.getSpeed())
+				.critical(character.getCritical())
+				.avoid(character.getAvoid())
+				.maxHp(character.getMaxHP())
+				.pos(character.getPos())
+				.addHp(characterStat.getAddHp())
+				.addAd(characterStat.getAddAd())
+				.addAp(characterStat.getAddAp())
+				.addSpeed(characterStat.getAddSpeed())
+				.addAvoid(characterStat.getAddAvoid())
+				.addCritical(characterStat.getAddCritical())
+				.build();
+			myCharacterRepository.save(myCharacter);
+		}
+	}
 
 	//휴식 기능
 	@Transactional

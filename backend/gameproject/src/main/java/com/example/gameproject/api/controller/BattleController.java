@@ -1,6 +1,7 @@
 package com.example.gameproject.api.controller;
 
 import com.example.gameproject.api.service.BattleService;
+import com.example.gameproject.dto.request.CharacterVictoryStat;
 import com.example.gameproject.dto.request.EnemyAttackDto;
 import com.example.gameproject.dto.request.PlayerAttackDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,5 +56,11 @@ ResponseEntity<?> attackedFromEnemy(@RequestBody EnemyAttackDto enemyAttackDto, 
     public ResponseEntity<?> DeleteCoolTimeEffectTime(){
         battleService.DeleteEffect();
         return ResponseEntity.ok("delete_ok");
+    }
+
+    @PutMapping("/victory/{userId}")
+    public ResponseEntity<String> updateStat(@RequestBody List<CharacterVictoryStat> chagedStatList, @PathVariable long userId){
+        battleService.updateStat(userId, chagedStatList);
+        return ResponseEntity.status(200).body("success");
     }
 }
