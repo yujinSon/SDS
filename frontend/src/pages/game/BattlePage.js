@@ -83,7 +83,43 @@ export default function BattlePage() {
   const clickMonster = (pos) => {
     if (playerTurn !== 2) return;
 
-    console.log('공격당한 몬스터 pos', pos);
+    // console.log(characters[selectedCh].skills[selectedSkill], '고뱀');
+    // 선택된 캐릭터가 몬스터에게 사용할 스킬
+    const myCharacter = characters[selectedCh];
+    const mySkill = characters[selectedCh].skills[selectedSkill];
+
+    if (mySkill.skillTarget === 0) {
+      // console.log(monsters, '고뱀몬스터');
+      // 몬스터가 뚜까맞을 데미지 (뒤에는 계수임 ㅅㄱㅇ)
+      // const damage = mySkill.value * myCharacter[mySkill.factor];
+      const damage = mySkill.value;
+      // 스킬이 1인 범위 일경우, 전체 스킬 일 경우 분기 필요
+      for (let idx = 0; idx < 4; idx++) {
+        if (monsters[idx].pos === pos) {
+          const afterHp = monsters[idx].hp - damage;
+          console.log(afterHp, '남은 체력');
+          let copy = [...monsters];
+          let tmp = [];
+
+          if (afterHp <= 0) {
+            for (let i = 0; i < copy.length; i++) {
+              console.log(i);
+              if (i !== idx) {
+                tmp.push(copy[i]);
+              }
+            }
+            setMonsters(tmp, '사망');
+          } else {
+            copy[idx].hp = afterHp;
+            setMonsters(copy);
+            console.log(monsters, '양수');
+          }
+          break;
+        }
+      }
+    }
+
+    // 플레이어 턴 초기화
     setPlayerTurn(0);
 
     // 플레이어가 공격했으면 다음 턴으로 넘어감
