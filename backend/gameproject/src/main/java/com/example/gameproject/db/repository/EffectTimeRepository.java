@@ -11,7 +11,7 @@ import java.util.List;
 public interface EffectTimeRepository extends JpaRepository<EffectTime, Long> {
 
     // myCharacter 가 쓴 스킬 가져오기
-    @Query(value = "select et from effect_time et where et.mycharacter_id=:id", nativeQuery = true)
+    @Query(value = "select * from effect_time et where et.mycharacter_id=:id", nativeQuery = true)
     List<EffectTime> findByMyCharacterId(@Param("id") long myCharacterId);
 
 }

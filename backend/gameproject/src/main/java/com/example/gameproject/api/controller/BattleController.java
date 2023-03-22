@@ -1,5 +1,6 @@
 package com.example.gameproject.api.controller;
 
+import com.example.gameproject.api.service.BattlePlayerTurnService;
 import com.example.gameproject.api.service.BattleService;
 import com.example.gameproject.dto.request.EnemyAttackDto;
 import com.example.gameproject.dto.request.PlayerAttackDto;
@@ -18,19 +19,11 @@ import java.util.List;
 @RequestMapping("/battle")
 public class BattleController {
     @Autowired
-    BattleService battleService;
+    BattlePlayerTurnService battleService;
 
-//    @PutMapping("/enemy")
-//    @PutMapping("/enemy/{userId}")
-//    ResponseEntity<?> attackedFromEnemy(@RequestBody EnemyAttackDto enemyAttackDto, @PathVariable("userId") long userId) {
-//        List<MyCharacterUpdateDto> result = battleService.updateHp(userId, enemyAttackDto);
-//        return ResponseEntity.status(200).body(result);
-//    }
-
-//    @PostMapping("/player")
     @PostMapping("/player/{userId}")
     public ResponseEntity<?> attackEnemy(@RequestBody PlayerAttackDto playerAttackDto, @PathVariable("userId") long userId){
-        List<MyCharacterAttackDto> res = new ArrayList<>();
+        List<MyCharacterAttackDto> res = battleService.myTurnAttack(playerAttackDto, userId);
 
 
         return ResponseEntity.status(200).body(res);

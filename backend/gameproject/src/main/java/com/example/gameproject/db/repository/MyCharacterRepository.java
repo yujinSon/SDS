@@ -18,7 +18,7 @@ public interface MyCharacterRepository extends JpaRepository<MyCharacter, Long> 
 	List<MyCharacter> findAllByUser_Id(long userId);
 
     // user 객체와 pos 값으로 myCharacter 뽑기
-    @Query(value = "select mc from my_character mc whenever mc.user_id = :userId and mc.pos = :pos", nativeQuery = true)
+    @Query(value = "select * from my_character mc where mc.user_id = :userId and mc.pos = :pos", nativeQuery = true)
     MyCharacter getMyCharacterUsingUserIdPos(@Param("userId") Long userId, @Param("pos") int pos);
 
 }

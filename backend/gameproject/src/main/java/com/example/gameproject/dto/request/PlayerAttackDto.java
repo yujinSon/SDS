@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PlayerAttackDto {
     int pos;
-    SkillDtoCons skill;
+    String skillName;
     int target;
 }
