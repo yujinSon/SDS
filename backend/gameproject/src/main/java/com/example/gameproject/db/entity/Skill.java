@@ -1,5 +1,7 @@
 package com.example.gameproject.db.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +13,8 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor
+@Builder
+@AllArgsConstructor
 public class Skill implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,7 +42,5 @@ public class Skill implements Serializable {
 
     @OneToMany(mappedBy = "skill", cascade = CascadeType.ALL)
     private List<CoolTime> coolTimes = new ArrayList<>();
-
-
 
 }
