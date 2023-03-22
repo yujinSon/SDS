@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
+import IMG from 'assets/img/고병진.png';
+
 export default function Information({
   character,
   selectedSkill,
@@ -12,16 +14,24 @@ export default function Information({
       {character ? (
         <Container>
           <LeftContainer>
-            <div>{character.name}</div>
-            <div>HP: {character.hp}</div>
+            <div>{character.className}</div>
+            <div>
+              {character.subName} (level : {character.level})
+            </div>
+            <div>
+              HP: {character.hp} / {character.maxHp}
+            </div>
             <div>AD: {character.ad}</div>
             <div>AP: {character.ap}</div>
+            <div>Speed: {character.speed}</div>
+            <div>Critical: {character.critical}</div>
+            <div>Avoid: {character.avoid}</div>
           </LeftContainer>
           <RightContainer>
             <SkillContainer>
-              {character.skillImg.map((img, idx) => (
+              {character.skills.map((skill, idx) => (
                 <Img
-                  src={img[0]}
+                  src={IMG}
                   alt="스킬사진"
                   key={idx}
                   onClick={() => {
@@ -32,7 +42,11 @@ export default function Information({
               ))}
             </SkillContainer>
             {selectedSkill != null ? (
-              <div>{character.skillImg[selectedSkill][1]}</div>
+              <>
+                <div>{character.skills[selectedSkill].skillName}</div>
+                {/* <div>stat: {character.skills[selectedSkill].stat}</div>
+                <div>damage: {character.skills[selectedSkill].value}</div> */}
+              </>
             ) : (
               <div>스킬을 클릭하십쇼</div>
             )}

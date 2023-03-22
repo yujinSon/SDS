@@ -1,43 +1,56 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
+import POS from 'constants/pk';
+
 import IMG from 'assets/img/고병진.png';
 import IMG2 from 'assets/img/손민혁.png';
 
-export default function Battle({ characters, monsters, selectedCh, clickCh }) {
-  const [percent, setPercent] = useState(100);
-
-  const decreaseHp = () => {
-    setPercent(percent - 10);
-  };
-
+export default function Battle({
+  characters,
+  monsters,
+  selectedCh,
+  clickCh,
+  clickMonster,
+  nowTurn,
+}) {
   return (
     <>
-      {characters.map((ch, idx) => (
-        <CharacterContainer
-          ch={ch}
-          key={idx}
-          onClick={() => clickCh(ch)}
-          selectedCh={selectedCh === ch.pos}
-        >
-          <Circle src={IMG2}></Circle>
-          <Text>{ch.name}</Text>
-          <ProgressContainer>
-            <ProgressBar percent={percent} />
-          </ProgressContainer>
-          <button onClick={decreaseHp}>Decrease HP</button>
-        </CharacterContainer>
-      ))}
-      {monsters.map((monster, idx) => (
-        <MonsterContainer monster={monster} key={idx}>
-          <Circle src={IMG}></Circle>
-          <Text>{monster.name}</Text>
-          <ProgressContainer>
-            <ProgressBar percent={percent} />
-          </ProgressContainer>
-          <button onClick={decreaseHp}>Decrease HP</button>
-        </MonsterContainer>
-      ))}
+      {characters
+        ? characters.map((ch, idx) => (
+            <CharacterContainer
+              ch={ch}
+              key={idx}
+              onClick={() => clickCh(ch)}
+              selectedCh={selectedCh === ch.pos}
+              POS={POS}
+            >
+              <Circle src={IMG2}></Circle>
+              <Text>{ch.subName}</Text>
+              <ProgressContainer>
+                <ProgressBar hpBar={(ch.hp / ch.maxHp) * 100} />
+              </ProgressContainer>
+              {nowTurn === ch.pos ? <TurnBox>Turn</TurnBox> : null}
+            </CharacterContainer>
+          ))
+        : null}
+      {monsters
+        ? monsters.map((monster, idx) => (
+            <MonsterContainer
+              monster={monster}
+              key={idx}
+              POS={POS}
+              onClick={() => clickMonster(monster.pos)}
+            >
+              <Circle src={IMG}></Circle>
+              <Text>{monster.subName}</Text>
+              <ProgressContainer>
+                <ProgressBar hpBar={(monster.hp / monster.maxHp) * 100} />
+              </ProgressContainer>
+              {nowTurn === monster.pos ? <TurnBox>Turn</TurnBox> : null}
+            </MonsterContainer>
+          ))
+        : null}
     </>
   );
 }
@@ -45,8 +58,8 @@ export default function Battle({ characters, monsters, selectedCh, clickCh }) {
 const CharacterContainer = styled.div`
   position: absolute;
 
-  top: ${({ ch }) => ch.top}%;
-  left: ${({ ch }) => ch.left}%;
+  top: ${({ POS, ch }) => POS[ch.pos][0]}%;
+  left: ${({ POS, ch }) => POS[ch.pos][1]}%;
   transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
@@ -63,8 +76,8 @@ const CharacterContainer = styled.div`
 const MonsterContainer = styled.div`
   position: absolute;
 
-  top: ${({ monster }) => monster.top}%;
-  left: ${({ monster }) => monster.left}%;
+  top: ${({ POS, monster }) => POS[monster.pos][0]}%;
+  left: ${({ POS, monster }) => POS[monster.pos][1]}%;
   transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
@@ -87,11 +100,26 @@ const Text = styled.p`
 const ProgressContainer = styled.div`
   width: 150px;
   height: 10px;
-  background-color: #f2f2f2;
+  background-color: red;
 `;
 
 const ProgressBar = styled.div`
   height: 100%;
   background-color: #4caf50;
-  width: ${({ percent }) => percent}%;
+  width: ${({ hpBar }) => hpBar}%;
+`;
+
+const TurnBox = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 30px;
+  margin-top: 0.3rem;
+  border-radius: 10px;
+  background-color: #007bff;
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  text-transform: uppercase;
 `;
