@@ -28,6 +28,16 @@ public class CoolTime implements Serializable {
     public void BattleCoolTimeUpdate(int turn){
         this.turn = turn - 1;
     }
+    public void setTurn(int turn) {
+        this.turn = turn;
+    }
 
+    public void setMyCharacter(MyCharacter myCharacter) {
+        this.myCharacter = myCharacter;
+    }
+
+    public void setSkill(Skill skill) {
+        this.skill = skill;
+    }
 
 }

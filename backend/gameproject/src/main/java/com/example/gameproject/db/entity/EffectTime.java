@@ -25,7 +25,24 @@ public class EffectTime implements Serializable {
     @JoinColumn(name = "mycharacter_id")
     private MyCharacter myCharacter;
 
+
     public void BattleEffectTimeUpdate(int turn){
         this.turn = turn - 1;
+    }
+
+    public void setTurn(int turn) {
+        this.turn = turn;
+    }
+
+    public void setMyCharacter(MyCharacter myCharacter) {
+        this.myCharacter = myCharacter;
+    }
+
+    public void setSkill(Skill skill) {
+        this.skill = skill;
+    }
+
+    public void setPos(int pos) {
+        this.pos = pos;
     }
 }

@@ -36,7 +36,7 @@ public class StageService {
 
     public Map<String, List> BattleSetting(){
         // 유저 정보를 받아서 바꿔줘야 함.
-        int userId = 1; // 나중에 로그인 구현시 바꿔줘야될 부분
+        Long userId = 1L; // 나중에 로그인 구현시 바꿔줘야될 부분
         int stage = 1;
         int step = 10; // 스텝이 10 이라면 보스스테이지.
         String stageName = "환경";
@@ -95,6 +95,10 @@ public class StageService {
             VillainDto villainDto = new VillainDto(boss, bossSkills, 3);
             villain.add(villainDto);
         }
+
+
+        // 유물 효과 적용
+
 
         res.put("character", characterDtos);
         res.put("villain",  villain);

@@ -58,9 +58,6 @@ public class MyCharacterDto {
         this.className = myCharacter.getDefaultCharacter().getClassName();
         this.subName = myCharacter.getDefaultCharacter().getSubName();
 
-
-
-
-
     }
+
 }

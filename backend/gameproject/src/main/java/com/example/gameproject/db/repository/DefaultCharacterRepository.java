@@ -18,5 +18,7 @@ public interface DefaultCharacterRepository extends JpaRepository<DefaultCharact
     // RandomCharacter를 가져오기 위한 
     DefaultCharacter getByClassNameAndSubName(String className, String subName);
 
+    DefaultCharacter findBySubName(String sumName);
+
 }
 
