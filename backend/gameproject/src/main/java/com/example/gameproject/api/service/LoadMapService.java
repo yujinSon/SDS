@@ -4,6 +4,7 @@ import com.example.gameproject.db.entity.Map;
 import com.example.gameproject.db.entity.User;
 import com.example.gameproject.db.repository.MapRepository;
 import com.example.gameproject.db.repository.UserRepository;
+import com.example.gameproject.dto.request.MapSaveRequest;
 import com.example.gameproject.dto.response.LoadMapDto;
 import com.example.gameproject.dto.response.MapDto;
 import lombok.RequiredArgsConstructor;
@@ -39,4 +40,15 @@ public class LoadMapService {
 
     }
 
+    @Transactional
+    public void saveMapStatus(long userId, MapSaveRequest mapSaveRequest){
+        User user = userRepository.findById(userId).orElse(null);
+        System.out.println("stage : "+ user.getNowStage()+"subStage : " + user.getNowSubStage());
+        user.changeNowMap(mapSaveRequest);
+        System.out.println("stage1 : "+ user.getNowStage()+"subStage1 : " + user.getNowSubStage());
+        userRepository.save(user);
+        User user2 = userRepository.findById(userId).orElse(null);
+        System.out.println("stage2 : "+ user2.getNowStage()+"subStage2 : " + user2.getNowSubStage());
+
+    }
 }
