@@ -110,7 +110,6 @@ public class BattlePlayerTurnService {
             // 효과 적용안한 상태. 쿨타임은 적용함. [true, false] 뭐 이런거
             MyCharacterAttackDto myCharacterAttackDto = new MyCharacterAttackDto(mc, myCharacterSkills, coolTimeSkillId);
             myCharacterAttackDtos.add(myCharacterAttackDto);
-
         }
 
 
