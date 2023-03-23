@@ -39,7 +39,7 @@ public class BattlePlayerTurnService {
             // 이팩트타임 등록
             EffectTime effectTime = new EffectTime();
             effectTime.setPos(targetPos); // 스킬적용 대상 위치값
-            effectTime.setTurn(skill.getSkillType()); // 스킬 효과 지속시간
+            effectTime.setTurn(skill.getDurationTurn()); // 스킬 효과 지속시간
             effectTime.setMyCharacter(caster);
             effectTime.setSkill(skill);
             effectTimeRepository.save(effectTime);
