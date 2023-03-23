@@ -9,8 +9,12 @@ export default function CharacterDetail({ data, selectedCharacter }) {
           <div>{data[selectedCharacter].className}</div>
           <div>{data[selectedCharacter].subClassName} </div>
           <div>level: {data[selectedCharacter].level} </div>
-          {/* 수정 필요 */}
-          <div>skills: {data[selectedCharacter].skills} </div>
+          <div>
+            skills:
+            {data[selectedCharacter].skills.map((skill, idx) => (
+              <span key={idx}>{skill.skillName} </span>
+            ))}
+          </div>
           <div>maxHP: {data[selectedCharacter].maxHp} </div>
           <div>hp: {data[selectedCharacter].hp} </div>
           <div>ad: {data[selectedCharacter].ad} </div>
