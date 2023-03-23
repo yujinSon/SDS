@@ -9,6 +9,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.gameproject.dto.request.MapSaveRequest;
+
 @Entity
 @Getter
 @NoArgsConstructor
@@ -47,6 +49,11 @@ public class User implements Serializable {
     public void stageUpdate(int stage, int subStage) {
         this.stage = stage;
         this.subStage = subStage;
+    }
+
+    public void changeNowMap(MapSaveRequest mapSaveRequest){
+        this.nowStage = mapSaveRequest.getNowStage();
+        this.nowSubStage = mapSaveRequest.getNowSubStage();
     }
 
 }

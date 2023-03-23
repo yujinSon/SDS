@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.gameproject.api.service.ShopService;
 import com.example.gameproject.dto.request.ShopAddRequest;
+import com.example.gameproject.dto.request.ShopChangeRequest;
 import com.example.gameproject.dto.response.RelicResponse;
 
 import lombok.RequiredArgsConstructor;
@@ -32,7 +33,7 @@ public class ShopController {
 	}
 
 	@PutMapping("/change/{userId}")
-	public ResponseEntity<String> changeCharacter(@RequestBody List<ShopAddRequest> characterList, @PathVariable long userId){
+	public ResponseEntity<String> changeCharacter(@RequestBody List<ShopChangeRequest> characterList, @PathVariable long userId){
 		shopService.changeCharacter(userId, characterList);
 		return ResponseEntity.status(200).body("success");
 
