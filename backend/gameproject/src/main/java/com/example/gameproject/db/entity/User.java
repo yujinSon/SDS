@@ -1,5 +1,6 @@
 package com.example.gameproject.db.entity;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -23,7 +24,7 @@ public class User implements Serializable {
     private int stage;
     private int subStage;
     private int turn;
-    private int finalScore;
+    private int finalScore; // 나중에 지울거 + maxStage, maxSubstage 있어야함.
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<MyCharacter> myCharacters = new ArrayList<>();
@@ -31,5 +32,17 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<UserArtifact> userArtifacts = new ArrayList<>();
 
+    public void gameOverUpdate(int bestScore){
+        this.bestScore = bestScore;
+        this.stage = 0;
+        this.subStage = 0;
+        this.turn = 0;
+        this.finalScore = 0;
+    }
+
+    public void stageUpdate(int stage, int subStage) {
+        this.stage = stage;
+        this.subStage = subStage;
+    }
 
 }
