@@ -18,6 +18,7 @@ public class SkillDtoCons {
     private int skillTarget;
     private String stat;
     private int coolTime;
+    private String factor;
 
     public SkillDtoCons(Skill skill) {
         this.skillId = skill.getId();
@@ -29,6 +30,7 @@ public class SkillDtoCons {
         this.skillTarget = skill.getSkillTarget();
         this.stat = skill.getStat();
         this.coolTime = skill.getCoolTime();
+        this.factor = skill.getFactor();
 
     }
 
