@@ -15,8 +15,8 @@ const api = function (type, options = {}) {
 
     // 전투 페이지
     loadStage: ['/stage/load', 'get'],
-    enemysTurn: ['/api/battle/enemy', 'put'],
-    playersTurn: ['/api/battle/player', 'post'],
+    enemysTurn: ['/battle/enemy/1', 'put'],
+    playersTurn: ['/battle/player/1', 'post'],
     finishTurn: ['/api/battle/finished', 'put'],
 
     // 전투 끝난 거 알려주는 api 하나 더 필요함
