@@ -5,6 +5,7 @@ import com.example.gameproject.db.entity.User;
 import com.example.gameproject.db.repository.EffectTimeRepository;
 import com.example.gameproject.db.repository.MyCharacterRepository;
 import com.example.gameproject.db.repository.UserRepository;
+import com.example.gameproject.dto.request.CharacterVictoryStat;
 import com.example.gameproject.dto.request.EnemyAttackDto;
 import com.example.gameproject.dto.request.SkillRequestDto;
 import com.example.gameproject.dto.response.MyCharacterUpdateDto;
@@ -31,6 +32,24 @@ public class BattleService {
     private final CoolTimeRepository coolTimeRepository;
     private final EffectTimeRepository effectTimeRepository;
 
+
+    @Transactional
+    public void updateStat(long userId, List<CharacterVictoryStat> chagedStatList){
+        for(int i=0;i<chagedStatList.size();i++){
+            MyCharacter myCharacter = myCharacterRepository.findByUserIdAndPos(userId,i);
+            CharacterVictoryStat stat = chagedStatList.get(i);
+            int maxHp = myCharacter.getMaxHp() + myCharacter.getAddHp() * stat.getAddHp();
+            int hp = myCharacter.getHp() + myCharacter.getAddHp() * stat.getAddHp();
+            int ad = myCharacter.getAd() + myCharacter.getAddAd() * stat.getAddAd();
+            int ap = myCharacter.getAp() + myCharacter.getAddAp() * stat.getAddAp();
+            int speed = myCharacter.getSpeed() + myCharacter.getAddSpeed() * stat.getAddSpeed();
+            int critical = myCharacter.getCritical() + myCharacter.getAddCritical() * stat.getAddCritical();
+            int avoid = myCharacter.getAvoid() + myCharacter.getAddAvoid() * stat.getAddAvoid();
+
+            myCharacter.updateVictoryStat(maxHp, hp, ad, ap, speed, critical, avoid);
+            myCharacterRepository.save(myCharacter);
+        }
+    }
     // CoolTime에서 Turn을 하나씩 지우는 방식을 사용
     @Transactional
     public void CoolTime() {

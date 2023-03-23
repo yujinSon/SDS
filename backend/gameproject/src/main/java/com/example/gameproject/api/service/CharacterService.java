@@ -99,7 +99,7 @@ public class CharacterService {
                         SkillDto.builder()
                                 .skillNum(skill.getSkillNum())
                                 .skillName(skill.getSkillName())
-                                .skillType(skill.getSkillType())
+                                .skillType(skill.getDurationTurn())
                                 .isRange(skill.isRange())
                                 .value(skill.getValue())
                                 .skillTarget(skill.getSkillTarget())
