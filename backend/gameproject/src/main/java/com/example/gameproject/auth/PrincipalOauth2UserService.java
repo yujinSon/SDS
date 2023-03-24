@@ -25,9 +25,10 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-
+        System.out.println(111111);
+        System.out.println(userRequest.getAccessToken());
         OAuth2User oAuth2User = super.loadUser(userRequest);
-
+        System.out.println(oAuth2User);
         OAuth2UserInfo oAuth2UserInfo = null;
         String provider = userRequest.getClientRegistration().getRegistrationId();
 
@@ -51,7 +52,6 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         Role role = Role.ROLE_USER;
 
         User byUsername = userRepository.findByUsername(username);
-
         //DB에 없는 사용자라면 회원가입처리
         if(byUsername == null){
             byUsername = User.oauth2Register()
