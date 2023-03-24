@@ -39,7 +39,7 @@ public class MyCharacterAttackDto {
         this.speed = myCharacter.getSpeed();
         this.critical = myCharacter.getCritical();
         this.avoid = myCharacter.getAvoid();
-        this.maxHp = myCharacter.getHp();
+        this.maxHp = myCharacter.getMaxHp();
         this.pos = myCharacter.getPos();
 
         // 스킬 순서가 고정 되어 있어야함, 스킬 쿨타임하고 맞춰야 되니깐
