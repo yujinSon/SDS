@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 public class MyCharacterAttackDto {
     private String className;
-    private String subClassName;
+    private String subName;
     private int level;
     private int hp;
     private int ad;
@@ -31,7 +31,7 @@ public class MyCharacterAttackDto {
 
     public MyCharacterAttackDto(MyCharacter myCharacter, List<Skill>skills, List<Long>coolTimeSkillId) {
         this.className = myCharacter.getDefaultCharacter().getClassName();
-        this.subClassName = myCharacter.getDefaultCharacter().getClassName();
+        this.subName = myCharacter.getDefaultCharacter().getClassName();
         this.level = myCharacter.getLevel();
         this.hp = myCharacter.getHp();
         this.ad = myCharacter.getAd();
