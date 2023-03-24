@@ -9,6 +9,9 @@ import SelectedCharacterList from 'components/game/SelectedCharacterList';
 import RandomCharacterList from 'components/game/RandomCharacterList';
 import CharacterDetail from 'components/game/CharacterDetail';
 import GameButtons from 'components/game/GameButtons';
+import Modal from 'components/common/Modal';
+import Items from 'components/game/Items';
+import Stats from 'components/game/Stats';
 
 export default function GameMainPage() {
   const navigate = useNavigate();
@@ -17,6 +20,9 @@ export default function GameMainPage() {
   const [selectedRandomCh, setSelectedRandomCh] = useState(null);
   const [selectedCharacter, setSelectedCharacter] = useState(null);
   const [selectedChList, setSelectedChList] = useState(null);
+
+  const [itemModal, setItemModal] = useState(false);
+  const [statModal, setStatModal] = useState(false);
 
   // 선택된 캐릭터 리스트 조회
   useEffect(() => {
@@ -129,9 +135,20 @@ export default function GameMainPage() {
             setSelectedRandomCh={setSelectedRandomCh}
             addCharacter={addCharacter}
           />
-          <GameButtons />
+          <GameButtons
+            itemModal={itemModal}
+            setItemModal={setItemModal}
+            statModal={statModal}
+            setStatModal={setStatModal}
+          />
         </SubContainer>
       </MainContainer>
+      {itemModal ? (
+        <Modal close={() => setItemModal(false)} content={<Items />} />
+      ) : null}
+      {statModal ? (
+        <Modal close={() => setStatModal(false)} content={<Stats />} />
+      ) : null}
     </>
   );
 }

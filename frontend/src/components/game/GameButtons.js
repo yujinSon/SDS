@@ -4,17 +4,23 @@ import { useNavigate } from 'react-router-dom';
 
 import Button from 'components/common/Button';
 
-export default function GameButtons({ saveCh }) {
+export default function GameButtons({
+  saveCh,
+  itemModal,
+  setItemModal,
+  statModal,
+  setStatModal,
+}) {
   const navigate = useNavigate();
 
   return (
     <Container>
       <ButtonContainer>
-        <Button value="유물보기" />
-        <Button value="스텟찍기" />
+        <Button value="유물보기" onClick={() => setItemModal(!itemModal)} />
+        <Button value="스텟찍기" onClick={() => setStatModal(!statModal)} />
       </ButtonContainer>
       <ButtonContainer>
-        <Button value="Logout" />
+        <Button value="Logout" onClick={() => navigate('/')} />
         <Button
           value="모험하기"
           onClick={() => {
