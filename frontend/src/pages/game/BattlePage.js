@@ -8,6 +8,15 @@ import Battle from 'components/game/Battle';
 import Information from 'components/game/Information';
 
 export default function BattlePage() {
+  // 둘중 최솟값
+  function min(a, b) {
+    if (a < b) {
+      return a;
+    } else {
+      return b;
+    }
+  }
+
   useEffect(() => {
     const [url, method] = api('loadStage');
     const config = { url, method };
@@ -34,68 +43,172 @@ export default function BattlePage() {
     if (!characters | !monsters) return;
     // 턴 한 번만 처음 계산해줌 (nowIdx가 0인 경우에)
     if (nowIdx !== 0) return;
+
     const mergedArr = [
       ...characters.map(({ pos, speed }) => ({ pos, speed })),
       ...monsters.map(({ pos, speed }) => ({ pos, speed })),
     ];
     mergedArr.sort((a, b) => b.speed - a.speed);
     // 현재 턴 박스 표시해주기 (캐릭터 바뀌면 수정할 수 밖에 없음..)
-    setNowTurn(mergedArr[nowIdx].pos);
-    setTurnOrder(mergedArr);
 
-    console.log(mergedArr, '새로 가져온다!');
-  }, [characters, monsters]);
+    setTurnOrder(mergedArr);
+  }, [characters, monsters, nowIdx]);
   // console.log('턴', turnOrder);
+
+  useEffect(() => {
+    if (!turnOrder) return;
+    setNowTurn(turnOrder[nowIdx].pos);
+  }, [turnOrder]);
 
   // 턴 순서에 따라서 공격 logic 실행
   useEffect(() => {
     if (!turnOrder) return;
-    console.log(nowIdx, '되냐?');
+    console.log(nowIdx, '현재 턴');
     setNowTurn(turnOrder[nowIdx].pos);
     // console.log('현재 공격 pos', turnOrder[nowIdx]);
   }, [nowIdx]);
 
-  // 빌런 공격 로직 (이거 마저 완성해야함) ****************************
+  // *** 빌런 공격 로직 및 캐릭터 사망 시 턴 넘김 logic ***
   useEffect(() => {
-    // 캐릭터 공격 차례면 pass
-    if (nowTurn < 3) return;
-    console.log('빌런의 공격 차례가 도래했다!!!');
-    let myMonster = 0;
-    for (let idx = 0; idx < monsters.length; idx++) {
-      if (monsters[idx].pos === nowTurn) {
-        myMonster = monsters[idx];
-        console.log('현재 공격 턴인 빌런', myMonster);
+    console.log(turnOrder, '빌런 공격 시의 turnOrder');
+    // 캐릭터 공격 차례면 죽었는지 확인하고 Turn 넘기는 Logic 처리
+    if (nowTurn < 3) {
+      let myCharacter = 0;
+      let found = false;
+      if (characters) {
+        for (let idx = 0; idx < characters.length; idx++) {
+          if (characters[idx].pos === nowTurn) {
+            myCharacter = characters[idx];
+            console.log('현재 공격 턴인 캐릭터', myCharacter);
+            found = true;
+          }
+        }
+        // 캐릭터가 이미 죽어서 해당 nowTurn의 pos를 찾을 수 없으면 다음 턴으로 넘김
+        if (found === false) {
+          if (nowIdx < turnOrder.length - 1) {
+            setNowIdx(nowIdx + 1);
+            return;
+          } else {
+            setNowIdx(0);
+            return;
+          }
+        }
       }
     }
+    // 빌런 공격 차례
+    else {
+      console.log('빌런의 공격 차례가 도래했다!!!');
+      // 빌런 공격 시에차례대로 보여주기 위해 setTimeout 함수 실행 (2초 간격)
+      setTimeout(function () {
+        console.log(monsters);
+        let myMonster = 0;
+        // 현재 nowTurn인 몬스터의 pos를 monster 찾을 수 있는지 변수
+        let found = false;
+        for (let idx = 0; idx < monsters.length; idx++) {
+          if (monsters[idx].pos === nowTurn) {
+            myMonster = monsters[idx];
+            console.log('현재 공격 턴인 빌런', myMonster);
+            found = true;
+          }
+        }
+        // 몬스터가 이미 죽어서 해당 nowTurn의 pos를 찾을 수 없으면 다음 턴으로 넘김
+        if (found === false) {
+          if (nowIdx < turnOrder.length - 1) {
+            setNowIdx(nowIdx + 1);
+            return;
+          } else {
+            setNowIdx(0);
+            return;
+          }
+        }
+        // 몬스터가 사용할 스킬
+        const mySkill =
+          myMonster.skills[Math.floor(Math.random() * myMonster.skills.length)];
 
-    // 몬스터가 사용할 스킬
-    const mySkill =
-      myMonster.skills[Math.floor(Math.random() * myMonster.skills.length)];
+        // 몬스터가 공격할 대상이 캐릭터인 경우 (1이면 캐릭터 if 문 실행, 0이면 몬스터이므로 pass)
+        if (mySkill.skillTarget === 1) {
+          let damage = mySkill.value;
+          console.log('빌런의 첫 데미지', damage);
 
-    // 수정필요 (axios url 문제인지 뭔지 모르겠는데 수정 필요)
-    let data = {};
-    if (mySkill.range === true) {
-      data = {
-        target: 3, // 전체공격
-        damage: 300,
-      };
-    } else {
-      // 몬스터가 공격할 캐릭터의 pos를 랜덤으로 가져옴
-      const targetCh = Math.floor(Math.random() * characters.length);
-      data = { target: targetCh, damage: 300 };
-    }
-    const [url, method] = api('enemysTurn');
-    const config = { url, method, data };
-    axios(config)
-      .then((res) => {
-        console.log('빌런 공격 결과', res.data);
-      })
-      .catch((err) => {});
+          // 치명타 관련 로직
+          const randomPercent = Math.floor(Math.random() * 100);
+          if (randomPercent <= myMonster.critical) {
+            const criticalPercent = Math.random() + 1;
+            damage = Math.floor(criticalPercent * damage);
+            console.log('빌런의 크리티컬 데미지', damage);
+          }
 
-    if (nowIdx < 6) {
-      setNowIdx(nowIdx + 1);
-    } else {
-      setNowIdx(0);
+          let data = {};
+          if (mySkill.range === true) {
+            data = {
+              target: 3, // 전체공격
+              damage: damage,
+            };
+          } else {
+            // 몬스터가 공격할 캐릭터의 pos를 랜덤으로 가져옴
+            const chIdx = Math.floor(Math.random() * characters.length);
+            data = { target: characters[chIdx].pos, damage: damage };
+          }
+          const [url, method] = api('enemysTurn');
+          const config = { url, method, data };
+          axios(config)
+            .then((res) => {
+              console.log('빌런 공격 결과', res.data);
+              let copy = [];
+              for (let ch of res.data) {
+                if (ch.hp > 0) {
+                  copy.push(ch);
+                }
+              }
+              setCharacters(copy);
+              if (nowIdx < turnOrder.length - 1) {
+                setNowIdx(nowIdx + 1);
+              } else {
+                setNowIdx(0);
+              }
+            })
+            .catch((err) => {
+              console.log('빌런 공격 axios 에러', err);
+              if (nowIdx < turnOrder.length - 1) {
+                setNowIdx(nowIdx + 1);
+              } else {
+                setNowIdx(0);
+              }
+            });
+        }
+        // skill.target === 0 인경우 (빌런의 회복스킬)
+        else {
+          let healAmount = mySkill.value;
+          // 전체 빌런에게 힐 스킬 적용
+          if (mySkill.range === true) {
+            for (let monster of monsters) {
+              monster.hp = min(monster.hp + healAmount, monster.maxHp);
+            }
+            // 빌런 한 마리에게 힐 스킬 적용
+          } else {
+            // 몬스터에서 피 가장 작은 애한테 힐 스킬 적용
+            console.log('빌런의 회복스킬이다~~~~~');
+            let minHpMonsterPos = -1;
+            let minValue = 999999999;
+            for (let monster of monsters) {
+              if (minValue > monster.hp) {
+                minValue = monster.hp;
+                minHpMonsterPos = monster.pos;
+              }
+            }
+            for (let monster of monsters) {
+              if (minHpMonsterPos === monster.pos) {
+                monster.hp = min(monster.hp + healAmount, monster.maxHp);
+              }
+            }
+          }
+          if (nowIdx < turnOrder.length - 1) {
+            setNowIdx(nowIdx + 1);
+          } else {
+            setNowIdx(0);
+          }
+        }
+      }, 2000);
     }
   }, [nowTurn]);
 
@@ -143,7 +256,13 @@ export default function BattlePage() {
       }
     } else {
       if (ch.pos === nowTurn) {
-        setSelectedCh(ch.pos);
+        let selectedIdx;
+        for (let idx = 0; idx < characters.length; idx++) {
+          if (characters[idx].pos === nowTurn) {
+            selectedIdx = idx;
+          }
+        }
+        setSelectedCh(selectedIdx);
         setSelectedSkill(null);
         setPlayerTurn(1);
       } else {
