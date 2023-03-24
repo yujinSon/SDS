@@ -16,6 +16,7 @@ export default function Battle({
 }) {
   return (
     <>
+      nowTurn: {nowTurn}
       {characters
         ? characters.map((ch, idx) => (
             <CharacterContainer
@@ -102,7 +103,6 @@ const ProgressContainer = styled.div`
   height: 10px;
   background-color: red;
 `;
-
 const ProgressBar = styled.div`
   height: 100%;
   background-color: #4caf50;
