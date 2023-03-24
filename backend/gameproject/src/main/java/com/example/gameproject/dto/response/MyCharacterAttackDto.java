@@ -31,7 +31,7 @@ public class MyCharacterAttackDto {
 
     public MyCharacterAttackDto(MyCharacter myCharacter, List<Skill>skills, List<Long>coolTimeSkillId) {
         this.className = myCharacter.getDefaultCharacter().getClassName();
-        this.subName = myCharacter.getDefaultCharacter().getClassName();
+        this.subName = myCharacter.getDefaultCharacter().getSubName();
         this.level = myCharacter.getLevel();
         this.hp = myCharacter.getHp();
         this.ad = myCharacter.getAd();
