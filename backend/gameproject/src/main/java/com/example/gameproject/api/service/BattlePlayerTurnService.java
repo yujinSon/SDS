@@ -4,6 +4,7 @@ package com.example.gameproject.api.service;
 import com.example.gameproject.db.entity.*;
 import com.example.gameproject.db.repository.*;
 import com.example.gameproject.dto.request.PlayerAttackDto;
+import com.example.gameproject.dto.response.ArtifactDto;
 import com.example.gameproject.dto.response.MyCharacterAttackDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,8 @@ public class BattlePlayerTurnService {
     private  final CoolTimeRepository coolTimeRepository;
     private final SkillRepository skillRepository;
     private final EffectTimeRepository effectTimeRepository;
+    private final ArtifactRepository artifactRepository;
+    private final UserArtifactRespository userArtifactRespository;
 
     @Transactional
     public List<MyCharacterAttackDto> myTurnAttack(PlayerAttackDto playerAttackDto, Long userId) {
@@ -31,12 +34,19 @@ public class BattlePlayerTurnService {
         MyCharacter caster = myCharacterRepository.getMyCharacterUsingUserIdPos(userId, casterPos);
         Long casterId = caster.getId();
 
+
         // 스킬 가져오기.
         Skill skill = skillRepository.getSkillUsingSkillName(playerAttackDto.getSkillName());
 
-        if (skill.getStat() != "hp") {
+
+        String factor = skill.getFactor();
+        int factorValue = findFactorValue(caster, factor);
+
+        int skillValue = (int) (factorValue * ((double) skill.getValue() / 100));
+
+        if (!skill.getStat().equals("hp")) {
             // skill.getStat() 이 hp 라면 회복 스킬임 -> 이펙트가 없는 스킬
-            // 이팩트타임 등록
+            // 이팩트타임 등
             EffectTime effectTime = new EffectTime();
             effectTime.setPos(targetPos); // 스킬적용 대상 위치값
             effectTime.setTurn(skill.getDurationTurn()); // 스킬 효과 지속시간
@@ -47,19 +57,25 @@ public class BattlePlayerTurnService {
         } else {
             List<MyCharacter> myCharacters= myCharacterRepository.getMyCharacters(userId);
             // 단순 체력 회복
-            int addHp = skill.getValue();
+            int addHp = skillValue;
             if (targetPos == 3) {
                 // 전체 회복인 경우
                 for (MyCharacter myc : myCharacters) {
                     int value = min(myc.getAd()+addHp, myc.getMaxHp());
                     myc.setHp(value);
+                    myCharacterRepository.save(myc);
                 }
             } else {
                 // 단일 회복인 경우.
                 for (MyCharacter myc : myCharacters) {
                     if (targetPos == myc.getPos()) {
-                        int value = min(myc.getAd()+addHp, myc.getMaxHp());
+                        System.out.println("회복전 hp : " + myc.getHp());
+                        int value = min(myc.getHp()+addHp, myc.getMaxHp());
+                        System.out.println("회복치 : " + addHp);
                         myc.setHp(value);
+                        System.out.println(myc.getHp());
+                        System.out.println("회복후 hp : " + myc.getHp());
+                        myCharacterRepository.save(myc);
                     }
                 }
             }
@@ -97,18 +113,23 @@ public class BattlePlayerTurnService {
             // 효과 적용안한 상태. 쿨타임은 적용함. [true, false] 뭐 이런거
             MyCharacterAttackDto myCharacterAttackDto = new MyCharacterAttackDto(mc, myCharacterSkills, coolTimeSkillId);
             myCharacterAttackDtos.add(myCharacterAttackDto);
-
         }
 
 
         // 효과 적용하기.
         for (EffectTime effSkill : mySkills) {
+            MyCharacter skillCaster = effSkill.getMyCharacter();
+            String skillFactor = effSkill.getSkill().getFactor();
+            int effskillValue = effSkill.getSkill().getValue();
+
+            int skillFactorValue = findFactorValue(skillCaster, skillFactor);
+            int effSkillValue = (int) (skillFactorValue * ((double) effskillValue / 100));
             String stat = effSkill.getSkill().getStat();
-            int value = effSkill.getSkill().getValue();
+
             if (effSkill.getSkill().isRange() == true) {
                 // 전체 스킬인 경우 모두 적용
                 for (MyCharacterAttackDto myc : myCharacterAttackDtos) {
-                    applyEffect(myc, stat, value);
+                    applyEffect(myc, stat, effSkillValue);
                 }
             } else {
                 // 단일 스킬인 경우
@@ -117,16 +138,47 @@ public class BattlePlayerTurnService {
                 for (MyCharacterAttackDto myc : myCharacterAttackDtos) {
                     if (myc.getPos() == tp) {
                         // 찾았으면 적용
-                        applyEffect(myc, stat, value);
+                        applyEffect(myc, stat, effSkillValue);
                     }
                 }
             }
         }
 
+        // 유물 효과 적용
+        // 1. 내가 가지고 있는 유물 찾기.
+        // 유뮬은 유물을 뽑을때, 캐릭을 뽑을 떄 Mycharacter 에 영구 저장해야 겠는데
+//        List<UserArtifact> userArtifacts = userArtifactRespository.findByUserId(userId);
+//        List<ArtifactDto> myArtifacts  = new ArrayList<>();
+//        for (UserArtifact ua : userArtifacts) {
+//            myArtifacts.add(new ArtifactDto(ua.getArtifact()));
+//        }
+//        // 2. 유물 효과 적용, 이건 단순 value ++
+//        for (ArtifactDto artifact : myArtifacts) {
+//            int artAddValue = artifact.getValue();
+//            boolean artIsRange = artifact.isRange();
+//            String artClass = artifact.getTargetClass();
+//            String artStat = artifact.getStat();
+//            if (artIsRange == true) {
+//                // 전체 적용이면.
+//                for (MyCharacterAttackDto mca : myCharacterAttackDtos) {
+//                    applyEffect(mca, artStat, artAddValue);
+//                }
+//            } else {
+//                // 단일 적용이면
+//                for (MyCharacterAttackDto mca : myCharacterAttackDtos) {
+//                    if (mca.getClassName().equals(artClass)) {
+//                        applyEffect(mca, artStat, artAddValue);
+//                    }
+//                }
+//            }
+//        }
+
+
         return myCharacterAttackDtos;
     }
 
     // MyCharacterAttackDto에 스탯 적용하는 함수
+    // 효과 적용이기 떄문에 저장하지는 않음
     public void applyEffect(MyCharacterAttackDto myCharacterAttackDto, String stat, int value) {
         int totalValue;
         if (stat.equals(("ad"))) {
@@ -155,6 +207,34 @@ public class BattlePlayerTurnService {
         } else {
             return a;
         }
+    }
+
+    // factorValue 값 찾기
+    public int findFactorValue(MyCharacter caster, String factor) {
+        int factorValue;
+        switch (factor) {
+            case "ap":
+                factorValue = caster.getAp();
+                break;
+            case "ad":
+                factorValue = caster.getAd();
+                break;
+            case "maxHp":
+                factorValue = caster.getMaxHp();
+                break;
+            case "hp":
+                factorValue = caster.getHp();
+                break;
+            case "speed":
+                factorValue = caster.getSpeed();
+                break;
+            case "avoid":
+                factorValue = caster.getAvoid();
+                break;
+            default:
+                factorValue = caster.getCritical();
+        }
+        return factorValue;
     }
 
 }

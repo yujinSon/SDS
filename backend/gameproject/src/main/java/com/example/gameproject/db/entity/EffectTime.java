@@ -25,6 +25,7 @@ public class EffectTime implements Serializable {
     @JoinColumn(name = "mycharacter_id")
     private MyCharacter myCharacter;
 
+
     public void BattleEffectTimeUpdate(int turn){
         this.turn = turn - 1;
     }
