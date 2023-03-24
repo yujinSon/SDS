@@ -8,12 +8,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class EnemyAttackDto {
-//    boolean isRange;
-//    boolean isAttack;
-//    int damage;
     int target;
-    SkillRequestDto skill;
+    int damage;
 }

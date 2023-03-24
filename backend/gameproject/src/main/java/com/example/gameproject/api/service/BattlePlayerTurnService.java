@@ -4,6 +4,7 @@ package com.example.gameproject.api.service;
 import com.example.gameproject.db.entity.*;
 import com.example.gameproject.db.repository.*;
 import com.example.gameproject.dto.request.PlayerAttackDto;
+import com.example.gameproject.dto.response.ArtifactDto;
 import com.example.gameproject.dto.response.MyCharacterAttackDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,8 @@ public class BattlePlayerTurnService {
     private  final CoolTimeRepository coolTimeRepository;
     private final SkillRepository skillRepository;
     private final EffectTimeRepository effectTimeRepository;
+    private final ArtifactRepository artifactRepository;
+    private final UserArtifactRespository userArtifactRespository;
 
     @Transactional
     public List<MyCharacterAttackDto> myTurnAttack(PlayerAttackDto playerAttackDto, Long userId) {
@@ -110,7 +113,6 @@ public class BattlePlayerTurnService {
             // 효과 적용안한 상태. 쿨타임은 적용함. [true, false] 뭐 이런거
             MyCharacterAttackDto myCharacterAttackDto = new MyCharacterAttackDto(mc, myCharacterSkills, coolTimeSkillId);
             myCharacterAttackDtos.add(myCharacterAttackDto);
-
         }
 
 
@@ -118,16 +120,16 @@ public class BattlePlayerTurnService {
         for (EffectTime effSkill : mySkills) {
             MyCharacter skillCaster = effSkill.getMyCharacter();
             String skillFactor = effSkill.getSkill().getFactor();
+            int effskillValue = effSkill.getSkill().getValue();
 
             int skillFactorValue = findFactorValue(skillCaster, skillFactor);
-            int effSkillValue = (int) (skillFactorValue * ((double) skill.getValue() / 100));
+            int effSkillValue = (int) (skillFactorValue * ((double) effskillValue / 100));
             String stat = effSkill.getSkill().getStat();
 
-            int value = effSkill.getSkill().getValue();
             if (effSkill.getSkill().isRange() == true) {
                 // 전체 스킬인 경우 모두 적용
                 for (MyCharacterAttackDto myc : myCharacterAttackDtos) {
-                    applyEffect(myc, stat, value);
+                    applyEffect(myc, stat, effSkillValue);
                 }
             } else {
                 // 단일 스킬인 경우
@@ -142,10 +144,41 @@ public class BattlePlayerTurnService {
             }
         }
 
+        // 유물 효과 적용
+        // 1. 내가 가지고 있는 유물 찾기.
+        // 유뮬은 유물을 뽑을때, 캐릭을 뽑을 떄 Mycharacter 에 영구 저장해야 겠는데
+//        List<UserArtifact> userArtifacts = userArtifactRespository.findByUserId(userId);
+//        List<ArtifactDto> myArtifacts  = new ArrayList<>();
+//        for (UserArtifact ua : userArtifacts) {
+//            myArtifacts.add(new ArtifactDto(ua.getArtifact()));
+//        }
+//        // 2. 유물 효과 적용, 이건 단순 value ++
+//        for (ArtifactDto artifact : myArtifacts) {
+//            int artAddValue = artifact.getValue();
+//            boolean artIsRange = artifact.isRange();
+//            String artClass = artifact.getTargetClass();
+//            String artStat = artifact.getStat();
+//            if (artIsRange == true) {
+//                // 전체 적용이면.
+//                for (MyCharacterAttackDto mca : myCharacterAttackDtos) {
+//                    applyEffect(mca, artStat, artAddValue);
+//                }
+//            } else {
+//                // 단일 적용이면
+//                for (MyCharacterAttackDto mca : myCharacterAttackDtos) {
+//                    if (mca.getClassName().equals(artClass)) {
+//                        applyEffect(mca, artStat, artAddValue);
+//                    }
+//                }
+//            }
+//        }
+
+
         return myCharacterAttackDtos;
     }
 
     // MyCharacterAttackDto에 스탯 적용하는 함수
+    // 효과 적용이기 떄문에 저장하지는 않음
     public void applyEffect(MyCharacterAttackDto myCharacterAttackDto, String stat, int value) {
         int totalValue;
         if (stat.equals(("ad"))) {

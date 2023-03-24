@@ -2,6 +2,7 @@ package com.example.gameproject.api.controller;
 
 import com.example.gameproject.api.service.BattlePlayerTurnService;
 import com.example.gameproject.api.service.BattleService;
+import com.example.gameproject.api.service.EnemyAttackService;
 import com.example.gameproject.dto.request.CharacterVictoryStat;
 import com.example.gameproject.dto.request.EnemyAttackDto;
 import com.example.gameproject.dto.request.PlayerAttackDto;
@@ -29,17 +30,15 @@ public class BattleController {
     @Autowired
     BattleService battleService;
 
+    @Autowired
+    EnemyAttackService enemyAttackService;
+
     //    @PutMapping("/enemy")
     @PutMapping("/enemy/{userId}")
     ResponseEntity<?> attackedFromEnemy(@RequestBody EnemyAttackDto enemyAttackDto, @PathVariable("userId") long userId) {
-        try{
-            battleService.updateStat(userId, enemyAttackDto);
-            return ResponseEntity.status(200).body("success");
-        }
-        catch (Exception e){
-            e.printStackTrace();
-            return ResponseEntity.status(400).body("update error");
-        }
+        List<MyCharacterAttackDto> res = enemyAttackService.enemyAttack(enemyAttackDto, userId);
+
+        return ResponseEntity.status(200).body(res);
     }
 
 //    @PostMapping("/player")
