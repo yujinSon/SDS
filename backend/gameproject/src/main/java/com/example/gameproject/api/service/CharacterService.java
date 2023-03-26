@@ -1,17 +1,11 @@
 package com.example.gameproject.api.service;
 
-import com.example.gameproject.db.entity.DefaultCharacter;
-import com.example.gameproject.db.entity.MyCharacter;
-import com.example.gameproject.db.entity.Skill;
-import com.example.gameproject.db.entity.User;
+import com.example.gameproject.db.entity.*;
 import com.example.gameproject.db.repository.DefaultCharacterRepository;
 import com.example.gameproject.db.repository.MyCharacterRepository;
 import com.example.gameproject.db.repository.SkillRepository;
 import com.example.gameproject.db.repository.UserRepository;
-import com.example.gameproject.dto.response.RandomCharacterDto;
-import com.example.gameproject.dto.response.SelectedCharacterDto;
-import com.example.gameproject.dto.response.SkillDto;
-import com.example.gameproject.dto.response.UserDto;
+import com.example.gameproject.dto.response.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,9 +39,11 @@ public class CharacterService {
 
     @Transactional
     public void SaveRandomCharacter(RandomCharacterDto randomCharacterDto) {
+
         DefaultCharacter defaultCharacter = defaultCharacterRepository.getByClassNameAndSubName(randomCharacterDto.getClassName(), randomCharacterDto.getSubClassName());
         User user = userRepository.getById(1L);
         List<Integer> poseDefine = new ArrayList<>();
+
         int realPos = 10;
         for (MyCharacter myCharacter : user.getMyCharacters()) {
             poseDefine.add(myCharacter.getPos());
@@ -69,6 +65,26 @@ public class CharacterService {
 
         if (realPos != 10) {
             MyCharacter myCharacter = new MyCharacter(randomCharacterDto, defaultCharacter, user, realPos);
+
+
+            // 유물 효과 적용
+            List<Artifact> myArtifacts = new ArrayList<>();
+            for (UserArtifact userArtifact : user.getUserArtifacts()) {
+                myArtifacts.add(userArtifact.getArtifact());
+            }
+
+            for (Artifact myArtifact : myArtifacts) {
+                if (myArtifact.isRange() == true) {
+                    // 전체 효과 인경우
+                    System.out.println("전테 효과 스텟 : " + myArtifact.getStat());
+                    addStat(myCharacter, myArtifact.getStat(), myArtifact.getValue());
+                } else if (myArtifact.getTargetClass().equals(myCharacter.getDefaultCharacter().getClassName())) {
+                    // 특정 클래스 효과인경우
+                    System.out.println("특정 효과 스텟 : " + myArtifact.getStat());
+                    addStat(myCharacter, myArtifact.getStat(), myArtifact.getValue());
+                }
+            }
+
             myCharacterRepository.save(myCharacter);
         }
     }
@@ -125,5 +141,24 @@ public class CharacterService {
             ));
         }//for
         return result;
+    }
+
+    // 효과 적용 함수
+    // 효과 적용이기 떄문에 저장하지는 않음
+    public void addStat(MyCharacter myCharacter, String stat, int value) {
+        if (stat.equals("hp")) {
+            myCharacter.addHd(value);
+        } else if (stat.equals(("ad"))) {
+            myCharacter.addAd(value);
+        } else if (stat.equals(("ap"))) {
+            myCharacter.addAp(value);
+        } else if (stat.equals(("speed"))) {
+            myCharacter.addSpeed(value);
+        } else if (stat.equals(("avoid"))) {
+            myCharacter.addAvoid(value);
+        } else {
+            // critical
+            myCharacter.addCritical(value);
+        }
     }
 }
