@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class RelicResponse {
 	private String name;
 	private boolean isRange;
-	private int targetClass;
+	private String targetClass;
 	private String stat;
 	private int value;
 

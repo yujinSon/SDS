@@ -1,15 +1,15 @@
-package com.example.gameproject.dto.response;
+package com.example.gameproject.dto.request;
 
-
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@NoArgsConstructor
 @Builder
-public class SkillDto {
-
+public class SkillRequestDto {
     private int skillNum;
     private String skillName;
     private int skillType;

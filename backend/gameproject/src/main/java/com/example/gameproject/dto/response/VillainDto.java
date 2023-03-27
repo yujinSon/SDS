@@ -22,10 +22,13 @@ public class VillainDto {
     private int critical;
     private int avoid;
     private boolean isBoss;
+    private int maxHp;
+
+    private int pos;
 
     private List<SkillDtoCons> skills = new ArrayList<>();
 
-    public VillainDto(Villain villain, List<Skill> skills) {
+    public VillainDto(Villain villain, List<Skill> skills, int pos) {
         this.className = villain.getClassName();
         this.subName = villain.getSubName();
         this.hp = villain.getHp();
@@ -35,11 +38,14 @@ public class VillainDto {
         this.critical = villain.getCritical();
         this.avoid = villain.getAvoid();
         this.isBoss = villain.isBoss();
+        this.maxHp = villain.getMaxHp();
 
         for (Skill skill : skills) {
             SkillDtoCons skillDto = new SkillDtoCons(skill);
             this.skills.add(skillDto);
         }
+
+        this.pos = pos;
     }
 
 }

@@ -2,10 +2,13 @@ package com.example.gameproject.api.service;
 
 import com.example.gameproject.db.entity.MyCharacter;
 import com.example.gameproject.db.entity.Skill;
+import com.example.gameproject.db.entity.User;
 import com.example.gameproject.db.entity.Villain;
 import com.example.gameproject.db.repository.MyCharacterRepository;
 import com.example.gameproject.db.repository.SkillRepository;
+import com.example.gameproject.db.repository.UserRepository;
 import com.example.gameproject.db.repository.VillainRepository;
+import com.example.gameproject.dto.request.StageDto;
 import com.example.gameproject.dto.response.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +20,7 @@ import java.util.*;
 @Transactional(readOnly = true)
 public class StageService {
 
+
     @Autowired
     private MyCharacterRepository myCharacterRepository;
 
@@ -26,10 +30,13 @@ public class StageService {
     @Autowired
     private VillainRepository villainRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
 
     public Map<String, List> BattleSetting(){
         // 유저 정보를 받아서 바꿔줘야 함.
-        int userId = 1; // 나중에 로그인 구현시 바꿔줘야될 부분
+        Long userId = 1L; // 나중에 로그인 구현시 바꿔줘야될 부분
         int stage = 1;
         int step = 10; // 스텝이 10 이라면 보스스테이지.
         String stageName = "환경";
@@ -69,7 +76,7 @@ public class StageService {
                 Villain randomVillain = villainList.get(randomIndex);
                 Long villainId = randomVillain.getId();
                 List<Skill> villainSkills = skillRepository.getVillainSkills(villainId);
-                VillainDto villainDto = new VillainDto(randomVillain, villainSkills);
+                VillainDto villainDto = new VillainDto(randomVillain, villainSkills, i+3);
                 villain.add(villainDto);
             }
         } else {
@@ -79,20 +86,34 @@ public class StageService {
                 Villain randomVillain = villainList.get(randomIndex);
                 Long villainId = randomVillain.getId();
                 List<Skill> villainSkills = skillRepository.getVillainSkills(villainId);
-                VillainDto villainDto = new VillainDto(randomVillain, villainSkills);
+                VillainDto villainDto = new VillainDto(randomVillain, villainSkills, i+4);
                 villain.add(villainDto);
             }
             // 보스 추가.
             Long bossId = boss.getId();
             List<Skill> bossSkills = skillRepository.getVillainSkills(bossId);
-            VillainDto villainDto = new VillainDto(boss, bossSkills);
+            VillainDto villainDto = new VillainDto(boss, bossSkills, 3);
             villain.add(villainDto);
         }
 
-        res.put("Character", characterDtos);
-//        res.put("mySkill", mySkill);
-        res.put("Villain",  villain);
+
+        // 유물 효과 적용
+
+
+        res.put("character", characterDtos);
+        res.put("villain",  villain);
 
         return res;
+    }
+
+    @Transactional
+    public void saveMyStage(StageDto stageDto) {
+        Long userId = 1L; // 나중에 유저 아이디 찾아야 함.
+        User user = userRepository.getById(userId);
+        int stage = stageDto.getStage();
+        int subStage = stageDto.getSubStage();
+
+        user.stageUpdate(stage, subStage);
+        userRepository.save(user);
     }
 }

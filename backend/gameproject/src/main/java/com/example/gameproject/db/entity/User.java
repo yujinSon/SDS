@@ -9,6 +9,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.gameproject.dto.request.MapSaveRequest;
+
 @Entity
 @Getter
 @NoArgsConstructor
@@ -25,6 +27,10 @@ public class User implements Serializable {
     private int subStage;
     private int turn;
     private int finalScore; // 나중에 지울거 + maxStage, maxSubstage 있어야함.
+    private int nowStage;
+    private int nowSubStage;
+    private int maxStage;
+    private int maxSubStage;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<MyCharacter> myCharacters = new ArrayList<>();
@@ -38,6 +44,16 @@ public class User implements Serializable {
         this.subStage = 0;
         this.turn = 0;
         this.finalScore = 0;
+    }
+
+    public void stageUpdate(int stage, int subStage) {
+        this.stage = stage;
+        this.subStage = subStage;
+    }
+
+    public void changeNowMap(MapSaveRequest mapSaveRequest){
+        this.nowStage = mapSaveRequest.getNowStage();
+        this.nowSubStage = mapSaveRequest.getNowSubStage();
     }
 
 }
