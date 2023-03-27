@@ -30,8 +30,9 @@ public class MapController {
         return ResponseEntity.ok(res);
     }
 
-    @PutMapping("/save/{userId}")
-    public ResponseEntity<String> selectMap(@RequestBody MapSaveRequest mapSaveRequest, @PathVariable long userId){
+    @PutMapping("/save")
+    public ResponseEntity<String> selectMap(@RequestBody MapSaveRequest mapSaveRequest){
+        long userId = 1L;
         loadMapService.saveMapStatus(userId, mapSaveRequest);
         return ResponseEntity.status(200).body("success");
     }

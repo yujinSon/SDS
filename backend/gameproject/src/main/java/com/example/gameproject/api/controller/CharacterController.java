@@ -20,7 +20,8 @@ public class CharacterController {
     // 랜덤으로 3명을 데려온다.
 //    @GetMapping(value = "/random")
     @GetMapping(value = "/random")
-    public ResponseEntity<?> getRandomCharactersList(@PathVariable Long userId) throws Exception{
+    public ResponseEntity<?> getRandomCharactersList() throws Exception{
+        long userId = 1L;
         List<RandomCharacterDto> result = characterService.RandomCharacter(userId);
         return ResponseEntity.ok(result);
     }
@@ -32,8 +33,9 @@ public class CharacterController {
     }
 
 //    @GetMapping("/selected")
-    @GetMapping("/selected/{userId}")
-    public ResponseEntity<?> getSelectedCharacterList(@PathVariable("userId") long userId){
+    @GetMapping("/selected")
+    public ResponseEntity<?> getSelectedCharacterList(){
+        long userId = 1L;
         //여기서 access token에서 userId값 가져와야함
         List<SelectedCharacterDto> result = characterService.getCharacterList(userId);
         return ResponseEntity.status(200).body(result);
