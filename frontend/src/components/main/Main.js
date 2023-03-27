@@ -2,12 +2,16 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
-import Kakao from 'components/auth/Kakao';
+import axios from 'axios';
+import api from 'constants/api';
+
 import Ranking from 'components/main/Ranking';
 import Tutorial from 'components/main/Tutorial';
 
 import Button from 'components/common/Button';
 import Modal from 'components/common/Modal';
+
+import kakao from 'assets/img/kakao.png';
 
 export default function Main() {
   const navigate = useNavigate();
@@ -26,20 +30,19 @@ export default function Main() {
     setTutorialModal(!tutorialModal);
   };
 
-  // OAuth 관련 함수
-  const handleSuccess = (response) => {
-    setUserInfo(response.profile);
+  // 카카오 로그인
+  const kakaoLogin = () => {
+    axios('https://j8a303.p.ssafy.io/oauth2/authorization/kakao')
+      .then((res) => {
+        console.log('카카오 로그인 성공', res.data);
+      })
+      .catch((err) => {});
   };
 
-  const handleFailure = (error) => {
-    console.error(error);
-  };
   return (
     <div>
       {userInfo ? (
         <div>
-          {/* <img src={userInfo.profile_image_url} alt="profile" />
-          <p>{userInfo.nickname}</p> */}
           <ButtonContainer>
             <Button
               size="large"
@@ -93,7 +96,9 @@ export default function Main() {
         </div>
       ) : (
         <>
-          <Kakao onSuccess={handleSuccess} onFailure={handleFailure} />
+          <ButtonContainer>
+            <img src={kakao} alt="카카오 로그인" onClick={kakaoLogin} />
+          </ButtonContainer>
           <ButtonContainer>
             <Button
               size="large"
@@ -132,4 +137,5 @@ export default function Main() {
 
 const ButtonContainer = styled.div`
   margin-bottom: 10px;
+  text-align: center;
 `;
