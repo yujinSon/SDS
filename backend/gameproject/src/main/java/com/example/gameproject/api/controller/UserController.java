@@ -88,6 +88,7 @@ public class UserController {
     @GetMapping("/oauth/loginInfo")
     @ResponseBody
     public String oauthLoginInfo(Authentication authentication, @AuthenticationPrincipal OAuth2User oAuth2UserPrincipal){
+        String s = authentication.getName();
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
         System.out.println(oAuth2User.getName());
         Map<String, Object> attributes = oAuth2User.getAttributes();
@@ -98,7 +99,7 @@ public class UserController {
         Map<String, Object> attributes1 = oAuth2UserPrincipal.getAttributes();
         // attributes == attributes1
 
-        return attributes.toString();     //세션에 담긴 user가져올 수 있음음
+        return s;     //세션에 담긴 user가져올 수 있음음
     }
 
 

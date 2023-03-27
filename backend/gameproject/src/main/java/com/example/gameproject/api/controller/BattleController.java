@@ -36,7 +36,6 @@ public class BattleController {
     //    @PutMapping("/enemy")
     @PutMapping("/enemy/{userId}")
     ResponseEntity<?> attackedFromEnemy(@RequestBody EnemyAttackDto enemyAttackDto, @PathVariable("userId") long userId) {
-        System.out.println("YRETYTERYEYERYERYRE");
         List<MyCharacterAttackDto> res = enemyAttackService.enemyAttack(enemyAttackDto, userId);
 
         return ResponseEntity.status(200).body(res);
