@@ -91,6 +91,8 @@ const SytledButton = styled.button`
   }
   &.lg-btn {
     padding: 0.7rem 1.2rem;
-    font-size: 3rem;
+    width: 15rem;
+    height: 4rem;
+    font-size: 2rem;
   }
 `;
