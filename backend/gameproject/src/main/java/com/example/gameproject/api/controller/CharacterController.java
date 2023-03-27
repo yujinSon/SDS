@@ -12,7 +12,7 @@ import java.util.List;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/character")
+@RequestMapping("/api/character")
 public class CharacterController {
     @Autowired
     private CharacterService characterService;

@@ -22,7 +22,7 @@ import java.util.List;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/battle")
+@RequestMapping("/api/battle")
 public class BattleController {
     @Autowired
     BattlePlayerTurnService battlePlayerTurnService;

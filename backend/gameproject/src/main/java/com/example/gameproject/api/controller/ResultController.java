@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("/result")
+@RequestMapping("/api/result")
 public class ResultController {
     @Autowired
     ResultService resultService;
