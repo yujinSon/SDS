@@ -25,5 +25,4 @@ public class SelectedCharacterDto {
     int pos;
     UserDto user;
     List<SkillDto> skills;
-
 }
