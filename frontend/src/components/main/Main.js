@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
 import axios from 'axios';
-import api from 'constants/api';
 
 import Ranking from 'components/main/Ranking';
 import Tutorial from 'components/main/Tutorial';
@@ -16,7 +15,7 @@ import kakao from 'assets/img/kakao.png';
 export default function Main() {
   const navigate = useNavigate();
 
-  const [userInfo, setUserInfo] = useState(true);
+  const [userInfo, setUserInfo] = useState(false);
 
   // Modal state
   const [rankingModal, setRankingModal] = useState(false);
@@ -35,6 +34,7 @@ export default function Main() {
     axios('https://j8a303.p.ssafy.io/oauth2/authorization/kakao')
       .then((res) => {
         console.log('카카오 로그인 성공', res.data);
+        setUserInfo(true);
       })
       .catch((err) => {});
   };
