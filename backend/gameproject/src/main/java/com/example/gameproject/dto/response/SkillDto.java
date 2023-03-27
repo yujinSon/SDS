@@ -6,6 +6,7 @@ import lombok.*;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class SkillDto {
 
