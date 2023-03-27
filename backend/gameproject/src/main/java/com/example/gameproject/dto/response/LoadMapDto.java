@@ -16,8 +16,8 @@ public class LoadMapDto {
     private List<Integer> nextStep = new ArrayList<>();
 
     public LoadMapDto(List<Map> myMapList, User user) {
-        this.stage = user.getStage();
-        this.nowStep = user.getSubStage();
+        this.stage = user.getStage(); //
+        this.nowStep = user.getSubStage(); // 현재 있는 위치
         for (Map map : myMapList) {
             nextStep.add(map.getNextStep());
         }

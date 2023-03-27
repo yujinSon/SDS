@@ -1,11 +1,6 @@
 package com.example.gameproject.api.service;
 
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,10 +43,17 @@ public class ShopService {
 	//단순 영입 기능
 	@Transactional
 	public void addCharacter(long userId, List<ShopAddRequest> characterList){
+		User user = userRepository.findById(userId).orElse(null);
+
+		// 영입시 유물 효과 적용 - 먼저 내 유물리스트 뽑기
+		List<Artifact> myArtifacts = new ArrayList<>();
+		for (UserArtifact userArtifact : user.getUserArtifacts()) {
+			myArtifacts.add(userArtifact.getArtifact());
+		}
+
 		//내캐릭터에 캐릭터 추가
 		for(int i=0;i<characterList.size();i++) {
 			ShopAddRequest character = characterList.get(i);
-			User user = userRepository.findById(userId).orElse(null);
 			DefaultCharacter defaultCharacter = defaultCharacterRepository.findBySubName(character.getSubClassName());
 			CharacterStat characterStat = characterStatRepository.findByDefaultCharacterId(defaultCharacter.getId());
 			//비어있는 pos번호를 캐릭터 정보에 추가해 저장
@@ -85,6 +87,19 @@ public class ShopService {
 				.addCritical(characterStat.getAddCritical())
 				.statPoint((character.getLevel()-1)*5)
 				.build();
+
+			for (Artifact myArtifact : myArtifacts) {
+				if (myArtifact.isRange() == true) {
+					// 전체 효과 인경우
+					System.out.println("전테 효과 스텟 : " + myArtifact.getStat());
+					addStat(myCharacter, myArtifact.getStat(), myArtifact.getValue());
+				} else if (myArtifact.getTargetClass().equals(myCharacter.getDefaultCharacter().getClassName())) {
+					// 특정 클래스 효과인경우
+					System.out.println("특정 효과 스텟 : " + myArtifact.getStat());
+					addStat(myCharacter, myArtifact.getStat(), myArtifact.getValue());
+				}
+			}
+
 			myCharacterRepository.save(myCharacter);
 
 		}
@@ -93,13 +108,21 @@ public class ShopService {
 	//캐릭터 변경
 	@Transactional
 	public void changeCharacter(long userId, List<ShopChangeRequest> characterList){
+		User user = userRepository.findById(userId).orElse(null);
+
+		// 영입시 유물 효과 적용 - 먼저 내 유물리스트 뽑기
+		List<Artifact> myArtifacts = new ArrayList<>();
+		for (UserArtifact userArtifact : user.getUserArtifacts()) {
+			myArtifacts.add(userArtifact.getArtifact());
+		}
+
 		//변경할 캐릭터 저장
 		for(int i=0;i<characterList.size();i++) {
 			ShopChangeRequest character = characterList.get(i);
 			int pos = character.getPos();
 			myCharacterRepository.findByUserIdAndPos(userId, pos);
 			myCharacterRepository.deleteByUserIdAndPos(userId,pos);
-			User user = userRepository.findById(userId).orElse(null);
+
 			DefaultCharacter defaultCharacter = defaultCharacterRepository.findBySubName(character.getSubClassName());
 			CharacterStat characterStat = characterStatRepository.findByDefaultCharacterId(defaultCharacter.getId());
 			MyCharacter myCharacter = MyCharacter.builder()
@@ -122,6 +145,19 @@ public class ShopService {
 				.addCritical(characterStat.getAddCritical())
 				.statPoint((character.getLevel()-1)*5)
 				.build();
+
+			for (Artifact myArtifact : myArtifacts) {
+				if (myArtifact.isRange() == true) {
+					// 전체 효과 인경우
+					System.out.println("전테 효과 스텟 : " + myArtifact.getStat());
+					addStat(myCharacter, myArtifact.getStat(), myArtifact.getValue());
+				} else if (myArtifact.getTargetClass().equals(myCharacter.getDefaultCharacter().getClassName())) {
+					// 특정 클래스 효과인경우
+					System.out.println("특정 효과 스텟 : " + myArtifact.getStat());
+					addStat(myCharacter, myArtifact.getStat(), myArtifact.getValue());
+				}
+			}
+
 			myCharacterRepository.save(myCharacter);
 		}
 	}
@@ -170,6 +206,20 @@ public class ShopService {
 		Object[] arrayList = numberList.toArray();
 		long pos = (long) arrayList[value];
 
+		// 내 DB에 있는 케릭터들에게 유물 효과 적용 --
+		Artifact myArtifact = artifactRepository.findById(pos).orElse(null);
+		List<MyCharacter> myCharacters = myCharacterRepository.getMyCharacters(userId);
+		for (MyCharacter myCharacter : myCharacters) {
+			if (myArtifact.isRange() == true) {
+				addStat(myCharacter, myArtifact.getStat(), myArtifact.getValue());
+				myCharacterRepository.save(myCharacter);
+			} else if (myArtifact.getTargetClass().equals(myCharacter.getDefaultCharacter().getClassName())) {
+				addStat(myCharacter, myArtifact.getStat(), myArtifact.getValue());
+				myCharacterRepository.save(myCharacter);
+			}
+		}
+
+
 		System.out.println("arrayList : "+ arrayList.length+"value : " + value);
 
 		// 중계 테이블에 artifact 저장
@@ -193,5 +243,24 @@ public class ShopService {
 			result = relic;
 		}
 		return result;
+	}
+
+	// 효과 적용 함수
+	// 효과 적용이기 떄문에 저장하지는 않음
+	public void addStat(MyCharacter myCharacter, String stat, int value) {
+		if (stat.equals("hp")) {
+			myCharacter.addHd(value);
+		} else if (stat.equals(("ad"))) {
+			myCharacter.addAd(value);
+		} else if (stat.equals(("ap"))) {
+			myCharacter.addAp(value);
+		} else if (stat.equals(("speed"))) {
+			myCharacter.addSpeed(value);
+		} else if (stat.equals(("avoid"))) {
+			myCharacter.addAvoid(value);
+		} else {
+			// critical
+			myCharacter.addCritical(value);
+		}
 	}
 }
