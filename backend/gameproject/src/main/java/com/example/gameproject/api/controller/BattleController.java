@@ -36,7 +36,6 @@ public class BattleController {
     //    @PutMapping("/enemy")
     @PutMapping("/enemy/{userId}")
     ResponseEntity<?> attackedFromEnemy(@RequestBody EnemyAttackDto enemyAttackDto, @PathVariable("userId") long userId) {
-        System.out.println(11111111);
         List<MyCharacterAttackDto> res = enemyAttackService.enemyAttack(enemyAttackDto, userId);
 
         return ResponseEntity.status(200).body(res);
@@ -51,10 +50,13 @@ public class BattleController {
         return ResponseEntity.status(200).body(res);
     }
 
-    @GetMapping("/finished")
-    public ResponseEntity<?> GetTurnFinished(){
+//    @PutMapping("/finished")
+    @PutMapping("/finished/{userId}")
+    public ResponseEntity<?> GetTurnFinished(@PathVariable("userId") long userId){
         battleService.CoolTime();
         battleService.EffectTime();
+        battleService.addTurn(userId);
+
         return ResponseEntity.ok(battleService.MyCharacterList());
     }
 
@@ -69,4 +71,5 @@ public class BattleController {
         battleService.updateStat(userId, chagedStatList);
         return ResponseEntity.status(200).body("success");
     }
+
 }

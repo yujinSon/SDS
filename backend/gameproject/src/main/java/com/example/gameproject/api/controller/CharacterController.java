@@ -5,6 +5,7 @@ import com.example.gameproject.dto.response.RandomCharacterDto;
 import com.example.gameproject.dto.response.SelectedCharacterDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,9 +18,10 @@ public class CharacterController {
     private CharacterService characterService;
 
     // 랜덤으로 3명을 데려온다.
-    @GetMapping(value = "/random/{stage}")
-    public ResponseEntity<?> getRandomCharactersList(@PathVariable int stage) throws Exception{
-        List<RandomCharacterDto> result = characterService.RandomCharacter(stage);
+//    @GetMapping(value = "/random")
+    @GetMapping(value = "/random")
+    public ResponseEntity<?> getRandomCharactersList(@PathVariable Long userId) throws Exception{
+        List<RandomCharacterDto> result = characterService.RandomCharacter(userId);
         return ResponseEntity.ok(result);
     }
 

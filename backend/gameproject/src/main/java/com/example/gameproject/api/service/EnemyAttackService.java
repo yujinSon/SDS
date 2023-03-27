@@ -28,33 +28,7 @@ public class EnemyAttackService {
     public List<MyCharacterAttackDto> enemyAttack(EnemyAttackDto enemyAttackDto, Long userId) {
         int damage = enemyAttackDto.getDamage();
 
-//        if (enemyAttackDto.getTarget() == 3) {
-//            // 전체 공격인 경우
-//            List<MyCharacter> myCharacters = myCharacterRepository.getMyCharacters(userId);
-//            for (MyCharacter myc : myCharacters) {
-//                int avoidValue = myc.getAvoid();
-//                int myHp = myc.getHp() - (damage * avoidRes(avoidValue));
-//
-//                if (myHp <= 0) {
-//                    myCharacterRepository.delete(myc);
-//                } else {
-//                    myc.setHp(myHp);
-//                    myCharacterRepository.save(myc);
-//                }
-//            }
-//        } else {
-//            // 단일 대상인 경우
-//            MyCharacter myc = myCharacterRepository.getMyCharacterUsingUserIdPos(userId, enemyAttackDto.getTarget());
-//            int avoidValue = myc.getAvoid();
-//            int myHp = myc.getHp() - (damage * avoidRes(avoidValue));
-//
-//            if (myHp <= 0) {
-//                myCharacterRepository.delete(myc);
-//            } else {
-//                myc.setHp(myHp);
-//                myCharacterRepository.save(myc);
-//            }
-//        }
+        System.out.println("ttttttttttttttttttttttttttttttttttttttttttt");
 
         // Front 에 줄 정보, BattlePlayerTurnService의 부분과 같다.
         List<MyCharacterAttackDto> myCharacterAttackDtos = new ArrayList<>();
@@ -132,37 +106,6 @@ public class EnemyAttackService {
                 }
             }
         }
-
-
-        // 유물 효과 적용힌 후에 데미지 계산, 회피율이나 체력이 증가 될 수 있기 때문에.
-        // 유뮬은 유물을 뽑을때, 캐릭을 뽑을 떄 Mycharacter 에 영구 저장해야 겠는데
-//        if (enemyAttackDto.getTarget() == 3) {
-//            // 전체 공격인 경우
-//            List<MyCharacter> myCharacters = myCharacterRepository.getMyCharacters(userId);
-//            for (MyCharacter myc : myCharacters) {
-//                int avoidValue = myc.getAvoid();
-//                int myHp = myc.getHp() - (damage * avoidRes(avoidValue));
-//
-//                if (myHp <= 0) {
-//                    myCharacterRepository.delete(myc);
-//                } else {
-//                    myc.setHp(myHp);
-//                    myCharacterRepository.save(myc);
-//                }
-//            }
-//        } else {
-//            // 단일 대상인 경우
-//            MyCharacter myc = myCharacterRepository.getMyCharacterUsingUserIdPos(userId, enemyAttackDto.getTarget());
-//            int avoidValue = myc.getAvoid();
-//            int myHp = myc.getHp() - (damage * avoidRes(avoidValue));
-//
-//            if (myHp <= 0) {
-//                myCharacterRepository.delete(myc);
-//            } else {
-//                myc.setHp(myHp);
-//                myCharacterRepository.save(myc);
-//            }
-//        }
 
 
         // 이제 회피율 고여해서 데미지 계산
