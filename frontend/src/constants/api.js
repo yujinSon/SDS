@@ -19,7 +19,8 @@ const api = function (type, options = {}) {
     playersTurn: ['/battle/player/1', 'post'],
     finishTurn: ['/api/battle/finished', 'put'],
 
-    // 전투 끝난 거 알려주는 api 하나 더 필요함
+    // 캐릭터 사망으로 전투 종료
+    endBattle: ['/battle/end', 'delete'],
 
     // 전투 승리 후 스텟 창
     changeStat: ['/api/battle/victory', 'put'],
