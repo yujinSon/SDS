@@ -44,6 +44,17 @@ export default function BattlePage() {
     // 턴 한 번만 처음 계산해줌 (nowIdx가 0인 경우에)
     if (nowIdx !== 0) return;
 
+    // 턴 종료 (=새로운 턴 시작) 될 때 백에 알려줌
+    const [url, method] = api('finishTurn');
+    const config = { url, method };
+    axios(config)
+      .then((res) => {
+        console.log('턴 끝났다고 백에 알려줬음', res.data);
+      })
+      .catch((err) => {
+        console.log('턴종료 에러', err);
+      });
+
     const mergedArr = [
       ...characters.map(({ pos, speed }) => ({ pos, speed })),
       ...monsters.map(({ pos, speed }) => ({ pos, speed })),
@@ -71,15 +82,44 @@ export default function BattlePage() {
   // 캐릭터, 빌런 전멸 여부 체크
   useEffect(() => {
     if (!characters | !monsters) return;
+
     if (characters.length === 0) {
       console.log('캐릭터 모두 사망함');
+
+      // 캐릭터가 다 사망해서 api 보냄 (let으로 설정해서 나중에 오류 뜨면 수정해야함)
+      let [url, method] = api('gameOver');
+      let config = { url, method };
+      axios(config)
+        .then((res) => {
+          console.log('캐릭터 사망 response:', res.data);
+        })
+        .catch((err) => {
+          console.log('캐릭터 사망 err', err);
+        });
+
+      // 캐릭터 or 빌런이 다 죽어서 게임 끝
+      [url, method] = api('endBattle');
+      config = { url, method };
+      axios(config)
+        .then((res) => {
+          console.log('캐릭터 전멸해서 게임 끝', res.data);
+        })
+        .catch((err) => {
+          console.log('endBattle 에러', err);
+        });
+    }
+
+    if (monsters.length === 0) {
+      console.log('몬스터 전멸함');
       const [url, method] = api('endBattle');
       const config = { url, method };
       axios(config)
         .then((res) => {
-          console.log('캐릭터 사망 response', res.data);
+          console.log('몬스터 전멸', res.data);
         })
-        .catch((err) => {});
+        .catch((err) => {
+          console.log('endBattle 에러', err);
+        });
     }
   }, [characters, monsters]);
 
@@ -298,6 +338,31 @@ export default function BattlePage() {
 
     const mySkill = characters[selectedCh].skills[selectedSkill];
     const myCharacter = characters[selectedCh];
+
+    let chIdx = 0;
+    for (let idx = 0; idx < characters.length; idx++) {
+      if (characters[idx].pos === nowTurn) {
+        chIdx = idx;
+        break;
+      }
+    }
+    const data = {
+      // 스킬 사용 시전자의 pos
+      pos: nowTurn,
+      skillName: characters[chIdx].skills[selectedSkill].skillName,
+      // 스킬을 적용시킬 대상의 pos - 전체면 3 (ch.pos)
+      target: -1,
+    };
+    console.log(data, '회복스킬 시전 시 보낼 data');
+    const [url, method] = api('playersTurn');
+    const config = { url, method, data };
+    axios(config)
+      .then((res) => {
+        console.log('버프 요청 axios', res.data);
+        // 새롭게 업데이트 된 캐릭터 정보 저장
+        setCharacters(res.data);
+      })
+      .catch((err) => {});
 
     if (mySkill.skillTarget === 0) {
       // 몬스터가 뚜까맞을 데미지 (뒤에는 계수임 ㅅㄱㅇ)
