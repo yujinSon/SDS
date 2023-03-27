@@ -19,7 +19,7 @@ import com.example.gameproject.dto.response.RelicResponse;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/shop")
+@RequestMapping("/api/shop")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
 public class ShopController {
