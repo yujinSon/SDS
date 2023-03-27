@@ -6,7 +6,7 @@ https://yamoo9.github.io/axios/guide/api.html#%EC%9D%B8%EC%8A%A4%ED%84%B4%EC%8A%
 */
 
 const apiRequest = axios.create({
-  baseURL: 'http://j8a303.p.ssafy.io:8080', // 요청 날릴 서버 주소
+  baseURL: 'https://j8a303.p.ssafy.io/api', // 요청 날릴 서버 주소
   // withCredentials: true, // 쿠키 사용을 위해 설정
 });
 
