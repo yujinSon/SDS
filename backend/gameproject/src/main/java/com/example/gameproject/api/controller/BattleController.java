@@ -34,16 +34,18 @@ public class BattleController {
     EnemyAttackService enemyAttackService;
 
     //    @PutMapping("/enemy")
-    @PutMapping("/enemy/{userId}")
-    ResponseEntity<?> attackedFromEnemy(@RequestBody EnemyAttackDto enemyAttackDto, @PathVariable("userId") long userId) {
+    @PutMapping("/enemy")
+    ResponseEntity<?> attackedFromEnemy(@RequestBody EnemyAttackDto enemyAttackDto) {
+        long userId = 1L;
         List<MyCharacterAttackDto> res = enemyAttackService.enemyAttack(enemyAttackDto, userId);
 
         return ResponseEntity.status(200).body(res);
     }
 
 //    @PostMapping("/player")
-    @PostMapping("/player/{userId}")
-    public ResponseEntity<?> attackEnemy(@RequestBody PlayerAttackDto playerAttackDto, @PathVariable("userId") long userId){
+    @PostMapping("/player")
+    public ResponseEntity<?> attackEnemy(@RequestBody PlayerAttackDto playerAttackDto){
+        long userId = 1L;
         List<MyCharacterAttackDto> res = battlePlayerTurnService.myTurnAttack(playerAttackDto, userId);
 
 
@@ -51,8 +53,9 @@ public class BattleController {
     }
 
 //    @PutMapping("/finished")
-    @PutMapping("/finished/{userId}")
-    public ResponseEntity<?> GetTurnFinished(@PathVariable("userId") long userId){
+    @PutMapping("/finished")
+    public ResponseEntity<?> GetTurnFinished(){
+        long userId = 1L;
         battleService.CoolTime();
         battleService.EffectTime();
         battleService.addTurn(userId);
@@ -66,8 +69,9 @@ public class BattleController {
         return ResponseEntity.ok("delete_ok");
     }
 
-    @PutMapping("/victory/{userId}")
-    public ResponseEntity<String> updateStat(@RequestBody List<CharacterVictoryStat> chagedStatList, @PathVariable long userId){
+    @PutMapping("/victory")
+    public ResponseEntity<String> updateStat(@RequestBody List<CharacterVictoryStat> chagedStatList){
+        long userId = 1L;
         battleService.updateStat(userId, chagedStatList);
         return ResponseEntity.status(200).body("success");
     }
