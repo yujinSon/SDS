@@ -51,10 +51,13 @@ public class BattleController {
         return ResponseEntity.status(200).body(res);
     }
 
-    @GetMapping("/finished")
-    public ResponseEntity<?> GetTurnFinished(){
+//    @GetMapping("/finished")
+    @GetMapping("/finished/{userId}")
+    public ResponseEntity<?> GetTurnFinished(@PathVariable("userId") long userId){
         battleService.CoolTime();
         battleService.EffectTime();
+        battleService.addTurn(userId);
+
         return ResponseEntity.ok(battleService.MyCharacterList());
     }
 
@@ -69,4 +72,5 @@ public class BattleController {
         battleService.updateStat(userId, chagedStatList);
         return ResponseEntity.status(200).body("success");
     }
+
 }

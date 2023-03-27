@@ -172,6 +172,13 @@ public class BattleService {
     }
 
     @Transactional
+    public void addTurn(long userId) {
+        User user = userRepository.getById(userId);
+        user.addTurn();
+        userRepository.save(user);
+    }
+
+    @Transactional
     public void updateStat(long userId, EnemyAttackDto enemyAttackDto) {
         //user에서 mycharacter 가져오기
 //        List<MyCharacter> myCharacters = myCharacterRepository.findByUserId(userId);
