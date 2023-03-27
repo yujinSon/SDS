@@ -1,8 +1,8 @@
 const api = function (type, options = {}) {
   const apiObject = {
     // 게임 메인 페이지
-    getRandomCh: ['/character/random/1', 'get'],
-    getSelectedCh: ['/character/selected/1', 'get'], // 전투 승리했을 때 한 번 더 불러와야함 (스텟 찍기 전에)
+    getRandomCh: ['/character/random', 'get'],
+    getSelectedCh: ['/character/selected', 'get'], // 전투 승리했을 때 한 번 더 불러와야함 (스텟 찍기 전에)
     saveCh: ['/character/save', 'post'],
 
     // 맵 페이지
@@ -12,9 +12,9 @@ const api = function (type, options = {}) {
 
     // 전투 페이지
     loadStage: ['/stage/load', 'get'],
-    enemysTurn: ['/battle/enemy/1', 'put'],
-    playersTurn: ['/battle/player/1', 'post'],
-    finishTurn: ['/battle/finished/1', 'put'],
+    enemysTurn: ['/battle/enemy', 'put'],
+    playersTurn: ['/battle/player', 'post'],
+    finishTurn: ['/battle/finished', 'put'],
 
     // 캐릭터 or 빌런 전멸로 전투 종료
     endBattle: ['/battle/end', 'delete'],
