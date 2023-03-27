@@ -1,8 +1,5 @@
 const api = function (type, options = {}) {
   const apiObject = {
-    // 사용자 인증 (카카오)
-    login: ['/oauth/loginInfo', 'get'],
-
     // 게임 메인 페이지
     getRandomCh: ['/character/random/1', 'get'],
     getSelectedCh: ['/character/selected/1', 'get'], // 전투 승리했을 때 한 번 더 불러와야함 (스텟 찍기 전에)
