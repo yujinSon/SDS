@@ -68,6 +68,21 @@ export default function BattlePage() {
     // console.log('현재 공격 pos', turnOrder[nowIdx]);
   }, [nowIdx]);
 
+  // 캐릭터, 빌런 전멸 여부 체크
+  useEffect(() => {
+    if (!characters | !monsters) return;
+    if (characters.length === 0) {
+      console.log('캐릭터 모두 사망함');
+      const [url, method] = api('endBattle');
+      const config = { url, method };
+      axios(config)
+        .then((res) => {
+          console.log('캐릭터 사망 response', res.data);
+        })
+        .catch((err) => {});
+    }
+  }, [characters, monsters]);
+
   // *** 빌런 공격 로직 및 캐릭터 사망 시 턴 넘김 logic ***
   useEffect(() => {
     console.log(turnOrder, '빌런 공격 시의 turnOrder');
@@ -181,13 +196,14 @@ export default function BattlePage() {
           let healAmount = mySkill.value;
           // 전체 빌런에게 힐 스킬 적용
           if (mySkill.range === true) {
+            console.log('빌런의 전체 회복 스킬!!!');
             for (let monster of monsters) {
               monster.hp = min(monster.hp + healAmount, monster.maxHp);
             }
             // 빌런 한 마리에게 힐 스킬 적용
           } else {
             // 몬스터에서 피 가장 작은 애한테 힐 스킬 적용
-            console.log('빌런의 회복스킬이다~~~~~');
+            console.log('빌런의 단일 회복 스킬!!!');
             let minHpMonsterPos = -1;
             let minValue = 999999999;
             for (let monster of monsters) {
@@ -216,7 +232,6 @@ export default function BattlePage() {
   const [playerTurn, setPlayerTurn] = useState(0);
   const [selectedCh, setSelectedCh] = useState(null);
   const [selectedSkill, setSelectedSkill] = useState(null);
-  const [attackedMonster, setAttackedMonster] = useState(null);
 
   const clickCh = (ch) => {
     // 버프 주는 거임
