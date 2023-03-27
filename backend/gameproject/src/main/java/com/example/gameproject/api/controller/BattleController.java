@@ -50,8 +50,8 @@ public class BattleController {
         return ResponseEntity.status(200).body(res);
     }
 
-//    @GetMapping("/finished")
-    @GetMapping("/finished/{userId}")
+//    @PutMapping("/finished")
+    @PutMapping("/finished/{userId}")
     public ResponseEntity<?> GetTurnFinished(@PathVariable("userId") long userId){
         battleService.CoolTime();
         battleService.EffectTime();
