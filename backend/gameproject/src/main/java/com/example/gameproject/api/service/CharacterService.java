@@ -24,7 +24,9 @@ public class CharacterService {
     private final SkillRepository skillRepository;
 
 
-    public List<RandomCharacterDto> RandomCharacter(int stage){
+    public List<RandomCharacterDto> RandomCharacter(Long userId){
+        User user = userRepository.getById(userId);
+        int stage = user.getNowStage();
         List<RandomCharacterDto> result = new ArrayList<>();
         int randomLevel = (int) (Math.random() * 4) + (stage-1) * 4 + 1 ;
 
