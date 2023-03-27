@@ -13,7 +13,7 @@ import java.util.Map;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/stage")
+@RequestMapping("/api/stage")
 public class StageController {
 
     @Autowired

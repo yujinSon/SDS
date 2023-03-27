@@ -66,6 +66,10 @@ public class User implements Serializable {
         this.subStage = subStage;
     }
 
+    public void addTurn() {
+        this.turn += 1;
+    }
+
     public void changeNowMap(MapSaveRequest mapSaveRequest){
         this.nowStage = mapSaveRequest.getNowStage();
         this.nowSubStage = mapSaveRequest.getNowSubStage();
