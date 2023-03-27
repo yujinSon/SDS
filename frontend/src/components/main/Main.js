@@ -31,7 +31,10 @@ export default function Main() {
 
   // 카카오 로그인
   const kakaoLogin = () => {
-    axios('https://j8a303.p.ssafy.io/oauth2/authorization/kakao')
+    axios({
+      url: 'https://j8a303.p.ssafy.io/oauth2/authorization/kakao',
+      method: 'post',
+    })
       .then((res) => {
         console.log('카카오 로그인 성공', res.data);
         setUserInfo(true);
