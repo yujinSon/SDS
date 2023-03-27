@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import IMG from 'assets/img/고병진.png';
+import IMG2 from 'assets/img/손민혁.png';
 
 export default function Information({
   character,
@@ -29,17 +30,23 @@ export default function Information({
           </LeftContainer>
           <RightContainer>
             <SkillContainer>
-              {character.skills.map((skill, idx) => (
-                <Img
-                  src={IMG}
-                  alt="스킬사진"
-                  key={idx}
-                  onClick={() => {
-                    clickSkill(idx);
-                  }}
-                  selectedSkill={selectedSkill === idx}
-                />
-              ))}
+              <SkillContainer>
+                {character.skills.map((skill, idx) => {
+                  return character.skillCoolTime[idx] ? (
+                    <Img
+                      src={IMG}
+                      alt="스킬사진"
+                      key={idx}
+                      onClick={() => {
+                        clickSkill(idx);
+                      }}
+                      selectedSkill={selectedSkill === idx}
+                    />
+                  ) : (
+                    <Img src={IMG2} alt="스킬사진" key={idx} />
+                  );
+                })}
+              </SkillContainer>
             </SkillContainer>
             {selectedSkill != null ? (
               <>
@@ -87,8 +94,8 @@ const SkillContainer = styled.div`
   flex-direction: row;
 
   color: black;
-  width: 30%;
-  height: 30%;
+  width: 50%;
+  height: 50%;
 `;
 
 const Img = styled.img`
