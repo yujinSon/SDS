@@ -20,9 +20,8 @@ public class SelectedCharacterDto {
     int speed;
     int critical;
     int avoid;
-    int maxHP;
+    int maxHp;
     int pos;
     UserDto user;
     List<SkillDto> skills;
-
 }

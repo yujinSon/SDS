@@ -23,7 +23,7 @@ public class Artifact implements Serializable {
 
     private String name;
     private boolean isRange;
-    private int targetClass;
+    private String targetClass;
     private String stat;
     private int value;
 

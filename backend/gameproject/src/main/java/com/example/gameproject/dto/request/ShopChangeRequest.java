@@ -2,10 +2,6 @@ package com.example.gameproject.dto.request;
 
 import java.util.List;
 
-import com.example.gameproject.db.entity.Skill;
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -13,7 +9,7 @@ import lombok.ToString;
 @Getter
 @NoArgsConstructor
 @ToString
-public class ShopAddRequest {
+public class ShopChangeRequest {
 
 	private String className;
 	private String subClassName;
@@ -26,4 +22,5 @@ public class ShopAddRequest {
 	private int critical;
 	private int avoid;
 	private int maxHP;
+	private int pos;
 }

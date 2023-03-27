@@ -5,6 +5,7 @@ import com.example.gameproject.db.entity.User;
 import com.example.gameproject.db.repository.EffectTimeRepository;
 import com.example.gameproject.db.repository.MyCharacterRepository;
 import com.example.gameproject.db.repository.UserRepository;
+import com.example.gameproject.dto.request.CharacterVictoryStat;
 import com.example.gameproject.dto.request.EnemyAttackDto;
 import com.example.gameproject.dto.request.SkillRequestDto;
 import com.example.gameproject.dto.response.MyCharacterUpdateDto;
@@ -31,6 +32,24 @@ public class BattleService {
     private final CoolTimeRepository coolTimeRepository;
     private final EffectTimeRepository effectTimeRepository;
 
+
+    @Transactional
+    public void updateStat(long userId, List<CharacterVictoryStat> chagedStatList){
+        for(int i=0;i<chagedStatList.size();i++){
+            MyCharacter myCharacter = myCharacterRepository.findByUserIdAndPos(userId,i);
+            CharacterVictoryStat stat = chagedStatList.get(i);
+            int maxHp = myCharacter.getMaxHp() + myCharacter.getAddHp() * stat.getAddHp();
+            int hp = myCharacter.getHp() + myCharacter.getAddHp() * stat.getAddHp();
+            int ad = myCharacter.getAd() + myCharacter.getAddAd() * stat.getAddAd();
+            int ap = myCharacter.getAp() + myCharacter.getAddAp() * stat.getAddAp();
+            int speed = myCharacter.getSpeed() + myCharacter.getAddSpeed() * stat.getAddSpeed();
+            int critical = myCharacter.getCritical() + myCharacter.getAddCritical() * stat.getAddCritical();
+            int avoid = myCharacter.getAvoid() + myCharacter.getAddAvoid() * stat.getAddAvoid();
+
+            myCharacter.updateVictoryStat(maxHp, hp, ad, ap, speed, critical, avoid);
+            myCharacterRepository.save(myCharacter);
+        }
+    }
     // CoolTime에서 Turn을 하나씩 지우는 방식을 사용
     @Transactional
     public void CoolTime() {
@@ -148,105 +167,105 @@ public class BattleService {
     @Transactional
     public void updateStat(long userId, EnemyAttackDto enemyAttackDto) {
         //user에서 mycharacter 가져오기
-        List<MyCharacter> myCharacters = myCharacterRepository.findByUserId(userId);
-        SkillRequestDto skill = enemyAttackDto.getSkill();
-        if (!skill.isRange()) { // 단일
-            //해당 위치
-            MyCharacter targetCharacter = myCharacters.get(enemyAttackDto.getTarget());
-
-            //해당 위치의 플레이어에게 스킬 적용
-            if (skill.getStat().equals("hp")) {
-                if (targetCharacter.getHp() - skill.getValue() < 0)
-                    targetCharacter.updateStat(0, targetCharacter.getAp(), targetCharacter.getAd(),
-                            targetCharacter.getSpeed(), targetCharacter.getCritical(), targetCharacter.getAvoid());
-                else
-                    targetCharacter.updateStat(targetCharacter.getHp() - skill.getValue(), targetCharacter.getAp(), targetCharacter.getAd(),
-                            targetCharacter.getSpeed(), targetCharacter.getCritical(), targetCharacter.getAvoid());
-            } else if (skill.getStat().equals("ap")) {
-                if (targetCharacter.getAp() - skill.getValue() < 0)
-                    targetCharacter.updateStat(targetCharacter.getHp(), 0, targetCharacter.getAd(),
-                            targetCharacter.getSpeed(), targetCharacter.getCritical(), targetCharacter.getAvoid());
-                else
-                    targetCharacter.updateStat(targetCharacter.getHp(), targetCharacter.getAp() - skill.getValue(), targetCharacter.getAd(),
-                            targetCharacter.getSpeed(), targetCharacter.getCritical(), targetCharacter.getAvoid());
-            } else if (skill.getStat().equals("ad")) {
-                if (targetCharacter.getAd() - skill.getValue() < 0)
-                    targetCharacter.updateStat(targetCharacter.getHp(), targetCharacter.getAp(), 0,
-                            targetCharacter.getSpeed(), targetCharacter.getCritical(), targetCharacter.getAvoid());
-                else
-                    targetCharacter.updateStat(targetCharacter.getHp(), targetCharacter.getAp(), targetCharacter.getAd() - skill.getValue(),
-                            targetCharacter.getSpeed(), targetCharacter.getCritical(), targetCharacter.getAvoid());
-            } else if (skill.getStat().equals("speed")) {
-                if (targetCharacter.getSpeed() - skill.getValue() < 0)
-                    targetCharacter.updateStat(targetCharacter.getHp(), targetCharacter.getAp(), targetCharacter.getAd(),
-                            0, targetCharacter.getCritical(), targetCharacter.getAvoid());
-                else
-                    targetCharacter.updateStat(targetCharacter.getHp(), targetCharacter.getAp(), targetCharacter.getAd(),
-                            targetCharacter.getSpeed() - skill.getValue(), targetCharacter.getCritical(), targetCharacter.getAvoid());
-            } else if (skill.getStat().equals("critical")) {
-                if (targetCharacter.getCritical() - skill.getValue() < 0)
-                    targetCharacter.updateStat(targetCharacter.getHp(), targetCharacter.getAp(), targetCharacter.getAd(),
-                            targetCharacter.getSpeed(), 0, targetCharacter.getAvoid());
-                else
-                    targetCharacter.updateStat(targetCharacter.getHp(), targetCharacter.getAp(), targetCharacter.getAd(),
-                            targetCharacter.getSpeed(), targetCharacter.getCritical() - skill.getValue(), targetCharacter.getAvoid());
-            } else if (skill.getStat().equals("avoid")) {
-                if (targetCharacter.getCritical() - skill.getValue() < 0)
-                    targetCharacter.updateStat(targetCharacter.getHp(), targetCharacter.getAp(), targetCharacter.getAd(),
-                            targetCharacter.getSpeed(), targetCharacter.getCritical(), 0);
-                else
-                    targetCharacter.updateStat(targetCharacter.getHp(), targetCharacter.getAp(), targetCharacter.getAd(),
-                            targetCharacter.getSpeed(), targetCharacter.getCritical(), targetCharacter.getAvoid() - skill.getValue());
-            }
-            myCharacterRepository.save(targetCharacter);
-        } else {//전체
-            for (MyCharacter targetCharacter : myCharacters) {
-                //해당 위치의 플레이어에게 스킬 적용
-                if (skill.getStat().equals("hp")) {
-                    if (targetCharacter.getHp() - skill.getValue() < 0)
-                        targetCharacter.updateStat(0, targetCharacter.getAp(), targetCharacter.getAd(),
-                                targetCharacter.getSpeed(), targetCharacter.getCritical(), targetCharacter.getAvoid());
-                    else
-                        targetCharacter.updateStat(targetCharacter.getHp() - skill.getValue(), targetCharacter.getAp(), targetCharacter.getAd(),
-                                targetCharacter.getSpeed(), targetCharacter.getCritical(), targetCharacter.getAvoid());
-                } else if (skill.getStat().equals("ap")) {
-                    if (targetCharacter.getAp() - skill.getValue() < 0)
-                        targetCharacter.updateStat(targetCharacter.getHp(), 0, targetCharacter.getAd(),
-                                targetCharacter.getSpeed(), targetCharacter.getCritical(), targetCharacter.getAvoid());
-                    else
-                        targetCharacter.updateStat(targetCharacter.getHp(), targetCharacter.getAp() - skill.getValue(), targetCharacter.getAd(),
-                                targetCharacter.getSpeed(), targetCharacter.getCritical(), targetCharacter.getAvoid());
-                } else if (skill.getStat().equals("ad")) {
-                    if (targetCharacter.getAd() - skill.getValue() < 0)
-                        targetCharacter.updateStat(targetCharacter.getHp(), targetCharacter.getAp(), 0,
-                                targetCharacter.getSpeed(), targetCharacter.getCritical(), targetCharacter.getAvoid());
-                    else
-                        targetCharacter.updateStat(targetCharacter.getHp(), targetCharacter.getAp(), targetCharacter.getAd() - skill.getValue(),
-                                targetCharacter.getSpeed(), targetCharacter.getCritical(), targetCharacter.getAvoid());
-                } else if (skill.getStat().equals("speed")) {
-                    if (targetCharacter.getSpeed() - skill.getValue() < 0)
-                        targetCharacter.updateStat(targetCharacter.getHp(), targetCharacter.getAp(), targetCharacter.getAd(),
-                                0, targetCharacter.getCritical(), targetCharacter.getAvoid());
-                    else
-                        targetCharacter.updateStat(targetCharacter.getHp(), targetCharacter.getAp(), targetCharacter.getAd(),
-                                targetCharacter.getSpeed() - skill.getValue(), targetCharacter.getCritical(), targetCharacter.getAvoid());
-                } else if (skill.getStat().equals("critical")) {
-                    if (targetCharacter.getCritical() - skill.getValue() < 0)
-                        targetCharacter.updateStat(targetCharacter.getHp(), targetCharacter.getAp(), targetCharacter.getAd(),
-                                targetCharacter.getSpeed(), 0, targetCharacter.getAvoid());
-                    else
-                        targetCharacter.updateStat(targetCharacter.getHp(), targetCharacter.getAp(), targetCharacter.getAd(),
-                                targetCharacter.getSpeed(), targetCharacter.getCritical() - skill.getValue(), targetCharacter.getAvoid());
-                } else if (skill.getStat().equals("avoid")) {
-                    if (targetCharacter.getCritical() - skill.getValue() < 0)
-                        targetCharacter.updateStat(targetCharacter.getHp(), targetCharacter.getAp(), targetCharacter.getAd(),
-                                targetCharacter.getSpeed(), targetCharacter.getCritical(), 0);
-                    else
-                        targetCharacter.updateStat(targetCharacter.getHp(), targetCharacter.getAp(), targetCharacter.getAd(),
-                                targetCharacter.getSpeed(), targetCharacter.getCritical(), targetCharacter.getAvoid() - skill.getValue());
-                }
-                myCharacterRepository.save(targetCharacter);
-            }//for
-        }
+//        List<MyCharacter> myCharacters = myCharacterRepository.findByUserId(userId);
+//        SkillRequestDto skill = enemyAttackDto.getSkill();
+//        if (!skill.isRange()) { // 단일
+//            //해당 위치
+//            MyCharacter targetCharacter = myCharacters.get(enemyAttackDto.getTarget());
+//
+//            //해당 위치의 플레이어에게 스킬 적용
+//            if (skill.getStat().equals("hp")) {
+//                if (targetCharacter.getHp() - skill.getValue() < 0)
+//                    targetCharacter.updateStat(0, targetCharacter.getAp(), targetCharacter.getAd(),
+//                            targetCharacter.getSpeed(), targetCharacter.getCritical(), targetCharacter.getAvoid());
+//                else
+//                    targetCharacter.updateStat(targetCharacter.getHp() - skill.getValue(), targetCharacter.getAp(), targetCharacter.getAd(),
+//                            targetCharacter.getSpeed(), targetCharacter.getCritical(), targetCharacter.getAvoid());
+//            } else if (skill.getStat().equals("ap")) {
+//                if (targetCharacter.getAp() - skill.getValue() < 0)
+//                    targetCharacter.updateStat(targetCharacter.getHp(), 0, targetCharacter.getAd(),
+//                            targetCharacter.getSpeed(), targetCharacter.getCritical(), targetCharacter.getAvoid());
+//                else
+//                    targetCharacter.updateStat(targetCharacter.getHp(), targetCharacter.getAp() - skill.getValue(), targetCharacter.getAd(),
+//                            targetCharacter.getSpeed(), targetCharacter.getCritical(), targetCharacter.getAvoid());
+//            } else if (skill.getStat().equals("ad")) {
+//                if (targetCharacter.getAd() - skill.getValue() < 0)
+//                    targetCharacter.updateStat(targetCharacter.getHp(), targetCharacter.getAp(), 0,
+//                            targetCharacter.getSpeed(), targetCharacter.getCritical(), targetCharacter.getAvoid());
+//                else
+//                    targetCharacter.updateStat(targetCharacter.getHp(), targetCharacter.getAp(), targetCharacter.getAd() - skill.getValue(),
+//                            targetCharacter.getSpeed(), targetCharacter.getCritical(), targetCharacter.getAvoid());
+//            } else if (skill.getStat().equals("speed")) {
+//                if (targetCharacter.getSpeed() - skill.getValue() < 0)
+//                    targetCharacter.updateStat(targetCharacter.getHp(), targetCharacter.getAp(), targetCharacter.getAd(),
+//                            0, targetCharacter.getCritical(), targetCharacter.getAvoid());
+//                else
+//                    targetCharacter.updateStat(targetCharacter.getHp(), targetCharacter.getAp(), targetCharacter.getAd(),
+//                            targetCharacter.getSpeed() - skill.getValue(), targetCharacter.getCritical(), targetCharacter.getAvoid());
+//            } else if (skill.getStat().equals("critical")) {
+//                if (targetCharacter.getCritical() - skill.getValue() < 0)
+//                    targetCharacter.updateStat(targetCharacter.getHp(), targetCharacter.getAp(), targetCharacter.getAd(),
+//                            targetCharacter.getSpeed(), 0, targetCharacter.getAvoid());
+//                else
+//                    targetCharacter.updateStat(targetCharacter.getHp(), targetCharacter.getAp(), targetCharacter.getAd(),
+//                            targetCharacter.getSpeed(), targetCharacter.getCritical() - skill.getValue(), targetCharacter.getAvoid());
+//            } else if (skill.getStat().equals("avoid")) {
+//                if (targetCharacter.getCritical() - skill.getValue() < 0)
+//                    targetCharacter.updateStat(targetCharacter.getHp(), targetCharacter.getAp(), targetCharacter.getAd(),
+//                            targetCharacter.getSpeed(), targetCharacter.getCritical(), 0);
+//                else
+//                    targetCharacter.updateStat(targetCharacter.getHp(), targetCharacter.getAp(), targetCharacter.getAd(),
+//                            targetCharacter.getSpeed(), targetCharacter.getCritical(), targetCharacter.getAvoid() - skill.getValue());
+//            }
+//            myCharacterRepository.save(targetCharacter);
+//        } else {//전체
+//            for (MyCharacter targetCharacter : myCharacters) {
+//                //해당 위치의 플레이어에게 스킬 적용
+//                if (skill.getStat().equals("hp")) {
+//                    if (targetCharacter.getHp() - skill.getValue() < 0)
+//                        targetCharacter.updateStat(0, targetCharacter.getAp(), targetCharacter.getAd(),
+//                                targetCharacter.getSpeed(), targetCharacter.getCritical(), targetCharacter.getAvoid());
+//                    else
+//                        targetCharacter.updateStat(targetCharacter.getHp() - skill.getValue(), targetCharacter.getAp(), targetCharacter.getAd(),
+//                                targetCharacter.getSpeed(), targetCharacter.getCritical(), targetCharacter.getAvoid());
+//                } else if (skill.getStat().equals("ap")) {
+//                    if (targetCharacter.getAp() - skill.getValue() < 0)
+//                        targetCharacter.updateStat(targetCharacter.getHp(), 0, targetCharacter.getAd(),
+//                                targetCharacter.getSpeed(), targetCharacter.getCritical(), targetCharacter.getAvoid());
+//                    else
+//                        targetCharacter.updateStat(targetCharacter.getHp(), targetCharacter.getAp() - skill.getValue(), targetCharacter.getAd(),
+//                                targetCharacter.getSpeed(), targetCharacter.getCritical(), targetCharacter.getAvoid());
+//                } else if (skill.getStat().equals("ad")) {
+//                    if (targetCharacter.getAd() - skill.getValue() < 0)
+//                        targetCharacter.updateStat(targetCharacter.getHp(), targetCharacter.getAp(), 0,
+//                                targetCharacter.getSpeed(), targetCharacter.getCritical(), targetCharacter.getAvoid());
+//                    else
+//                        targetCharacter.updateStat(targetCharacter.getHp(), targetCharacter.getAp(), targetCharacter.getAd() - skill.getValue(),
+//                                targetCharacter.getSpeed(), targetCharacter.getCritical(), targetCharacter.getAvoid());
+//                } else if (skill.getStat().equals("speed")) {
+//                    if (targetCharacter.getSpeed() - skill.getValue() < 0)
+//                        targetCharacter.updateStat(targetCharacter.getHp(), targetCharacter.getAp(), targetCharacter.getAd(),
+//                                0, targetCharacter.getCritical(), targetCharacter.getAvoid());
+//                    else
+//                        targetCharacter.updateStat(targetCharacter.getHp(), targetCharacter.getAp(), targetCharacter.getAd(),
+//                                targetCharacter.getSpeed() - skill.getValue(), targetCharacter.getCritical(), targetCharacter.getAvoid());
+//                } else if (skill.getStat().equals("critical")) {
+//                    if (targetCharacter.getCritical() - skill.getValue() < 0)
+//                        targetCharacter.updateStat(targetCharacter.getHp(), targetCharacter.getAp(), targetCharacter.getAd(),
+//                                targetCharacter.getSpeed(), 0, targetCharacter.getAvoid());
+//                    else
+//                        targetCharacter.updateStat(targetCharacter.getHp(), targetCharacter.getAp(), targetCharacter.getAd(),
+//                                targetCharacter.getSpeed(), targetCharacter.getCritical() - skill.getValue(), targetCharacter.getAvoid());
+//                } else if (skill.getStat().equals("avoid")) {
+//                    if (targetCharacter.getCritical() - skill.getValue() < 0)
+//                        targetCharacter.updateStat(targetCharacter.getHp(), targetCharacter.getAp(), targetCharacter.getAd(),
+//                                targetCharacter.getSpeed(), targetCharacter.getCritical(), 0);
+//                    else
+//                        targetCharacter.updateStat(targetCharacter.getHp(), targetCharacter.getAp(), targetCharacter.getAd(),
+//                                targetCharacter.getSpeed(), targetCharacter.getCritical(), targetCharacter.getAvoid() - skill.getValue());
+//                }
+//                myCharacterRepository.save(targetCharacter);
+//            }//for
+//        }
     }
 }
