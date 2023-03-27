@@ -102,7 +102,7 @@ public class CharacterService {
             List<Skill> skills = skillRepository.findByCharacter_id(defaultCharacter.getId());
             List<SkillDto> skillDtos = new ArrayList<>();
             UserDto userDto = UserDto.builder()
-                    .nickname(user.getNickname())
+                    .nickname(user.getUsername())
                     .email(user.getEmail())
                     .bestScore(user.getBestScore())
                     .stage(user.getStage())
