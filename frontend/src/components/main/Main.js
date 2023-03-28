@@ -32,7 +32,7 @@ export default function Main() {
   // 카카오 로그인
   const kakaoLogin = () => {
     axios({
-      url: '/oauth2/authorization/kakao',
+      url: 'https://j8a303.p.ssafy.io/oauth2/authorization/kakao',
       method: 'post',
       // withCredentials: true,
     })
@@ -103,6 +103,7 @@ export default function Main() {
       ) : (
         <>
           <Img src={kakao} alt="카카오 로그인" onClick={kakaoLogin} />
+          <button onClick={kakaoLogin}></button>
 
           {/* <ButtonContainer>
             <Button
