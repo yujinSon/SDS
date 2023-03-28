@@ -25,12 +25,14 @@ export default function BattlePage() {
     axios(config)
       .then((res) => {
         console.log('전투페이지 불러오기', res.data);
+        setStageStep(res.data.nowStage);
         setCharacters(res.data.character);
         setMonsters(res.data.villain);
       })
       .catch((err) => {});
   }, []);
 
+  const [stageStep, setStageStep] = useState(null);
   const [characters, setCharacters] = useState(null);
   const [monsters, setMonsters] = useState(null);
 
@@ -39,6 +41,19 @@ export default function BattlePage() {
   const [nowTurn, setNowTurn] = useState(null);
   // turnOrder 배열의 인덱스
   const [nowIdx, setNowIdx] = useState(0);
+
+  // 공격 시마다 띄울 메시지
+  const [msg, setMsg] = useState([
+    '고병진님이 박용찬님에게 꿀밤을 때려 데미지 100을 입혔습니다.',
+    '손유진님이 박용찬님에게 하이킥을 날려 데미지 41153을 입혔습니다.',
+  ]);
+
+  const [who, setWho] = useState('');
+  const [whichSkill, setWhichSkill] = useState('');
+
+  const [toWhom, setToWhom] = useState('');
+  const [amount, setAmount] = useState('');
+  const textCnt = 7;
 
   // speed에 따라 공격 turn 계산하기
   useEffect(() => {
@@ -272,6 +287,25 @@ export default function BattlePage() {
     }
   }, [nowTurn]);
 
+  // 데미지와 데미지 받는 대상이 변경될 때 메시지 수정하는 useEffect
+  useEffect(() => {
+    if ((toWhom === '') | (amount === '')) return;
+    // 오른쪽 아래 출력 메시지 생성 (사용 캐릭터, 사용 스킬)
+    let madeMsg2 = '';
+    if (amount === 0) {
+      madeMsg2 = `${toWhom}(이)가 공격을 회피했다.`;
+    } else {
+      madeMsg2 = `${toWhom}(이)가 ${amount}만큼의  데미지를 입었다!`;
+    }
+    let copy2 = [...msg];
+    copy2 = [madeMsg2, ...msg];
+    if (copy2.length >= textCnt) {
+      copy2.pop();
+    }
+    setMsg(copy2);
+    console.log(madeMsg2);
+  }, [amount, toWhom]);
+
   // playerTurn이 2가 된 상태에서 몬스터를 클릭하면 공격하는 것으로 간주
   const [playerTurn, setPlayerTurn] = useState(0);
   const [selectedCh, setSelectedCh] = useState(null);
@@ -321,6 +355,10 @@ export default function BattlePage() {
             selectedIdx = idx;
           }
         }
+        // 메시지에 띄울 공격 주체 캐릭터명
+        setWho(characters[selectedIdx].subName);
+        console.log(who);
+
         setSelectedCh(selectedIdx);
         setSelectedSkill(null);
         setPlayerTurn(1);
@@ -331,13 +369,17 @@ export default function BattlePage() {
   };
 
   const clickSkill = (idx) => {
+    // 메시지에 띄울 스킬 이름
+    setWhichSkill(characters[selectedCh].skills[idx].skillName);
+    console.log(whichSkill);
+    //
     setSelectedSkill(idx);
     if (playerTurn === 1) {
       setPlayerTurn(2);
     }
   };
 
-  const clickMonster = (pos) => {
+  const clickMonster = async (pos) => {
     if (playerTurn !== 2) return;
 
     const mySkill = characters[selectedCh].skills[selectedSkill];
@@ -350,6 +392,17 @@ export default function BattlePage() {
         break;
       }
     }
+
+    // 오른쪽 아래 출력 메시지 생성 (사용 캐릭터, 사용 스킬)
+    let madeMsg = `${who}(이)가 ${whichSkill}을(를)  사용했다!`;
+    let copy = [...msg];
+    copy = [madeMsg, ...msg];
+    if (copy.length >= textCnt) {
+      copy.pop();
+    }
+    setMsg(copy);
+    console.log(madeMsg);
+
     const data = {
       // 스킬 사용 시전자의 pos
       pos: nowTurn,
@@ -401,6 +454,12 @@ export default function BattlePage() {
           const afterHp = monsters[idx].hp - eachDamage;
           copy[idx].hp = afterHp;
           console.log(afterHp, '남은 체력');
+
+          setAmount(eachDamage);
+          setToWhom(monsters[idx].subName);
+
+          // 존나섹시해 chatGPT ㅎㅅㅎ
+          await new Promise((resolve) => setTimeout(resolve, 0));
         }
         // hp가 0이하로 떨어져서 사망한 경우
         for (let i = 0; i < copy.length; i++) {
@@ -418,6 +477,10 @@ export default function BattlePage() {
             // 회피했는지 아닌지 계산
             damage *= calculateDodge(monsters[idx].avoid);
             const afterHp = monsters[idx].hp - damage;
+
+            // 메시지 띄울 데미지랑 대상 업데이트
+            setAmount(damage);
+            setToWhom(monsters[idx].subName);
 
             console.log(afterHp, '남은 체력');
             let copy = [...monsters];
@@ -476,6 +539,7 @@ export default function BattlePage() {
           clickCh={clickCh}
           clickMonster={clickMonster}
           nowTurn={nowTurn}
+          stageStep={stageStep}
         />
       </BattleContainer>
       <BottomContainer>
@@ -490,7 +554,11 @@ export default function BattlePage() {
           </Information>
         ) : null}
 
-        <RightContainer>여기는 오른쪽 아래</RightContainer>
+        <RightContainer>
+          {msg.map((message, idx) => (
+            <div>{message}</div>
+          ))}
+        </RightContainer>
       </BottomContainer>
     </MainContainer>
   );
@@ -512,7 +580,7 @@ const BattleContainer = styled.div`
 
 const BottomContainer = styled.div`
   display: flex;
-  flex-directino: row;
+  flex-direction: row;
 
   height: 30%;
 
@@ -521,7 +589,7 @@ const BottomContainer = styled.div`
 
 const RightContainer = styled.div`
   display: flex;
-  flex-directino: row;
+  flex-direction: column;
 
   color: black;
   width: 50%;

@@ -15,7 +15,7 @@ import kakao from 'assets/img/kakao.png';
 export default function Main() {
   const navigate = useNavigate();
 
-  const [userInfo, setUserInfo] = useState(false);
+  const [userInfo, setUserInfo] = useState(true);
 
   // Modal state
   const [rankingModal, setRankingModal] = useState(false);
