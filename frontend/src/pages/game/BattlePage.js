@@ -47,13 +47,18 @@ export default function BattlePage() {
     '고병진님이 박용찬님에게 꿀밤을 때려 데미지 100을 입혔습니다.',
     '손유진님이 박용찬님에게 하이킥을 날려 데미지 41153을 입혔습니다.',
   ]);
+  const textCnt = 7;
 
   const [who, setWho] = useState('');
   const [whichSkill, setWhichSkill] = useState('');
 
+  // towhom과 amount는 캐릭터 -> 빌런 공격 시에 사용함
   const [toWhom, setToWhom] = useState('');
   const [amount, setAmount] = useState('');
-  const textCnt = 7;
+
+  // 캐릭터 회복량 msg 관련 state
+  const [chHeal, setChHeal] = useState('');
+  const [chHealTowhom, setChHealTowhom] = useState('');
 
   // speed에 따라 공격 turn 계산하기
   useEffect(() => {
@@ -291,30 +296,49 @@ export default function BattlePage() {
   useEffect(() => {
     if ((toWhom === '') | (amount === '')) return;
     // 오른쪽 아래 출력 메시지 생성 (사용 캐릭터, 사용 스킬)
-    let madeMsg2 = '';
+    let madeMsg = '';
     if (amount === 0) {
-      madeMsg2 = `${toWhom}(이)가 공격을 회피했다.`;
+      madeMsg = `${toWhom}(이)가 공격을 회피했다.`;
     } else {
-      madeMsg2 = `${toWhom}(이)가 ${amount}만큼의  데미지를 입었다!`;
+      madeMsg = `${toWhom}(이)가 ${amount}만큼의  데미지를 입었다!`;
     }
-    let copy2 = [...msg];
-    copy2 = [madeMsg2, ...msg];
-    if (copy2.length >= textCnt) {
-      copy2.pop();
+    let copy = [...msg];
+    copy = [madeMsg, ...msg];
+    if (copy.length >= textCnt) {
+      copy.pop();
     }
-    setMsg(copy2);
-    console.log(madeMsg2);
+    setMsg(copy);
+    console.log(madeMsg);
   }, [amount, toWhom]);
+
+  useEffect(() => {
+    if ((chHeal === '') | (chHealTowhom === '')) return;
+    let madeMsg = `${chHealTowhom}(은)는 ${chHeal}만큼 hp가 회복되었다.`;
+    let copy = [...msg];
+    copy = [madeMsg, ...msg];
+    if (copy.length >= textCnt) {
+      copy.pop();
+    }
+    setMsg(copy);
+  }, [chHeal, chHealTowhom]);
 
   // playerTurn이 2가 된 상태에서 몬스터를 클릭하면 공격하는 것으로 간주
   const [playerTurn, setPlayerTurn] = useState(0);
   const [selectedCh, setSelectedCh] = useState(null);
   const [selectedSkill, setSelectedSkill] = useState(null);
 
-  const clickCh = (ch) => {
+  const clickCh = async (ch) => {
     // 버프 주는 거임
     if (playerTurn === 2) {
       console.log('옛다 버프다~');
+
+      let madeMsg = `${who}(이)가 ${whichSkill}을(를)  사용했다!`;
+      let copy = [...msg];
+      copy = [madeMsg, ...msg];
+      if (copy.length >= textCnt) {
+        copy.pop();
+      }
+      setMsg(copy);
 
       let chIdx = 0;
       for (let idx = 0; idx < characters.length; idx++) {
@@ -323,6 +347,28 @@ export default function BattlePage() {
           break;
         }
       }
+
+      const chHealFactor =
+        characters[chIdx][characters[chIdx].skills[selectedSkill].factor];
+      const healValue = characters[chIdx].skills[selectedSkill].value;
+      let healAmount = (chHealFactor * healValue) / 100;
+      console.log(healAmount, '스킬 회복량');
+
+      const healRange = characters[chIdx].skills[selectedSkill].range;
+      // 전체회복
+      if (healRange === true) {
+        for (let idx = 0; idx < characters.length; idx++) {
+          setChHeal(healAmount);
+          setChHealTowhom(characters[idx].subName);
+          await new Promise((resolve) => setTimeout(resolve, 0));
+        }
+      } // 단일 회복
+      else {
+        setChHeal(healAmount);
+        setChHealTowhom(ch.subName);
+        await new Promise((resolve) => setTimeout(resolve, 0));
+      }
+
       const data = {
         // 스킬 사용 시전자의 pos
         pos: nowTurn,
