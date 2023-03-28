@@ -119,6 +119,7 @@ export default function BattlePage() {
       axios(config)
         .then((res) => {
           console.log('몬스터 전멸', res.data);
+          navigate('/ending');
         })
         .catch((err) => {
           console.log('endBattle 에러', err);
