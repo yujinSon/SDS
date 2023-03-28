@@ -32,7 +32,7 @@ export default function Main() {
   // 카카오 로그인
   const kakaoLogin = () => {
     axios({
-      url: 'https://j8a303.p.ssafy.io/oauth2/authorization/kakao',
+      url: 'https://j8a303.p.ssafy.io/login',
       method: 'post',
       // withCredentials: true,
     })
