@@ -13,9 +13,15 @@ export default function Battle({
   clickCh,
   clickMonster,
   nowTurn,
+  stageStep,
 }) {
   return (
     <>
+      {stageStep ? (
+        <div>
+          현재 스테이지 : {stageStep[0]}-{stageStep[1]}
+        </div>
+      ) : null}
       nowTurn: {nowTurn}
       {characters
         ? characters.map((ch, idx) => (
