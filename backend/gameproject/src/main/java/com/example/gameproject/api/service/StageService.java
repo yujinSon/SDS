@@ -99,11 +99,13 @@ public class StageService {
         }
 
 
-        // 유물 효과 적용
-
+        List<Integer> nowStage = new ArrayList<>();
+        nowStage.add(user.getNowStage());
+        nowStage.add(user.getNowSubStage());
 
         res.put("character", characterDtos);
         res.put("villain",  villain);
+        res.put("nowStage", nowStage);
 
         return res;
     }
