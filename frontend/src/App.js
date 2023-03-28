@@ -10,6 +10,7 @@ import MainPage from 'pages/main/MainPage';
 import GameMainPage from 'pages/game/GameMainPage';
 import MapPage from 'pages/game/MapPage';
 import BattlePage from 'pages/game/BattlePage';
+import EndingPage from 'pages/game/EndingPage';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           </Route>
           <Route path="/map" element={<MapPage />} />
           <Route path="/battle" element={<BattlePage />} />
+          <Route path="/ending" element={<EndingPage />} />
         </Routes>
       </ThemeProvider>
     </>

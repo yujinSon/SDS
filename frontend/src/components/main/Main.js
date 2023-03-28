@@ -15,7 +15,7 @@ import kakao from 'assets/img/kakao.png';
 export default function Main() {
   const navigate = useNavigate();
 
-  const [userInfo, setUserInfo] = useState(false);
+  const [userInfo, setUserInfo] = useState(true);
 
   // Modal state
   const [rankingModal, setRankingModal] = useState(false);
@@ -33,13 +33,16 @@ export default function Main() {
   const kakaoLogin = () => {
     axios({
       url: '/oauth2/authorization/kakao',
+      method: 'post',
       // withCredentials: true,
     })
       .then((res) => {
         console.log('카카오 로그인 성공', res.data);
         setUserInfo(true);
       })
-      .catch((err) => {});
+      .catch((err) => {
+        console.log('카카오 로그인 실패');
+      });
   };
 
   return (
@@ -66,7 +69,7 @@ export default function Main() {
               value="Load"
             />
           </ButtonContainer>
-          <ButtonContainer>
+          {/* <ButtonContainer>
             <Button
               size="large"
               type="gray"
@@ -81,9 +84,9 @@ export default function Main() {
               onClick={onClickTutorialModal}
               value="Tutorial"
             />
-          </ButtonContainer>
+          </ButtonContainer> */}
 
-          {rankingModal ? (
+          {/* {rankingModal ? (
             <Modal
               close={() => setRankingModal(false)}
               content={<Ranking />}
@@ -95,13 +98,13 @@ export default function Main() {
               close={() => setTutorialModal(false)}
               content={<Tutorial />}
             ></Modal>
-          ) : null}
+          ) : null} */}
         </div>
       ) : (
         <>
           <Img src={kakao} alt="카카오 로그인" onClick={kakaoLogin} />
 
-          <ButtonContainer>
+          {/* <ButtonContainer>
             <Button
               size="large"
               type="gray"
@@ -130,7 +133,7 @@ export default function Main() {
               close={() => setTutorialModal(false)}
               content={<Tutorial />}
             ></Modal>
-          ) : null}
+          ) : null} */}
         </>
       )}
     </div>
