@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 import axios from 'libs/axios';
 import api from 'constants/api';
@@ -8,6 +9,7 @@ import Battle from 'components/game/Battle';
 import Information from 'components/game/Information';
 
 export default function BattlePage() {
+  const navigate = useNavigate();
   // 둘중 최솟값
   function min(a, b) {
     if (a < b) {
@@ -103,6 +105,7 @@ export default function BattlePage() {
       axios(config)
         .then((res) => {
           console.log('캐릭터 전멸해서 게임 끝', res.data);
+          navigate('/ending');
         })
         .catch((err) => {
           console.log('endBattle 에러', err);
@@ -351,7 +354,7 @@ export default function BattlePage() {
       pos: nowTurn,
       skillName: characters[chIdx].skills[selectedSkill].skillName,
       // 스킬을 적용시킬 대상의 pos - 전체면 3 (ch.pos)
-      target: -1,
+      target: 0,
     };
     console.log(data, '회복스킬 시전 시 보낼 data');
     const [url, method] = api('playersTurn');
