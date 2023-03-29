@@ -1,5 +1,6 @@
 package com.example.gameproject.db.entity;
 
+import com.example.gameproject.dto.request.UserDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -91,6 +92,11 @@ public class User implements Serializable {
         this.role = role;
         this.provider = provider;
         this.providerId = providerId;
+    }
+
+    @Builder
+    public User(UserDto userDto){
+        this.email = userDto.getEmail();
     }
 
 }

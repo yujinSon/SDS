@@ -1,12 +1,17 @@
 package com.example.gameproject.api.controller;
 
+import com.example.gameproject.api.service.UserService;
 import com.example.gameproject.auth.PrincipalDetails;
 import com.example.gameproject.db.entity.Role;
 import com.example.gameproject.db.entity.User;
 import com.example.gameproject.db.repository.UserRepository;
+import com.example.gameproject.dto.request.UserDto;
+import com.example.gameproject.dto.response.LoginDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,10 +22,13 @@ import java.util.Map;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/api")
+//@RequestMapping("/api")
+@RequestMapping("/api/users")
 public class UserController {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -117,5 +125,25 @@ public class UserController {
             result = result + "OAuth2 로그인 : " + principal;
         }
         return result;
+    }
+
+    @PostMapping("/join")
+    public ResponseEntity<?> join(@RequestBody UserDto userDto){
+        System.out.println(userDto.getEmail());
+        String result = userService.registerUser(userDto);
+        if(result.equals("Existed"))
+            return ResponseEntity.status(400).body("FAIL");
+        else
+            return ResponseEntity.status(200).body("OK");
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody UserDto userDto){
+        User user = userService.loginUser(userDto);
+        LoginDto loginDto = LoginDto.builder().email(user.getEmail()).build();
+        if(user == null)
+            return ResponseEntity.status(400).body("Fail");
+        else
+            return ResponseEntity.status(200).body(loginDto);
     }
 }
