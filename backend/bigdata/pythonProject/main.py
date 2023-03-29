@@ -29,21 +29,37 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
+def transform_zeros(val):
+    if val == 0:
+       return 255
+    else:
+       return val
+
+
+# 파일에 있는 데이터 불러오기
 df = pd.read_csv("C:/Users/SSAFY/Desktop/fruit_vegetable.csv", encoding="utf-8")
 wc = df.set_index("title").to_dict()["count"]
 
-img = Image.open('C:/Users/SSAFY/Desktop/circle.png')
+img = Image.open('C:/Users/SSAFY/Desktop/cloud.png')
 imgArray = np.array(img)
+
+maskable_image = np.ndarray((imgArray.shape[0], imgArray.shape[1]), np.int32)
+
+for i in range(len(imgArray)):
+    maskable_image[i] = list(map(transform_zeros, imgArray[i]))
+
 wordCloud = WordCloud(
     font_path='malgun',
     width=400,
     height=400,
     max_font_size=100,
-    background_color='white',
-    colormap='Reds',
-    mask=imgArray,
+    colormap='RdPu_r',
+    mask=maskable_image,
+    mode="RGBA",
+    background_color=None
 ).generate_from_frequencies(wc)
+wordCloud.to_file(filename="wordcloud.png")
 plt.figure()
-plt.imshow(wordCloud)
+plt.imshow(wordCloud, interpolation='bilinear')
 plt.axis('off')
-plt.savefig('test.png')
+plt.show()
