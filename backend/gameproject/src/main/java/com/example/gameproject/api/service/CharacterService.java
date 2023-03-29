@@ -11,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +27,11 @@ public class CharacterService {
     private final SkillRepository skillRepository;
 
 
-    public List<RandomCharacterDto> RandomCharacter(Long userId){
+    public List<RandomCharacterDto> RandomCharacter(Long userId) throws IOException {
+        String testurl = "http://127.0.0.1:8000/";
+        URL url = new URL(testurl);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        
         User user = userRepository.getById(userId);
         int stage = user.getNowStage();
         List<RandomCharacterDto> result = new ArrayList<>();
