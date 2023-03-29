@@ -70,7 +70,7 @@ const Container = styled.div`
   flex-direction: row;
 
   color: black;
-  width: 50%;
+  width: 100%;
 `;
 
 const LeftContainer = styled.div`
