@@ -25,6 +25,7 @@ const Container = styled.div`
 
   background-image: url(${({ theme }) => theme.mainPageBgImg});
   background-size: cover;
+
 `;
 
 const UpperPane = styled.div`

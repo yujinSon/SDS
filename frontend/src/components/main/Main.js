@@ -69,6 +69,17 @@ export default function Main() {
               value="Load"
             />
           </ButtonContainer>
+          {/*  */}
+          <ButtonContainer>
+            <Button
+              size="large"
+              type="gray"
+              onClick={() => {
+                navigate('/main/basicmain');
+              }}
+              value="기본 메인 페이지 테스트"
+            />
+          </ButtonContainer>
           {/* <ButtonContainer>
             <Button
               size="large"
