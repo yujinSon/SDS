@@ -1,10 +1,8 @@
 package com.example.gameproject.api.service;
 
 import com.example.gameproject.db.entity.*;
-import com.example.gameproject.db.repository.DefaultCharacterRepository;
-import com.example.gameproject.db.repository.MyCharacterRepository;
-import com.example.gameproject.db.repository.SkillRepository;
-import com.example.gameproject.db.repository.UserRepository;
+import com.example.gameproject.db.repository.*;
+import com.example.gameproject.dto.request.YoutubeDto;
 import com.example.gameproject.dto.response.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +23,7 @@ public class CharacterService {
     private final DefaultCharacterRepository defaultCharacterRepository;
     private final UserRepository userRepository;
     private final SkillRepository skillRepository;
+    private final ArtifactRepository artifactRepository;
 
 
     public List<RandomCharacterDto> RandomCharacter(Long userId) throws IOException {
@@ -168,6 +167,17 @@ public class CharacterService {
         } else {
             // critical
             myCharacter.addCritical(value);
+        }
+    }
+
+    @Transactional
+    public void updateartifact(YoutubeDto youtubeDto){
+        List<Artifact> artifacts = artifactRepository.findAll();
+        for (Artifact artifact : artifacts){
+            if (artifact.getName().equals(youtubeDto.getWord())){
+                artifact.updateArtifact(artifact, youtubeDto.getValue());
+                artifactRepository.save(artifact);
+            }
         }
     }
 }

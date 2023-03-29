@@ -1,6 +1,7 @@
 package com.example.gameproject.api.controller;
 
 import com.example.gameproject.api.service.CharacterService;
+import com.example.gameproject.dto.request.YoutubeDto;
 import com.example.gameproject.dto.response.RandomCharacterDto;
 import com.example.gameproject.dto.response.SelectedCharacterDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.List;
 
 @CrossOrigin(origins = "*")
@@ -22,7 +27,7 @@ public class CharacterController {
     @GetMapping(value = "/random")
     public ResponseEntity<?> getRandomCharactersList() throws Exception{
         long userId = 1L;
-        List<RandomCharacterDto> result = characterService.RandomCharacter(userId);
+        List<RandomCharacterDto> result = characterService.RandomCharacter(1L);
         return ResponseEntity.ok(result);
     }
 
@@ -41,4 +46,9 @@ public class CharacterController {
         return ResponseEntity.status(200).body(result);
     }
 
+    @PutMapping("/youtube")
+    public ResponseEntity<?> putYoutube(@RequestBody YoutubeDto youtubeDto) throws Exception{
+        characterService.updateartifact(youtubeDto);
+        return ResponseEntity.status(200).body("ok");
+    }
 }
