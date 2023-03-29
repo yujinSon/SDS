@@ -19,34 +19,38 @@ import com.example.gameproject.dto.response.RelicResponse;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/shop")
+@RequestMapping("/api/shop")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
 public class ShopController {
 
 	private final ShopService shopService;
 
-	@PostMapping("/add/{userId}")
-	public ResponseEntity<String> addCharacter(@RequestBody List<ShopAddRequest> characterList , @PathVariable long userId){
+	@PostMapping("/add")
+	public ResponseEntity<String> addCharacter(@RequestBody List<ShopAddRequest> characterList){
+		long userId = 1L;
 		shopService.addCharacter(userId, characterList);
 		return ResponseEntity.status(201).body("success");
 	}
 
-	@PutMapping("/change/{userId}")
-	public ResponseEntity<String> changeCharacter(@RequestBody List<ShopChangeRequest> characterList, @PathVariable long userId){
+	@PutMapping("/change")
+	public ResponseEntity<String> changeCharacter(@RequestBody List<ShopChangeRequest> characterList){
+		long userId = 1L;
 		shopService.changeCharacter(userId, characterList);
 		return ResponseEntity.status(200).body("success");
 
 	}
 
-	@PutMapping("/rest/{userId}")
-	public ResponseEntity<?> healHp(@PathVariable long userId){
+	@PutMapping("/rest")
+	public ResponseEntity<?> healHp(){
+		long userId = 1L;
 		shopService.updateHp(userId);
 		return ResponseEntity.status(200).body("success");
 	}
 
-	@PostMapping("relic/{userId}")
-	public ResponseEntity<RelicResponse> sendRelic(@PathVariable long userId){
+	@PostMapping("relic")
+	public ResponseEntity<RelicResponse> sendRelic(){
+		long userId = 1L;
 		RelicResponse relic = shopService.getRelic(userId);
 		return ResponseEntity.status(201).body(relic);
 	}

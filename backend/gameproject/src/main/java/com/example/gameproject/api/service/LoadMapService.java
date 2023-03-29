@@ -27,14 +27,13 @@ public class LoadMapService {
     @Autowired
     UserRepository userRepository;
 
-    public List<LoadMapDto> LoadMap(Long userId) {
-        List<LoadMapDto> res = new ArrayList<>();
+    public LoadMapDto LoadMap(Long userId) {
         User user = userRepository.findById(userId).orElse(new User());
 
         int myStage = user.getStage();
         int myStep = user.getSubStage();
         List<Map> myMapList = mapRepository.getMyMap(myStage, myStep);
-        res.add(new LoadMapDto(myMapList, user));
+        LoadMapDto res = new LoadMapDto(myMapList, user);
 
         return res;
 

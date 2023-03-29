@@ -17,7 +17,7 @@ import java.util.List;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/map")
+@RequestMapping("/api/map")
 public class MapController {
 
     @Autowired
@@ -26,12 +26,13 @@ public class MapController {
     @GetMapping(value = "/load")
     public ResponseEntity<?> getMyMap() throws Exception {
         Long userId = 1L; // 유저 아이디 가져와야함.
-        List<LoadMapDto> res = loadMapService.LoadMap(userId);
+        LoadMapDto res = loadMapService.LoadMap(userId);
         return ResponseEntity.ok(res);
     }
 
-    @PutMapping("/save/{userId}")
-    public ResponseEntity<String> selectMap(@RequestBody MapSaveRequest mapSaveRequest, @PathVariable long userId){
+    @PutMapping("/save")
+    public ResponseEntity<String> selectMap(@RequestBody MapSaveRequest mapSaveRequest){
+        long userId = 1L;
         loadMapService.saveMapStatus(userId, mapSaveRequest);
         return ResponseEntity.status(200).body("success");
     }
