@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
 import axios from 'axios';
-import api from 'constants/api';
 
 import Ranking from 'components/main/Ranking';
 import Tutorial from 'components/main/Tutorial';
@@ -32,11 +31,18 @@ export default function Main() {
 
   // 카카오 로그인
   const kakaoLogin = () => {
-    axios('https://j8a303.p.ssafy.io/oauth2/authorization/kakao')
+    axios({
+      url: 'https://j8a303.p.ssafy.io/oauth2/authorization/kakao',
+      // method: 'post',
+      // withCredentials: true,
+    })
       .then((res) => {
         console.log('카카오 로그인 성공', res.data);
+        setUserInfo(true);
       })
-      .catch((err) => {});
+      .catch((err) => {
+        console.log('카카오 로그인 실패');
+      });
   };
 
   return (
@@ -63,7 +69,7 @@ export default function Main() {
               value="Load"
             />
           </ButtonContainer>
-          <ButtonContainer>
+          {/* <ButtonContainer>
             <Button
               size="large"
               type="gray"
@@ -78,9 +84,9 @@ export default function Main() {
               onClick={onClickTutorialModal}
               value="Tutorial"
             />
-          </ButtonContainer>
+          </ButtonContainer> */}
 
-          {rankingModal ? (
+          {/* {rankingModal ? (
             <Modal
               close={() => setRankingModal(false)}
               content={<Ranking />}
@@ -92,14 +98,14 @@ export default function Main() {
               close={() => setTutorialModal(false)}
               content={<Tutorial />}
             ></Modal>
-          ) : null}
+          ) : null} */}
         </div>
       ) : (
         <>
-          <ButtonContainer>
-            <img src={kakao} alt="카카오 로그인" onClick={kakaoLogin} />
-          </ButtonContainer>
-          <ButtonContainer>
+          <Img src={kakao} alt="카카오 로그인" onClick={kakaoLogin} />
+          <button onClick={kakaoLogin}></button>
+
+          {/* <ButtonContainer>
             <Button
               size="large"
               type="gray"
@@ -128,7 +134,7 @@ export default function Main() {
               close={() => setTutorialModal(false)}
               content={<Tutorial />}
             ></Modal>
-          ) : null}
+          ) : null} */}
         </>
       )}
     </div>
@@ -138,4 +144,9 @@ export default function Main() {
 const ButtonContainer = styled.div`
   margin-bottom: 10px;
   text-align: center;
+`;
+
+const Img = styled.img`
+  width: 15rem;
+  height: 4rem;
 `;

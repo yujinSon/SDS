@@ -48,8 +48,15 @@ public class BattleService {
 
             myCharacter.updateVictoryStat(maxHp, hp, ad, ap, speed, critical, avoid);
             myCharacterRepository.save(myCharacter);
+
+            // 도전중인 스테이지 클리어 반영
+            User user = userRepository.getById(userId);
+            user.stageUpdate(user.getNowStage(), user.getNowSubStage());
+            userRepository.save(user);
+
+
         }
-    }
+   }
     // CoolTime에서 Turn을 하나씩 지우는 방식을 사용
     @Transactional
     public void CoolTime() {
@@ -147,21 +154,29 @@ public class BattleService {
 
     @Transactional
     public void DeleteEffect() {
+        Long userId = 1L;
         // 내 정보를 찾아서
         List<CoolTime> coolTimes = coolTimeRepository.findAll();
         List<EffectTime> effectTimes = effectTimeRepository.findAll();
 
         for (CoolTime coolTime : coolTimes) {
-            if (coolTime.getMyCharacter().getUser().getId() == 1L) {
+            if (coolTime.getMyCharacter().getUser().getId() == userId) {
                 coolTimeRepository.delete(coolTime);
             }
         }
 
         for (EffectTime effectTime : effectTimes) {
-            if (effectTime.getMyCharacter().getUser().getId() == 1L) {
+            if (effectTime.getMyCharacter().getUser().getId() == userId) {
                 effectTimeRepository.delete(effectTime);
             }
         }
+    }
+
+    @Transactional
+    public void addTurn(long userId) {
+        User user = userRepository.getById(userId);
+        user.addTurn();
+        userRepository.save(user);
     }
 
     @Transactional
