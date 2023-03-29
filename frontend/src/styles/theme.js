@@ -1,6 +1,7 @@
 import mainPageBgImg from 'assets/img/bg-mainpage.png';
 import mapBgImg from 'assets/img/frame.png';
 import battleBgImg from 'assets/img/battle.png';
+import shopBgImg from 'assets/img/shopBgimg.png';
 
 export const theme = {
   primaryColor: '#007bff',
@@ -15,4 +16,5 @@ export const theme = {
   mainPageBgImg: mainPageBgImg,
   mapBgImg: mapBgImg,
   battleBgImg: battleBgImg,
+  shopBgImg: shopBgImg,
 };
