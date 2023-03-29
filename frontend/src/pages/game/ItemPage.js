@@ -29,6 +29,10 @@ export default function ItemPage() {
     axios(config)
       .then((res) => {
         console.log('선택된 캐릭터 조회', res.data);
+        while (res.data.length < 3) {
+          res.data.push({className: null})
+        }
+
         setSelectedChList(res.data);
       })
       .catch((err) => {});
@@ -49,7 +53,7 @@ export default function ItemPage() {
     <>
       <h1>유물 프레임 만드려고 대충 만든 페이지</h1>
       <MainContainer>
-        <SubContainer>
+        <SubContainerLeft>
           <SelectedCharacterList
             data={selectedChList}
             selectedCharacter={selectedCharacter}
@@ -61,11 +65,11 @@ export default function ItemPage() {
               selectedCharacter={selectedCharacter}
             />
           ) : null}
-        </SubContainer>
-        <SubContainer>
+        </SubContainerLeft>
+        <SubContainerRight>
           <Relic />
           <MyButton value="전투하기" />
-        </SubContainer>
+        </SubContainerRight>
       </MainContainer>
     </>
   );
@@ -73,17 +77,30 @@ export default function ItemPage() {
 
 const MainContainer = styled.div`
   display: flex;
-  width: 100%;
+
+  width: 90%;
+  height:90%;
+  flex-direction: row;
+  justify-content: space-around;
+
+
 `;
 
-const SubContainer = styled.div`
+const SubContainerLeft = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 80%;
+  align-items: center;  
+
   height: 100%;
-  padding: 0 2rem;
 `;
+
+const SubContainerRight = styled.div`
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 50%;
+`;
+
 
 const MyButton = styled(Button)``;
