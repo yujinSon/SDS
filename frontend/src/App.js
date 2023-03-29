@@ -11,7 +11,10 @@ import GameMainPage from 'pages/game/GameMainPage';
 import MapPage from 'pages/game/MapPage';
 import BattlePage from 'pages/game/BattlePage';
 import EndingPage from 'pages/game/EndingPage';
-import BasicMainPage from 'pages/game/BasicMainPage';
+import ShopPage from 'pages/game/ShopPage';
+
+// 프레임만 설정하고 나중에 지울거임 (03.29 민혁)
+import ItemPage from 'pages/game/ItemPage';
 
 function App() {
   return (
@@ -22,12 +25,12 @@ function App() {
           <Route path="/" element={<MainPage />} />
           <Route path="/main" element={<GameMainPageLayout />}>
             <Route path="" element={<GameMainPage />} />
-            <Route path="basicmain" element={<BasicMainPage />} />
+            <Route path="item" element={<ItemPage />} />
           </Route>
           <Route path="/map" element={<MapPage />} />
           <Route path="/battle" element={<BattlePage />} />
           <Route path="/ending" element={<EndingPage />} />
-          
+          <Route path="/shop" element={<ShopPage />} />
         </Routes>
       </ThemeProvider>
     </>
