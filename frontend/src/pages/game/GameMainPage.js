@@ -10,7 +10,7 @@ import RandomCharacterList from 'components/game/RandomCharacterList';
 import CharacterDetail from 'components/game/CharacterDetail';
 import GameButtons from 'components/game/GameButtons';
 import Modal from 'components/common/Modal';
-import Items from 'components/game/Items';
+import Items from 'components/game/ItemModal';
 import Stats from 'components/game/Stats';
 
 export default function GameMainPage() {
