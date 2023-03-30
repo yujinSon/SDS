@@ -11,7 +11,7 @@ export default function RandomCharacterList({
   addCharacter,
 }) {
   return (
-    <>
+    <Frame>
       {data
         ? data.map((character, idx) => (
             <Container
@@ -38,25 +38,27 @@ export default function RandomCharacterList({
         : null}
 
       <ButtonContainer onClick={addCharacter}>
-        <Button value="선택" />
+        <SelectedButton>선택</SelectedButton>
       </ButtonContainer>
-    </>
+    </Frame>
   );
 }
 
 const Container = styled.div`
+background-color: rgba(189, 189, 189, 0.7);
   display: flex;
   align-items: center;
   padding: 1rem;
   border: 1px solid #ccc;
-  border-radius: 4px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  border-radius: 20px;
   cursor: pointer;
+  margin-bottom: 0.2rem;
 
   ${(props) =>
     props.selected &&
     `
     border-color: yellow;
+    border: 5px solid;
   `}
 `;
 
@@ -81,7 +83,23 @@ const TextContainer = styled.div`
   flex-direction: column;
 `;
 
+const Frame = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: center;
+  margin-top: 0.5rem;
+  
+`;
+
+const SelectedButton = styled.button`
+  background-color: rgba(140, 140, 140, 0.8);
+  font-size: 1.5rem;
+  color: white;
+  border-radius: 10px;
+  padding: 0.2rem 2rem 0.2rem 2rem;
+  border: none;
 `;

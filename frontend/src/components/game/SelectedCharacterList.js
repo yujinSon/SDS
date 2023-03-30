@@ -12,6 +12,8 @@ export default function SelectedCharacterList({
     <Container>
       {data
         ? data.map((character, idx) => (
+          <>
+          {character.subClassName != null ? (
             <CharacterContainer
               key={idx}
               onClick={() => {
@@ -24,35 +26,47 @@ export default function SelectedCharacterList({
               </ImageContainer>
               <TextContainer>
                 <div>{character.subClassName}</div>
-                <div>level: {character.level}</div>
               </TextContainer>
             </CharacterContainer>
+          ) : <NoneCharacterContainer
+                key={idx}>
+                <ImageContainer>
+                  <img src={IMG} alt="없는 케릭터 img" />
+                </ImageContainer>
+                <TextContainer>
+                <div>???</div>
+                </TextContainer>
+            </NoneCharacterContainer>}
+          </>
           ))
         : null}
     </Container>
   );
 }
 
+
 const Container = styled.div`
   display: flex;
 `;
 
 const CharacterContainer = styled.span`
+background-color: rgba(189, 189, 189, 0.7);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 1rem;
+  padding: 0.5rem;
   border: 1px solid #ccc;
-  border-radius: 4px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  border-radius: 20px;
   cursor: pointer;
-  margin-right: 1rem;
+  margin-right: 0.5rem;
+  margin-left: 0.5rem;
 
   ${(props) =>
     props.selected &&
     `
     border-color: yellow;
+    border: 5px solid;
   `}
 `;
 
@@ -60,8 +74,8 @@ const ImageContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 5rem;
-  height: 5rem;
+  width: 80%;
+  height: 80%;
   border-radius: 50%;
   overflow: hidden;
   margin-bottom: 0.5rem;
@@ -72,7 +86,12 @@ const ImageContainer = styled.div`
   }
 `;
 
+const NoneCharacterContainer = styled(CharacterContainer)`
+  cursor: auto;
+`;
+
 const TextContainer = styled.div`
+  
   display: flex;
   flex-direction: column;
   align-items: center;
