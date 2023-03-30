@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
+import javax.validation.Valid;
+
 @CrossOrigin(origins = "*")
 @RestController
 //@RequestMapping("/api")
@@ -32,6 +34,18 @@ public class UserController {
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    // 회원가입 API
+    @PostMapping("/join")
+    public Long join(@Valid @RequestBody UserDto userDto) {
+        return userService.join(userDto);
+    }
+
+    // 로그인 API
+    @PostMapping("/login")
+    public String login(@RequestBody UserDto userDto) {
+        return userService.login(userDto);
+    }
 
 
 //    @GetMapping("/loginForm")
@@ -127,23 +141,25 @@ public class UserController {
         return result;
     }
 
-    @PostMapping("/join")
-    public ResponseEntity<?> join(@RequestBody UserDto userDto){
-        System.out.println(userDto.getEmail());
-        String result = userService.registerUser(userDto);
-        if(result.equals("Existed"))
-            return ResponseEntity.status(400).body("FAIL");
-        else
-            return ResponseEntity.status(200).body("OK");
-    }
+    // @PostMapping("/join")
+    // public ResponseEntity<?> join(@RequestBody UserDto userDto){
+    //     System.out.println(userDto.getEmail());
+    //     String result = userService.registerUser(userDto);
+    //     if(result.equals("Existed"))
+    //         return ResponseEntity.status(400).body("FAIL");
+    //     else
+    //         return ResponseEntity.status(200).body("OK");
+    // }
+    //
+    // @PostMapping("/login")
+    // public ResponseEntity<?> login(@RequestBody UserDto userDto){
+    //     User user = userService.loginUser(userDto);
+    //     LoginDto loginDto = LoginDto.builder().email(user.getEmail()).build();
+    //     if(user == null)
+    //         return ResponseEntity.status(400).body("Fail");
+    //     else
+    //         return ResponseEntity.status(200).body(loginDto);
+    // }
 
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody UserDto userDto){
-        User user = userService.loginUser(userDto);
-        LoginDto loginDto = LoginDto.builder().email(user.getEmail()).build();
-        if(user == null)
-            return ResponseEntity.status(400).body("Fail");
-        else
-            return ResponseEntity.status(200).body(loginDto);
-    }
+
 }
