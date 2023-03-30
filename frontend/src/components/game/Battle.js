@@ -20,7 +20,7 @@ export default function Battle({
       <StageContainer>
         {stageStep ? (
           <>
-            {selectedCh} /nowTurn: {nowTurn} / 스테이지 {stageStep[0]} 진행률 :{' '}
+            nowTurn: {nowTurn} / 스테이지 {stageStep[0]} 진행률 :{' '}
             {stageStep[1] * 20}%
             <BarContainer>
               <Bar progress={stageStep[1]} />
@@ -43,7 +43,6 @@ export default function Battle({
             >
               <Circle src={IMG2}></Circle>
               <Text>{ch.subName}</Text>
-              <Text>{selectedCh}</Text>
               <ProgressContainer>
                 <ProgressBar hpBar={(ch.hp / ch.maxHp) * 100} />
               </ProgressContainer>

@@ -9,7 +9,7 @@ export default function EndingPage() {
   return (
     <Container>
       <h1>게임 끝</h1>
-      <Button value="다시하기" onClick={() => navigate('/main')} />
+      <Button value="다시하기" onClick={() => navigate('/game')} />
     </Container>
   );
 }
