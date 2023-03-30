@@ -52,10 +52,7 @@ export default function BattlePage() {
   const [nowIdx, setNowIdx] = useState(0);
 
   // 공격 시마다 띄울 메시지
-  const [msg, setMsg] = useState([
-    '고병진님이 박용찬님에게 꿀밤을 때려 데미지 100을 입혔습니다.',
-    '손유진님이 박용찬님에게 하이킥을 날려 데미지 41153을 입혔습니다.',
-  ]);
+  const [msg, setMsg] = useState([]);
   const textCnt = 7;
 
   const [who, setWho] = useState('');
