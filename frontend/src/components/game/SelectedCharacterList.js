@@ -12,45 +12,45 @@ export default function SelectedCharacterList({
     <Container>
       {data
         ? data.map((character, idx) => (
-          <>
-          {character.subClassName != null ? (
-            <CharacterContainer
-              key={idx}
-              onClick={() => {
-                setSelectedCharacter(idx);
-              }}
-              selected={selectedCharacter === idx}
-            >
-              <ImageContainer>
-                <img src={IMG} alt="캐릭터 img" />
-              </ImageContainer>
-              <TextContainer>
-                <div>{character.subClassName}</div>
-              </TextContainer>
-            </CharacterContainer>
-          ) : <NoneCharacterContainer
-                key={idx}>
-                <ImageContainer>
-                  <img src={IMG} alt="없는 케릭터 img" />
-                </ImageContainer>
-                <TextContainer>
-                <div>???</div>
-                </TextContainer>
-            </NoneCharacterContainer>}
-          </>
+            <>
+              {character.subClassName != null ? (
+                <CharacterContainer
+                  key={idx}
+                  onClick={() => {
+                    setSelectedCharacter(idx);
+                  }}
+                  selected={selectedCharacter === idx}
+                >
+                  <ImageContainer>
+                    <img src={IMG} alt="캐릭터 img" />
+                  </ImageContainer>
+                  <TextContainer>
+                    <div>{character.subClassName}</div>
+                  </TextContainer>
+                </CharacterContainer>
+              ) : (
+                <NoneCharacterContainer key={idx}>
+                  <ImageContainer>
+                    <img src={IMG} alt="없는 케릭터 img" />
+                  </ImageContainer>
+                  <TextContainer>
+                    <div>???</div>
+                  </TextContainer>
+                </NoneCharacterContainer>
+              )}
+            </>
           ))
         : null}
     </Container>
   );
 }
 
-
 const Container = styled.div`
   display: flex;
 `;
 
 const CharacterContainer = styled.span`
-background-color: rgba(189, 189, 189, 0.7);
+  background-color: rgba(189, 189, 189, 0.7);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -91,7 +91,6 @@ const NoneCharacterContainer = styled(CharacterContainer)`
 `;
 
 const TextContainer = styled.div`
-  
   display: flex;
   flex-direction: column;
   align-items: center;
