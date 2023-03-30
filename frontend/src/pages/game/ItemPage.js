@@ -30,7 +30,7 @@ export default function ItemPage() {
       .then((res) => {
         console.log('선택된 캐릭터 조회', res.data);
         while (res.data.length < 3) {
-          res.data.push({className: null})
+          res.data.push({ className: null });
         }
 
         setSelectedChList(res.data);
@@ -68,7 +68,9 @@ export default function ItemPage() {
         </SubContainerLeft>
         <SubContainerRight>
           <Relic />
-          <StartButton>전투하기</StartButton>
+          <StartButton onClick={() => navigate('/battle')}>
+            전투하기
+          </StartButton>
         </SubContainerRight>
       </MainContainer>
     </>
@@ -79,27 +81,24 @@ const MainContainer = styled.div`
   display: flex;
 
   width: 90%;
-  height:90%;
+  height: 90%;
   flex-direction: row;
   justify-content: space-around;
-
-
 `;
 
 const SubContainerLeft = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;  
+  align-items: center;
 
   height: 100%;
 `;
 
 const SubContainerRight = styled.div`
-
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  align-items: center;  
+  align-items: center;
   width: 50%;
   margin-bottom: 3rem;
 `;
@@ -110,7 +109,6 @@ const ButtonContainer = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 0.5rem;
-  
 `;
 
 const StartButton = styled.button`
@@ -122,4 +120,3 @@ const StartButton = styled.button`
   border: none;
   width: 20vw;
 `;
-

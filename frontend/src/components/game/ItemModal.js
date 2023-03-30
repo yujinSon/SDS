@@ -8,7 +8,7 @@ export default function ItemModal({}) {
   return (
     <Container>
       <div>당신이 뽑은 유물은 바로 이거!</div>
-      <Button value="완료" onClick={() => navigate('/main')} />
+      <Button value="완료" onClick={() => navigate('/game/ready')} />
     </Container>
   );
 }

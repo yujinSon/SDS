@@ -24,10 +24,10 @@ function App() {
       <ThemeProvider theme={theme}>
         <Routes>
           <Route path="/" element={<MainPage />} />
-          <Route path="/main" element={<GameMainPageLayout />}>
-            <Route path="" element={<GameMainPage />} />
-            <Route path="basicmain" element={<BasicMainPage />} />
-            <Route path="item" element={<ItemPage />} />
+          <Route path="/game" element={<GameMainPageLayout />}>
+            <Route path="recruit" element={<GameMainPage />} />
+            <Route path="" element={<BasicMainPage />} />
+            <Route path="ready" element={<ItemPage />} />
           </Route>
           <Route path="/map" element={<MapPage />} />
           <Route path="/battle" element={<BattlePage />} />

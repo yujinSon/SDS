@@ -100,8 +100,8 @@ public class StageService {
 
 
         List<Integer> nowStage = new ArrayList<>();
-        nowStage.add(user.getNowStage());
-        nowStage.add(user.getNowSubStage());
+        nowStage.add(user.getStage());
+        nowStage.add(user.getSubStage());
 
         res.put("character", characterDtos);
         res.put("villain",  villain);

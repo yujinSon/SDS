@@ -29,7 +29,7 @@ export default function ShopPage() {
     <Container>
       <img src={상점} alt="상점" />
       <Card>
-        <CardItem onClick={() => navigate('/main')}>
+        <CardItem onClick={() => navigate('/game')}>
           <img src={영입} alt="영입" />
           <button>
             <img src={영입버튼} alt="영입버튼" />
@@ -75,10 +75,13 @@ export default function ShopPage() {
         </CardItem>
       </Card>
       {recoveryModal ? (
-        <Modal close={() => navigate('/main')} content={<RecoveryModal />} />
+        <Modal
+          close={() => navigate('/game/ready')}
+          content={<RecoveryModal />}
+        />
       ) : null}
       {itemModal ? (
-        <Modal close={() => navigate('/main')} content={<ItemModal />} />
+        <Modal close={() => navigate('/game/ready')} content={<ItemModal />} />
       ) : null}
     </Container>
   );
