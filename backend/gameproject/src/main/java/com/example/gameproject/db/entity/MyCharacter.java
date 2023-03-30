@@ -72,6 +72,7 @@ public class MyCharacter implements Serializable {
         this.speed = randomCharacterDto.getSpeed();
         this.critical = randomCharacterDto.getCritical();
         this.avoid = randomCharacterDto.getAvoid();
+        this.maxHp = randomCharacterDto.getMaxHp();
 
 //        double[] randombox = {0.7,0.8,0.9,1.0,1.1,1.2,1.3};
 //        Random random = new Random(); * random.nextInt(randombox.length)

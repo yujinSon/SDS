@@ -25,6 +25,7 @@ public class MyCharacterTurnDto {
     private int avoid;
     private List<BattleTurnSkillDto> skillList;
     private int pos;
+    private int maxHp;
 
 
     public MyCharacterTurnDto(MyCharacter character, String stat, int value, int remain){
@@ -63,6 +64,7 @@ public class MyCharacterTurnDto {
         this.subClass = character.getDefaultCharacter().getSubName();
         this.level = character.getLevel();
         this.hp = character.getHp();
+        this.maxHp = character.getMaxHp();
         this.pos = character.getPos();
         List<BattleTurnSkillDto> skillDtoList = new ArrayList<>();
         for (Skill skill: character.getDefaultCharacter().getMySkill()){
