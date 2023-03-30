@@ -8,7 +8,7 @@ export default function ItemModal({}) {
   return (
     <Container>
       <div>캐릭터의 모든 HP가 회복되었습니다.</div>
-      <Button value="완료" onClick={() => navigate('/main')} />
+      <Button value="완료" onClick={() => navigate('/game/ready')} />
     </Container>
   );
 }
