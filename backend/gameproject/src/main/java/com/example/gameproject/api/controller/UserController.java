@@ -53,10 +53,10 @@ public class UserController {
 //        return "login";
 //    }
 
-    @GetMapping("/joinForm")
-    public String joinForm(){
-        return "join";
-    }
+    // @GetMapping("/joinForm")
+    // public String joinForm(){
+    //     return "join";
+    // }
 
 //    @PostMapping("/join")
 //    public String join(@ModelAttribute User user){
