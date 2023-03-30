@@ -29,17 +29,12 @@ export default function Main() {
     setTutorialModal(!tutorialModal);
   };
 
-  const yong = () => {
-    axios('https://j8a303.p.ssafy.io/youtube/crawling')
-      .then((res) => console.log(res.data))
-      .catch((err) => console.log(err));
-  };
   // 카카오 로그인
   const kakaoLogin = () => {
     axios({
       url: 'https://j8a303.p.ssafy.io/oauth2/authorization/kakao',
       // method: 'post',
-      // withCredentials: true,
+      // withCredential s: true,
     })
       .then((res) => {
         console.log('카카오 로그인 성공', res.data);
@@ -54,9 +49,7 @@ export default function Main() {
     <div>
       {userInfo ? (
         <div>
-          <ButtonContainer>
-            <Button size="large" type="gray" onClick={yong} value="용찬맨" />
-          </ButtonContainer>
+          <Img src={kakao} alt="카카오 로그인" onClick={kakaoLogin} />
           <ButtonContainer>
             <Button
               size="large"
@@ -112,7 +105,6 @@ export default function Main() {
       ) : (
         <>
           <Img src={kakao} alt="카카오 로그인" onClick={kakaoLogin} />
-          <button onClick={kakaoLogin}></button>
 
           {/* <ButtonContainer>
             <Button
