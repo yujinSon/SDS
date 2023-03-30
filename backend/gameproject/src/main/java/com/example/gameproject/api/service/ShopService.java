@@ -250,6 +250,8 @@ public class ShopService {
 	public void addStat(MyCharacter myCharacter, String stat, int value) {
 		if (stat.equals("hp")) {
 			myCharacter.addHd(value);
+			// 유물효과 적용할때 maxHp도 늘려줌
+			myCharacter.addMaxHp(value);
 		} else if (stat.equals(("ad"))) {
 			myCharacter.addAd(value);
 		} else if (stat.equals(("ap"))) {

@@ -72,6 +72,7 @@ public class MyCharacter implements Serializable {
         this.speed = randomCharacterDto.getSpeed();
         this.critical = randomCharacterDto.getCritical();
         this.avoid = randomCharacterDto.getAvoid();
+        this.maxHp = randomCharacterDto.getMaxHp();
 
 //        double[] randombox = {0.7,0.8,0.9,1.0,1.1,1.2,1.3};
 //        Random random = new Random(); * random.nextInt(randombox.length)
@@ -93,11 +94,17 @@ public class MyCharacter implements Serializable {
     }
 
     public void addHd(int value) {this.hp += value;}
+    public void addMaxHp(int value) {this.maxHp += value;}
     public void addAd(int value) {this.ad += value;}
     public void addAp(int value) {this.ap += value;}
     public void addSpeed(int value) {this.speed += value;}
     public void addCritical(int value) {this.critical += value;}
     public void addAvoid(int value) {this.avoid += value;}
+
+    public void levelUp() {
+        this.level += 1;
+        this.statPoint += 5;
+    }
 
     public void updateStat(int hp, int ap, int ad, int speed, int critical, int avoid){
         this.hp = hp;

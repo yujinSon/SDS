@@ -62,7 +62,7 @@ export default function Main() {
               size="large"
               type="gray"
               onClick={() => {
-                navigate('/main');
+                navigate('/game');
               }}
               value="Start"
             />
@@ -72,11 +72,12 @@ export default function Main() {
               size="large"
               type="gray"
               onClick={() => {
-                navigate('/main');
+                navigate('/game');
               }}
               value="Load"
             />
           </ButtonContainer>
+
           {/* <ButtonContainer>
             <Button
               size="large"

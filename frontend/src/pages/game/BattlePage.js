@@ -210,7 +210,7 @@ export default function BattlePage() {
 
     if (monsters.length === 0) {
       console.log('몬스터 전멸함');
-      const [url, method] = api('endBattle');
+      const [url, method] = api('stepClear');
       const config = { url, method };
       axios(config)
         .then((res) => {
@@ -218,7 +218,7 @@ export default function BattlePage() {
           if (stageStep[1] === 2) {
             navigate('/shop');
           } else {
-            navigate('/ending');
+            navigate('/game/ready');
           }
         })
         .catch((err) => {

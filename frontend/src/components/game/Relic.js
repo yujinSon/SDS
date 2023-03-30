@@ -8,66 +8,99 @@ export default function Relic() {
     1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
     22, 23, 24,
   ];
+  
 
-  const imagesList = [];
-  for (let i = 0; i < images.length; i += 6) {
-    const row = images.slice(i, i + 6).map((url) => {
-      return (
-        <ImageWrapper key={url}>
-          <Image src={IMG} alt="image" />
-        </ImageWrapper>
-      );
-    });
-    imagesList.push(<Row key={i}>{row}</Row>);
+  const chunks = [];
+  for (let i = 0; i < images.length; i += 3) {
+    chunks.push(images.slice(i, i + 3));
   }
 
   return (
-    <Container>
-      <ImageContainer>{imagesList}</ImageContainer>
-      <TextContainer>
-        <h1>KF94 마스크</h1>
-        <Img src={IMG} />
-        <div>마스크를 착용하면 hp가 50만큼 증가한다.</div>
-      </TextContainer>
-    </Container>
+    <OutFrame>
+      <Container>
+      {chunks.map((chunk, index) => (
+        <Row key={index}>
+          {chunk.map((number) => {
+            const imageUrl = `https://example.com/images/${number}.jpg`;
+            return (
+              <ImageWrapper key={number}>
+                <Image src={IMG} alt={`Image ${number}`} />
+              </ImageWrapper>
+            );
+          })}
+        </Row>
+      ))}
+      </Container>
+      <ArtifactDetail>
+        <DetailImgContainer>
+          <DetailImg src={IMG} />
+        </DetailImgContainer>
+        <DetailText>여기에 설명 들어감</DetailText>
+      </ArtifactDetail>
+    </OutFrame>
   );
+
 }
+const OutFrame = styled.div`
+background-color: rgba(189, 189, 189, 0.7);
+  display: flex;
+  border-radius: 8px;
+  padding: 1rem;
+
+`;
 
 const Container = styled.div`
+background-color: rgba(116, 116, 116, 0.8);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 1rem;
 `;
 
-const ImageContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-`;
-
-const TextContainer = styled.div`
-  text-align: center;
-  margin-top: 1rem;
-  font-size: 1rem;
-`;
 const Row = styled.div`
   display: flex;
+  
 `;
 
 const ImageWrapper = styled.div`
-  margin: 0.5rem;
+display: flex;
+flex-direction: column;
+margin: 0.1rem;
 `;
 
 const Image = styled.img`
-  width: 100%;
+  width: 6vw;
+  height: 7vh;
+`;
+
+const DetailImgContainer = styled.div`
+display: flex;
+justify-content: center;
+width: 100%;
+margin-top : 2rem;
+margin-bottom: 1rem;
+`;
+
+const ArtifactDetail = styled.div`
+background-color: rgba(116, 116, 116, 0.8);
+display: flex;
+flex-direction: column;
+justify-content: space-between;
+align-items: center;
+border-radius: 10px;
+width: 100%;
+margin-left: 0.5rem;
+`;
+
+const DetailImg = styled.img`
+  width: 50%;
   height: 100%;
 `;
 
-const Img = styled.img`
-  width: 100%;
-  height: 100%;
+const DetailText = styled.div`
+background-color: green;
+  width: 80%;
+  height: 50%;
+  margin-bottom: 3rem;
 `;
+

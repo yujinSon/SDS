@@ -30,5 +30,10 @@ const Container = styled.div`
 
 const Pane = styled.div`
   width: 100%;
-  margin-bottom: 2rem;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom : 1rem;
 `;
