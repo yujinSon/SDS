@@ -46,6 +46,7 @@ public class ResultService {
         User user = userRepository.getById(1L);
         int Score = user.getStage() * 1000 + user.getSubStage() * 100 - user.getTurn();
         user.gameOverUpdate(Math.max(user.getBestScore(), Score));
+        user.reGame();
         userRepository.save(user);
         return Score;
     }

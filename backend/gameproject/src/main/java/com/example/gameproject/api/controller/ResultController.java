@@ -21,7 +21,8 @@ public class ResultController {
         return ResponseEntity.ok(resultService.Ranking());
     }
 
-    @PutMapping("/gameOver")
+    // 내케릭이 다 죽어서 게임 패배
+    @PutMapping("/gameover")
     public ResponseEntity<?> getGameOver() throws Exception{
         return ResponseEntity.ok(resultService.GameOver());
     }

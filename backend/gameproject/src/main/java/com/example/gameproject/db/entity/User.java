@@ -70,6 +70,10 @@ public class User implements Serializable {
     public void addTurn() {
         this.turn += 1;
     }
+    public void reGame() {
+        this.stage = 1;
+        this.subStage = 1;
+    }
 
     public void changeNowMap(MapSaveRequest mapSaveRequest){
         this.nowStage = mapSaveRequest.getNowStage();
@@ -98,5 +102,7 @@ public class User implements Serializable {
     public User(UserDto userDto){
         this.email = userDto.getEmail();
     }
+
+
 
 }
