@@ -100,6 +100,11 @@ public class MyCharacter implements Serializable {
     public void addCritical(int value) {this.critical += value;}
     public void addAvoid(int value) {this.avoid += value;}
 
+    public void levelUp() {
+        this.level += 1;
+        this.statPoint += 5;
+    }
+
     public void updateStat(int hp, int ap, int ad, int speed, int critical, int avoid){
         this.hp = hp;
         this.ap = ap;
