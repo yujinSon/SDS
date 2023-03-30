@@ -93,6 +93,7 @@ public class MyCharacter implements Serializable {
     }
 
     public void addHd(int value) {this.hp += value;}
+    public void addMaxHp(int value) {this.maxHp += value;}
     public void addAd(int value) {this.ad += value;}
     public void addAp(int value) {this.ap += value;}
     public void addSpeed(int value) {this.speed += value;}

@@ -156,6 +156,8 @@ public class CharacterService {
     public void addStat(MyCharacter myCharacter, String stat, int value) {
         if (stat.equals("hp")) {
             myCharacter.addHd(value);
+            // 유물 적용할때만 maxHP증가
+            myCharacter.addMaxHp(value);
         } else if (stat.equals(("ad"))) {
             myCharacter.addAd(value);
         } else if (stat.equals(("ap"))) {
