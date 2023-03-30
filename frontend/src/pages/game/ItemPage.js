@@ -68,7 +68,7 @@ export default function ItemPage() {
         </SubContainerLeft>
         <SubContainerRight>
           <Relic />
-          <MyButton value="전투하기" />
+          <StartButton>전투하기</StartButton>
         </SubContainerRight>
       </MainContainer>
     </>
@@ -99,8 +99,27 @@ const SubContainerRight = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  align-items: center;  
   width: 50%;
+  margin-bottom: 3rem;
 `;
 
-
 const MyButton = styled(Button)``;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 0.5rem;
+  
+`;
+
+const StartButton = styled.button`
+  background-color: rgba(140, 140, 140, 0.8);
+  font-size: 1.5rem;
+  color: white;
+  border-radius: 10px;
+  padding: 0.2rem 2rem 0.2rem 2rem;
+  border: none;
+  width: 20vw;
+`;
+

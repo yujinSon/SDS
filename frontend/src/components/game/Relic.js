@@ -35,23 +35,22 @@ export default function Relic() {
         <DetailImgContainer>
           <DetailImg src={IMG} />
         </DetailImgContainer>
-        <DetailText>1</DetailText>
+        <DetailText>여기에 설명 들어감</DetailText>
       </ArtifactDetail>
     </OutFrame>
   );
 
 }
 const OutFrame = styled.div`
-background-color: orange;
+background-color: rgba(189, 189, 189, 0.7);
   display: flex;
-  border: 1px solid #ccc;
   border-radius: 8px;
   padding: 1rem;
 
 `;
 
 const Container = styled.div`
-background-color: green;
+background-color: rgba(116, 116, 116, 0.8);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -66,27 +65,29 @@ const Row = styled.div`
 const ImageWrapper = styled.div`
 display: flex;
 flex-direction: column;
-background-color: red;
 margin: 0.1rem;
 `;
 
 const Image = styled.img`
-  width: 50px;
-  height: 50px
+  width: 6vw;
+  height: 7vh;
 `;
 
 const DetailImgContainer = styled.div`
 display: flex;
 justify-content: center;
 width: 100%;
-margin-top : 1rem;
+margin-top : 2rem;
 margin-bottom: 1rem;
 `;
 
 const ArtifactDetail = styled.div`
+background-color: rgba(116, 116, 116, 0.8);
 display: flex;
 flex-direction: column;
-background-color: yellow;
+justify-content: space-between;
+align-items: center;
+border-radius: 10px;
 width: 100%;
 margin-left: 0.5rem;
 `;
@@ -100,4 +101,6 @@ const DetailText = styled.div`
 background-color: green;
   width: 80%;
   height: 50%;
+  margin-bottom: 3rem;
 `;
+

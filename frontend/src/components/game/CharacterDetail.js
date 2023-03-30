@@ -18,26 +18,22 @@ export default function CharacterDetail({ data, selectedCharacter }) {
             </StatDiv>
           </div>
           <div>
-            <AddStatDiv><span>hp: {data[selectedCharacter].hp} / {data[selectedCharacter].maxHp}</span> <AddStatButton/></AddStatDiv>
-            <AddStatDiv><span>ad: {data[selectedCharacter].ad}</span> <AddStatButton/></AddStatDiv>
-            <AddStatDiv><span>ap: {data[selectedCharacter].ap}</span> <AddStatButton/></AddStatDiv>
-            <AddStatDiv><span>speed: {data[selectedCharacter].speed}</span> <AddStatButton/></AddStatDiv>
-            <AddStatDiv><span>critical: {data[selectedCharacter].critical}</span> <AddStatButton/></AddStatDiv>
-            <AddStatDiv><span>avoid: {data[selectedCharacter].avoid}</span> <AddStatButton/></AddStatDiv>
+            <AddStatDiv><span>hp: {data[selectedCharacter].hp} / {data[selectedCharacter].maxHp}</span> <span><AddStatButton/><MinusStatButton/></span></AddStatDiv>
+            <AddStatDiv><span>ad: {data[selectedCharacter].ad}</span> <span><AddStatButton/><MinusStatButton/></span></AddStatDiv>
+            <AddStatDiv><span>ap: {data[selectedCharacter].ap}</span> <span><AddStatButton/><MinusStatButton/></span></AddStatDiv>
+            <AddStatDiv><span>speed: {data[selectedCharacter].speed}</span> <span><AddStatButton/><MinusStatButton/></span></AddStatDiv>
+            <AddStatDiv><span>critical: {data[selectedCharacter].critical}</span> <span><AddStatButton/><MinusStatButton/></span></AddStatDiv>
+            <AddStatDiv><span>avoid: {data[selectedCharacter].avoid}</span> <span><AddStatButton/><MinusStatButton/></span></AddStatDiv>
           </div>
         </TopDiv>
       ) : (
         <div>능력치 보고 싶은 캐릭터 선택하셈</div>
       )}
+      <StatSaveButton>저장</StatSaveButton>
     </Container>
   );
 }
 
-const TopDiv = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding-right: 2rem;
-`;
 
 const Container = styled.div`
   background-color: rgba(189, 189, 189, 0.7);
@@ -45,10 +41,19 @@ const Container = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  margin-top: 1rem;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.5rem;
   padding-top: 1rem;
+  padding-bottom: 3rem;
   font-size : 1.5rem;
   border-radius: 20px;
+`;
+
+const TopDiv = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding-right: 2rem;
 `;
 
 const StatDiv = styled.div`
@@ -60,8 +65,8 @@ const AddStatDiv = styled(StatDiv)`
   width: 100%;
   justify-content: space-between;
   align-items: center;
-  width: 100%;  
 `;
+
 
 const AddStatButton = styled.button`
   background-color: red;
@@ -71,7 +76,7 @@ const AddStatButton = styled.button`
   border-radius: 50%;
   border: none;
   cursor: pointer;
-  margin: 0 0 0 4rem;
+  margin: 0 0 0 3rem;
 
   &:before,
   &:after {
@@ -93,4 +98,39 @@ const AddStatButton = styled.button`
     height: 60%;
     transform: translate(-50%, -50%) rotate(180deg);
   }
+`;
+
+const MinusStatButton = styled.button`
+  background-color: red;
+  position: relative;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  margin: 0 0 0 1rem;
+
+  &:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background-color: #fff;
+  }
+
+  &:after {
+    width: 2px;
+    height: 60%;
+    transform: translate(-50%, -50%) rotate(90deg);
+  }
+`;
+
+const StatSaveButton = styled.button`
+  background-color: rgba(116, 116, 116, 0.7);
+  font-size: 1.5rem;
+  color: white;
+  border-radius: 10px;
+  padding: 0.2rem 2rem 0.2rem 2rem;
+  border: none;
+  width: 20vw;
 `;
