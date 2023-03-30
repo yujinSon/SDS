@@ -9,7 +9,7 @@ import IMG2 from 'assets/img/손민혁.png';
 export default function Battle({
   characters,
   monsters,
-  selectedCh,
+  selectedCh, // 현재 차례인 케릭터의 인덱스
   clickCh,
   clickMonster,
   nowTurn,
@@ -20,7 +20,7 @@ export default function Battle({
       <StageContainer>
         {stageStep ? (
           <>
-            nowTurn: {nowTurn} / 스테이지 {stageStep[0]} 진행률 :{' '}
+            {selectedCh} /nowTurn: {nowTurn} / 스테이지 {stageStep[0]} 진행률 :{' '}
             {stageStep[1] * 20}%
             <BarContainer>
               <Bar progress={stageStep[1]} />
@@ -34,12 +34,16 @@ export default function Battle({
             <CharacterContainer
               ch={ch}
               key={idx}
-              onClick={() => clickCh(ch)}
-              selectedCh={selectedCh === ch.pos}
+              onClick={() => {
+                clickCh(ch);
+              }}
+              // go={selectedCh === ch.pos}
+              selectedCh={selectedCh === idx}
               POS={POS}
             >
               <Circle src={IMG2}></Circle>
               <Text>{ch.subName}</Text>
+              <Text>{selectedCh}</Text>
               <ProgressContainer>
                 <ProgressBar hpBar={(ch.hp / ch.maxHp) * 100} />
               </ProgressContainer>

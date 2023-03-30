@@ -173,6 +173,7 @@ export default function BattlePage() {
     if (!turnOrder) return;
     console.log(nowIdx, '현재 턴');
     setNowTurn(turnOrder[nowIdx].pos);
+    setSelectedCh(-1);
     // console.log('현재 공격 pos', turnOrder[nowIdx]);
   }, [nowIdx]);
 
@@ -236,6 +237,7 @@ export default function BattlePage() {
       if (characters) {
         for (let idx = 0; idx < characters.length; idx++) {
           if (characters[idx].pos === nowTurn) {
+            console.log('체크요 : ', characters);
             myCharacter = characters[idx];
             console.log('현재 공격 턴인 캐릭터', myCharacter);
             found = true;
@@ -243,8 +245,9 @@ export default function BattlePage() {
         }
         // 캐릭터가 이미 죽어서 해당 nowTurn의 pos를 찾을 수 없으면 다음 턴으로 넘김
         if (found === false) {
+          console.log('으아아아아아아아ㅏ아아아아아아');
           if (nowIdx < turnOrder.length - 1) {
-            setNowIdx(nowIdx + 1);
+            setNowIdx(nowIdx);
             return;
           } else {
             setNowIdx(0);

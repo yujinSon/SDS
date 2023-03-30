@@ -24,7 +24,7 @@ export default function GameButtons({
         <Button
           value="모험하기"
           onClick={() => {
-            navigate('/map');
+            navigate('/battle');
           }}
         />
       </ButtonContainer>

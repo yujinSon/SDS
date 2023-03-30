@@ -32,7 +32,7 @@ const api = function (type, options = {}) {
     ranking: ['/result/ranking', 'get'],
 
     // 전투 승리 or 패배
-    gameOver: ['/result/gameOver', 'put'],
+    gameOver: ['/result/gameover', 'put'],
     clearPut: ['/result/clear', 'put'],
     clearDelete: ['/result/clear', 'delete'],
   };
