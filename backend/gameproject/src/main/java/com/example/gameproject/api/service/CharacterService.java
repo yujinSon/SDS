@@ -144,6 +144,7 @@ public class CharacterService {
                     character.getAvoid(),
                     character.getMaxHp(),
                     character.getPos(),
+                    character.getStatPoint(),
                     userDto,
                     skillDtos
             ));

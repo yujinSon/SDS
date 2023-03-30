@@ -22,6 +22,7 @@ public class SelectedCharacterDto {
     int avoid;
     int maxHp;
     int pos;
+    int statPoint;
     UserDto user;
     List<SkillDto> skills;
 }

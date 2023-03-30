@@ -78,7 +78,7 @@ public class User implements Serializable {
 
     public void gameWin() {
         if (this.subStage == 4) {
-            this.subStage = 0;
+            this.subStage = 1;
             this.stage += 1;
         } else {
             this.subStage += 1;
