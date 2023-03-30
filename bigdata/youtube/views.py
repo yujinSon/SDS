@@ -18,7 +18,7 @@ def youtubeCrawling(request):
         for i in youtube_data:
             comment[1].append({"word": i.comment, "value": i.id})
         comment[1].append({"word" : "asdjadj", "value":10})
-        print(comment,1)
+        print(comment,1,2)
         # seralizer = youtubeListSerializer(youtube_data, many=True)
         # 이 밑에 word Tokenzing을 실행한다.
         
