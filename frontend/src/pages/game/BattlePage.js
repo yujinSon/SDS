@@ -32,6 +32,15 @@ export default function BattlePage() {
       .catch((err) => {});
   }, []);
 
+  // playerTurn이 2가 된 상태에서 몬스터를 클릭하면 공격하는 것으로 간주
+  const [playerTurn, setPlayerTurn] = useState(0);
+  const [selectedCh, setSelectedCh] = useState(null);
+  const [selectedSkill, setSelectedSkill] = useState(null);
+
+  useEffect(() => {
+    console.log(selectedCh, '@@@@@@@@현재 선택된 캐릭터!!!@@@@@@@@');
+  }, [selectedCh]);
+
   const [stageStep, setStageStep] = useState(null);
   const [characters, setCharacters] = useState(null);
   const [monsters, setMonsters] = useState(null);
@@ -79,7 +88,7 @@ export default function BattlePage() {
       copy.pop();
     }
     setMsg(copy);
-    setMonsterAmount('');
+    // setMonsterAmount('');
   }, [monsterTowhom, monsterAmount]);
 
   useEffect(() => {
@@ -249,7 +258,6 @@ export default function BattlePage() {
       console.log('빌런의 공격 차례가 도래했다!!!');
       // 빌런 공격 시에차례대로 보여주기 위해 setTimeout 함수 실행 (2초 간격)
       setTimeout(function () {
-        console.log(monsters);
         let myMonster = 0;
         // 현재 nowTurn인 몬스터의 pos를 monster 찾을 수 있는지 변수
         let found = false;
@@ -308,7 +316,7 @@ export default function BattlePage() {
           let beforeHp = [0, 0, 0];
           for (let ch of characters) {
             beforeHp[ch.pos] = ch.hp;
-            console.log(beforeHp, '달콤커피');
+            // console.log(beforeHp, '달콤커피');
           }
           let afterHp = [0, 0, 0];
           const [url, method] = api('enemysTurn');
@@ -397,11 +405,6 @@ export default function BattlePage() {
       }, 2000);
     }
   }, [nowTurn]);
-
-  // playerTurn이 2가 된 상태에서 몬스터를 클릭하면 공격하는 것으로 간주
-  const [playerTurn, setPlayerTurn] = useState(0);
-  const [selectedCh, setSelectedCh] = useState(null);
-  const [selectedSkill, setSelectedSkill] = useState(null);
 
   const clickCh = async (ch) => {
     // 버프 주는 거임

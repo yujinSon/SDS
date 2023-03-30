@@ -30,23 +30,21 @@ export default function Information({
           </LeftContainer>
           <RightContainer>
             <SkillContainer>
-              <SkillContainer>
-                {character.skills.map((skill, idx) => {
-                  return character.skillCoolTime[idx] ? (
-                    <Img
-                      src={IMG}
-                      alt="스킬사진"
-                      key={idx}
-                      onClick={() => {
-                        clickSkill(idx);
-                      }}
-                      selectedSkill={selectedSkill === idx}
-                    />
-                  ) : (
-                    <Img src={IMG2} alt="스킬사진" key={idx} />
-                  );
-                })}
-              </SkillContainer>
+              {character.skills.map((skill, idx) => {
+                return character.skillCoolTime[idx] ? (
+                  <Img
+                    src={IMG}
+                    alt="스킬사진"
+                    key={idx}
+                    onClick={() => {
+                      clickSkill(idx);
+                    }}
+                    selectedSkill={selectedSkill === idx}
+                  />
+                ) : (
+                  <Img src={IMG2} alt="스킬사진" key={idx} />
+                );
+              })}
             </SkillContainer>
             {selectedSkill != null ? (
               <>
@@ -99,6 +97,8 @@ const SkillContainer = styled.div`
 `;
 
 const Img = styled.img`
+  width: 70px;
+  height: 60px;
   ${({ selectedSkill }) =>
     selectedSkill &&
     `
