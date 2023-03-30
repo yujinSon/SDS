@@ -249,7 +249,7 @@ public class ShopService {
 	// 효과 적용이기 떄문에 저장하지는 않음
 	public void addStat(MyCharacter myCharacter, String stat, int value) {
 		if (stat.equals("hp")) {
-			myCharacter.addHd(value);
+			myCharacter.addHp(value);
 			// 유물효과 적용할때 maxHp도 늘려줌
 			myCharacter.addMaxHp(value);
 		} else if (stat.equals(("ad"))) {
