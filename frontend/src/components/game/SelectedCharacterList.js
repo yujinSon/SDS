@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 import IMG from 'assets/img/고병진.png';
@@ -8,14 +8,31 @@ export default function SelectedCharacterList({
   selectedCharacter,
   setSelectedCharacter,
 }) {
+  const [list, setList] = useState(null);
+
+  useEffect(() => {
+    if (!data) return;
+
+    let copy = [];
+    if (data.length === 0) {
+      copy = [{ className: null }, { className: null }, { className: null }];
+    } else if (data.length === 1) {
+      copy = [...data, { className: null }, { className: null }];
+    } else if (data.length === 2) {
+      copy = [...data, { className: null }];
+    } else {
+      copy = [...data];
+    }
+    setList(copy);
+  }, [data]);
+
   return (
     <Container>
-      {data
-        ? data.map((character, idx) => (
-            <>
+      {list
+        ? list.map((character, idx) => (
+            <div key={idx}>
               {character.subClassName != null ? (
                 <CharacterContainer
-                  key={idx}
                   onClick={() => {
                     setSelectedCharacter(idx);
                   }}
@@ -29,7 +46,7 @@ export default function SelectedCharacterList({
                   </TextContainer>
                 </CharacterContainer>
               ) : (
-                <NoneCharacterContainer key={idx}>
+                <NoneCharacterContainer>
                   <ImageContainer>
                     <img src={IMG} alt="없는 케릭터 img" />
                   </ImageContainer>
@@ -38,7 +55,7 @@ export default function SelectedCharacterList({
                   </TextContainer>
                 </NoneCharacterContainer>
               )}
-            </>
+            </div>
           ))
         : null}
     </Container>
