@@ -2,6 +2,7 @@ package com.example.gameproject.api.service;
 
 import com.example.gameproject.db.entity.*;
 import com.example.gameproject.db.repository.*;
+import com.example.gameproject.dto.request.AddStatDto;
 import com.example.gameproject.dto.request.YoutubeDto;
 import com.example.gameproject.dto.response.*;
 import lombok.RequiredArgsConstructor;
@@ -145,11 +146,22 @@ public class CharacterService {
                     character.getMaxHp(),
                     character.getPos(),
                     character.getStatPoint(),
+                    character.getAddHp(),
+                    character.getAddAd(),
+                    character.getAddAp(),
+                    character.getAddSpeed(),
+                    character.getAddCritical(),
+                    character.getAddAvoid(),
                     userDto,
                     skillDtos
             ));
         }//for
         return result;
+    }
+
+    // api/character/addstat
+    public void updateStat(AddStatDto addStatDto, Long userId) {
+//        List<MyCharacter>
     }
 
     // 효과 적용 함수
