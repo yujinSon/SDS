@@ -29,6 +29,11 @@ export default function Main() {
     setTutorialModal(!tutorialModal);
   };
 
+  const yong = () => {
+    axios('https://j8a303.p.ssafy.io/youtube/crawling')
+      .then((res) => console.log(res.data))
+      .catch((err) => console.log(err));
+  };
   // 카카오 로그인
   const kakaoLogin = () => {
     axios({
@@ -50,11 +55,14 @@ export default function Main() {
       {userInfo ? (
         <div>
           <ButtonContainer>
+            <Button size="large" type="gray" onClick={yong} value="용찬맨" />
+          </ButtonContainer>
+          <ButtonContainer>
             <Button
               size="large"
               type="gray"
               onClick={() => {
-                navigate('/main');
+                navigate('/game');
               }}
               value="Start"
             />
@@ -64,33 +72,12 @@ export default function Main() {
               size="large"
               type="gray"
               onClick={() => {
-                navigate('/main');
+                navigate('/game');
               }}
               value="Load"
             />
           </ButtonContainer>
-          {/*  */}
-          <ButtonContainer>
-            <Button
-              size="large"
-              type="gray"
-              onClick={() => {
-                navigate('/main/basicmain');
-              }}
-              value="영입 페이지 테스트"
-            />
-          </ButtonContainer>
-          {/*  */}
-          <ButtonContainer>
-            <Button
-              size="large"
-              type="gray"
-              onClick={() => {
-                navigate('/main/item');
-              }}
-              value="전투준비 페이지 테스트"
-            />
-          </ButtonContainer>
+
           {/* <ButtonContainer>
             <Button
               size="large"

@@ -16,7 +16,7 @@ export default function GameButtons({
   return (
     <Container>
       <ButtonContainer>
-        <StartButton>완료</StartButton>
+        <StartButton onClick={() => navigate('/game/ready')}>완료</StartButton>
       </ButtonContainer>
     </Container>
   );
@@ -33,7 +33,6 @@ const ButtonContainer = styled.div`
   justify-content: center;
   margin: 1rem;
 `;
-
 
 const StartButton = styled.button`
   background-color: rgba(140, 140, 140, 0.7);
