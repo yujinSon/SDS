@@ -52,7 +52,9 @@ export default function BattlePage() {
   const [nowIdx, setNowIdx] = useState(0);
 
   // 공격 시마다 띄울 메시지
-  const [msg, setMsg] = useState([]);
+  const [msg, setMsg] = useState([
+    '손유진이 박용찬에게 어퍼컷을 날려 100의 데미지를 입혔다.',
+  ]);
   const textCnt = 7;
 
   const [who, setWho] = useState('');
@@ -696,9 +698,11 @@ export default function BattlePage() {
         </LeftContainer>
 
         <RightContainer>
-          {msg.map((message, idx) => (
-            <div key={idx}>{message}</div>
-          ))}
+          <AttackResult>
+            {msg.map((message, idx) => (
+              <div key={idx}>{message}</div>
+            ))}
+          </AttackResult>
         </RightContainer>
       </BottomContainer>
     </MainContainer>
@@ -739,7 +743,18 @@ const LeftContainer = styled.div`
 const RightContainer = styled.div`
   display: flex;
   flex-direction: column;
-
-  color: black;
+  color: #333;
   width: 50%;
+  border: 1px solid #ccc;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+`;
+
+const AttackResult = styled.div`
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 `;
