@@ -6,7 +6,7 @@ import axios from 'libs/axios';
 import api from 'constants/api';
 
 import SelectedCharacterList from 'components/game/SelectedCharacterList';
-import CharacterDetail from 'components/game/CharacterDetail';
+import CharacterDetailStat from 'components/game/CharacterDetailStat';
 
 import Relic from 'components/game/Relic';
 import Button from 'components/common/Button';
@@ -22,6 +22,8 @@ export default function ItemPage() {
   const [itemModal, setItemModal] = useState(false);
   const [statModal, setStatModal] = useState(false);
 
+  const [isChanged, setIsChanged] = useState(false);
+
   // 선택된 캐릭터 리스트 조회
   useEffect(() => {
     const [url, method] = api('getSelectedCh');
@@ -36,7 +38,9 @@ export default function ItemPage() {
         setSelectedChList(res.data);
       })
       .catch((err) => {});
-  }, []);
+  }, [isChanged]);
+
+  useEffect(() => {}, [selectedChList]);
 
   const getSelectedChList = () => {
     const [url, method] = api('getSelectedCh');
@@ -60,7 +64,12 @@ export default function ItemPage() {
             setSelectedCharacter={setSelectedCharacter}
           />
           {selectedChList ? (
-            <CharacterDetail data={selectedChList[selectedCharacter]} />
+            <CharacterDetailStat
+              data={selectedChList[selectedCharacter]}
+              isChanged={isChanged}
+              setIsChanged={setIsChanged}
+              selectedCharacter={selectedCharacter}
+            />
           ) : null}
         </SubContainerLeft>
         <SubContainerRight>
