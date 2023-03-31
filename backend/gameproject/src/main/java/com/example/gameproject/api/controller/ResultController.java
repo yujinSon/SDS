@@ -23,7 +23,7 @@ public class ResultController {
 
     @PutMapping("/gameOver")
     public ResponseEntity<?> getGameOver() throws Exception{
-        return ResponseEntity.ok(resultService.GameOver());
+        return ResponseEntity.ok("update ok");
     }
 
     @DeleteMapping("/clear")

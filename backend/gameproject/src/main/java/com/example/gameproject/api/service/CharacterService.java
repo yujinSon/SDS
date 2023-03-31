@@ -91,7 +91,6 @@ public class CharacterService {
                     .bestScore(user.getBestScore())
                     .stage(user.getStage())
                     .subStage(user.getSubStage())
-                    .finalScore(user.getFinalScore())
                     .bestScore(user.getBestScore())
                     .build();
             for(Skill skill : skills){

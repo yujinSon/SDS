@@ -42,12 +42,10 @@ public class ResultService {
     }
 
     @Transactional
-    public int GameOver(){
+    public void GameOver(){
         User user = userRepository.getById(1L);
-        int Score = user.getStage() * 1000 + user.getSubStage() * 100 - user.getTurn();
-        user.gameOverUpdate(Math.max(user.getBestScore(), Score));
+        user.gameOverUpdate();
         userRepository.save(user);
-        return Score;
     }
 
     @Transactional

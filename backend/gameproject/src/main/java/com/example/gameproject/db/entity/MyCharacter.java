@@ -45,7 +45,6 @@ public class MyCharacter implements Serializable {
     private int addAvoid;
 
     private int pos;
-    @Column(columnDefinition = "int(1) default 0")
     private int statPoint;
 
     @ManyToOne(fetch = FetchType.LAZY)
