@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="2d71b76b-93ed-4917-b696-053b8e4d514a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bigdata/youtube/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/bigdata/youtube/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,7 +16,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="dev-back" />
+        <entry key="$PROJECT_DIR$" value="Django" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -33,6 +34,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/backend" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.0" />
@@ -48,6 +50,8 @@
       <updated>1678286716634</updated>
       <workItem from="1678756618134" duration="18000" />
       <workItem from="1679028221926" duration="1409000" />
+      <workItem from="1680085353185" duration="56000" />
+      <workItem from="1680085457672" duration="60000" />
     </task>
     <servers />
   </component>

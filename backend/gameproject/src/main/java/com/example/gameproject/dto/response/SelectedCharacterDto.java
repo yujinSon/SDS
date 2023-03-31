@@ -22,6 +22,13 @@ public class SelectedCharacterDto {
     int avoid;
     int maxHp;
     int pos;
+    int statPoint;
+    int addHp;
+    int addAd;
+    int addAp;
+    int addSpeed;
+    int addCritical;
+    int addAvoid;
     UserDto user;
     List<SkillDto> skills;
 }

@@ -51,11 +51,15 @@ public class ShopController {
 		return ResponseEntity.status(200).body("success");
 	}
 
-	@PostMapping("relic")
-	public ResponseEntity<RelicResponse> sendRelic(@RequestHeader String Authorization){
-		String token = Authorization.split(" ")[1];
-		String userEmail = jwtTokenProvider.getUserPk(token);
-		RelicResponse relic = shopService.getRelic(userEmail);
-		return ResponseEntity.status(201).body(relic);
-	}
+	// @PostMapping("relic")
+	// public ResponseEntity<RelicResponse> sendRelic(@RequestHeader String Authorization){
+	// 	String token = Authorization.split(" ")[1];
+	// 	String userEmail = jwtTokenProvider.getUserPk(token);
+	// 	RelicResponse relic = shopService.getRelic(userEmail);
+	// @PostMapping("/relic")
+	// public ResponseEntity<RelicResponse> sendRelic(){
+	// 	long userId = 1L;
+	// 	RelicResponse relic = shopService.getRelic(userId);
+	// 	return ResponseEntity.status(201).body(relic);
+	// }
 }

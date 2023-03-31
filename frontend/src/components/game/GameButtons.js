@@ -16,17 +16,7 @@ export default function GameButtons({
   return (
     <Container>
       <ButtonContainer>
-        <Button value="유물보기" onClick={() => setItemModal(!itemModal)} />
-        <Button value="스텟찍기" onClick={() => setStatModal(!statModal)} />
-      </ButtonContainer>
-      <ButtonContainer>
-        <Button value="Logout" onClick={() => navigate('/')} />
-        <Button
-          value="모험하기"
-          onClick={() => {
-            navigate('/map');
-          }}
-        />
+        <StartButton onClick={() => navigate('/game/ready')}>완료</StartButton>
       </ButtonContainer>
     </Container>
   );
@@ -35,9 +25,20 @@ export default function GameButtons({
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  padding-bottom: 2rem;
 `;
 
 const ButtonContainer = styled.div`
   display: flex;
+  justify-content: center;
   margin: 1rem;
+`;
+
+const StartButton = styled.button`
+  background-color: rgba(140, 140, 140, 0.7);
+  font-size: 2rem;
+  color: white;
+  border-radius: 10px;
+  padding: 0.4rem 3rem 0.4rem 3rem;
+  border: none;
 `;

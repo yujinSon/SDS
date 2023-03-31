@@ -32,6 +32,15 @@ export default function BattlePage() {
       .catch((err) => {});
   }, []);
 
+  // playerTurn이 2가 된 상태에서 몬스터를 클릭하면 공격하는 것으로 간주
+  const [playerTurn, setPlayerTurn] = useState(0);
+  const [selectedCh, setSelectedCh] = useState(null);
+  const [selectedSkill, setSelectedSkill] = useState(null);
+
+  useEffect(() => {
+    console.log(selectedCh, '@@@@@@@@현재 선택된 캐릭터!!!@@@@@@@@');
+  }, [selectedCh]);
+
   const [stageStep, setStageStep] = useState(null);
   const [characters, setCharacters] = useState(null);
   const [monsters, setMonsters] = useState(null);
@@ -43,10 +52,7 @@ export default function BattlePage() {
   const [nowIdx, setNowIdx] = useState(0);
 
   // 공격 시마다 띄울 메시지
-  const [msg, setMsg] = useState([
-    '고병진님이 박용찬님에게 꿀밤을 때려 데미지 100을 입혔습니다.',
-    '손유진님이 박용찬님에게 하이킥을 날려 데미지 41153을 입혔습니다.',
-  ]);
+  const [msg, setMsg] = useState([]);
   const textCnt = 7;
 
   const [who, setWho] = useState('');
@@ -59,6 +65,72 @@ export default function BattlePage() {
   // 캐릭터 회복량 msg 관련 state
   const [chHeal, setChHeal] = useState('');
   const [chHealTowhom, setChHealTowhom] = useState('');
+
+  // 몬스터가 skill 시전 시
+  const [monsterWho, setMonsterWho] = useState('');
+  const [monsterWhichSkill, setMonsterWhichSkill] = useState('');
+
+  // 몬스터가 공격한 대상과 데미지
+  const [monsterTowhom, setMonsterTowhom] = useState('');
+  const [monsterAmount, setMonsterAmount] = useState('');
+
+  // 몬스터가 공격시 띄울 msg
+  useEffect(() => {
+    if ((monsterTowhom === '') | (monsterAmount === '')) return;
+    // 오른쪽 아래 출력 메시지 생성 (사용 캐릭터, 사용 스킬)
+    let madeMsg = `${monsterTowhom}(이)가 ${monsterAmount}의 데미지를 입었다!`;
+    let copy = [...msg];
+    copy = [madeMsg, ...msg];
+    if (copy.length >= textCnt) {
+      copy.pop();
+    }
+    setMsg(copy);
+    // setMonsterAmount('');
+  }, [monsterTowhom, monsterAmount]);
+
+  useEffect(() => {
+    if ((monsterWho === '') | (monsterWhichSkill === '')) return;
+    // 오른쪽 아래 출력 메시지 생성 (사용 캐릭터, 사용 스킬)
+    console.log(monsterWho, '몬스터 누가 공격했는지');
+    let madeMsg = `${monsterWho}(이)가 ${monsterWhichSkill}을(를)  사용했다!`;
+    let copy = [...msg];
+    copy = [madeMsg, ...msg];
+    if (copy.length >= textCnt) {
+      copy.pop();
+    }
+    setMsg(copy);
+  }, [monsterWho, monsterWhichSkill]);
+
+  // 데미지와 데미지 받는 대상이 변경될 때 메시지 수정하는 useEffect
+  useEffect(() => {
+    if ((toWhom === '') | (amount === '')) return;
+    // 오른쪽 아래 출력 메시지 생성 (사용 캐릭터, 사용 스킬)
+    let madeMsg = '';
+    if (amount === 0) {
+      madeMsg = `${toWhom}(이)가 공격을 회피했다.`;
+    } else {
+      madeMsg = `${toWhom}(이)가 ${amount}만큼의  데미지를 입었다!`;
+    }
+    let copy = [...msg];
+    copy = [madeMsg, ...msg];
+    if (copy.length >= textCnt) {
+      copy.pop();
+    }
+    setMsg(copy);
+    console.log(madeMsg);
+  }, [amount, toWhom]);
+
+  // 캐릭터 힐 메시지
+  useEffect(() => {
+    if ((chHeal === '') | (chHealTowhom === '')) return;
+    let madeMsg = `${chHealTowhom}(은)는 ${chHeal}만큼 hp가 회복되었다.`;
+    let copy = [...msg];
+    copy = [madeMsg, ...msg];
+    if (copy.length >= textCnt) {
+      copy.pop();
+    }
+    setMsg(copy);
+  }, [chHeal, chHealTowhom]);
 
   // speed에 따라 공격 turn 계산하기
   useEffect(() => {
@@ -98,6 +170,7 @@ export default function BattlePage() {
     if (!turnOrder) return;
     console.log(nowIdx, '현재 턴');
     setNowTurn(turnOrder[nowIdx].pos);
+    setSelectedCh(-1);
     // console.log('현재 공격 pos', turnOrder[nowIdx]);
   }, [nowIdx]);
 
@@ -134,12 +207,27 @@ export default function BattlePage() {
 
     if (monsters.length === 0) {
       console.log('몬스터 전멸함');
-      const [url, method] = api('endBattle');
-      const config = { url, method };
+      let [url, method] = api('endBattle');
+      let config = { url, method };
+      axios(config)
+        .then((res) => {
+          console.log('캐릭터 전멸해서 게임 끝', res.data);
+          navigate('/ending');
+        })
+        .catch((err) => {
+          console.log('endBattle 에러', err);
+        });
+
+      [url, method] = api('stepClear');
+      config = { url, method };
       axios(config)
         .then((res) => {
           console.log('몬스터 전멸', res.data);
-          navigate('/ending');
+          if (stageStep[1] === 2) {
+            navigate('/shop');
+          } else {
+            navigate('/game/ready');
+          }
         })
         .catch((err) => {
           console.log('endBattle 에러', err);
@@ -157,6 +245,7 @@ export default function BattlePage() {
       if (characters) {
         for (let idx = 0; idx < characters.length; idx++) {
           if (characters[idx].pos === nowTurn) {
+            console.log('체크요 : ', characters);
             myCharacter = characters[idx];
             console.log('현재 공격 턴인 캐릭터', myCharacter);
             found = true;
@@ -164,8 +253,9 @@ export default function BattlePage() {
         }
         // 캐릭터가 이미 죽어서 해당 nowTurn의 pos를 찾을 수 없으면 다음 턴으로 넘김
         if (found === false) {
+          console.log('으아아아아아아아ㅏ아아아아아아');
           if (nowIdx < turnOrder.length - 1) {
-            setNowIdx(nowIdx + 1);
+            setNowIdx(nowIdx);
             return;
           } else {
             setNowIdx(0);
@@ -179,7 +269,6 @@ export default function BattlePage() {
       console.log('빌런의 공격 차례가 도래했다!!!');
       // 빌런 공격 시에차례대로 보여주기 위해 setTimeout 함수 실행 (2초 간격)
       setTimeout(function () {
-        console.log(monsters);
         let myMonster = 0;
         // 현재 nowTurn인 몬스터의 pos를 monster 찾을 수 있는지 변수
         let found = false;
@@ -209,6 +298,9 @@ export default function BattlePage() {
           let damage = mySkill.value;
           console.log('빌런의 첫 데미지', damage);
 
+          setMonsterWho(myMonster.subName);
+          setMonsterWhichSkill(mySkill.skillName);
+
           // 치명타 관련 로직
           const randomPercent = Math.floor(Math.random() * 100);
           if (randomPercent <= myMonster.critical) {
@@ -227,7 +319,17 @@ export default function BattlePage() {
             // 몬스터가 공격할 캐릭터의 pos를 랜덤으로 가져옴
             const chIdx = Math.floor(Math.random() * characters.length);
             data = { target: characters[chIdx].pos, damage: damage };
+
+            // 몬스터가 공격할 대상과 데미지 (결과는 백측에서 넘어오게 됨 - 병진햄과 저녁에 구현 예정)
+            // setMonsterTowhom(characters[chIdx].subName);
+            // setMonsterAmount(damage);
           }
+          let beforeHp = [0, 0, 0];
+          for (let ch of characters) {
+            beforeHp[ch.pos] = ch.hp;
+            // console.log(beforeHp, '달콤커피');
+          }
+          let afterHp = [0, 0, 0];
           const [url, method] = api('enemysTurn');
           const config = { url, method, data };
           axios(config)
@@ -238,8 +340,31 @@ export default function BattlePage() {
                 if (ch.hp > 0) {
                   copy.push(ch);
                 }
+                afterHp[ch.pos] = ch.hp;
+              }
+
+              // 전체공격 일 때 hp 비교
+              if (mySkill.range === true) {
+                for (let i = 0; i < 3; i++) {
+                  // before에 이미 사망한 친구 걸러주는 로직
+                  if (beforeHp[i] !== 0) {
+                    damage = afterHp[i] === beforeHp[i] ? 0 : damage;
+                    for (let ch of copy) {
+                      if (ch.pos === i) {
+                        // 이거 전체 공격 useEffect 안에서 setState를 동기적으로 실행할 수 있는 방법이 있는지?
+                        // 일단 생각가는 건 해당 로직을 함수화 한 다음, async, await를 붙여주는 것!
+                        setMonsterTowhom(ch.subName);
+                        setMonsterAmount(damage);
+                        // await new Promise((resolve) => setTimeout(resolve, 0));
+                      }
+                    }
+                  }
+                }
+              } // 단일 대상 공격
+              else {
               }
               setCharacters(copy);
+
               if (nowIdx < turnOrder.length - 1) {
                 setNowIdx(nowIdx + 1);
               } else {
@@ -291,41 +416,6 @@ export default function BattlePage() {
       }, 2000);
     }
   }, [nowTurn]);
-
-  // 데미지와 데미지 받는 대상이 변경될 때 메시지 수정하는 useEffect
-  useEffect(() => {
-    if ((toWhom === '') | (amount === '')) return;
-    // 오른쪽 아래 출력 메시지 생성 (사용 캐릭터, 사용 스킬)
-    let madeMsg = '';
-    if (amount === 0) {
-      madeMsg = `${toWhom}(이)가 공격을 회피했다.`;
-    } else {
-      madeMsg = `${toWhom}(이)가 ${amount}만큼의  데미지를 입었다!`;
-    }
-    let copy = [...msg];
-    copy = [madeMsg, ...msg];
-    if (copy.length >= textCnt) {
-      copy.pop();
-    }
-    setMsg(copy);
-    console.log(madeMsg);
-  }, [amount, toWhom]);
-
-  useEffect(() => {
-    if ((chHeal === '') | (chHealTowhom === '')) return;
-    let madeMsg = `${chHealTowhom}(은)는 ${chHeal}만큼 hp가 회복되었다.`;
-    let copy = [...msg];
-    copy = [madeMsg, ...msg];
-    if (copy.length >= textCnt) {
-      copy.pop();
-    }
-    setMsg(copy);
-  }, [chHeal, chHealTowhom]);
-
-  // playerTurn이 2가 된 상태에서 몬스터를 클릭하면 공격하는 것으로 간주
-  const [playerTurn, setPlayerTurn] = useState(0);
-  const [selectedCh, setSelectedCh] = useState(null);
-  const [selectedSkill, setSelectedSkill] = useState(null);
 
   const clickCh = async (ch) => {
     // 버프 주는 거임
@@ -417,7 +507,6 @@ export default function BattlePage() {
   const clickSkill = (idx) => {
     // 메시지에 띄울 스킬 이름
     setWhichSkill(characters[selectedCh].skills[idx].skillName);
-    console.log(whichSkill);
     //
     setSelectedSkill(idx);
     if (playerTurn === 1) {
@@ -447,8 +536,8 @@ export default function BattlePage() {
       copy.pop();
     }
     setMsg(copy);
-    console.log(madeMsg);
 
+    let skillName = '';
     const data = {
       // 스킬 사용 시전자의 pos
       pos: nowTurn,
@@ -456,21 +545,25 @@ export default function BattlePage() {
       // 스킬을 적용시킬 대상의 pos - 전체면 3 (ch.pos)
       target: 0,
     };
-    console.log(data, '회복스킬 시전 시 보낼 data');
-    const [url, method] = api('playersTurn');
-    const config = { url, method, data };
-    axios(config)
-      .then((res) => {
-        console.log('버프 요청 axios', res.data);
-        // 새롭게 업데이트 된 캐릭터 정보 저장
-        setCharacters(res.data);
-      })
-      .catch((err) => {});
+    console.log(data, '몬스터에게 스킬 시전 시 보낼 data');
+
+    //
+    if (characters[chIdx].skills[selectedSkill].coolTime !== 0) {
+      const [url, method] = api('playersTurn');
+      const config = { url, method, data };
+      axios(config)
+        .then((res) => {
+          console.log('스킬 쿨타임 용', res.data);
+          // 새롭게 업데이트 된 캐릭터 정보 저장
+          setCharacters(res.data);
+        })
+        .catch((err) => {});
+    }
 
     if (mySkill.skillTarget === 0) {
-      // 몬스터가 뚜까맞을 데미지 (뒤에는 계수임 ㅅㄱㅇ)
+      // 몬스터가 맞을 데미지 (뒤에는 계수임)
       // const damage = mySkill.value * myCharacter[mySkill.factor];
-      let damage = mySkill.value; // 추후 수정해야함 ㅅㄱㅇ
+      let damage = mySkill.value; // 추후 수정해야함
       // console.log('데미지', damage);
 
       const randomPercent = Math.floor(Math.random() * 100);
@@ -504,7 +597,7 @@ export default function BattlePage() {
           setAmount(eachDamage);
           setToWhom(monsters[idx].subName);
 
-          // 존나섹시해 chatGPT ㅎㅅㅎ
+          // 섹시해 chatGPT ㅎㅅㅎ
           await new Promise((resolve) => setTimeout(resolve, 0));
         }
         // hp가 0이하로 떨어져서 사망한 경우
@@ -589,20 +682,22 @@ export default function BattlePage() {
         />
       </BattleContainer>
       <BottomContainer>
-        {(selectedCh === 0) | selectedCh ? (
-          <Information
-            character={characters[selectedCh]}
-            selectedSkill={selectedSkill}
-            setSelectedSkill={setSelectedSkill}
-            clickSkill={clickSkill}
-          >
-            여기는 왼쪽 아래
-          </Information>
-        ) : null}
+        <LeftContainer>
+          {(selectedCh === 0) | selectedCh ? (
+            <Information
+              character={characters[selectedCh]}
+              selectedSkill={selectedSkill}
+              setSelectedSkill={setSelectedSkill}
+              clickSkill={clickSkill}
+            ></Information>
+          ) : (
+            <div>캐릭터를 클릭하여 능력치와 스킬을 확인하세요</div>
+          )}
+        </LeftContainer>
 
         <RightContainer>
           {msg.map((message, idx) => (
-            <div>{message}</div>
+            <div key={idx}>{message}</div>
           ))}
         </RightContainer>
       </BottomContainer>
@@ -631,6 +726,14 @@ const BottomContainer = styled.div`
   height: 30%;
 
   color: black;
+`;
+
+const LeftContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  color: black;
+  width: 50%;
 `;
 
 const RightContainer = styled.div`
