@@ -1,4 +1,6 @@
 from django.db import models
+from django.utils.timezone import now
+from datetime import datetime
 
 # Create your models here.
 class Youtube(models.Model):
@@ -8,7 +10,7 @@ class Youtube(models.Model):
     date = models.DateTimeField(blank=True, null=True)
     likes = models.IntegerField(blank=True, null=True)
     subject = models.CharField(max_length=20, null=True)
-    register = models.DateTimeField(auto_now_add=True)
+    register = models.DateTimeField(auto_now_add=True, null=True)
 
 class Artifact(models.Model):
     id = models.BigAutoField(primary_key=True)
