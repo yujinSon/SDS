@@ -160,6 +160,7 @@ public class CharacterService {
     }
 
     // api/character/addstat
+    @Transactional
     public List<InitialBattleCharacterDto> updateStat(AddStatDto addStatDto, Long userId) {
         MyCharacter mch =  myCharacterRepository.getMyCharacterUsingUserIdPos(userId, addStatDto.getPos());
         // 스텟 추가
