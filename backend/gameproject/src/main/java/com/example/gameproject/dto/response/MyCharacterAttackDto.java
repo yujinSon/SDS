@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 public class MyCharacterAttackDto {
     private String className;
-    private String subClassName;
+    private String subName;
     private int level;
     private int hp;
     private int ad;
@@ -31,7 +31,7 @@ public class MyCharacterAttackDto {
 
     public MyCharacterAttackDto(MyCharacter myCharacter, List<Skill>skills, List<Long>coolTimeSkillId) {
         this.className = myCharacter.getDefaultCharacter().getClassName();
-        this.subClassName = myCharacter.getDefaultCharacter().getClassName();
+        this.subName = myCharacter.getDefaultCharacter().getSubName();
         this.level = myCharacter.getLevel();
         this.hp = myCharacter.getHp();
         this.ad = myCharacter.getAd();
@@ -39,7 +39,7 @@ public class MyCharacterAttackDto {
         this.speed = myCharacter.getSpeed();
         this.critical = myCharacter.getCritical();
         this.avoid = myCharacter.getAvoid();
-        this.maxHp = myCharacter.getHp();
+        this.maxHp = myCharacter.getMaxHp();
         this.pos = myCharacter.getPos();
 
         // 스킬 순서가 고정 되어 있어야함, 스킬 쿨타임하고 맞춰야 되니깐

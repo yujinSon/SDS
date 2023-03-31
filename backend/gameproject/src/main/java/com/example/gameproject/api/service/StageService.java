@@ -37,9 +37,11 @@ public class StageService {
     public Map<String, List> BattleSetting(){
         // 유저 정보를 받아서 바꿔줘야 함.
         Long userId = 1L; // 나중에 로그인 구현시 바꿔줘야될 부분
-        int stage = 1;
-        int step = 10; // 스텝이 10 이라면 보스스테이지.
-        String stageName = "환경";
+        User user = userRepository.getById(userId);
+        int stage = user.getStage();
+        int step = user.getSubStage(); // 스텝이 10 이라면 보스스테이지.
+        String [] whatStage = {"없음", "환경", "안보", "질병", "사회", "범죄", "인구", "경제"};
+        String stageName = whatStage[stage];
 
 
         Map<String, List> res = new HashMap<>();
@@ -70,7 +72,7 @@ public class StageService {
 
         // 빌런 보스 스테이지가 아닐때.
         Random random = new Random();
-        if (step != 10) {
+        if (step != 4) {
             for (int i = 0; i < 4; i++) {
                 int randomIndex = random.nextInt(villainList.size());
                 Villain randomVillain = villainList.get(randomIndex);
@@ -97,11 +99,13 @@ public class StageService {
         }
 
 
-        // 유물 효과 적용
-
+        List<Integer> nowStage = new ArrayList<>();
+        nowStage.add(user.getStage());
+        nowStage.add(user.getSubStage());
 
         res.put("character", characterDtos);
         res.put("villain",  villain);
+        res.put("nowStage", nowStage);
 
         return res;
     }

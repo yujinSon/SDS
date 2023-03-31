@@ -2,6 +2,7 @@ package com.example.gameproject.db.entity;
 
 import com.example.gameproject.db.entity.Vo.ArtifactVo;
 
+import com.example.gameproject.dto.request.YoutubeDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -29,4 +30,13 @@ public class Artifact implements Serializable {
 
     @OneToMany(mappedBy = "artifact", cascade = CascadeType.ALL)
     private List<UserArtifact> userArtifacts = new ArrayList<>();
+
+    public void updateArtifact(Artifact artifact, int value){
+        this.id = artifact.id;
+        this.name = artifact.name;
+        this.isRange = artifact.isRange;
+        this.targetClass = artifact.targetClass;
+        this.stat = artifact.stat;
+        this.value = value;
+    }
 }

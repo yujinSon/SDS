@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("/result")
+@RequestMapping("/api/result")
 public class ResultController {
     @Autowired
     ResultService resultService;
@@ -21,8 +21,17 @@ public class ResultController {
         return ResponseEntity.ok(resultService.Ranking());
     }
 
-    @PutMapping("/gameOver")
+    // 내 캐릭이 다 죽어서 게임 패배
+    @PutMapping("/gameover")
     public ResponseEntity<?> getGameOver() throws Exception{
+        return ResponseEntity.ok("update ok");
+    }
+
+    // 적 빌런이 모두 죽어서 승리했을때.
+    @PutMapping("/win")
+    public ResponseEntity<?> win() throws Exception{
+        Long userId = 1L;
+        resultService.GameWin(userId);
         return ResponseEntity.ok("update ok");
     }
 

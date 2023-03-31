@@ -61,7 +61,7 @@ public class BattlePlayerTurnService {
             if (targetPos == 3) {
                 // 전체 회복인 경우
                 for (MyCharacter myc : myCharacters) {
-                    int value = min(myc.getAd()+addHp, myc.getMaxHp());
+                    int value = min(myc.getHp()+addHp, myc.getMaxHp());
                     myc.setHp(value);
                     myCharacterRepository.save(myc);
                 }
@@ -143,35 +143,6 @@ public class BattlePlayerTurnService {
                 }
             }
         }
-
-        // 유물 효과 적용
-        // 1. 내가 가지고 있는 유물 찾기.
-        // 유뮬은 유물을 뽑을때, 캐릭을 뽑을 떄 Mycharacter 에 영구 저장해야 겠는데
-//        List<UserArtifact> userArtifacts = userArtifactRespository.findByUserId(userId);
-//        List<ArtifactDto> myArtifacts  = new ArrayList<>();
-//        for (UserArtifact ua : userArtifacts) {
-//            myArtifacts.add(new ArtifactDto(ua.getArtifact()));
-//        }
-//        // 2. 유물 효과 적용, 이건 단순 value ++
-//        for (ArtifactDto artifact : myArtifacts) {
-//            int artAddValue = artifact.getValue();
-//            boolean artIsRange = artifact.isRange();
-//            String artClass = artifact.getTargetClass();
-//            String artStat = artifact.getStat();
-//            if (artIsRange == true) {
-//                // 전체 적용이면.
-//                for (MyCharacterAttackDto mca : myCharacterAttackDtos) {
-//                    applyEffect(mca, artStat, artAddValue);
-//                }
-//            } else {
-//                // 단일 적용이면
-//                for (MyCharacterAttackDto mca : myCharacterAttackDtos) {
-//                    if (mca.getClassName().equals(artClass)) {
-//                        applyEffect(mca, artStat, artAddValue);
-//                    }
-//                }
-//            }
-//        }
 
 
         return myCharacterAttackDtos;

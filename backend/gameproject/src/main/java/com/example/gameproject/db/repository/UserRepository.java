@@ -12,4 +12,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query(value = "select * from user mc order by mc.best_score desc limit 10", nativeQuery = true)
     List<User> orderSelect();
+
+    User findByUsername(String username);
+    boolean existsByEmail(String email);
+    User findByEmail(String email);
 }

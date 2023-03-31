@@ -52,4 +52,19 @@ public class ResultService {
     public void Clear(){
         myCharacterRepository.deleteAll(myCharacterRepository.findByUserId(1L));
     }
+
+    @Transactional
+    public void GameWin(Long userId) {
+        User user = userRepository.getById(userId);
+        user.gameWin();
+
+        // 케릭터 레벨업 및 스텟포인트 부여
+        List<MyCharacter> myCharacters = myCharacterRepository.getMyCharacters(userId);
+        for (MyCharacter mch : myCharacters) {
+            mch.levelUp();
+            myCharacterRepository.save(mch);
+        }
+        userRepository.save(user);
+
+    }
 }
