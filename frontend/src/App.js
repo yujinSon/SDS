@@ -13,6 +13,8 @@ import BattlePage from 'pages/game/BattlePage';
 import EndingPage from 'pages/game/EndingPage';
 import ShopPage from 'pages/game/ShopPage';
 
+import SecretAPI from 'pages/SecretAPI';
+
 // 프레임만 설정하고 나중에 지울거임 (03.29 민혁)
 import ItemPage from 'pages/game/ItemPage';
 import BasicMainPage from 'pages/game/BasicMainPage';
@@ -25,14 +27,15 @@ function App() {
         <Routes>
           <Route path="/" element={<MainPage />} />
           <Route path="/game" element={<GameMainPageLayout />}>
-            <Route path="recruit" element={<GameMainPage />} />
             <Route path="" element={<BasicMainPage />} />
             <Route path="ready" element={<ItemPage />} />
+            <Route path="recruit" element={<GameMainPage />} />
           </Route>
           <Route path="/map" element={<MapPage />} />
           <Route path="/battle" element={<BattlePage />} />
           <Route path="/ending" element={<EndingPage />} />
           <Route path="/shop" element={<ShopPage />} />
+          <Route path="/yongchan" element={<SecretAPI />} />
         </Routes>
       </ThemeProvider>
     </>

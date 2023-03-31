@@ -207,8 +207,19 @@ export default function BattlePage() {
 
     if (monsters.length === 0) {
       console.log('몬스터 전멸함');
-      const [url, method] = api('stepClear');
-      const config = { url, method };
+      let [url, method] = api('endBattle');
+      let config = { url, method };
+      axios(config)
+        .then((res) => {
+          console.log('캐릭터 전멸해서 게임 끝', res.data);
+          navigate('/ending');
+        })
+        .catch((err) => {
+          console.log('endBattle 에러', err);
+        });
+
+      [url, method] = api('stepClear');
+      config = { url, method };
       axios(config)
         .then((res) => {
           console.log('몬스터 전멸', res.data);
