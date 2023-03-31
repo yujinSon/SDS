@@ -20,7 +20,7 @@ const api = function (type, options = {}) {
     endBattle: ['/battle/end', 'delete'],
 
     // 전투 승리 후 스텟 창
-    changeStat: ['/battle/victory', 'put'],
+    changeStat: ['character/addstat', 'put'],
 
     // 상점
     changeCh: ['/shop/change', 'put'],

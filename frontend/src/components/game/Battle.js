@@ -20,8 +20,9 @@ export default function Battle({
       <StageContainer>
         {stageStep ? (
           <>
-            nowTurn: {nowTurn} / 스테이지 {stageStep[0]} 진행률 :{' '}
-            {stageStep[1] * 20}%
+            <StageDiv>
+              {stageStep[0]} - {stageStep[1]}
+            </StageDiv>
             <BarContainer>
               <Bar progress={stageStep[1]} />
             </BarContainer>
@@ -144,7 +145,7 @@ const StageContainer = styled.div`
 `;
 const BarContainer = styled.div`
   position: absolute;
-  top: 3%;
+  top: 5%;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -158,6 +159,11 @@ const BarContainer = styled.div`
 const Bar = styled.div`
   height: 100%;
   background: linear-gradient(to right, #67b26f, #4ca2cd);
-  width: ${({ progress }) => `${20 * progress}%`};
+  width: ${({ progress }) => `${25 * progress}%`};
   border-radius: 10px;
+`;
+
+const StageDiv = styled.div`
+  font-size: 2rem;
+  font-weight: bold;
 `;
