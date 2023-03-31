@@ -8,6 +8,7 @@ class Youtube(models.Model):
     date = models.DateTimeField(blank=True, null=True)
     likes = models.IntegerField(blank=True, null=True)
     subject = models.CharField(max_length=20, null=True)
+    register = models.DateTimeField(auto_now_add=True)
 
 class Artifact(models.Model):
     id = models.BigAutoField(primary_key=True)
