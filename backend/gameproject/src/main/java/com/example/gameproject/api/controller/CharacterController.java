@@ -1,6 +1,7 @@
 package com.example.gameproject.api.controller;
 
 import com.example.gameproject.api.service.CharacterService;
+import com.example.gameproject.dto.request.AddStatDto;
 import com.example.gameproject.dto.request.YoutubeDto;
 import com.example.gameproject.dto.response.RandomCharacterDto;
 import com.example.gameproject.dto.response.SelectedCharacterDto;
@@ -51,4 +52,12 @@ public class CharacterController {
         characterService.updateartifact(youtubeDto);
         return ResponseEntity.status(200).body("ok");
     }
+
+    @PutMapping("/addstat")
+    public ResponseEntity<?> updateStat(@RequestBody AddStatDto addStatDto) throws Exception{
+        Long userId = 1l;
+        characterService.updateStat(addStatDto, userId);
+        return ResponseEntity.status(200).body("ok");
+    }
+
 }

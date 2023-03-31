@@ -2,6 +2,7 @@ package com.example.gameproject.api.service;
 
 import com.example.gameproject.db.entity.*;
 import com.example.gameproject.db.repository.*;
+import com.example.gameproject.dto.request.AddStatDto;
 import com.example.gameproject.dto.request.YoutubeDto;
 import com.example.gameproject.dto.response.*;
 import lombok.RequiredArgsConstructor;
@@ -145,6 +146,12 @@ public class CharacterService {
                     character.getMaxHp(),
                     character.getPos(),
                     character.getStatPoint(),
+                    character.getAddHp(),
+                    character.getAddAd(),
+                    character.getAddAp(),
+                    character.getAddSpeed(),
+                    character.getAddCritical(),
+                    character.getAddAvoid(),
                     userDto,
                     skillDtos
             ));
@@ -152,11 +159,33 @@ public class CharacterService {
         return result;
     }
 
+    // api/character/addstat
+    public void updateStat(AddStatDto addStatDto, Long userId) {
+        MyCharacter mch =  myCharacterRepository.getMyCharacterUsingUserIdPos(userId, addStatDto.getPos());
+        // 스텟 추가
+        int usedPoint = 0; // 사용한 스탯 포인트
+        mch.addMaxHp(mch.getAddHp()*addStatDto.getAddHp());
+        mch.addHp(mch.getAddHp()*addStatDto.getAddHp());
+        usedPoint += addStatDto.getAddHp();
+        mch.addAd(mch.getAddAd()*addStatDto.getAddAd());
+        usedPoint += addStatDto.getAddAd();
+        mch.addAp(mch.getAddAp()*addStatDto.getAddAp());
+        usedPoint += addStatDto.getAddAp();
+        mch.addSpeed(mch.getAddSpeed()*addStatDto.getAddSpeed());
+        usedPoint += addStatDto.getAddSpeed();
+        mch.addCritical(mch.getAddCritical()*addStatDto.getAddCritical());
+        usedPoint += addStatDto.getAddCritical();
+        mch.addAvoid(mch.getAddAvoid()*addStatDto.getAddAvoid());
+        usedPoint += addStatDto.getAddAvoid();
+        mch.usedStatPoint(usedPoint);
+        myCharacterRepository.save(mch);
+    }
+
     // 효과 적용 함수
     // 효과 적용이기 떄문에 저장하지는 않음
     public void addStat(MyCharacter myCharacter, String stat, int value) {
         if (stat.equals("hp")) {
-            myCharacter.addHd(value);
+            myCharacter.addHp(value);
             // 유물 적용할때만 maxHP증가
             myCharacter.addMaxHp(value);
         } else if (stat.equals(("ad"))) {
