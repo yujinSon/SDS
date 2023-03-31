@@ -31,7 +31,7 @@ public class ResultService {
         List<RankingDto> result = new ArrayList<>();
         for (User user : users){
             RankingDto rankingDto = RankingDto.builder()
-                    .nickname(user.getNickname())
+                    .nickname(user.getUsername())
                     .bestScore(user.getBestScore())
                     .stage(user.getStage())
                     .subStage(user.getSubStage())

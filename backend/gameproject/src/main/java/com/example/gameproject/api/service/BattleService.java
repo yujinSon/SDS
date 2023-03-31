@@ -49,10 +49,6 @@ public class BattleService {
             myCharacter.updateVictoryStat(maxHp, hp, ad, ap, speed, critical, avoid);
             myCharacterRepository.save(myCharacter);
 
-            // 도전중인 스테이지 클리어 반영
-            User user = userRepository.getById(userId);
-            user.stageUpdate(user.getNowStage(), user.getNowSubStage());
-            userRepository.save(user);
 
 
         }
@@ -172,12 +168,6 @@ public class BattleService {
         }
     }
 
-    @Transactional
-    public void addTurn(long userId) {
-        User user = userRepository.getById(userId);
-        user.addTurn();
-        userRepository.save(user);
-    }
 
     @Transactional
     public void updateStat(long userId, EnemyAttackDto enemyAttackDto) {

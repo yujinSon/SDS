@@ -57,7 +57,6 @@ public class BattleController {
         long userId = 1L;
         battleService.CoolTime();
         battleService.EffectTime();
-        battleService.addTurn(userId);
 
         return ResponseEntity.ok(battleService.MyCharacterList());
     }

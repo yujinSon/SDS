@@ -33,7 +33,7 @@ public class CharacterService {
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         
         User user = userRepository.getById(userId);
-        int stage = user.getNowStage();
+        int stage = user.getStage();
         List<RandomCharacterDto> result = new ArrayList<>();
         int randomLevel = (int) (Math.random() * 4) + (stage-1) * 4 + 1 ;
 

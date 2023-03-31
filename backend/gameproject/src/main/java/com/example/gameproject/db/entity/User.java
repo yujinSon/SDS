@@ -58,9 +58,6 @@ public class User implements Serializable {
         this.subStage = subStage;
     }
 
-    public void addTurn() {
-        this.turn += 1;
-    }
 
     public void reGame() {
         this.stage = 1;
@@ -76,10 +73,6 @@ public class User implements Serializable {
         }
     }
 
-    public void changeNowMap(MapSaveRequest mapSaveRequest){
-        this.nowStage = mapSaveRequest.getNowStage();
-        this.nowSubStage = mapSaveRequest.getNowSubStage();
-    }
 
     @Builder(builderClassName = "UserDetailRegister", builderMethodName = "userDetailRegister")
     public User(String username, String password, String email, Role role) {
