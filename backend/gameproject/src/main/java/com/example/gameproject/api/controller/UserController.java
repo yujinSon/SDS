@@ -37,16 +37,17 @@ public class UserController {
 
     // 회원가입 API
     @PostMapping("/join")
-    public Long join(@Valid @RequestBody UserDto userDto) {
-        return userService.join(userDto);
+    public ResponseEntity<String> join(@Valid @RequestBody UserDto userDto) {
+        userService.join(userDto);
+        return ResponseEntity.status(200).body("Join success");
     }
 
     // 로그인 API
     @PostMapping("/login")
-    public String login(@RequestBody UserDto userDto) {
-        return userService.login(userDto);
+    public ResponseEntity<String> login(@RequestBody UserDto userDto) {
+        String token = userService.login(userDto);
+        return ResponseEntity.status(200).body(token);
     }
-
 
 //    @GetMapping("/loginForm")
 //    public String loginForm(){

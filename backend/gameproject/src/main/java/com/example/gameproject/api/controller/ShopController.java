@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,6 +16,7 @@ import com.example.gameproject.api.service.ShopService;
 import com.example.gameproject.dto.request.ShopAddRequest;
 import com.example.gameproject.dto.request.ShopChangeRequest;
 import com.example.gameproject.dto.response.RelicResponse;
+import com.example.gameproject.security.jwt.JwtTokenProvider;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,6 +27,7 @@ import lombok.RequiredArgsConstructor;
 public class ShopController {
 
 	private final ShopService shopService;
+	private final JwtTokenProvider jwtTokenProvider;
 
 	@PostMapping("/add")
 	public ResponseEntity<String> addCharacter(@RequestBody List<ShopAddRequest> characterList){
@@ -49,9 +52,10 @@ public class ShopController {
 	}
 
 	@PostMapping("relic")
-	public ResponseEntity<RelicResponse> sendRelic(){
-		long userId = 1L;
-		RelicResponse relic = shopService.getRelic(userId);
+	public ResponseEntity<RelicResponse> sendRelic(@RequestHeader String Authorization){
+		String token = Authorization.split(" ")[1];
+		String userEmail = jwtTokenProvider.getUserPk(token);
+		RelicResponse relic = shopService.getRelic(userEmail);
 		return ResponseEntity.status(201).body(relic);
 	}
 }

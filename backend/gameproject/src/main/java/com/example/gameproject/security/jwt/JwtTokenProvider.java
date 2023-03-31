@@ -7,6 +7,8 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,11 +27,16 @@ import lombok.RequiredArgsConstructor;
 @Component
 public class JwtTokenProvider {
 
-	private String secretKey = "webfirewood";
+	@Value("${secretKey}")
+	private String secretKey;
 
 	private long tokenValidTime = 30 * 60 * 1000L;     // 토큰 유효시간 30분
 
 	private final UserDetailsService userDetailsService;
+
+	// public JwtTokenProvider(@Qualifier("UserDetailService") UserDetailsService userDetailsService){
+	// 	this.userDetailsService = userDetailsService;
+	// }
 
 	// 객체 초기화, secretKey를 Base64로 인코딩
 	@PostConstruct
@@ -51,6 +58,7 @@ public class JwtTokenProvider {
 	}
 
 	// 인증 정보 조회
+	// 인증 성공시 SecurityContextHolder에 저장할 Authentication 객체 생성
 	public Authentication getAuthentication(String token) {
 		UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserPk(token));
 		return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());

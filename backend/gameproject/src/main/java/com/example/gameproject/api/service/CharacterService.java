@@ -24,7 +24,8 @@ public class CharacterService {
     private final SkillRepository skillRepository;
 
 
-    public List<RandomCharacterDto> RandomCharacter(Long userId){
+    public List<RandomCharacterDto> RandomCharacter(String userEmail){
+        long userId = userRepository.findByEmail(userEmail).orElseThrow().getId();
         User user = userRepository.getById(userId);
         int stage = user.getNowStage();
         List<RandomCharacterDto> result = new ArrayList<>();

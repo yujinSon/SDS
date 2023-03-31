@@ -61,10 +61,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-            //h2 콘솔 사용
-            .csrf().disable().headers().frameOptions().disable()
-            .and()
-
+            .httpBasic().disable()
+            .csrf().disable()
             //세션 사용 안함
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()

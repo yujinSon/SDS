@@ -174,10 +174,11 @@ public class ShopService {
 	}
 
 	@Transactional
-	public RelicResponse getRelic(long userId){
+	public RelicResponse getRelic(String userEmail){
 		Random random = new Random();
 		random.setSeed(System.currentTimeMillis()); //시간에 따라 시드를 설정
 
+		long userId = userRepository.findByEmail(userEmail).orElseThrow().getId();
 		List<Artifact> artifactList = artifactRepository.findAll();
 		List<UserArtifact> relicList = userArtifactRepository.findAllByUser_Id(userId);
 		// numberList에 모든 유물 번호 저장(api 여러번 호출하면 중복되니까 set사용)
