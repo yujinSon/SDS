@@ -39,7 +39,7 @@ public class StageService {
         Long userId = 1L; // 나중에 로그인 구현시 바꿔줘야될 부분
         User user = userRepository.getById(userId);
         int stage = user.getStage();
-        int step = user.getSubStage(); // 스텝이 10 이라면 보스스테이지.
+        int step = user.getSubStage(); // 스텝이 4 이라면 보스스테이지.
         String [] whatStage = {"없음", "환경", "안보", "질병", "사회", "범죄", "인구", "경제"};
         String stageName = whatStage[stage];
 

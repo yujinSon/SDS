@@ -47,10 +47,10 @@ public class CharacterService {
     }
 
     @Transactional
-    public void SaveRandomCharacter(RandomCharacterDto randomCharacterDto) {
+    public void SaveRandomCharacter(RandomCharacterDto randomCharacterDto, Long userId) {
 
         DefaultCharacter defaultCharacter = defaultCharacterRepository.getByClassNameAndSubName(randomCharacterDto.getClassName(), randomCharacterDto.getSubClassName());
-        User user = userRepository.getById(1L);
+        User user = userRepository.getById(userId);
         List<Integer> poseDefine = new ArrayList<>();
 
         int realPos = 10;
@@ -95,6 +95,7 @@ public class CharacterService {
             }
 
             myCharacterRepository.save(myCharacter);
+
         }
     }
 
@@ -159,7 +160,7 @@ public class CharacterService {
     }
 
     // api/character/addstat
-    public void updateStat(AddStatDto addStatDto, Long userId) {
+    public List<InitialBattleCharacterDto> updateStat(AddStatDto addStatDto, Long userId) {
         MyCharacter mch =  myCharacterRepository.getMyCharacterUsingUserIdPos(userId, addStatDto.getPos());
         // 스텟 추가
         int usedPoint = 0; // 사용한 스탯 포인트
@@ -178,6 +179,22 @@ public class CharacterService {
         usedPoint += addStatDto.getAddAvoid();
         mch.usedStatPoint(usedPoint);
         myCharacterRepository.save(mch);
+
+        List<InitialBattleCharacterDto> res = new ArrayList<>();
+        List<MyCharacter> myCharacters = myCharacterRepository.getMyCharacters(userId);
+        for (MyCharacter myc : myCharacters) {
+            Long characterId = myc.getDefaultCharacter().getId();
+            List<Skill> skills = skillRepository.getskills(characterId);
+            List<SkillDtoCons> skillsDtos = new ArrayList<>();
+            for (Skill skill : skills) {
+                SkillDtoCons skillDtoCon = new SkillDtoCons(skill);
+                skillsDtos.add(skillDtoCon);
+            }
+
+            InitialBattleCharacterDto mycDto = new InitialBattleCharacterDto(myc, skillsDtos);
+            res.add(mycDto);
+        }
+        return res;
     }
 
     // 효과 적용 함수
