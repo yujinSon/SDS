@@ -127,10 +127,7 @@ export default function BasicMainPage() {
             setSelectedCharacter={setSelectedCharacter}
           />
           {selectedChList ? (
-            <CharacterDetail
-              data={selectedChList}
-              selectedCharacter={selectedCharacter}
-            />
+            <CharacterDetail data={selectedChList[selectedCharacter]} />
           ) : null}
         </SubContainerLeft>
         <SubContainerRight>
