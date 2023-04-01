@@ -26,4 +26,9 @@ public class UserArtifact implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "artifact_id")
     private Artifact artifact;
+
+    public UserArtifact(User user, Artifact artifact) {
+        this.user = user;
+        this.artifact = artifact;
+    }
 }
