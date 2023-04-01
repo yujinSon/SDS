@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @CrossOrigin(origins = "*")
@@ -145,5 +146,12 @@ public class UserController {
             return ResponseEntity.status(400).body("Fail");
         else
             return ResponseEntity.status(200).body(loginDto);
+    }
+
+    @GetMapping("/relic")
+    public ResponseEntity<?> myRelics(){
+        long userId = 1l;
+        List<Long> res = userService.getMyRelic(userId);
+        return ResponseEntity.status(200).body(res);
     }
 }
