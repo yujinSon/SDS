@@ -126,16 +126,22 @@ def crawling():
         # 이모지 삭제
         arr = core.replace_emoji(arr, "")
 
-        # 500자 이내 자르기
-        if len(arr) > 500:
-            arr = arr[:500]
+        # 10000자 이내 자르기
+        if len(arr) > 10000:
+            arr = arr[:10000]
 
         # 빈 칸이라면 넘기기
-        if len(arr) == 0:
-            continue
+        # if arr == "":
+        #     df.drop(index, axis=0, inplace=True)
+        #     continue
 
         modify.append(arr)
     df['comment'] = modify
+    # 빈칸이면 삭제
+    idx = df[df['comment'].isnull()].index
+    # print(idx)
+    df.drop(idx, inplace=True)
+    # print(df)
 
     # subject 컬럼 삽입
     subject = ['환경', '안보', '질병', '사회', '범죄', '인구', '경제']
