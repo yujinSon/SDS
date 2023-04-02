@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
+import VictoryModal from './VictoryModal';
+import DefeatModal from 'pages/game/DefeatModal';
 import POS from 'constants/pk';
 
 import IMG from 'assets/img/고병진.png';
@@ -14,6 +16,8 @@ export default function Battle({
   clickMonster,
   nowTurn,
   stageStep,
+  showVictoryModal,
+  showDefeatModal,
 }) {
   return (
     <>
@@ -29,7 +33,16 @@ export default function Battle({
           </>
         ) : null}
       </StageContainer>
-
+      {showVictoryModal ? (
+        <ModalContainer>
+          <VictoryModal stageStep={stageStep} />
+        </ModalContainer>
+      ) : null}
+      {showDefeatModal ? (
+        <ModalContainer>
+          <DefeatModal stageStep={stageStep} />
+        </ModalContainer>
+      ) : null}
       {characters
         ? characters.map((ch, idx) => (
             <CharacterContainer
@@ -166,4 +179,14 @@ const Bar = styled.div`
 const StageDiv = styled.div`
   font-size: 2rem;
   font-weight: bold;
+`;
+
+const ModalContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 999;
 `;
