@@ -13,9 +13,8 @@ export default function Relic({ relicIds }) {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   ]);
 
-  // let images = [
-  //   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  // ];
+  // 현재 선택된 유물 이미지 인덱스
+  const [nowIdx, setNowIdx] = useState(0);
 
   useEffect(() => {
     if (!relicIds) return;
@@ -24,79 +23,65 @@ export default function Relic({ relicIds }) {
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ];
     for (let idx = 0; idx < relicIds.length; idx++) {
-      console.log(relicIds[idx]);
-      copy[relicIds[idx] - 1] = relic[relicIds[idx]].relicImg;
+      // console.log(relicIds[idx]);
+      copy[relicIds[idx] - 1] = relic[relicIds[idx]];
     }
 
     setImages(copy);
-    // setIsTheLast(true);
   }, [relicIds]);
 
   useEffect(() => {
     if (!relicIds) return;
-    // if (isTheLast === true) return;
 
-    // console.log('들어옴');
     let copy = [];
-    // console.log('images', images);
-    // console.log('copy', copy);
 
     for (let i = 0; i < images.length; i += 3) {
       copy.push(images.slice(i, i + 3));
     }
-    // console.log(copy, 'copy');
+
+    console.log(copy);
     setChunks(copy);
   }, [images, isTheLast]);
+
+  const changeIdx = (idx) => {
+    setNowIdx(idx);
+    console.log(nowIdx);
+  };
 
   return (
     <OutFrame>
       <Container>
-        {/* {chunks.map((chunk, idx) => {
-          console.log(chunk);
-          return <div>{chunk}</div>;
-        })} */}
-
         {chunks.map((chunk, idx) => (
-          <Row key={idx}>
-            {chunk.map((number, idx2) => {
-              console.log(number);
-              const imageUrl = `https://example.com/images/${number}.jpg`;
-              return (
-                <>
-                  {number === 0 ? (
-                    <ImageWrapper key={idx2}>
-                      <Image src={IMG} />
-                    </ImageWrapper>
-                  ) : (
-                    <ImageWrapper key={idx2}>
-                      <Image src={number} />{' '}
-                    </ImageWrapper>
-                  )}
-                </>
-              );
-            })}
-          </Row>
-        ))}
-
-        {/* {chunks.map((chunk, idx) => (
           <Row key={idx}>
             {chunk.map((number, idx2) => {
               // console.log(number);
               const imageUrl = `https://example.com/images/${number}.jpg`;
               return (
-                <ImageWrapper key={idx2}>
-                  <Image src={number.relicImg} alt="유물이미지" />
-                </ImageWrapper>
+                <div key={idx2} onClick={() => changeIdx(3 * idx + idx2)}>
+                  {number === 0 ? (
+                    <ImageWrapper>
+                      <Image src={IMG} />
+                    </ImageWrapper>
+                  ) : (
+                    <ImageWrapper>
+                      <Image src={number.relicImg} />
+                    </ImageWrapper>
+                  )}
+                </div>
               );
             })}
           </Row>
-        ))} */}
+        ))}
       </Container>
       <ArtifactDetail>
         <DetailImgContainer>
-          <DetailImg src={IMG} />
+          {images && images[nowIdx] !== 0 ? (
+            <DetailImg src={images[nowIdx].relicImg} />
+          ) : (
+            <DetailImg src={IMG} />
+          )}
         </DetailImgContainer>
-        <DetailText>여기에 설명 들어감</DetailText>
+        <DetailText>{images[nowIdx].relicDetail}</DetailText>
       </ArtifactDetail>
     </OutFrame>
   );
