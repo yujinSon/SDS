@@ -2,6 +2,7 @@ package com.example.gameproject.api.service;
 
 import com.example.gameproject.db.entity.*;
 import com.example.gameproject.db.repository.*;
+import com.example.gameproject.dto.request.AddStatDto;
 import com.example.gameproject.dto.request.YoutubeDto;
 import com.example.gameproject.dto.response.*;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +33,7 @@ public class CharacterService {
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         
         User user = userRepository.getById(userId);
-        int stage = user.getNowStage();
+        int stage = user.getStage();
         List<RandomCharacterDto> result = new ArrayList<>();
         int randomLevel = (int) (Math.random() * 4) + (stage-1) * 4 + 1 ;
 
@@ -46,10 +47,10 @@ public class CharacterService {
     }
 
     @Transactional
-    public void SaveRandomCharacter(RandomCharacterDto randomCharacterDto) {
+    public void SaveRandomCharacter(RandomCharacterDto randomCharacterDto, Long userId) {
 
         DefaultCharacter defaultCharacter = defaultCharacterRepository.getByClassNameAndSubName(randomCharacterDto.getClassName(), randomCharacterDto.getSubClassName());
-        User user = userRepository.getById(1L);
+        User user = userRepository.getById(userId);
         List<Integer> poseDefine = new ArrayList<>();
 
         int realPos = 10;
@@ -94,6 +95,7 @@ public class CharacterService {
             }
 
             myCharacterRepository.save(myCharacter);
+
         }
     }
 
@@ -115,7 +117,6 @@ public class CharacterService {
                     .bestScore(user.getBestScore())
                     .stage(user.getStage())
                     .subStage(user.getSubStage())
-                    .finalScore(user.getFinalScore())
                     .bestScore(user.getBestScore())
                     .build();
             for(Skill skill : skills){
@@ -144,6 +145,13 @@ public class CharacterService {
                     character.getAvoid(),
                     character.getMaxHp(),
                     character.getPos(),
+                    character.getStatPoint(),
+                    character.getAddHp(),
+                    character.getAddAd(),
+                    character.getAddAp(),
+                    character.getAddSpeed(),
+                    character.getAddCritical(),
+                    character.getAddAvoid(),
                     userDto,
                     skillDtos
             ));
@@ -151,11 +159,52 @@ public class CharacterService {
         return result;
     }
 
+    // api/character/addstat
+    @Transactional
+    public List<InitialBattleCharacterDto> updateStat(AddStatDto addStatDto, Long userId) {
+        MyCharacter mch =  myCharacterRepository.getMyCharacterUsingUserIdPos(userId, addStatDto.getPos());
+        // 스텟 추가
+        int usedPoint = 0; // 사용한 스탯 포인트
+        mch.addMaxHp(mch.getAddHp()*addStatDto.getAddHp());
+        mch.addHp(mch.getAddHp()*addStatDto.getAddHp());
+        usedPoint += addStatDto.getAddHp();
+        mch.addAd(mch.getAddAd()*addStatDto.getAddAd());
+        usedPoint += addStatDto.getAddAd();
+        mch.addAp(mch.getAddAp()*addStatDto.getAddAp());
+        usedPoint += addStatDto.getAddAp();
+        mch.addSpeed(mch.getAddSpeed()*addStatDto.getAddSpeed());
+        usedPoint += addStatDto.getAddSpeed();
+        mch.addCritical(mch.getAddCritical()*addStatDto.getAddCritical());
+        usedPoint += addStatDto.getAddCritical();
+        mch.addAvoid(mch.getAddAvoid()*addStatDto.getAddAvoid());
+        usedPoint += addStatDto.getAddAvoid();
+        mch.usedStatPoint(usedPoint);
+        myCharacterRepository.save(mch);
+
+        List<InitialBattleCharacterDto> res = new ArrayList<>();
+        List<MyCharacter> myCharacters = myCharacterRepository.getMyCharacters(userId);
+        for (MyCharacter myc : myCharacters) {
+            Long characterId = myc.getDefaultCharacter().getId();
+            List<Skill> skills = skillRepository.getskills(characterId);
+            List<SkillDtoCons> skillsDtos = new ArrayList<>();
+            for (Skill skill : skills) {
+                SkillDtoCons skillDtoCon = new SkillDtoCons(skill);
+                skillsDtos.add(skillDtoCon);
+            }
+
+            InitialBattleCharacterDto mycDto = new InitialBattleCharacterDto(myc, skillsDtos);
+            res.add(mycDto);
+        }
+        return res;
+    }
+
     // 효과 적용 함수
     // 효과 적용이기 떄문에 저장하지는 않음
     public void addStat(MyCharacter myCharacter, String stat, int value) {
         if (stat.equals("hp")) {
-            myCharacter.addHd(value);
+            myCharacter.addHp(value);
+            // 유물 적용할때만 maxHP증가
+            myCharacter.addMaxHp(value);
         } else if (stat.equals(("ad"))) {
             myCharacter.addAd(value);
         } else if (stat.equals(("ap"))) {

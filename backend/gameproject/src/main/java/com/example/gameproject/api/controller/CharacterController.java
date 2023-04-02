@@ -1,7 +1,9 @@
 package com.example.gameproject.api.controller;
 
 import com.example.gameproject.api.service.CharacterService;
+import com.example.gameproject.dto.request.AddStatDto;
 import com.example.gameproject.dto.request.YoutubeDto;
+import com.example.gameproject.dto.response.InitialBattleCharacterDto;
 import com.example.gameproject.dto.response.RandomCharacterDto;
 import com.example.gameproject.dto.response.SelectedCharacterDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +35,8 @@ public class CharacterController {
 
     @PostMapping(value = "/save")
     public ResponseEntity<?> postSaveRandomCharacter(@RequestBody RandomCharacterDto randomCharacterDto) throws Exception {
-        characterService.SaveRandomCharacter(randomCharacterDto);
+        Long userId = 1l;
+        characterService.SaveRandomCharacter(randomCharacterDto, userId);
         return ResponseEntity.ok("OK");
     }
 
@@ -51,4 +54,12 @@ public class CharacterController {
         characterService.updateartifact(youtubeDto);
         return ResponseEntity.status(200).body("ok");
     }
+
+    @PutMapping("/addstat")
+    public ResponseEntity<?> updateStat(@RequestBody AddStatDto addStatDto) throws Exception{
+        Long userId = 1l;
+        List<InitialBattleCharacterDto> res = characterService.updateStat(addStatDto, userId);
+        return ResponseEntity.status(200).body(res);
+    }
+
 }

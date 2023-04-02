@@ -34,7 +34,7 @@ export default function Main() {
     axios({
       url: 'https://j8a303.p.ssafy.io/oauth2/authorization/kakao',
       // method: 'post',
-      // withCredentials: true,
+      // withCredential s: true,
     })
       .then((res) => {
         console.log('카카오 로그인 성공', res.data);
@@ -49,12 +49,13 @@ export default function Main() {
     <div>
       {userInfo ? (
         <div>
+          <Img src={kakao} alt="카카오 로그인" onClick={kakaoLogin} />
           <ButtonContainer>
             <Button
               size="large"
               type="gray"
               onClick={() => {
-                navigate('/main');
+                navigate('/game');
               }}
               value="Start"
             />
@@ -64,11 +65,12 @@ export default function Main() {
               size="large"
               type="gray"
               onClick={() => {
-                navigate('/main');
+                navigate('/game');
               }}
               value="Load"
             />
           </ButtonContainer>
+
           {/* <ButtonContainer>
             <Button
               size="large"
@@ -103,7 +105,6 @@ export default function Main() {
       ) : (
         <>
           <Img src={kakao} alt="카카오 로그인" onClick={kakaoLogin} />
-          <button onClick={kakaoLogin}></button>
 
           {/* <ButtonContainer>
             <Button

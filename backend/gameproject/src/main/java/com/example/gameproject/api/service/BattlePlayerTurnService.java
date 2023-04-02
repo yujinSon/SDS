@@ -61,7 +61,7 @@ public class BattlePlayerTurnService {
             if (targetPos == 3) {
                 // 전체 회복인 경우
                 for (MyCharacter myc : myCharacters) {
-                    int value = min(myc.getAd()+addHp, myc.getMaxHp());
+                    int value = min(myc.getHp()+addHp, myc.getMaxHp());
                     myc.setHp(value);
                     myCharacterRepository.save(myc);
                 }

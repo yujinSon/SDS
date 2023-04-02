@@ -41,12 +41,6 @@ public class User implements Serializable {
     private int bestScore;
     private int stage;
     private int subStage;
-    private int turn;
-    private int finalScore; // 나중에 지울거 + maxStage, maxSubstage 있어야함.
-    private int nowStage;
-    private int nowSubStage;
-    private int maxStage;
-    private int maxSubStage;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<MyCharacter> myCharacters = new ArrayList<>();
@@ -54,12 +48,9 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<UserArtifact> userArtifacts = new ArrayList<>();
 
-    public void gameOverUpdate(int bestScore){
-        this.bestScore = bestScore;
-        this.stage = 0;
-        this.subStage = 0;
-        this.turn = 0;
-        this.finalScore = 0;
+    public void gameOverUpdate(){
+        this.stage = 1;
+        this.subStage = 1;
     }
 
     public void stageUpdate(int stage, int subStage) {
@@ -67,14 +58,21 @@ public class User implements Serializable {
         this.subStage = subStage;
     }
 
-    public void addTurn() {
-        this.turn += 1;
+
+    public void reGame() {
+        this.stage = 1;
+        this.subStage = 1;
     }
 
-    public void changeNowMap(MapSaveRequest mapSaveRequest){
-        this.nowStage = mapSaveRequest.getNowStage();
-        this.nowSubStage = mapSaveRequest.getNowSubStage();
+    public void gameWin() {
+        if (this.subStage == 4) {
+            this.subStage = 1;
+            this.stage += 1;
+        } else {
+            this.subStage += 1;
+        }
     }
+
 
     @Builder(builderClassName = "UserDetailRegister", builderMethodName = "userDetailRegister")
     public User(String username, String password, String email, Role role) {
@@ -98,5 +96,7 @@ public class User implements Serializable {
     public User(UserDto userDto){
         this.email = userDto.getEmail();
     }
+
+
 
 }

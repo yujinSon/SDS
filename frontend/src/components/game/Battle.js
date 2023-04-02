@@ -9,7 +9,7 @@ import IMG2 from 'assets/img/손민혁.png';
 export default function Battle({
   characters,
   monsters,
-  selectedCh,
+  selectedCh, // 현재 차례인 케릭터의 인덱스
   clickCh,
   clickMonster,
   nowTurn,
@@ -17,19 +17,29 @@ export default function Battle({
 }) {
   return (
     <>
-      {stageStep ? (
-        <div>
-          현재 스테이지 : {stageStep[0]}-{stageStep[1]}
-        </div>
-      ) : null}
-      nowTurn: {nowTurn}
+      <StageContainer>
+        {stageStep ? (
+          <>
+            <StageDiv>
+              {stageStep[0]} - {stageStep[1]}
+            </StageDiv>
+            <BarContainer>
+              <Bar progress={stageStep[1]} />
+            </BarContainer>
+          </>
+        ) : null}
+      </StageContainer>
+
       {characters
         ? characters.map((ch, idx) => (
             <CharacterContainer
               ch={ch}
               key={idx}
-              onClick={() => clickCh(ch)}
-              selectedCh={selectedCh === ch.pos}
+              onClick={() => {
+                clickCh(ch);
+              }}
+              // go={selectedCh === ch.pos}
+              selectedCh={selectedCh === idx}
               POS={POS}
             >
               <Circle src={IMG2}></Circle>
@@ -128,4 +138,32 @@ const TurnBox = styled.div`
   font-size: 24px;
   font-weight: bold;
   text-transform: uppercase;
+`;
+const StageContainer = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+const BarContainer = styled.div`
+  position: absolute;
+  top: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  height: 2%;
+  width: 30%;
+  border-radius: 10px;
+  background-color: #e4e4e4;
+  overflow: hidden;
+`;
+const Bar = styled.div`
+  height: 100%;
+  background: linear-gradient(to right, #67b26f, #4ca2cd);
+  width: ${({ progress }) => `${25 * progress}%`};
+  border-radius: 10px;
+`;
+
+const StageDiv = styled.div`
+  font-size: 2rem;
+  font-weight: bold;
 `;

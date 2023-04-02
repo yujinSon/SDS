@@ -20,7 +20,7 @@ const api = function (type, options = {}) {
     endBattle: ['/battle/end', 'delete'],
 
     // 전투 승리 후 스텟 창
-    changeStat: ['/battle/victory', 'put'],
+    changeStat: ['character/addstat', 'put'],
 
     // 상점
     changeCh: ['/shop/change', 'put'],
@@ -32,7 +32,8 @@ const api = function (type, options = {}) {
     ranking: ['/result/ranking', 'get'],
 
     // 전투 승리 or 패배
-    gameOver: ['/result/gameOver', 'put'],
+    stepClear: ['/result/win', 'put'],
+    gameOver: ['/result/gameover', 'put'],
     clearPut: ['/result/clear', 'put'],
     clearDelete: ['/result/clear', 'delete'],
   };

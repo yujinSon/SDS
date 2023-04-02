@@ -48,7 +48,6 @@ public class BattleController {
         long userId = 1L;
         List<MyCharacterAttackDto> res = battlePlayerTurnService.myTurnAttack(playerAttackDto, userId);
 
-
         return ResponseEntity.status(200).body(res);
     }
 
@@ -58,7 +57,6 @@ public class BattleController {
         long userId = 1L;
         battleService.CoolTime();
         battleService.EffectTime();
-        battleService.addTurn(userId);
 
         return ResponseEntity.ok(battleService.MyCharacterList());
     }

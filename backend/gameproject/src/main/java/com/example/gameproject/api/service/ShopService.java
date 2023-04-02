@@ -175,81 +175,56 @@ public class ShopService {
 
 	@Transactional
 	public RelicResponse getRelic(long userId){
+		String [] className = {"x", "환경", "안보", "질병", "사회", "범죄", "인구", "경제"};
 		Random random = new Random();
 		random.setSeed(System.currentTimeMillis()); //시간에 따라 시드를 설정
 
-		List<Artifact> artifactList = artifactRepository.findAll();
-		List<UserArtifact> relicList = userArtifactRepository.findAllByUser_Id(userId);
-		// numberList에 모든 유물 번호 저장(api 여러번 호출하면 중복되니까 set사용)
-		Set<Long> numberList = new LinkedHashSet<>();
-		for(int i=0;i<artifactList.size();i++){
-			numberList.add(artifactList.get(i).getId());
+		User user = userRepository.findById(userId).orElse(null);
+		List<Artifact> artifactList = artifactRepository.findByClass(className[user.getStage()]);
+		List<UserArtifact> myUserArtifact = userArtifactRepository.findAllByUser_Id(userId);
+		List<Artifact> myArtifact = new ArrayList<>();
+		for (UserArtifact uaf : myUserArtifact) {
+			myArtifact.add(uaf.getArtifact());
 		}
 
-		//numberLsit에 내 유물 리스트에 존재하는 유물은 삭제
-		for(int i =0;i<numberList.size();i++){
-			for(int j=0;j<relicList.size();j++){
-				long existValue = relicList.get(j).getArtifact().getId();
-				if(numberList.contains(existValue)){
-					numberList.remove(existValue);
-				}
+
+
+		UserArtifact myPick = null;
+		for (int i=0; i < 6; i++) {
+			int idx = random.nextInt(6-i);// 0 ~ 5 랜덤으로 뽑기
+			if (!myArtifact.contains(artifactList.get(idx))) {
+				// 랜덤으로 뽑은 유물이 새 유물이라면
+				myPick = new UserArtifact(user, artifactList.get(idx));
+				userArtifactRepository.save(myPick);
+				break;
+			} else {
+				artifactList.remove(idx);
 			}
 		}
-
-		//추가할 수 있는 유물이 없으면 null 리턴
-		if(numberList.size()==0) return null;
-
-		int bound = numberList.size();
-		int value = random.nextInt(bound);//bound가 6이면 0~5까지만 랜덤으로 나온다
-
-		System.out.println("value : "+ value);
-		Object[] arrayList = numberList.toArray();
-		long pos = (long) arrayList[value];
 
 		// 내 DB에 있는 케릭터들에게 유물 효과 적용 --
-		Artifact myArtifact = artifactRepository.findById(pos).orElse(null);
 		List<MyCharacter> myCharacters = myCharacterRepository.getMyCharacters(userId);
 		for (MyCharacter myCharacter : myCharacters) {
-			if (myArtifact.isRange() == true) {
-				addStat(myCharacter, myArtifact.getStat(), myArtifact.getValue());
+			if (myCharacter.getDefaultCharacter().getClassName().equals(myPick.getArtifact().getTargetClass())) {
+				addStat(myCharacter, myPick.getArtifact().getStat(), myPick.getArtifact().getValue());
 				myCharacterRepository.save(myCharacter);
-			} else if (myArtifact.getTargetClass().equals(myCharacter.getDefaultCharacter().getClassName())) {
-				addStat(myCharacter, myArtifact.getStat(), myArtifact.getValue());
+			} else if (myPick.getArtifact().getTargetClass().equals("전체")) {
+				addStat(myCharacter, myPick.getArtifact().getStat(), myPick.getArtifact().getValue());
 				myCharacterRepository.save(myCharacter);
 			}
 		}
 
-
-		System.out.println("arrayList : "+ arrayList.length+"value : " + value);
-
-		// 중계 테이블에 artifact 저장
-		UserArtifact userArtifact = UserArtifact.builder()
-			.user(userRepository.findById(userId).orElse(null))
-			.artifact(artifactRepository.findById(pos).orElse(null))
-			.build();
-		userArtifactRepository.save(userArtifact);
-
-		//output 데이터 형식으로 저장
-		Artifact artifact = artifactRepository.findById(pos).orElse(null);
-		RelicResponse result = null;
-		if(artifact!=null) {
-			RelicResponse relic = RelicResponse.builder()
-				.name(artifact.getName())
-				.isRange(artifact.isRange())
-				.targetClass(artifact.getTargetClass())
-				.stat(artifact.getStat())
-				.value(artifact.getValue())
-				.build();
-			result = relic;
-		}
-		return result;
+		RelicResponse res = new RelicResponse(myPick.getArtifact());
+		return res;
 	}
 
 	// 효과 적용 함수
 	// 효과 적용이기 떄문에 저장하지는 않음
 	public void addStat(MyCharacter myCharacter, String stat, int value) {
 		if (stat.equals("hp")) {
-			myCharacter.addHd(value);
+			myCharacter.addHp(value);
+			// 유물효과 적용할때 maxHp도 늘려줌
+			myCharacter.addMaxHp(value);
 		} else if (stat.equals(("ad"))) {
 			myCharacter.addAd(value);
 		} else if (stat.equals(("ap"))) {

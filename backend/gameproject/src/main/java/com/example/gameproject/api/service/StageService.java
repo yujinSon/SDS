@@ -38,8 +38,8 @@ public class StageService {
         // 유저 정보를 받아서 바꿔줘야 함.
         Long userId = 1L; // 나중에 로그인 구현시 바꿔줘야될 부분
         User user = userRepository.getById(userId);
-        int stage = user.getNowStage();
-        int step = user.getNowSubStage(); // 스텝이 10 이라면 보스스테이지.
+        int stage = user.getStage();
+        int step = user.getSubStage(); // 스텝이 4 이라면 보스스테이지.
         String [] whatStage = {"없음", "환경", "안보", "질병", "사회", "범죄", "인구", "경제"};
         String stageName = whatStage[stage];
 
@@ -72,7 +72,7 @@ public class StageService {
 
         // 빌런 보스 스테이지가 아닐때.
         Random random = new Random();
-        if (step != 10) {
+        if (step != 4) {
             for (int i = 0; i < 4; i++) {
                 int randomIndex = random.nextInt(villainList.size());
                 Villain randomVillain = villainList.get(randomIndex);
@@ -100,8 +100,8 @@ public class StageService {
 
 
         List<Integer> nowStage = new ArrayList<>();
-        nowStage.add(user.getNowStage());
-        nowStage.add(user.getNowSubStage());
+        nowStage.add(user.getStage());
+        nowStage.add(user.getSubStage());
 
         res.put("character", characterDtos);
         res.put("villain",  villain);

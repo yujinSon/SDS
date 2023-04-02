@@ -48,7 +48,7 @@ public class ShopController {
 		return ResponseEntity.status(200).body("success");
 	}
 
-	@PostMapping("relic")
+	@PostMapping("/relic")
 	public ResponseEntity<RelicResponse> sendRelic(){
 		long userId = 1L;
 		RelicResponse relic = shopService.getRelic(userId);
