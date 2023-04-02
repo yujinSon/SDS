@@ -65,7 +65,7 @@ export default function Main() {
               size="large"
               type="gray"
               onClick={() => {
-                navigate('/game');
+                navigate('/game/ready');
               }}
               value="Load"
             />
