@@ -13,6 +13,18 @@ const relic = {
     relicImg: RelicImg,
     relicDetail: '이 유물은 고구려 시대부터 블라블라~',
   },
+  7: {
+    id: 7,
+    relicName: '유물7',
+    relicImg: RelicImg,
+    relicDetail: '고병진씨가 만든 고대 유물임',
+  },
+  8: {
+    id: 8,
+    relicName: '유물8',
+    relicImg: RelicImg,
+    relicDetail: '고병진씨가 만든 고대 유물임. 아 졸리다',
+  },
   22: {
     id: 22,
     relicName: '유물22',
