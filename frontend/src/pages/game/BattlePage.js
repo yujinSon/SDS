@@ -693,22 +693,25 @@ export default function BattlePage() {
               clickSkill={clickSkill}
             ></Information>
           ) : (
-            <div>캐릭터를 클릭하여 능력치와 스킬을 확인하세요</div>
+            <NoneSelectBox>캐릭터를 클릭하여 능력치와 스킬을 확인하세요.</NoneSelectBox>
           )}
         </LeftContainer>
 
         <RightContainer>
+          <TextBox>
           <AttackResult>
             {msg.map((message, idx) => (
               <div key={idx}>{message}</div>
             ))}
           </AttackResult>
+          </TextBox>
         </RightContainer>
       </BottomContainer>
     </MainContainer>
   );
 }
 const MainContainer = styled.div`
+
   display: flex;
   flex-direction: column;
 
@@ -716,6 +719,7 @@ const MainContainer = styled.div`
 `;
 
 const BattleContainer = styled.div`
+
   width: 100%;
   height: 70%;
 
@@ -727,34 +731,56 @@ const BottomContainer = styled.div`
   display: flex;
   flex-direction: row;
 
-  height: 30%;
+  flex-grow: 1;
 
   color: black;
 `;
 
 const LeftContainer = styled.div`
+
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
 
   color: black;
   width: 50%;
+  height: 100%;
 `;
 
 const RightContainer = styled.div`
+background-color: brown;
+background-color: rgba(189, 189, 189, 0.7);
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
   color: #333;
   width: 50%;
-  border: 1px solid #ccc;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
+  height: 100%;
 `;
 
 const AttackResult = styled.div`
+background-color: red;
+background-color: rgba(93, 93, 93, 0.5);
+border-radius: 10px;
+border: none;
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 20px;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+  padding : 0.7rem;
+`;
+
+const TextBox = styled.div`
+  padding: 1rem
+`;
+
+const NoneSelectBox = styled.div`
+display: flex;
+justify-content: center;
+align-items: center;
+background-color: rgba(189, 189, 189, 0.7);
+height: 100%;
+font-size: 24px;
+font-weight: bold;
+
 `;
