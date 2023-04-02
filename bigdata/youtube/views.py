@@ -66,7 +66,6 @@ def youtubeCrawling(request):
             # 이 밑에 [("word", 10), ...]과 같은 형태로 나타낸다. List형태로 담아서 내보낼 것.
         
         return Response(comment)
-    
     # return Response(comment)
 
 
