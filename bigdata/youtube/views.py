@@ -78,7 +78,9 @@ def crawling():
 
     # youtube crawling
     # api_key = 'AIzaSyA4k9e22aOJ2HvTThbGDHbTA7wv3iaoNZ8' # 본인 키
+    api_key = ''
     # video_id = 'GVpfYJjDrC8' # 영상 키
+    video_id = ''
 
     comments = list()
     api_obj = build('youtube', 'v3', developerKey=api_key)
