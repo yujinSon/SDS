@@ -4,6 +4,7 @@ const api = function (type, options = {}) {
     getRandomCh: ['/character/random', 'get'],
     getSelectedCh: ['/character/selected', 'get'], // 전투 승리했을 때 한 번 더 불러와야함 (스텟 찍기 전에)
     saveCh: ['/character/save', 'post'],
+    getRelic: ['/users/relic', 'get'],
 
     // 맵 페이지
     loadMap: ['/map/load', 'get'],
