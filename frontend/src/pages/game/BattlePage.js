@@ -51,6 +51,10 @@ export default function BattlePage() {
   // turnOrder 배열의 인덱스
   const [nowIdx, setNowIdx] = useState(0);
 
+  // 전투 승리, 패배 시 띄울 Modal
+  const [showVictoryModal, setShowVictoryModal] = useState(false);
+  const [showDefeatModal, setShowDefeactModal] = useState(false);
+
   // 공격 시마다 띄울 메시지
   const [msg, setMsg] = useState([
     '손유진이 박용찬에게 어퍼컷을 날려 100의 데미지를 입혔다.',
@@ -200,7 +204,7 @@ export default function BattlePage() {
       axios(config)
         .then((res) => {
           console.log('캐릭터 전멸해서 게임 끝', res.data);
-          navigate('/ending');
+          setShowDefeactModal(!showDefeatModal);
         })
         .catch((err) => {
           console.log('endBattle 에러', err);
@@ -213,8 +217,7 @@ export default function BattlePage() {
       let config = { url, method };
       axios(config)
         .then((res) => {
-          console.log('캐릭터 전멸해서 게임 끝', res.data);
-          navigate('/ending');
+          console.log('몬스터 전멸', res.data);
         })
         .catch((err) => {
           console.log('endBattle 에러', err);
@@ -225,11 +228,7 @@ export default function BattlePage() {
       axios(config)
         .then((res) => {
           console.log('몬스터 전멸', res.data);
-          if (stageStep[1] === 2) {
-            navigate('/shop');
-          } else {
-            navigate('/game/ready');
-          }
+          setShowVictoryModal(!showVictoryModal);
         })
         .catch((err) => {
           console.log('endBattle 에러', err);
@@ -681,8 +680,11 @@ export default function BattlePage() {
           clickMonster={clickMonster}
           nowTurn={nowTurn}
           stageStep={stageStep}
+          showVictoryModal={showVictoryModal}
+          showDefeatModal={showDefeatModal}
         />
       </BattleContainer>
+
       <BottomContainer>
         <LeftContainer>
           {(selectedCh === 0) | selectedCh ? (
@@ -693,17 +695,19 @@ export default function BattlePage() {
               clickSkill={clickSkill}
             ></Information>
           ) : (
-            <NoneSelectBox>캐릭터를 클릭하여 능력치와 스킬을 확인하세요.</NoneSelectBox>
+            <NoneSelectBox>
+              캐릭터를 클릭하여 능력치와 스킬을 확인하세요.
+            </NoneSelectBox>
           )}
         </LeftContainer>
 
         <RightContainer>
           <TextBox>
-          <AttackResult>
-            {msg.map((message, idx) => (
-              <div key={idx}>{message}</div>
-            ))}
-          </AttackResult>
+            <AttackResult>
+              {msg.map((message, idx) => (
+                <div key={idx}>{message}</div>
+              ))}
+            </AttackResult>
           </TextBox>
         </RightContainer>
       </BottomContainer>
@@ -711,7 +715,6 @@ export default function BattlePage() {
   );
 }
 const MainContainer = styled.div`
-
   display: flex;
   flex-direction: column;
 
@@ -719,7 +722,6 @@ const MainContainer = styled.div`
 `;
 
 const BattleContainer = styled.div`
-
   width: 100%;
   height: 70%;
 
@@ -737,7 +739,6 @@ const BottomContainer = styled.div`
 `;
 
 const LeftContainer = styled.div`
-
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -748,8 +749,8 @@ const LeftContainer = styled.div`
 `;
 
 const RightContainer = styled.div`
-background-color: brown;
-background-color: rgba(189, 189, 189, 0.7);
+  background-color: brown;
+  background-color: rgba(189, 189, 189, 0.7);
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -759,28 +760,27 @@ background-color: rgba(189, 189, 189, 0.7);
 `;
 
 const AttackResult = styled.div`
-background-color: red;
-background-color: rgba(93, 93, 93, 0.5);
-border-radius: 10px;
-border: none;
+  background-color: red;
+  background-color: rgba(93, 93, 93, 0.5);
+  border-radius: 10px;
+  border: none;
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 20px;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-  padding : 0.7rem;
+  padding: 0.7rem;
 `;
 
 const TextBox = styled.div`
-  padding: 1rem
+  padding: 1rem;
 `;
 
 const NoneSelectBox = styled.div`
-display: flex;
-justify-content: center;
-align-items: center;
-background-color: rgba(189, 189, 189, 0.7);
-height: 100%;
-font-size: 24px;
-font-weight: bold;
-
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(189, 189, 189, 0.7);
+  height: 100%;
+  font-size: 24px;
+  font-weight: bold;
 `;
