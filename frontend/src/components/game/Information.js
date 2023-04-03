@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
+import skillsPK from 'constants/skillsPK';
+
 import IMG from 'assets/img/고병진.png';
 import IMG2 from 'assets/img/손민혁.png';
 
@@ -33,7 +35,7 @@ export default function Information({
               {character.skills.map((skill, idx) => {
                 return character.skillCoolTime[idx] ? (
                   <SkillImg
-                    src={IMG}
+                    src={skillsPK[character.subName].skillImgs[idx]}
                     alt="스킬사진"
                     key={idx}
                     onClick={() => {
@@ -42,7 +44,7 @@ export default function Information({
                     selectedSkill={selectedSkill === idx}
                   />
                 ) : (
-                  <SkillImg src={IMG2} alt="스킬사진" key={idx} />
+                  <SkillImg src={IMG} alt="스킬사진" key={idx} />
                 );
               })}
             </SkillContainer>
