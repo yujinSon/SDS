@@ -13,11 +13,6 @@ const api = function (type, options = {}) {
     saveCh: ['/character/save', 'post'],
     getRelic: ['/users/relic', 'get'],
 
-    // 맵 페이지
-    loadMap: ['/map/load', 'get'],
-    selectMap: ['/map/save', 'put'],
-    saveStage: ['/stage/save', 'put'],
-
     // 전투 페이지
     loadStage: ['/stage/load', 'get'],
     enemysTurn: ['/battle/enemy', 'put'],
@@ -35,9 +30,6 @@ const api = function (type, options = {}) {
     addCh: ['/shop/add', 'post'],
     rest: ['/shop/rest', 'put'],
     addItem: ['/shop/relic', 'post'],
-
-    // 랭킹
-    ranking: ['/result/ranking', 'get'],
 
     // 전투 승리 or 패배
     stepClear: ['/result/win', 'put'],

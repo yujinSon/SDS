@@ -7,8 +7,6 @@ import { theme } from 'styles/theme';
 import GameMainPageLayout from 'layouts/GamePageLayout';
 
 import MainPage from 'pages/main/MainPage';
-import GameMainPage from 'pages/game/GameMainPage';
-import MapPage from 'pages/game/MapPage';
 import BattlePage from 'pages/game/BattlePage';
 import EndingPage from 'pages/game/EndingPage';
 import ShopPage from 'pages/game/ShopPage';
@@ -33,7 +31,6 @@ function App() {
           <Route path="/battle" element={<BattlePage />} />
           <Route path="/shop" element={<ShopPage />} />
           <Route path="/ending" element={<EndingPage />} />
-          <Route path="/map" element={<MapPage />} />
           <Route path="/yongchan" element={<SecretAPI />} />
         </Routes>
       </ThemeProvider>

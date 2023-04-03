@@ -2,16 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
-import Button from 'components/common/Button';
-
-export default function GameButtons({
-  saveCh,
-  itemModal,
-  setItemModal,
-  statModal,
-  setStatModal,
-  selectedChList,
-}) {
+export default function GameButtons({ selectedChList }) {
   const navigate = useNavigate();
 
   return (

@@ -6,22 +6,20 @@ import api from 'constants/api';
 import axios from 'axios';
 import myAxios from 'libs/axios';
 
-import Ranking from 'components/main/Ranking';
-import Tutorial from 'components/main/Tutorial';
-
 import Button from 'components/common/Button';
-import Modal from 'components/common/Modal';
-
-import kakao from 'assets/img/kakao.png';
 
 export default function Main() {
   const navigate = useNavigate();
 
+  // 회원가입, 로그인 시 input 아이디, 비밀번호
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  // 로그인 시 받은 token 값 저장
   const [token, setToken] = useState(null);
+  // 로그인 여부 / 테스트용 API 용 state
   const [isLogin, setIsLogin] = useState(false);
 
+  // 테스트용 API
   useEffect(() => {
     if (!isLogin) return;
     console.log(token);
@@ -39,6 +37,7 @@ export default function Main() {
       });
   }, [isLogin]);
 
+  // 버튼 클릭 시 새로운 게임 시작 API 요청 로직
   const startNewGame = () => {
     const [url, method] = api('newGame');
     const config = { url, method };
@@ -50,14 +49,15 @@ export default function Main() {
       .catch((err) => {});
   };
 
+  // input에 이메일, 비밀번호 입력 시 state 변경 함수
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
   };
-
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
   };
 
+  // 회원가입 버튼 클릭 시 API 요청 로직
   const handleSubmit = (event) => {
     event.preventDefault();
     const [url, method] = api('signup');
@@ -77,6 +77,7 @@ export default function Main() {
       });
   };
 
+  // 로그인 버튼 클릭 시 API 요청 로직
   const handleLogin = (event) => {
     event.preventDefault();
     const [url, method] = api('login');
@@ -187,9 +188,4 @@ export default function Main() {
 const ButtonContainer = styled.div`
   margin-bottom: 10px;
   text-align: center;
-`;
-
-const Img = styled.img`
-  width: 15rem;
-  height: 4rem;
 `;
