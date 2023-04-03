@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 import skillsPK from 'constants/skillsPK';
-import { SkillImg } from 'assets/img/basicskill.png';
+import SkillModal from './SkillModal';
 
 export default function CharacterDetail({ data }) {
-  // 여기서 데이터는 캐릭터 하나의 객체를 의미함
-
   const [ch, setCh] = useState(null);
+
+  const [selectedSkillIdx, setSelectedSkillIdx] = useState(null);
 
   useEffect(() => {
     if (!data) return;
@@ -19,6 +19,11 @@ export default function CharacterDetail({ data }) {
     <Container>
       {ch ? (
         <TopDiv>
+          <ModalContainer>
+            <SkillModal
+              data={skillsPK[ch.subClassName].skillDetails[selectedSkillIdx]}
+            />
+          </ModalContainer>
           <div>
             <StatDiv>{ch.className}</StatDiv>
             <StatDiv>{ch.subClassName} </StatDiv>
@@ -29,7 +34,12 @@ export default function CharacterDetail({ data }) {
                 <div key={idx}>{skill.skillName} </div>
               ))}
               {skillsPK[ch.subClassName].skillImgs.map((skillImg, idx) => (
-                <img src={skillImg} alt="스킬 이미지" key={idx} />
+                <IMG
+                  src={skillImg}
+                  alt="스킬 이미지"
+                  key={idx}
+                  onClick={() => setSelectedSkillIdx(idx)}
+                />
               ))}
             </StatDiv>
           </div>
@@ -95,69 +105,17 @@ const AddStatDiv = styled(StatDiv)`
   align-items: center;
 `;
 
-const AddStatButton = styled.button`
-  background-color: red;
-  position: relative;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  border: none;
-  cursor: pointer;
-  margin: 0 0 0 3rem;
-
-  &:before,
-  &:after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    background-color: #fff;
-  }
-
-  &:before {
-    width: 60%;
-    height: 2px;
-    transform: translate(-50%, -50%);
-  }
-
-  &:after {
-    width: 2px;
-    height: 60%;
-    transform: translate(-50%, -50%) rotate(180deg);
-  }
+const ModalContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000; // z-index 값을 높임
 `;
 
-const MinusStatButton = styled.button`
-  background-color: red;
-  position: relative;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  border: none;
-  cursor: pointer;
-  margin: 0 0 0 1rem;
-
-  &:after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    background-color: #fff;
-  }
-
-  &:after {
-    width: 2px;
-    height: 60%;
-    transform: translate(-50%, -50%) rotate(90deg);
-  }
-`;
-
-const StatSaveButton = styled.button`
-  background-color: rgba(116, 116, 116, 0.7);
-  font-size: 1.5rem;
-  color: white;
-  border-radius: 10px;
-  padding: 0.2rem 2rem 0.2rem 2rem;
-  border: none;
-  width: 20vw;
+const IMG = styled.img`
+  width: 100px;
+  height: 100px;
 `;
