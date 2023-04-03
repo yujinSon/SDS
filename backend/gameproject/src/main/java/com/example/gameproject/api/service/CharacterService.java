@@ -26,11 +26,30 @@ public class CharacterService {
     private final SkillRepository skillRepository;
     private final ArtifactRepository artifactRepository;
 
-    public List<RandomCharacterDto> RandomCharacter(String email) throws IOException {
+
+    public List<RandomCharacterDto> RandomCharacter(Long userId) throws IOException {
         String testurl = "http://127.0.0.1:8000/";
         URL url = new URL(testurl);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
+        User user = userRepository.getById(userId);
+        int stage = user.getStage();
+        List<RandomCharacterDto> result = new ArrayList<>();
+        int randomLevel = (int) (Math.random() * 4) + (stage-1) * 4 + 1 ;
+
+        List<DefaultCharacter> characters = defaultCharacterRepository.getRandomCharacters(1 + (randomLevel/10)*6, 6+ (randomLevel/10)*6);
+
+        for (DefaultCharacter character : characters){
+            RandomCharacterDto randomCharacterDto = new RandomCharacterDto(character, randomLevel, skillRepository);
+            result.add(randomCharacterDto);
+        }
+        return result;
+    }
+
+    public List<RandomCharacterDto> RandomCharacterEmail(String email) throws IOException {
+        String testurl = "http://127.0.0.1:8000/";
+        URL url = new URL(testurl);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         long userId = userRepository.findByEmail(email).orElseThrow().getId();
 
         User user = userRepository.getById(userId);
@@ -41,17 +60,16 @@ public class CharacterService {
         List<DefaultCharacter> characters = defaultCharacterRepository.getRandomCharacters(1 + (randomLevel/10)*6, 6+ (randomLevel/10)*6);
 
         for (DefaultCharacter character : characters){
-                RandomCharacterDto randomCharacterDto = new RandomCharacterDto(character, randomLevel, skillRepository);
-                result.add(randomCharacterDto);
+            RandomCharacterDto randomCharacterDto = new RandomCharacterDto(character, randomLevel, skillRepository);
+            result.add(randomCharacterDto);
         }
         return result;
     }
 
     @Transactional
-    public void SaveRandomCharacter(RandomCharacterDto randomCharacterDto, String email) {
+    public void SaveRandomCharacter(RandomCharacterDto randomCharacterDto, Long userId) {
 
         DefaultCharacter defaultCharacter = defaultCharacterRepository.getByClassNameAndSubName(randomCharacterDto.getClassName(), randomCharacterDto.getSubClassName());
-        long userId = userRepository.findByEmail(email).orElseThrow().getId();
         User user = userRepository.getById(userId);
         List<Integer> poseDefine = new ArrayList<>();
 
@@ -101,9 +119,8 @@ public class CharacterService {
         }
     }
 
-    public List<SelectedCharacterDto> getCharacterList(String email){
+    public List<SelectedCharacterDto> getCharacterList(long userId){
         List<SelectedCharacterDto> result = new ArrayList<>();
-        long userId = userRepository.findByEmail(email).orElseThrow().getId();
         //user 찾기
         User user = userRepository.findById(userId).get();
         //내 캐릭터 리스트 찾기
@@ -115,48 +132,48 @@ public class CharacterService {
             List<Skill> skills = skillRepository.findByCharacter_id(defaultCharacter.getId());
             List<SkillDto> skillDtos = new ArrayList<>();
             UserDto userDto = UserDto.builder()
-                    .nickname(user.getUsername())
-                    .email(user.getEmail())
-                    .bestScore(user.getBestScore())
-                    .stage(user.getStage())
-                    .subStage(user.getSubStage())
-                    .bestScore(user.getBestScore())
-                    .build();
+                .nickname(user.getUsername())
+                .email(user.getEmail())
+                .bestScore(user.getBestScore())
+                .stage(user.getStage())
+                .subStage(user.getSubStage())
+                .bestScore(user.getBestScore())
+                .build();
             for(Skill skill : skills){
                 skillDtos.add(
-                        SkillDto.builder()
-                                .skillNum(skill.getSkillNum())
-                                .skillName(skill.getSkillName())
-                                .skillType(skill.getDurationTurn())
-                                .isRange(skill.isRange())
-                                .value(skill.getValue())
-                                .skillTarget(skill.getSkillTarget())
-                                .stat(skill.getStat())
-                                .coolTime(skill.getCoolTime())
-                                .build()
+                    SkillDto.builder()
+                        .skillNum(skill.getSkillNum())
+                        .skillName(skill.getSkillName())
+                        .skillType(skill.getDurationTurn())
+                        .isRange(skill.isRange())
+                        .value(skill.getValue())
+                        .skillTarget(skill.getSkillTarget())
+                        .stat(skill.getStat())
+                        .coolTime(skill.getCoolTime())
+                        .build()
                 );
             }
             result.add(new SelectedCharacterDto(
-                    defaultCharacter.getClassName(),
-                    defaultCharacter.getSubName(),
-                    character.getLevel(),
-                    character.getHp(),
-                    character.getAd(),
-                    character.getAp(),
-                    character.getSpeed(),
-                    character.getCritical(),
-                    character.getAvoid(),
-                    character.getMaxHp(),
-                    character.getPos(),
-                    character.getStatPoint(),
-                    character.getAddHp(),
-                    character.getAddAd(),
-                    character.getAddAp(),
-                    character.getAddSpeed(),
-                    character.getAddCritical(),
-                    character.getAddAvoid(),
-                    userDto,
-                    skillDtos
+                defaultCharacter.getClassName(),
+                defaultCharacter.getSubName(),
+                character.getLevel(),
+                character.getHp(),
+                character.getAd(),
+                character.getAp(),
+                character.getSpeed(),
+                character.getCritical(),
+                character.getAvoid(),
+                character.getMaxHp(),
+                character.getPos(),
+                character.getStatPoint(),
+                character.getAddHp(),
+                character.getAddAd(),
+                character.getAddAp(),
+                character.getAddSpeed(),
+                character.getAddCritical(),
+                character.getAddAvoid(),
+                userDto,
+                skillDtos
             ));
         }//for
         return result;
@@ -164,8 +181,7 @@ public class CharacterService {
 
     // api/character/addstat
     @Transactional
-    public List<InitialBattleCharacterDto> updateStat(AddStatDto addStatDto, String userEmail) {
-        long userId = userRepository.findByEmail(userEmail).orElseThrow().getId();
+    public List<InitialBattleCharacterDto> updateStat(AddStatDto addStatDto, Long userId) {
         MyCharacter mch =  myCharacterRepository.getMyCharacterUsingUserIdPos(userId, addStatDto.getPos());
         // 스텟 추가
         int usedPoint = 0; // 사용한 스탯 포인트
