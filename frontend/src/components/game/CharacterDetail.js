@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
+import Modal from 'components/common/Modal';
 import skillsPK from 'constants/skillsPK';
 import SkillModal from './SkillModal';
 
@@ -8,6 +9,7 @@ export default function CharacterDetail({ data }) {
   const [ch, setCh] = useState(null);
 
   const [selectedSkillIdx, setSelectedSkillIdx] = useState(null);
+  const [showSkillModal, setShowSkillModal] = useState(false);
 
   useEffect(() => {
     if (!data) return;
@@ -19,11 +21,23 @@ export default function CharacterDetail({ data }) {
     <Container>
       {ch ? (
         <TopDiv>
-          <ModalContainer>
-            <SkillModal
-              data={skillsPK[ch.subClassName].skillDetails[selectedSkillIdx]}
-            />
-          </ModalContainer>
+          {showSkillModal ? (
+            <ModalContainer>
+              <Modal
+                close={() => setShowSkillModal(!showSkillModal)}
+                content={
+                  <SkillModal
+                    data={
+                      skillsPK[ch.subClassName].skillDetails[selectedSkillIdx]
+                    }
+                    showSkillModal={showSkillModal}
+                    setShowSkillModal={setShowSkillModal}
+                  />
+                }
+              />
+            </ModalContainer>
+          ) : null}
+
           <div>
             <StatDiv>{ch.className}</StatDiv>
             <StatDiv>{ch.subClassName} </StatDiv>
@@ -38,7 +52,10 @@ export default function CharacterDetail({ data }) {
                   src={skillImg}
                   alt="스킬 이미지"
                   key={idx}
-                  onClick={() => setSelectedSkillIdx(idx)}
+                  onClick={() => {
+                    setShowSkillModal(!showSkillModal);
+                    setSelectedSkillIdx(idx);
+                  }}
                 />
               ))}
             </StatDiv>
