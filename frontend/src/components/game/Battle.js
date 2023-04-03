@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import VictoryModal from './VictoryModal';
-import DefeatModal from 'pages/game/DefeatModal';
+import DefeatModal from './DefeatModal';
 import POS from 'constants/pk';
 
 import IMG from 'assets/img/고병진.png';
