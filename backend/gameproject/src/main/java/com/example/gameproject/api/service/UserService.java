@@ -38,21 +38,19 @@ public class UserService {
     private final UserRepository userRepository;
 
     @Transactional
-    public Long join(UserDto userDto){
+    public void join(UserDto userDto){
         if (userRepository.existsByEmail(userDto.getEmail())) {
             throw new IllegalArgumentException("이미 존재하는 이메일입니다.");
+        }else {
+            User user = User.builder()
+                .username(userDto.getEmail())
+                .email(userDto.getEmail())
+                .password(passwordEncoder.encode(userDto.getPassword()))  //비밀번호 인코딩
+                .role(Role.ROLE_USER)         //roles는 최초 USER로 설정
+                .build();
+            userRepository.save(user);
         }
-
-        User user = User.builder()
-            .username(userDto.getEmail())
-            .email(userDto.getEmail())
-            .password(passwordEncoder.encode(userDto.getPassword()))  //비밀번호 인코딩
-            .role(Role.ROLE_USER)         //roles는 최초 USER로 설정
-            .build();
-
-        return userRepository.save(user).getId();
     }
-
 
     @Transactional
     public UserResponse login (UserDto userDto){
