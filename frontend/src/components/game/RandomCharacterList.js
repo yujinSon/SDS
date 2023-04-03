@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import Button from 'components/common/Button';
 import IMG from 'assets/img/고병진.png';
 
 export default function RandomCharacterList({
@@ -45,7 +44,7 @@ export default function RandomCharacterList({
 }
 
 const Container = styled.div`
-background-color: rgba(189, 189, 189, 0.7);
+  background-color: rgba(189, 189, 189, 0.7);
   display: flex;
   align-items: center;
   padding: 1rem;
@@ -92,7 +91,6 @@ const ButtonContainer = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 0.5rem;
-  
 `;
 
 const SelectedButton = styled.button`

@@ -8,7 +8,6 @@ import api from 'constants/api';
 import SelectedCharacterList from 'components/game/SelectedCharacterList';
 import RandomCharacterList from 'components/game/RandomCharacterList';
 import CharacterDetail from 'components/game/CharacterDetail';
-import NoneCharacterList from 'components/game/NoneCharacterList';
 import GameButtons from 'components/game/GameButtons';
 import Modal from 'components/common/Modal';
 import Items from 'components/game/ItemModal';
@@ -17,29 +16,12 @@ import Stats from 'components/game/Stats';
 export default function RecruitPage() {
   const navigate = useNavigate();
 
+  // 랜덤 캐릭터 리스트, 선택된 랜덤 캐릭터의 idx state
   const [randomChList, setRandomChList] = useState(null);
   const [selectedRandomCh, setSelectedRandomCh] = useState(null);
+  // 영입한 캐릭터 리스트, 선택된 캐릭터의 idx state
   const [selectedCharacter, setSelectedCharacter] = useState(null);
   const [selectedChList, setSelectedChList] = useState(null);
-
-  const [itemModal, setItemModal] = useState(false);
-  const [statModal, setStatModal] = useState(false);
-
-  // 선택된 캐릭터 리스트 조회
-  useEffect(() => {
-    const [url, method] = api('getSelectedCh');
-    const config = { url, method };
-    axios(config)
-      .then((res) => {
-        console.log('선택된 캐릭터 조회', res.data);
-        // while (res.data.length < 3) {
-        //   res.data.push({className: null})
-        // }
-
-        setSelectedChList(res.data);
-      })
-      .catch((err) => {});
-  }, []);
 
   // 랜덤 캐릭터 리스트 조회
   useEffect(() => {
@@ -52,6 +34,63 @@ export default function RecruitPage() {
       })
       .catch((err) => {});
   }, [selectedChList]);
+
+  // 선택된 캐릭터 리스트 조회
+  useEffect(() => {
+    const [url, method] = api('getSelectedCh');
+    const config = { url, method };
+    axios(config)
+      .then((res) => {
+        console.log('선택된 캐릭터 조회', res.data);
+        setSelectedChList(res.data);
+      })
+      .catch((err) => {});
+  }, []);
+
+  const getSelectedChList = () => {
+    const [url, method] = api('getSelectedCh');
+    const config = { url, method };
+    axios(config)
+      .then((res) => {
+        console.log('선택된 캐릭터 조회(함수-Axios 요청)', res.data);
+        setSelectedChList(res.data);
+      })
+      .catch((err) => {});
+  };
+
+  // 버튼 눌러서 개별 캐릭터 영입 - 저장하기 axios 요청
+  const addCharacter = () => {
+    const data = randomChList[selectedRandomCh];
+    const [url, method] = api('saveCh');
+    const config = { url, method, data };
+    // 아직 영입한 캐릭터가 없으면 새로운 배열을 만들어 추가
+    if (selectedChList === null) {
+      axios(config)
+        .then((res) => {
+          const copy = [randomChList[selectedRandomCh]];
+          setSelectedChList(copy);
+          getSelectedChList();
+        })
+        .catch((err) => {
+          console.log(err, '캐릭터 영입 실패');
+        });
+      // 영입한 캐릭터가 2명 이하일 때
+    } else if (selectedChList.length <= 2) {
+      axios(config)
+        .then((res) => {
+          const copy = [...selectedChList, randomChList[selectedRandomCh]];
+          setSelectedChList(copy);
+          getSelectedChList();
+          return;
+        })
+        .catch((err) => {
+          console.log(err, '캐릭터 영입 실패');
+        });
+    } else {
+      alert('캐릭터는 3명까지만 영입 가능합니다.');
+      return;
+    }
+  };
 
   // 새로고침 막기
   // useEffect(() => {
@@ -74,51 +113,9 @@ export default function RecruitPage() {
   //   };
   // }, []);
 
-  const getSelectedChList = () => {
-    const [url, method] = api('getSelectedCh');
-    const config = { url, method };
-    axios(config)
-      .then((res) => {
-        console.log('선택된 캐릭터 조회(이건 함수임)', res.data);
-        setSelectedChList(res.data);
-      })
-      .catch((err) => {});
-  };
-
-  // 버튼 눌러서 개별 캐릭터 저장하기 axios 요청
-  const addCharacter = () => {
-    const data = randomChList[selectedRandomCh];
-    const [url, method] = api('saveCh');
-    const config = { url, method, data };
-    // 아직 영입한 캐릭터가 없으면 새로운 배열을 만들어 추가
-    if (selectedChList === null) {
-      axios(config)
-        .then((res) => {
-          const copy = [...selectedChList, randomChList[selectedRandomCh]];
-          setSelectedChList(copy);
-          getSelectedChList();
-        })
-        .catch((err) => {});
-      // 영입한 캐릭터가 2명 이하일 때
-    } else if (selectedChList.length <= 2) {
-      axios(config)
-        .then((res) => {
-          const copy = [...selectedChList, randomChList[selectedRandomCh]];
-          setSelectedChList(copy);
-          getSelectedChList();
-
-          return;
-        })
-        .catch((err) => {});
-    } else {
-      alert('캐릭터는 3명까지만 선택 가능합니다아아아악');
-      return;
-    }
-  };
-
   return (
     <>
-      <h1>GameMainPage</h1>
+      <h1>캐릭터 영입 페이지</h1>
       <MainContainer>
         <SubContainerLeft>
           <SelectedCharacterList
@@ -137,21 +134,9 @@ export default function RecruitPage() {
             setSelectedRandomCh={setSelectedRandomCh}
             addCharacter={addCharacter}
           />
-          <GameButtons
-            selectedChList={selectedChList}
-            itemModal={itemModal}
-            setItemModal={setItemModal}
-            statModal={statModal}
-            setStatModal={setStatModal}
-          />
+          <GameButtons selectedChList={selectedChList} />
         </SubContainerRight>
       </MainContainer>
-      {itemModal ? (
-        <Modal close={() => setItemModal(false)} content={<Items />} />
-      ) : null}
-      {statModal ? (
-        <Modal close={() => setStatModal(false)} content={<Stats />} />
-      ) : null}
     </>
   );
 }
