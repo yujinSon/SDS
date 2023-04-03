@@ -48,10 +48,10 @@ public class CharacterService {
     }
 
     @Transactional
-    public void SaveRandomCharacter(RandomCharacterDto randomCharacterDto, String userEmail) {
+    public void SaveRandomCharacter(RandomCharacterDto randomCharacterDto, String email) {
 
         DefaultCharacter defaultCharacter = defaultCharacterRepository.getByClassNameAndSubName(randomCharacterDto.getClassName(), randomCharacterDto.getSubClassName());
-        long userId = userRepository.findByEmail(userEmail).orElseThrow().getId();
+        long userId = userRepository.findByEmail(email).orElseThrow().getId();
         User user = userRepository.getById(userId);
         List<Integer> poseDefine = new ArrayList<>();
 
@@ -164,7 +164,8 @@ public class CharacterService {
 
     // api/character/addstat
     @Transactional
-    public List<InitialBattleCharacterDto> updateStat(AddStatDto addStatDto, Long userId) {
+    public List<InitialBattleCharacterDto> updateStat(AddStatDto addStatDto, String userEmail) {
+        long userId = userRepository.findByEmail(userEmail).orElseThrow().getId();
         MyCharacter mch =  myCharacterRepository.getMyCharacterUsingUserIdPos(userId, addStatDto.getPos());
         // 스텟 추가
         int usedPoint = 0; // 사용한 스탯 포인트

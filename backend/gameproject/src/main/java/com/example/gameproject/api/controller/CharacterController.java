@@ -22,7 +22,7 @@ import java.util.List;
 
 import lombok.RequiredArgsConstructor;
 
-@CrossOrigin(origins = "*")
+// @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/character")
 @RequiredArgsConstructor
@@ -36,16 +36,16 @@ public class CharacterController {
     @GetMapping(value = "/random")
     public ResponseEntity<List<RandomCharacterDto>> getRandomCharactersList(@RequestHeader String Authorization) throws Exception{
         String token = Authorization.split(" ")[1];
-        String userEmail = jwtTokenProvider.getUserPk(token);
-        List<RandomCharacterDto> result = characterService.RandomCharacter(userEmail);
+        String email = jwtTokenProvider.getUserPk(token);
+        List<RandomCharacterDto> result = characterService.RandomCharacter(email);
         return ResponseEntity.ok(result);
     }
 
     @PostMapping(value = "/save")
     public ResponseEntity<?> postSaveRandomCharacter(@RequestHeader String Authorization, @RequestBody RandomCharacterDto randomCharacterDto) throws Exception {
         String token = Authorization.split(" ")[1];
-        String userEmail = jwtTokenProvider.getUserPk(token);
-        characterService.SaveRandomCharacter(randomCharacterDto, userEmail);
+        String email = jwtTokenProvider.getUserPk(token);
+        characterService.SaveRandomCharacter(randomCharacterDto, email);
         return ResponseEntity.ok("OK");
     }
 
@@ -53,8 +53,8 @@ public class CharacterController {
     @GetMapping("/selected")
     public ResponseEntity<?> getSelectedCharacterList(@RequestHeader String Authorization){
         String token = Authorization.split(" ")[1];
-        String userEmail = jwtTokenProvider.getUserPk(token);
-        List<SelectedCharacterDto> result = characterService.getCharacterList(userEmail);
+        String email = jwtTokenProvider.getUserPk(token);
+        List<SelectedCharacterDto> result = characterService.getCharacterList(email);
         return ResponseEntity.status(200).body(result);
     }
 
@@ -65,9 +65,10 @@ public class CharacterController {
     }
 
     @PutMapping("/addstat")
-    public ResponseEntity<?> updateStat(@RequestBody AddStatDto addStatDto) throws Exception{
-        Long userId = 1l;
-        List<InitialBattleCharacterDto> res = characterService.updateStat(addStatDto, userId);
+    public ResponseEntity<?> updateStat(@RequestHeader String Authorization, @RequestBody AddStatDto addStatDto) throws Exception{
+        String token = Authorization.split(" ")[1];
+        String email = jwtTokenProvider.getUserPk(token);
+        List<InitialBattleCharacterDto> res = characterService.updateStat(addStatDto, email);
         return ResponseEntity.status(200).body(res);
     }
 

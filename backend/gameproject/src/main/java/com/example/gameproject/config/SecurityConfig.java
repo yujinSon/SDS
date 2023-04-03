@@ -1,5 +1,4 @@
 package com.example.gameproject.config;
-
 import com.example.gameproject.auth.PrincipalOauth2UserService;
 import com.example.gameproject.security.jwt.JwtAuthenticationFilter;
 import com.example.gameproject.security.jwt.JwtTokenProvider;
@@ -15,6 +14,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import lombok.RequiredArgsConstructor;
 
@@ -62,6 +64,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
             .httpBasic().disable()
+            .cors().and()
             .csrf().disable()
             //세션 사용 안함
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -75,5 +78,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
             // JwtAuthenticationFilter를 먼저 적용
             .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.addAllowedOrigin("http://70.12.246.189:3000");
+        configuration.addAllowedOrigin("http://localhost:3000");
+        configuration.addAllowedOrigin("https://j8a303.p.ssafy.io");
+        configuration.addAllowedMethod("GET");
+        configuration.addAllowedMethod("POST");
+        configuration.addAllowedMethod("HEAD");
+        configuration.addAllowedMethod("OPTIONS");
+        configuration.addAllowedHeader("*");
+        configuration.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+
+        return source;
     }
 }

@@ -23,7 +23,7 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
-@CrossOrigin(origins = "*")
+// @CrossOrigin(origins = "*")
 @RestController
 //@RequestMapping("/api")
 @RequestMapping("/api/users")
@@ -49,8 +49,10 @@ public class UserController {
         UserResponse token = userService.login(userDto);
         if(token == null)
             return ResponseEntity.status(400).body("Fail");
-        else
+        else {
+            System.out.println("token : "+token.toString());
             return ResponseEntity.status(200).body(token);
+        }
     }
 
 //    @GetMapping("/loginForm")

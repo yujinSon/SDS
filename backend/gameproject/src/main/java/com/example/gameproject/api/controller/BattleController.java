@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.HashMap;
 import java.util.List;
 
-@CrossOrigin(origins = "*")
+// @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/battle")
 public class BattleController {
