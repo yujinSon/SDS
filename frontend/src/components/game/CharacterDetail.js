@@ -19,20 +19,18 @@ export default function CharacterDetail({ data }) {
     <Container>
       {ch ? (
         <TopDiv>
-          <div>
-            <StatDiv>{ch.className}</StatDiv>
-            <StatDiv>{ch.subClassName} </StatDiv>
+          <TopStatDiv>
+            <div>
+            <StatSpan>{ch.className}</StatSpan>
+            <StatSpan>{ch.subClassName} </StatSpan>
             <StatDiv>level: {ch.level} </StatDiv>
-            <StatDiv>
-              skills:
-              {ch.skills.map((skill, idx) => (
-                <div key={idx}>{skill.skillName} </div>
-              ))}
+            </div>
+            <SkillDiv>
               {skillsPK[ch.subClassName].skillImgs.map((skillImg, idx) => (
-                <img src={skillImg} alt="스킬 이미지" key={idx} />
+                <SkillImgTag src={skillImg} alt="스킬 이미지" key={idx} />
               ))}
-            </StatDiv>
-          </div>
+            </SkillDiv>
+          </TopStatDiv>
           <div>
             <AddStatDiv>
               <span>
@@ -65,6 +63,7 @@ export default function CharacterDetail({ data }) {
 
 const Container = styled.div`
   background-color: rgba(189, 189, 189, 0.7);
+  background-color: red;
   width: 100%;
   height: 100%;
   display: flex;
@@ -80,11 +79,31 @@ const Container = styled.div`
 
 const TopDiv = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   padding-right: 2rem;
 `;
 
+const TopStatDiv = styled.div`
+  display: flex;
+`;
+
 const StatDiv = styled.div`
+  margin: 0.5rem;
+`;
+
+const SkillDiv = styled.div`
+  background-color: yellow;
+  flex-grow: 1;
+  max-height: 50%;
+`;
+
+const SkillImgTag = styled.img`
+  width: 30%;
+  height: 100%;
+`;
+
+const StatSpan = styled.span`
   margin: 0.5rem;
 `;
 
