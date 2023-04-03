@@ -33,7 +33,7 @@ public class BattleController {
     @Autowired
     EnemyAttackService enemyAttackService;
 
-    //    @PutMapping("/enemy")
+
     @PutMapping("/enemy")
     ResponseEntity<?> attackedFromEnemy(@RequestBody EnemyAttackDto enemyAttackDto) {
         long userId = 1L;
@@ -58,7 +58,7 @@ public class BattleController {
         battleService.CoolTime();
         battleService.EffectTime();
 
-        return ResponseEntity.ok(battleService.MyCharacterList());
+        return ResponseEntity.ok(battleService.MyCharacterList(userId));
     }
 
     @DeleteMapping("/end")
