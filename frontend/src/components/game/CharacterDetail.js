@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
+import skillsPK from 'constants/skillsPK';
+import { SkillImg } from 'assets/img/basicskill.png';
+
 export default function CharacterDetail({ data }) {
   // 여기서 데이터는 캐릭터 하나의 객체를 의미함
 
@@ -24,6 +27,9 @@ export default function CharacterDetail({ data }) {
               skills:
               {ch.skills.map((skill, idx) => (
                 <div key={idx}>{skill.skillName} </div>
+              ))}
+              {skillsPK[ch.subClassName].skillImgs.map((skillImg, idx) => (
+                <img src={skillImg} alt="스킬 이미지" key={idx} />
               ))}
             </StatDiv>
           </div>
