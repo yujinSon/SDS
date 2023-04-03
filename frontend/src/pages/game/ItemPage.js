@@ -86,7 +86,11 @@ export default function ItemPage() {
         </SubContainerLeft>
         <SubContainerRight>
           <Relic relicIds={relicIds} />
-          <StartButton onClick={() => navigate('/battle')}>
+          <StartButton
+            onClick={() => {
+              navigate('/battle');
+            }}
+          >
             전투하기
           </StartButton>
         </SubContainerRight>
