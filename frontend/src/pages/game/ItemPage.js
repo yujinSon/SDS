@@ -9,33 +9,35 @@ import SelectedCharacterList from 'components/game/SelectedCharacterList';
 import CharacterDetailStat from 'components/game/CharacterDetailStat';
 
 import Relic from 'components/game/Relic';
-import Button from 'components/common/Button';
 
 export default function ItemPage() {
   const navigate = useNavigate();
 
-  const [selectedCharacter, setSelectedCharacter] = useState(null);
+  // 영입하 캐릭터 목록, 캐릭터의 idx state
   const [selectedChList, setSelectedChList] = useState(null);
+  const [selectedCharacter, setSelectedCharacter] = useState(null);
 
   const [isChanged, setIsChanged] = useState(false);
 
-  // 획득한 유물 id 배열
+  // 획득한 유물 id 배열 state (id값만 주어짐)
   const [relicIds, setRelicIds] = useState(null);
 
-  // 선택된 캐릭터 리스트 조회
+  // 선택된 캐릭터 리스트 조회 (스텟이 업데이트 되면 다시 화면에 반영해주기 위해 API 요청)
   useEffect(() => {
     const [url, method] = api('getSelectedCh');
     const config = { url, method };
     axios(config)
       .then((res) => {
         console.log('선택된 캐릭터 조회', res.data);
+        // 화면 상 칸 조정을 위해 길이가 3 미만이면 빈 객체를 하나 추가해줌
         while (res.data.length < 3) {
           res.data.push({ className: null });
         }
-
         setSelectedChList(res.data);
       })
-      .catch((err) => {});
+      .catch((err) => {
+        console.log(err, '선택된 캐릭터 조회 실패');
+      });
   }, [isChanged]);
 
   // 현재 보유 유물 리스트 조회
@@ -52,22 +54,9 @@ export default function ItemPage() {
       });
   }, []);
 
-  // useEffect(() => {}, [selectedChList]);
-
-  // const getSelectedChList = () => {
-  //   const [url, method] = api('getSelectedCh');
-  //   const config = { url, method };
-  //   axios(config)
-  //     .then((res) => {
-  //       console.log('선택된 캐릭터 조회(이건 함수임)', res.data);
-  //       setSelectedChList(res.data);
-  //     })
-  //     .catch((err) => {});
-  // };
-
   return (
     <>
-      <h1>유물 프레임 만드려고 대충 만든 페이지</h1>
+      <h1>준비 페이지</h1>
       <MainContainer>
         <SubContainerLeft>
           <SelectedCharacterList
@@ -123,12 +112,6 @@ const SubContainerRight = styled.div`
   align-items: center;
   width: 50%;
   margin-bottom: 3rem;
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 0.5rem;
 `;
 
 const StartButton = styled.button`

@@ -5,18 +5,20 @@ import api from 'constants/api';
 import axios from 'libs/axios';
 
 export default function CharacterDetailStat({
+  // 여기서 데이터는 선택된 캐릭터 하나의 객체를 의미함
   data,
   isChanged,
   setIsChanged,
   selectedCharacter,
 }) {
-  // 여기서 데이터는 캐릭터 하나의 객체를 의미함
-
+  // 처음 주어진 statPoint
   const [firstStatPoint, setFirstStatPoint] = useState(null);
+  // data를 ch state에 저장
   const [ch, setCh] = useState(null);
+  // 찍을 수 있는 stat의 갯수 (초기값은 firstStatPoint)
   const [stat, setStat] = useState(null);
 
-  // input data에 넣을 스텟 값들
+  // input data에 넣을 스텟 값들 (얼마나 count되었는지)
   const [cntHp, setCntHp] = useState(0);
   const [cntAd, setCntAd] = useState(0);
   const [cntAp, setCntAp] = useState(0);
@@ -24,6 +26,7 @@ export default function CharacterDetailStat({
   const [cntCritical, setCntCritical] = useState(0);
   const [cntAvoid, setCntAvoid] = useState(0);
 
+  // 다른 캐릭터가 선택되면 기존에 count된 값들을 0으로 초기화시켜줌 (API 요청 시 오류 방지)
   useEffect(() => {
     setCntHp(0);
     setCntAd(0);
@@ -33,6 +36,7 @@ export default function CharacterDetailStat({
     setCntAvoid(0);
   }, [selectedCharacter]);
 
+  // data를 기반으로 초기값 설정 (처음 statPoint 저장, 선택된 캐릭터 정보 ch 저장)
   useEffect(() => {
     if (!data) return;
     setFirstStatPoint(data.statPoint);
@@ -41,6 +45,7 @@ export default function CharacterDetailStat({
     setStat(data.statPoint);
   }, [data]);
 
+  // 찍은 stat cnt가 바뀌면 값을 계산해서 front에 띄워줌
   useEffect(() => {
     if (!data | !ch) return;
     let copy = { ...ch };
@@ -63,23 +68,22 @@ export default function CharacterDetailStat({
       user: data.user,
     };
 
-    // copy.hp = data.hp + 100 * cntHp;
-    // copy.maxHp = data.maxHp + 100 * cntHp;
     setCh(copy);
   }, [cntHp, cntAd, cntAp, cntSpeed, cntCritical, cntAvoid]);
 
+  // 각 stat 별 증가, 감소 로직 함수 (남은 stat이 0이면 기능 막음)
   const addHp = () => {
     if (stat === 0) return;
     setStat(stat - 1);
     setCntHp(cntHp + 1);
   };
   const minusHp = () => {
+    // firstStatPoint를 조건에 넣어줘서 +를 찍은 만큼만 -할 수 있게 해줌
     if (stat === firstStatPoint) return;
     if (cntHp === 0) return;
     setStat(stat + 1);
     setCntHp(cntHp - 1);
   };
-
   const addAd = () => {
     if (stat === 0) return;
     setStat(stat - 1);
@@ -91,7 +95,6 @@ export default function CharacterDetailStat({
     setStat(stat + 1);
     setCntAd(cntAd - 1);
   };
-
   const addAp = () => {
     if (stat === 0) return;
     setStat(stat - 1);
@@ -103,7 +106,6 @@ export default function CharacterDetailStat({
     setStat(stat + 1);
     setCntAp(cntAp - 1);
   };
-
   const addSpeed = () => {
     if (stat === 0) return;
     setStat(stat - 1);
@@ -115,7 +117,6 @@ export default function CharacterDetailStat({
     setStat(stat + 1);
     setCntSpeed(cntSpeed - 1);
   };
-
   const addCritical = () => {
     if (stat === 0) return;
     setStat(stat - 1);
@@ -127,7 +128,6 @@ export default function CharacterDetailStat({
     setStat(stat + 1);
     setCntCritical(cntCritical - 1);
   };
-
   const addAvoid = () => {
     if (stat === 0) return;
     setStat(stat - 1);
@@ -140,6 +140,7 @@ export default function CharacterDetailStat({
     setCntAvoid(cntAvoid - 1);
   };
 
+  // Backend에 보내줄 stat cnt를 data에 넣어줌 (pos를 기준으로 Backend에서 정보를 업데이트하므로 꼭 넣어줘야 함)
   const saveStat = () => {
     const data = {
       pos: ch.pos,
@@ -150,13 +151,16 @@ export default function CharacterDetailStat({
       addCritical: cntCritical,
       addAvoid: cntAvoid,
     };
-    console.log(data);
+    // console.log(data);
+    // Stat 변경 API 호출
     const [url, method] = api('changeStat');
     const config = { url, method, data };
     axios(config)
       .then((res) => {
-        console.log(res.data);
+        console.log(res.data, 'stat 변경 API 요청 성공');
+        // 스텟이 변경되면 상위 컴포넌트에서 반영된 결과를 화면으로 띄워주기 위해 isChanged 변경
         setIsChanged(!isChanged);
+        // API 요청 성공 시 다시 stat cnt들을 0으로 초기화해줌
         setCntHp(0);
         setCntAd(0);
         setCntAp(0);
@@ -165,7 +169,7 @@ export default function CharacterDetailStat({
         setCntAvoid(0);
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err, 'stat 변경 API 요청 실패');
       });
   };
 
