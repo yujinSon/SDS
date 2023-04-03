@@ -12,10 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.*;
 import java.util.ArrayList;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 import java.util.HashMap;
 import java.util.List;
@@ -35,9 +33,11 @@ public class BattleController {
 
 
     @PutMapping("/enemy")
-    ResponseEntity<?> attackedFromEnemy(@RequestBody EnemyAttackDto enemyAttackDto) {
+    public ResponseEntity<?> attackedFromEnemy(@RequestBody EnemyAttackDto enemyAttackDto) {
         long userId = 1L;
-        List<MyCharacterAttackDto> res = enemyAttackService.enemyAttack(enemyAttackDto, userId);
+//        List<MyCharacterAttackDto> res = enemyAttackService.enemyAttack(enemyAttackDto, userId);
+        Map<String, List> res = enemyAttackService.enemyAttack(enemyAttackDto, userId);
+
 
         return ResponseEntity.status(200).body(res);
     }
