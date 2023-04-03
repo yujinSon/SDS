@@ -1,5 +1,5 @@
 -- user --  
- INSERT INTO `sins`.`user` (`id`, `best_score`, `email`, `username`, `stage`, `sub_stage`, `password`) VALUES ('1', '200', 'asd@naver.com', '고병진', '1', '1', 'fdgdf');
+INSERT INTO `sins`.`user` (`id`, `best_score`, `email`, `username`, `stage`, `sub_stage`, `password`) VALUES ('1', '200', 'asd@naver.com', '고병진', '1', '1', 'fdgdf');
 INSERT INTO `sins`.`user` (`id`, `best_score`, `email`, `username`, `stage`, `sub_stage`, `password`) VALUES ('2', '200', 'asd@naver.com', '손민혁', '1', '1', 'fdgdf');
 INSERT INTO `sins`.`user` (`id`, `best_score`, `email`, `username`, `stage`, `sub_stage`, `password`) VALUES ('3', '100', 'afffff@naver.com', '박용찬', '1', '1', 'fdgdf');
 INSERT INTO `sins`.`user` (`id`, `best_score`, `email`, `username`, `stage`, `sub_stage`, `password`) VALUES ('4', '110', 'asadd@naver.com', '손유진', '1', '1', 'fsadas');
@@ -61,7 +61,7 @@ INSERT INTO `sins`.`default_character` (`id`, `class_name`, `sub_name`, `charact
 UPDATE `sins`.`character_stat` SET `character_id` = '13' WHERE (`id` = '13');
 UPDATE `sins`.`character_stat` SET `character_id` = '14' WHERE (`id` = '14');
 
--- 빌런들 -- 
+-- 빌런들 --
 -- 보스 --
 INSERT INTO `sins`.`villain` (`id`, `ad`, `ap`, `avoid`, `class_name`, `critical`, `hp`, `is_boss`, `max_hp`, `speed`, `sub_name`) VALUES ('1', '10', '10', '10', '환경', '10', '10', 1, '10', '10', '지구온난화');
 INSERT INTO `sins`.`villain` (`id`, `ad`, `ap`, `avoid`, `class_name`, `critical`, `hp`, `is_boss`, `max_hp`, `speed`, `sub_name`) VALUES ('2', '10', '10', '10', '안보', '10', '10', 1, '10', '10', '핵(Nuclear)');
@@ -123,7 +123,7 @@ INSERT INTO `sins`.`artifact` (`id`, `is_range`, `name`, `stat`, `target_class`,
 INSERT INTO `sins`.`artifact` (`id`, `is_range`, `name`, `stat`, `target_class`, `value`) VALUES ('25', 1, '전체유물-3', 'hp', '전체', '10');
 
 -- 스킬 --
--- 캐릭터 스킬 -- 
+-- 캐릭터 스킬 --
 -- 환경 --
 INSERT INTO `sins`.`skill` (`id`, `stat`, `cool_time`, `duration_turn`, `factor`, `is_range`, `skill_name`, `skill_num`, `skill_target`, `value`, `character_id`) VALUES ('1', 'hp', '0', '0', 'maxhp', 0, '일반 공격', '0', '0', '100', '1');
 INSERT INTO `sins`.`skill` (`id`, `stat`, `cool_time`, `duration_turn`, `factor`, `is_range`, `skill_name`, `skill_num`, `skill_target`, `value`, `character_id`) VALUES ('2', 'hp', '0', '0', 'maxhp', 0, '양치컵 사용', '0', '0', '200', '1');
@@ -168,7 +168,7 @@ INSERT INTO `sins`.`skill` (`id`, `stat`, `cool_time`, `duration_turn`, `factor`
 INSERT INTO `sins`.`skill` (`id`, `stat`, `cool_time`, `duration_turn`, `factor`, `is_range`, `skill_name`, `skill_num`, `skill_target`, `value`, `character_id`) VALUES ('35', 'hp', '0', '0', 'maxhp', 0, '결혼 문화 변화 인식', '0', '0', '200', '12');
 INSERT INTO `sins`.`skill` (`id`, `stat`, `cool_time`, `duration_turn`, `factor`, `is_range`, `skill_name`, `skill_num`, `skill_target`, `value`, `character_id`) VALUES ('36', 'hp', '0', '0', 'maxhp', 0, '어린이집 지원', '0', '1', '100', '12');
 
--- 경제 --            
+-- 경제 --
 INSERT INTO `sins`.`skill` (`id`, `stat`, `cool_time`, `duration_turn`, `factor`, `is_range`, `skill_name`, `skill_num`, `skill_target`, `value`, `character_id`) VALUES ('37', 'hp', '0', '0', 'maxhp', 0, '일반 공격', '0', '0', '100', '13');
 INSERT INTO `sins`.`skill` (`id`, `stat`, `cool_time`, `duration_turn`, `factor`, `is_range`, `skill_name`, `skill_num`, `skill_target`, `value`, `character_id`) VALUES ('38', 'hp', '0', '0', 'maxhp', 0, '지역 상점 이용', '0', '0', '200', '13');
 INSERT INTO `sins`.`skill` (`id`, `stat`, `cool_time`, `duration_turn`, `factor`, `is_range`, `skill_name`, `skill_num`, `skill_target`, `value`, `character_id`) VALUES ('39', 'hp', '0', '0', 'maxhp', 0, '자기 계발', '0', '1', '100', '13');
@@ -202,12 +202,12 @@ INSERT INTO `sins`.`skill` (`id`, `stat`, `cool_time`, `duration_turn`, `factor`
 INSERT INTO `sins`.`skill` (`id`, `stat`, `cool_time`, `duration_turn`, `factor`, `is_range`, `skill_name`, `skill_num`, `skill_target`, `value`, `villain_id`) VALUES ('58', 'hp', '0', '0', 'maxhp', 0, '일반 공격', '0', '0', '100', '6');
 INSERT INTO `sins`.`skill` (`id`, `stat`, `cool_time`, `duration_turn`, `factor`, `is_range`, `skill_name`, `skill_num`, `skill_target`, `value`, `villain_id`) VALUES ('59', 'hp', '0', '0', 'maxhp', 0, '인구감소', '0', '0', '200', '6');
 INSERT INTO `sins`.`skill` (`id`, `stat`, `cool_time`, `duration_turn`, `factor`, `is_range`, `skill_name`, `skill_num`, `skill_target`, `value`, `villain_id`) VALUES ('60', 'hp', '0', '0', 'maxhp', 0, '준비하기', '0', '0', '300', '6');
--- 경제 --            
+-- 경제 --
 INSERT INTO `sins`.`skill` (`id`, `stat`, `cool_time`, `duration_turn`, `factor`, `is_range`, `skill_name`, `skill_num`, `skill_target`, `value`, `villain_id`) VALUES ('61', 'hp', '0', '0', 'maxhp', 0, '일반 공격', '0', '0', '100', '7');
 INSERT INTO `sins`.`skill` (`id`, `stat`, `cool_time`, `duration_turn`, `factor`, `is_range`, `skill_name`, `skill_num`, `skill_target`, `value`, `villain_id`) VALUES ('62', 'hp', '0', '0', 'maxhp', 0, '은행 파산', '0', '0', '200', '7');
 INSERT INTO `sins`.`skill` (`id`, `stat`, `cool_time`, `duration_turn`, `factor`, `is_range`, `skill_name`, `skill_num`, `skill_target`, `value`, `villain_id`) VALUES ('63', 'hp', '0', '0', 'maxhp', 0, '주가 하락', '0', '0', '300', '7');
 
--- 쫄다구 스킬 --   
+-- 쫄다구 스킬 --
 -- 환경 --
 INSERT INTO `sins`.`skill` (`id`, `stat`, `cool_time`, `duration_turn`, `factor`, `is_range`, `skill_name`, `skill_num`, `skill_target`, `value`, `villain_id`) VALUES ('64', 'hp', '0', '0', 'maxhp', 0, '일반 공격', '0', '0', '100', '8');
 INSERT INTO `sins`.`skill` (`id`, `stat`, `cool_time`, `duration_turn`, `factor`, `is_range`, `skill_name`, `skill_num`, `skill_target`, `value`, `villain_id`) VALUES ('65', 'hp', '0', '0', 'maxhp', 0, '폐수 배출', '0', '0', '200', '8');
@@ -271,7 +271,7 @@ INSERT INTO `sins`.`skill` (`id`, `stat`, `cool_time`, `duration_turn`, `factor`
 INSERT INTO `sins`.`skill` (`id`, `stat`, `cool_time`, `duration_turn`, `factor`, `is_range`, `skill_name`, `skill_num`, `skill_target`, `value`, `villain_id`) VALUES ('75', 'hp', '0', '0', 'maxhp', 0, '투기', '0', '0', '200', '25');
 
 
--- 경제 --            
+-- 경제 --
 INSERT INTO `sins`.`skill` (`id`, `stat`, `cool_time`, `duration_turn`, `factor`, `is_range`, `skill_name`, `skill_num`, `skill_target`, `value`, `villain_id`) VALUES ('76', 'hp', '0', '0', 'maxhp', 0, '일반 공격', '0', '0', '100', '26');
 INSERT INTO `sins`.`skill` (`id`, `stat`, `cool_time`, `duration_turn`, `factor`, `is_range`, `skill_name`, `skill_num`, `skill_target`, `value`, `villain_id`) VALUES ('77', 'hp', '0', '0', 'maxhp', 0, '부익부빈익빈', '0', '0', '200', '26');
 
