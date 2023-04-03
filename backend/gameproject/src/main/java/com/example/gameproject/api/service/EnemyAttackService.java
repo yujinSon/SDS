@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional(readOnly = true)
@@ -25,7 +27,14 @@ public class EnemyAttackService {
 
 
     @Transactional
-    public List<MyCharacterAttackDto> enemyAttack(EnemyAttackDto enemyAttackDto, Long userId) {
+    public Map<String, List> enemyAttack(EnemyAttackDto enemyAttackDto, Long userId) {
+
+        Map<String, List> res = new HashMap<>();
+        List<Integer> valueRes = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            valueRes.add(-1);
+        }
+
         int damage = enemyAttackDto.getDamage();
 
         // Front 에 줄 정보, BattlePlayerTurnService의 부분과 같다.
@@ -80,7 +89,7 @@ public class EnemyAttackService {
             int effSkillValue = (int) (skillFactorValue * ((double) effskillValue / 100));
             String stat = effSkill.getSkill().getStat();
             if (effSkill.getSkill().getSkillNum() != 3) {
-                // 빌런이 쓴 스킬이 아닌 경우 == 버프 스킬인 경우
+                // 빌런이 쓴 스킬이 아닌 경우
 
                 if (effSkill.getSkill().isRange() == true) {
                     // 전체 스킬인 경우 모두 적용
@@ -125,7 +134,9 @@ public class EnemyAttackService {
                 // 전체 공격인 경우
                 for (MyCharacterAttackDto myc : myCharacterAttackDtos) {
                     int avoidValue = myc.getAvoid();
-                    int myHp = myc.getHp() - (damage * avoidRes(avoidValue));
+                    int applyDamage = damage * avoidRes(avoidValue);
+                    int myHp = myc.getHp() - applyDamage;
+                    valueRes.set(myc.getPos(), applyDamage);
 
                     if (myHp <= 0) {
                         MyCharacter mycDB = myCharacterRepository.getMyCharacterUsingUserIdPos(userId, myc.getPos());
@@ -143,7 +154,10 @@ public class EnemyAttackService {
                 for (MyCharacterAttackDto myc : myCharacterAttackDtos) {
                     if (myc.getPos() == enemyAttackDto.getTarget()) {
                         int avoidValue = myc.getAvoid();
-                        int myHp = myc.getHp() - (damage * avoidRes(avoidValue));
+                        int applyDamage = damage * avoidRes(avoidValue);
+                        int myHp = myc.getHp() - applyDamage;
+                        valueRes.set(myc.getPos(), applyDamage);
+
                         if (myHp <= 0) {
                             MyCharacter mycDB = myCharacterRepository.getMyCharacterUsingUserIdPos(userId, myc.getPos());
                             myc.setHp(0);
@@ -159,8 +173,11 @@ public class EnemyAttackService {
             }
         }
 
+        res.put("myCharacter", myCharacterAttackDtos);
+        res.put("valueRes", valueRes);
 
-        return myCharacterAttackDtos;
+
+        return res;
     }
 
     public void applyDebuff(MyCharacterAttackDto myCharacterAttackDto, String stat, int value) {
