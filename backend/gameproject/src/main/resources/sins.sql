@@ -125,7 +125,7 @@ INSERT INTO `sins`.`artifact` (`id`, `is_range`, `name`, `stat`, `target_class`,
 -- 스킬 --
 -- 캐릭터 스킬 --
 -- 환경 -----------------------------------------------------------------------------------------------------------------------------------------------`id`, `stat`, `cool_time`, `duration_turn`, `factor`, `is_range`, `skill_name`, `skill_num`, `skill_target`, `value`, `character_id`
-INSERT INTO `sins`.`skill` (`id`, `stat`, `cool_time`, `duration_turn`, `factor`, `is_range`, `skill_name`, `skill_num`, `skill_target`, `value`, `character_id`) VALUES ('1', 'hp', '0', '0', 'ad', 0, '일반 공격', '0', '1', '100', '1');
+INSERT INTO `sins`.`skill` (`id`, `stat`, `cool_time`, `duration_turn`, `factor`, `is_range`, `skill_name`, `skill_num`, `skill_target`, `value`, `character_id`) VALUES ('1', 'hp', '0', '0', 'ad', 0, '일반 공격', '0', '0', '100', '1');
 INSERT INTO `sins`.`skill` (`id`, `stat`, `cool_time`, `duration_turn`, `factor`, `is_range`, `skill_name`, `skill_num`, `skill_target`, `value`, `character_id`) VALUES ('2', 'hp', '0', '0', 'hp', 0, '양치컵 사용', '1', '1', '50', '1');
 INSERT INTO `sins`.`skill` (`id`, `stat`, `cool_time`, `duration_turn`, `factor`, `is_range`, `skill_name`, `skill_num`, `skill_target`, `value`, `character_id`) VALUES ('3', 'avoid', '6', '3', 'hp', 0, '세탁망 사용', '2', '1', '5', '1');
 INSERT INTO `sins`.`skill` (`id`, `stat`, `cool_time`, `duration_turn`, `factor`, `is_range`, `skill_name`, `skill_num`, `skill_target`, `value`, `character_id`) VALUES ('4', 'hp', '0', '0', 'ad', 0, '일반 공격', '0', '0', '100', '2');
