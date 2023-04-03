@@ -154,4 +154,11 @@ public class UserController {
         List<Long> res = userService.getMyRelic(userId);
         return ResponseEntity.status(200).body(res);
     }
+
+    @PostMapping("/newgame")
+    public ResponseEntity<?> newgame(){
+        long userId = 1l;
+        userService.reStart(userId);
+        return ResponseEntity.status(200).body("ok");
+    }
 }
