@@ -6,7 +6,7 @@ import axios from 'libs/axios';
 import api from 'constants/api';
 
 import SelectedCharacterList from 'components/game/SelectedCharacterList';
-import CharacterDetail from 'components/game/CharacterDetail';
+import CharacterDetailStat from 'components/game/CharacterDetailStat';
 
 import Relic from 'components/game/Relic';
 import Button from 'components/common/Button';
@@ -14,13 +14,13 @@ import Button from 'components/common/Button';
 export default function ItemPage() {
   const navigate = useNavigate();
 
-  const [randomChList, setRandomChList] = useState(null);
-  const [selectedRandomCh, setSelectedRandomCh] = useState(null);
   const [selectedCharacter, setSelectedCharacter] = useState(null);
   const [selectedChList, setSelectedChList] = useState(null);
 
-  const [itemModal, setItemModal] = useState(false);
-  const [statModal, setStatModal] = useState(false);
+  const [isChanged, setIsChanged] = useState(false);
+
+  // 획득한 유물 id 배열
+  const [relicIds, setRelicIds] = useState(null);
 
   // 선택된 캐릭터 리스트 조회
   useEffect(() => {
@@ -36,18 +36,34 @@ export default function ItemPage() {
         setSelectedChList(res.data);
       })
       .catch((err) => {});
-  }, []);
+  }, [isChanged]);
 
-  const getSelectedChList = () => {
-    const [url, method] = api('getSelectedCh');
+  // 현재 보유 유물 리스트 조회
+  useEffect(() => {
+    const [url, method] = api('getRelic');
     const config = { url, method };
     axios(config)
       .then((res) => {
-        console.log('선택된 캐릭터 조회(이건 함수임)', res.data);
-        setSelectedChList(res.data);
+        console.log(res.data, '현재 보유 유물 리스트 조회');
+        setRelicIds(res.data);
       })
-      .catch((err) => {});
-  };
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  // useEffect(() => {}, [selectedChList]);
+
+  // const getSelectedChList = () => {
+  //   const [url, method] = api('getSelectedCh');
+  //   const config = { url, method };
+  //   axios(config)
+  //     .then((res) => {
+  //       console.log('선택된 캐릭터 조회(이건 함수임)', res.data);
+  //       setSelectedChList(res.data);
+  //     })
+  //     .catch((err) => {});
+  // };
 
   return (
     <>
@@ -60,11 +76,16 @@ export default function ItemPage() {
             setSelectedCharacter={setSelectedCharacter}
           />
           {selectedChList ? (
-            <CharacterDetail data={selectedChList[selectedCharacter]} />
+            <CharacterDetailStat
+              data={selectedChList[selectedCharacter]}
+              isChanged={isChanged}
+              setIsChanged={setIsChanged}
+              selectedCharacter={selectedCharacter}
+            />
           ) : null}
         </SubContainerLeft>
         <SubContainerRight>
-          <Relic />
+          <Relic relicIds={relicIds} />
           <StartButton onClick={() => navigate('/battle')}>
             전투하기
           </StartButton>
@@ -99,8 +120,6 @@ const SubContainerRight = styled.div`
   width: 50%;
   margin-bottom: 3rem;
 `;
-
-const MyButton = styled(Button)``;
 
 const ButtonContainer = styled.div`
   display: flex;

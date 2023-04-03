@@ -4,6 +4,7 @@ const api = function (type, options = {}) {
     getRandomCh: ['/character/random', 'get'],
     getSelectedCh: ['/character/selected', 'get'], // 전투 승리했을 때 한 번 더 불러와야함 (스텟 찍기 전에)
     saveCh: ['/character/save', 'post'],
+    getRelic: ['/users/relic', 'get'],
 
     // 맵 페이지
     loadMap: ['/map/load', 'get'],
@@ -20,7 +21,7 @@ const api = function (type, options = {}) {
     endBattle: ['/battle/end', 'delete'],
 
     // 전투 승리 후 스텟 창
-    changeStat: ['/battle/victory', 'put'],
+    changeStat: ['character/addstat', 'put'],
 
     // 상점
     changeCh: ['/shop/change', 'put'],

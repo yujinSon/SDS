@@ -1,13 +1,22 @@
 package com.example.gameproject.api.service;
 
 import java.util.Collections;
-
 import com.example.gameproject.db.entity.Role;
+import com.example.gameproject.db.entity.MyCharacter;
 import com.example.gameproject.db.entity.User;
+import com.example.gameproject.db.entity.UserArtifact;
+import com.example.gameproject.db.repository.MyCharacterRepository;
+import com.example.gameproject.db.repository.UserArtifactRepository;
 import com.example.gameproject.db.repository.UserRepository;
 import com.example.gameproject.dto.request.UserDto;
 import com.example.gameproject.dto.response.UserResponse;
 import com.example.gameproject.security.jwt.JwtTokenProvider;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,8 +27,12 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Service
+@Transactional(readOnly = true)
 public class UserService {
-
+    @Autowired
+    UserArtifactRepository userArtifactRepository;
+    @Autowired
+    MyCharacterRepository myCharacterRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final UserRepository userRepository;
@@ -40,8 +53,9 @@ public class UserService {
         return userRepository.save(user).getId();
     }
 
+
     @Transactional
-    public UserResponse login(UserDto userDto){
+    public UserResponse login (UserDto userDto){
         User user = userRepository.findByEmail(userDto.getEmail())
             .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 E-MAIL 입니다."));
         if (!passwordEncoder.matches(userDto.getPassword(), user.getPassword())) {
@@ -55,26 +69,28 @@ public class UserService {
         return userResponse;
     }
 
-    // @Autowired
-    // UserRepository userRepository;
-    //
-    // public String registerUser(UserDto userDto){
-    //     boolean isExist = userRepository.existsByEmail(userDto.getEmail());
-    //     //존재한다면 회원가입 불가
-    //     if(isExist)
-    //         return "Existed";
-    //     //존재하지 않으면 회원가입
-    //     else {
-    //         User user = new User(userDto);
-    //         userRepository.save(user);
-    //         return "Success";
-    //     }
-    // }
+    public List<Long> getMyRelic(Long userId){
+        User user = userRepository.findById(userId).orElse(null);
+        List<UserArtifact> myArtifact = userArtifactRepository.findAllByUser_Id(userId);
+        List<Long> res = new ArrayList<>();
+        for (UserArtifact uaf : myArtifact) {
+            res.add(uaf.getArtifact().getId());
+        }
+        return res;
+    }
 
-    // public User loginUser(UserDto userDto){
-    //     User user = userRepository.findByEmail(userDto.getEmail());
-    //     if(user == null)
-    //         return null;
-    //     else return user;
-    // }
+    @Transactional
+    public void reStart(long userId){
+        User user = userRepository.getById(userId);
+
+        // 마이캐릭터 삭제
+        List<MyCharacter> myCharacters = myCharacterRepository.getMyCharacters(userId);
+        for (MyCharacter mch : myCharacters) {
+            myCharacterRepository.delete(mch);
+        }
+
+        // 스테이지 1 - 1 로 초기화
+        user.reGame();
+        userRepository.save(user);
+    }
 }

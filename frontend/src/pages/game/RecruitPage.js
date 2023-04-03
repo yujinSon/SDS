@@ -14,7 +14,7 @@ import Modal from 'components/common/Modal';
 import Items from 'components/game/ItemModal';
 import Stats from 'components/game/Stats';
 
-export default function BasicMainPage() {
+export default function RecruitPage() {
   const navigate = useNavigate();
 
   const [randomChList, setRandomChList] = useState(null);

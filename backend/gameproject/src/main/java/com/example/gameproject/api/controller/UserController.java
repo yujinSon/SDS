@@ -2,7 +2,6 @@ package com.example.gameproject.api.controller;
 
 import com.example.gameproject.api.service.UserService;
 import com.example.gameproject.auth.PrincipalDetails;
-import com.example.gameproject.db.entity.Role;
 import com.example.gameproject.db.entity.User;
 import com.example.gameproject.db.repository.UserRepository;
 import com.example.gameproject.dto.request.UserDto;
@@ -13,13 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -46,9 +45,12 @@ public class UserController {
 
     // 로그인 API
     @PostMapping("/login")
-    public ResponseEntity<UserResponse> login(@RequestBody UserDto userDto) {
+    public ResponseEntity<?> login(@RequestBody UserDto userDto) {
         UserResponse token = userService.login(userDto);
-        return ResponseEntity.status(200).body(token);
+        if(token == null)
+            return ResponseEntity.status(400).body("Fail");
+        else
+            return ResponseEntity.status(200).body(token);
     }
 
 //    @GetMapping("/loginForm")
@@ -165,4 +167,27 @@ public class UserController {
     // }
 
 
+    // @PostMapping("/login")
+    // public ResponseEntity<?> login(@RequestBody UserDto userDto){
+    //     User user = userService.loginUser(userDto);
+    //     LoginDto loginDto = LoginDto.builder().email(user.getEmail()).build();
+    //     if(user == null)
+    //         return ResponseEntity.status(400).body("Fail");
+    //     else
+    //         return ResponseEntity.status(200).body(loginDto);
+    // }
+
+    @GetMapping("/relic")
+    public ResponseEntity<?> myRelics(){
+        long userId = 1l;
+        List<Long> res = userService.getMyRelic(userId);
+        return ResponseEntity.status(200).body(res);
+    }
+
+    @PostMapping("/newgame")
+    public ResponseEntity<?> newgame(){
+        long userId = 1l;
+        userService.reStart(userId);
+        return ResponseEntity.status(200).body("ok");
+    }
 }
