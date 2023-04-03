@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
@@ -17,35 +17,27 @@ import kakao from 'assets/img/kakao.png';
 export default function Main() {
   const navigate = useNavigate();
 
-  const [userInfo, setUserInfo] = useState(true);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [token, setToken] = useState(null);
+  const [isLogin, setIsLogin] = useState(false);
 
-  // Modal state
-  const [rankingModal, setRankingModal] = useState(false);
-  const [tutorialModal, setTutorialModal] = useState(false);
-
-  // Modal 보여주기 함수
-  const onClickRankingModal = () => {
-    setRankingModal(!rankingModal);
-  };
-  const onClickTutorialModal = () => {
-    setTutorialModal(!tutorialModal);
-  };
-
-  // 카카오 로그인
-  const kakaoLogin = () => {
+  useEffect(() => {
+    if (!isLogin) return;
+    console.log(token);
     axios({
-      url: 'https://j8a303.p.ssafy.io/oauth2/authorization/kakao',
-      // method: 'post',
-      // withCredential s: true,
+      url: 'http://70.12.246.58:8080/api/character/random',
+      headers: {
+        Authorization: `Bearer ${token}`, // Authorization 헤더에 토큰을 넣어줍니다.
+      },
     })
-      .then((res) => {
-        console.log('카카오 로그인 성공', res.data);
-        setUserInfo(true);
+      .then((response) => {
+        console.log(response.data); // 성공적으로 응답받은 데이터를 출력합니다.
       })
-      .catch((err) => {
-        console.log('카카오 로그인 실패');
+      .catch((error) => {
+        console.error(error, '이건 headers 에러'); // 요청이 실패한 경우 에러 메시지를 출력합니다.
       });
-  };
+  }, [isLogin]);
 
   const startNewGame = () => {
     const [url, method] = api('newGame');
@@ -58,99 +50,136 @@ export default function Main() {
       .catch((err) => {});
   };
 
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+  };
+
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const [url, method] = api('signup');
+    const data = {
+      email: email,
+      password: password,
+    };
+    const config = { url, method, data };
+
+    axios
+      .post('http://70.12.246.58:8080/api/users/join', data)
+      .then((response) => {
+        console.log(response.data); // 성공적으로 응답받은 데이터를 출력합니다.
+      })
+      .catch((error) => {
+        console.error(error); // 요청이 실패한 경우 에러 메시지를 출력합니다.
+      });
+  };
+
+  const handleLogin = (event) => {
+    event.preventDefault();
+    const [url, method] = api('login');
+    const data = {
+      email: email,
+      password: password,
+    };
+    const config = { url, method, data };
+
+    axios
+      .post('http://70.12.246.58:8080/api/users/login', data)
+      .then((response) => {
+        console.log(response.data); // 성공적으로 응답받은 데이터를 출력합니다.
+        setToken(response.data.token);
+        setIsLogin(true);
+      })
+      .catch((error) => {
+        console.error(error); // 요청이 실패한 경우 에러 메시지를 출력합니다.
+      });
+  };
+
+  //   myAxios(config)
+  //     .then((res) => {
+  //       console.log(res.data);
+  //       // 회원가입이 성공했을 경우 처리할 코드를 작성합니다.
+  //     })
+  //     .catch((err) => {
+  //       console.error(err);
+  //       // 회원가입이 실패했을 경우 처리할 코드를 작성합니다.
+  //     });
+  // };
+
   return (
     <div>
-      {userInfo ? (
-        <div>
-          <Img src={kakao} alt="카카오 로그인" onClick={kakaoLogin} />
-          <ButtonContainer>
-            <Button
-              size="large"
-              type="gray"
-              onClick={() => {
-                startNewGame();
-              }}
-              value="New Game"
+      <div>
+        <ButtonContainer>
+          <Button
+            size="large"
+            type="gray"
+            onClick={() => {
+              startNewGame();
+            }}
+            value="New Game"
+          />
+        </ButtonContainer>
+        <ButtonContainer>
+          <Button
+            size="large"
+            type="gray"
+            onClick={() => {
+              navigate('/game/ready');
+            }}
+            value="Load"
+          />
+        </ButtonContainer>
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="email">Email:</label>
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={handleEmailChange}
             />
-          </ButtonContainer>
-          <ButtonContainer>
-            <Button
-              size="large"
-              type="gray"
-              onClick={() => {
-                navigate('/game/ready');
-              }}
-              value="Load"
+          </div>
+          <div>
+            <label htmlFor="password">Password:</label>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={handlePasswordChange}
             />
-          </ButtonContainer>
+          </div>
+          <button type="submit" onClick={handleSubmit}>
+            회원가입
+          </button>
+        </form>
 
-          {/* <ButtonContainer>
-            <Button
-              size="large"
-              type="gray"
-              onClick={onClickRankingModal}
-              value="Ranking"
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="email">Email:</label>
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={handleEmailChange}
             />
-          </ButtonContainer>
-          <ButtonContainer>
-            <Button
-              size="large"
-              type="gray"
-              onClick={onClickTutorialModal}
-              value="Tutorial"
+          </div>
+          <div>
+            <label htmlFor="password">Password:</label>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={handlePasswordChange}
             />
-          </ButtonContainer> */}
-
-          {/* {rankingModal ? (
-            <Modal
-              close={() => setRankingModal(false)}
-              content={<Ranking />}
-            ></Modal>
-          ) : null}
-
-          {tutorialModal ? (
-            <Modal
-              close={() => setTutorialModal(false)}
-              content={<Tutorial />}
-            ></Modal>
-          ) : null} */}
-        </div>
-      ) : (
-        <>
-          <Img src={kakao} alt="카카오 로그인" onClick={kakaoLogin} />
-
-          {/* <ButtonContainer>
-            <Button
-              size="large"
-              type="gray"
-              onClick={onClickRankingModal}
-              value="Ranking"
-            />
-          </ButtonContainer>
-          <ButtonContainer>
-            <Button
-              size="large"
-              type="gray"
-              onClick={onClickTutorialModal}
-              value="Tutorial"
-            />
-          </ButtonContainer>
-
-          {rankingModal ? (
-            <Modal
-              close={() => setRankingModal(false)}
-              content={<Ranking />}
-            ></Modal>
-          ) : null}
-
-          {tutorialModal ? (
-            <Modal
-              close={() => setTutorialModal(false)}
-              content={<Tutorial />}
-            ></Modal>
-          ) : null} */}
-        </>
-      )}
+          </div>
+          <button type="submit" onClick={handleLogin}>
+            로그인
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
