@@ -19,3 +19,9 @@ class Artifact(models.Model):
     stat = models.CharField(max_length=255, blank=True, null=True)
     target_class = models.CharField(max_length=255, blank=True, null=True)
     value = models.IntegerField()
+
+class WordTokenizing(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    name = models.CharField(max_length=255, blank=True, null=True)
+    value = models.IntegerField()
+    subject = models.CharField(max_length=255, blank=True, null=True)

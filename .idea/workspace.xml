@@ -5,8 +5,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2d71b76b-93ed-4917-b696-053b8e4d514a" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/frontend/src/assets/img/basicskill.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/assets/img/skill1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/assets/img/skill2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/game/VictoryModal.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/constants/skillsPK.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/game/DefeatModal.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/gameproject/src/main/java/com/example/gameproject/api/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/gameproject/src/main/java/com/example/gameproject/api/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/gameproject/src/main/java/com/example/gameproject/api/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/gameproject/src/main/java/com/example/gameproject/api/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/gameproject/src/main/resources/sins.sql" beforeDir="false" afterPath="$PROJECT_DIR$/backend/gameproject/src/main/resources/sins.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bigdata/youtube/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/bigdata/youtube/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bigdata/youtube/serializer.py" beforeDir="false" afterPath="$PROJECT_DIR$/bigdata/youtube/serializer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bigdata/youtube/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/bigdata/youtube/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bigdata/youtube/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/bigdata/youtube/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/game/Battle.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/game/Battle.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/game/CharacterDetail.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/game/CharacterDetail.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/game/GameButtons.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/game/GameButtons.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/game/SelectedCharacterList.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/game/SelectedCharacterList.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/main/Main.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/main/Main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/constants/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/constants/api.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/constants/relic.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/constants/relic.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/game/BattlePage.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/game/BattlePage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/game/ItemPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/game/ItemPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/game/RecruitPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/game/RecruitPage.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -115,7 +137,7 @@
       <workItem from="1680085353185" duration="56000" />
       <workItem from="1680085457672" duration="60000" />
       <workItem from="1680137968325" duration="11308000" />
-      <workItem from="1680238091627" duration="15051000" />
+      <workItem from="1680238091627" duration="24279000" />
     </task>
     <servers />
   </component>

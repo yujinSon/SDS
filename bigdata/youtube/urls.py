@@ -3,5 +3,6 @@ from . import views
 
 
 urlpatterns = [
-    path('crawling', views.youtubeCrawling),
+    path('crawling', views.crawling),
+    path('wordtoken', views.wordtoken),
 ]

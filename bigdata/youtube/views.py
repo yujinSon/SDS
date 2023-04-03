@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rest_framework.decorators import api_view
-from .models import Youtube
+from .models import Youtube, WordTokenizing
 from django.http import HttpResponse
 from .serializer import CommentSerializer, youtubeListSerializer
 from django.http import JsonResponse
@@ -14,19 +14,18 @@ from googleapiclient.discovery import build
 import numpy as np
 import re
 from emoji import core
-
 from pykospacing import Spacing
 from konlpy.tag import Komoran
 
 # Create your views here.
 @api_view(['PUT','GET'])
-def youtubeCrawling(request):
+def wordtoken(request):
     if request.method == 'GET': # 유물을 시간에 따라서 Update 한다.
         subject = ['환경', '안보', '질병', '사회', '범죄', '인구', '경제']
         comment = {'환경': [], '안보': [], '질병': [], '사회': [], '범죄': [], '인구': [], '경제': []}
         spacing = Spacing()
         for sub in subject:
-            youtube_data = Youtube.subject(sub)
+            youtube_data = Youtube.objects.filter(subject = sub)
             print(len(youtube_data))
             print(youtube_data)
             # comment = {1: []}
@@ -55,16 +54,18 @@ def youtubeCrawling(request):
                         map_noun[out] = 1
             # 많은 데이터 순으로 정렬
             sorted_map_noun = sorted(map_noun.items(), key=lambda item: item[1], reverse=True)
-            comment[sub].append(sorted_map_noun)
-            # comment[1].append({"word" : "asdjadj", "value":10})
+            comment[sub] = sorted_map_noun
 
-            # seralizer = youtubeListSerializer(youtube_data, many=True)
-            # 이 밑에 word Tokenzing을 실행한다.
+        # comment에서 하나씩 꺼내서 저장
+        for su in comment:
+            for k, v in comment[su]:
+                token = WordTokenizing(name = k, value = v, subject = su)
+                token.save()
 
-            # 이 밑에 word Tokenizing 알고리즘을 진행한다.
 
-            # 이 밑에 [("word", 10), ...]과 같은 형태로 나타낸다. List형태로 담아서 내보낼 것.
-        
+                # 쟝고에 데이터를 저장한다
+            # comment = {'환경' : [("쓰레기", 10), ("dd", 20), ], '경제' : }
+
         return Response(comment)
     # return Response(comment)
 
@@ -167,4 +168,3 @@ def crawling():
     # conn = db_connection.connect()
     #
     # result.to_sql(name='youtube_youtube', con=db_connection, if_exists='append', index=False)
-
