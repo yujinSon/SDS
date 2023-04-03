@@ -7,6 +7,8 @@ import com.example.gameproject.db.entity.User;
 import com.example.gameproject.db.repository.UserRepository;
 import com.example.gameproject.dto.request.UserDto;
 import com.example.gameproject.dto.response.LoginDto;
+import com.example.gameproject.dto.response.UserResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -44,8 +46,8 @@ public class UserController {
 
     // 로그인 API
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody UserDto userDto) {
-        String token = userService.login(userDto);
+    public ResponseEntity<UserResponse> login(@RequestBody UserDto userDto) {
+        UserResponse token = userService.login(userDto);
         return ResponseEntity.status(200).body(token);
     }
 

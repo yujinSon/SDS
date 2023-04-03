@@ -62,4 +62,5 @@ public class ShopController {
 	// 	RelicResponse relic = shopService.getRelic(userId);
 	// 	return ResponseEntity.status(201).body(relic);
 	// }
+
 }

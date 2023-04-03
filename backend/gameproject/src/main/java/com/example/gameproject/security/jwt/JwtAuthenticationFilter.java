@@ -24,7 +24,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws
 		IOException, ServletException {
 		// 헤더에서 토큰 받아오기
-		String token = jwtTokenProvider.resolveToken((HttpServletRequest) request);
+		String token = parseJwt((HttpServletRequest) request);
 
 		// 토큰이 유효하다면
 		if (token != null && jwtTokenProvider.validateToken(token)) {
@@ -38,5 +38,13 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 		chain.doFilter(request, response);
 	}
 
+
+	private String parseJwt(HttpServletRequest request) {
+		String headerAuth = request.getHeader("Authorization");
+		if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
+			return headerAuth.substring(7, headerAuth.length());
+		}
+		return null;
+	}
 
 }
