@@ -229,7 +229,7 @@ public class BattlePlayerTurnService {
             case "ad":
                 factorValue = caster.getAd();
                 break;
-            case "maxhp":
+            case "maxHp":
                 factorValue = caster.getMaxHp();
                 break;
             case "hp":
