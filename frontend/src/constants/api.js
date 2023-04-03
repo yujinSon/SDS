@@ -1,5 +1,8 @@
 const api = function (type, options = {}) {
   const apiObject = {
+    // 새로운 게임 시작
+    newGame: ['users/newgame', 'post'],
+
     // 게임 메인 페이지
     getRandomCh: ['/character/random', 'get'],
     getSelectedCh: ['/character/selected', 'get'], // 전투 승리했을 때 한 번 더 불러와야함 (스텟 찍기 전에)

@@ -10,13 +10,24 @@ export default function GameButtons({
   setItemModal,
   statModal,
   setStatModal,
+  selectedChList,
 }) {
   const navigate = useNavigate();
 
   return (
     <Container>
       <ButtonContainer>
-        <StartButton onClick={() => navigate('/game/ready')}>완료</StartButton>
+        <StartButton
+          onClick={() => {
+            if (selectedChList.length === 0) {
+              alert('캐릭터를 최소 1명 이상 선택해야합니다.');
+            } else {
+              navigate('/game/ready');
+            }
+          }}
+        >
+          완료
+        </StartButton>
       </ButtonContainer>
     </Container>
   );

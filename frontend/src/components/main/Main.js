@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
+import api from 'constants/api';
 import axios from 'axios';
+import myAxios from 'libs/axios';
 
 import Ranking from 'components/main/Ranking';
 import Tutorial from 'components/main/Tutorial';
@@ -45,6 +47,17 @@ export default function Main() {
       });
   };
 
+  const startNewGame = () => {
+    const [url, method] = api('newGame');
+    const config = { url, method };
+    myAxios(config)
+      .then((res) => {
+        console.log(res, 'newGame API 요청 성공');
+        navigate('/game');
+      })
+      .catch((err) => {});
+  };
+
   return (
     <div>
       {userInfo ? (
@@ -55,9 +68,9 @@ export default function Main() {
               size="large"
               type="gray"
               onClick={() => {
-                navigate('/game');
+                startNewGame();
               }}
-              value="Start"
+              value="New Game"
             />
           </ButtonContainer>
           <ButtonContainer>

@@ -138,6 +138,7 @@ export default function RecruitPage() {
             addCharacter={addCharacter}
           />
           <GameButtons
+            selectedChList={selectedChList}
             itemModal={itemModal}
             setItemModal={setItemModal}
             statModal={statModal}
