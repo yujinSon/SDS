@@ -1,5 +1,9 @@
 const api = function (type, options = {}) {
   const apiObject = {
+    // 회원가입
+    signup: ['users/join', 'post'],
+    login: ['uesrs/login', 'post'],
+
     // 새로운 게임 시작
     newGame: ['users/newgame', 'post'],
 
