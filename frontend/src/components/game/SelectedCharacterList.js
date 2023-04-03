@@ -68,6 +68,7 @@ const Container = styled.div`
 
 const CharacterContainer = styled.span`
   background-color: rgba(189, 189, 189, 0.7);
+
   display: flex;
   flex-direction: column;
   align-items: center;
