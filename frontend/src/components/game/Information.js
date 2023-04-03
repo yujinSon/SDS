@@ -54,21 +54,23 @@ export default function Information({
               </SkillDetail>
             ) : (
               <SkillDetail>
-              <div>스킬을 클릭하십쇼</div>
-              <div>.</div>
-              <div>.</div>
+                <div>스킬을 클릭하십쇼</div>
+                <div>.</div>
+                <div>.</div>
               </SkillDetail>
             )}
           </RightContainer>
         </Container>
       ) : (
-        <NoneSelectBox>캐릭터를 클릭하여 능력치와 스킬을 확인하세요.</NoneSelectBox>
+        <NoneSelectBox>
+          캐릭터를 클릭하여 능력치와 스킬을 확인하세요.
+        </NoneSelectBox>
       )}
     </>
   );
 }
 const Container = styled.div`
-background-color: rgba(189, 189, 189, 0.7);
+  background-color: rgba(189, 189, 189, 0.7);
   display: flex;
   flex-direction: row;
 
@@ -80,36 +82,33 @@ background-color: rgba(189, 189, 189, 0.7);
 `;
 
 const LeftContainer = styled.div`
-background-color: red;
-background-color: rgba(93, 93, 93, 0.5);
-border-radius: 10px;
-border: none;
+  background-color: red;
+  background-color: rgba(93, 93, 93, 0.5);
+  border-radius: 10px;
+  border: none;
 
   display: flex;
   flex-direction: column;
   justify-content: center;
-  
 
   color: black;
   width: 40%;
   height: 100%;
   padding-left: 0.5rem;
-
 `;
 
 const StatDiv = styled.div`
-margin : 0.1rem;
-font-size: calc(0.2rem + 1vw);
-font-weight: bold;
-max-width: 90%;
+  margin: 0.1rem;
+  font-size: calc(0.2rem + 1vw);
+  font-weight: bold;
+  max-width: 90%;
 `;
 
-
 const RightContainer = styled.div`
-background-color: gray;
-background-color: rgba(93, 93, 93, 0.5);
-border-radius: 10px;
-border: none;
+  background-color: gray;
+  background-color: rgba(93, 93, 93, 0.5);
+  border-radius: 10px;
+  border: none;
 
   display: flex;
   flex-direction: column;
@@ -117,12 +116,12 @@ border: none;
 
   color: black;
   width: 60%;
-  
+
   padding: 0.5rem;
 `;
 
 const SkillContainer = styled.div`
-background-color: green11;
+  background-color: green11;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -139,34 +138,31 @@ const SkillImg = styled.img`
   max-width: 80%;
   max-height: 80%;
   object-fit: cover;
-    ${({ selectedSkill }) =>
-      selectedSkill &&
-      `
+  ${({ selectedSkill }) =>
+    selectedSkill &&
+    `
     border: 5px solid #ccc;
     border-color: yellow;
     `}
 `;
 
 const SkillDetail = styled.div`
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: space-around;
-font-size: calc(0.3rem + 1vw);
-font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  font-size: calc(0.3rem + 1vw);
+  font-weight: bold;
 
-height: 100%
-
+  height: 100%;
 `;
 
-
 const NoneSelectBox = styled.div`
-display: flex;
-justify-content: center;
-align-items: center;
-background-color: rgba(189, 189, 189, 0.7);
-height: 100%;
-font-size: 24px;
-font-weight: bold;
-
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(189, 189, 189, 0.7);
+  height: 100%;
+  font-size: 24px;
+  font-weight: bold;
 `;
