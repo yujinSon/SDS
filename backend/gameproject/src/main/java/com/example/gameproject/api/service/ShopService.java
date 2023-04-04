@@ -42,7 +42,8 @@ public class ShopService {
 
 	//단순 영입 기능
 	@Transactional
-	public void addCharacter(long userId, List<ShopAddRequest> characterList){
+	public void addCharacter(String email, List<ShopAddRequest> characterList){
+		long userId = userRepository.findByEmail(email).orElseThrow().getId();
 		User user = userRepository.findById(userId).orElse(null);
 
 		// 영입시 유물 효과 적용 - 먼저 내 유물리스트 뽑기
@@ -107,7 +108,8 @@ public class ShopService {
 
 	//캐릭터 변경
 	@Transactional
-	public void changeCharacter(long userId, List<ShopChangeRequest> characterList){
+	public void changeCharacter(String email, List<ShopChangeRequest> characterList){
+		long userId = userRepository.findByEmail(email).orElseThrow().getId();
 		User user = userRepository.findById(userId).orElse(null);
 
 		// 영입시 유물 효과 적용 - 먼저 내 유물리스트 뽑기
@@ -164,7 +166,9 @@ public class ShopService {
 
 	//휴식 기능
 	@Transactional
-	public void updateHp(long userId){
+	public void updateHp(String email){
+		System.out.println("rest service도 된다!!!!");
+		long userId = userRepository.findByEmail(email).orElseThrow().getId();
 		List<MyCharacter> myCharacterList = myCharacterRepository.findAllByUser_Id(userId);
 		for(int i=0; i<myCharacterList.size(); i++){
 			MyCharacter myCharacter = myCharacterList.get(i);
