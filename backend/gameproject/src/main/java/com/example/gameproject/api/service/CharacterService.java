@@ -26,13 +26,12 @@ public class CharacterService {
     private final SkillRepository skillRepository;
     private final ArtifactRepository artifactRepository;
 
-    public List<RandomCharacterDto> RandomCharacter(String email) throws IOException {
+
+    public List<RandomCharacterDto> RandomCharacter(Long userId) throws IOException {
         String testurl = "http://127.0.0.1:8000/";
         URL url = new URL(testurl);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-
-        long userId = userRepository.findByEmail(email).orElseThrow().getId();
-
+        
         User user = userRepository.getById(userId);
         int stage = user.getStage();
         List<RandomCharacterDto> result = new ArrayList<>();
@@ -48,10 +47,9 @@ public class CharacterService {
     }
 
     @Transactional
-    public void SaveRandomCharacter(RandomCharacterDto randomCharacterDto, String email) {
+    public void SaveRandomCharacter(RandomCharacterDto randomCharacterDto, Long userId) {
 
         DefaultCharacter defaultCharacter = defaultCharacterRepository.getByClassNameAndSubName(randomCharacterDto.getClassName(), randomCharacterDto.getSubClassName());
-        long userId = userRepository.findByEmail(email).orElseThrow().getId();
         User user = userRepository.getById(userId);
         List<Integer> poseDefine = new ArrayList<>();
 
@@ -101,9 +99,8 @@ public class CharacterService {
         }
     }
 
-    public List<SelectedCharacterDto> getCharacterList(String email){
+    public List<SelectedCharacterDto> getCharacterList(long userId){
         List<SelectedCharacterDto> result = new ArrayList<>();
-        long userId = userRepository.findByEmail(email).orElseThrow().getId();
         //user 찾기
         User user = userRepository.findById(userId).get();
         //내 캐릭터 리스트 찾기
@@ -164,8 +161,7 @@ public class CharacterService {
 
     // api/character/addstat
     @Transactional
-    public List<InitialBattleCharacterDto> updateStat(AddStatDto addStatDto, String userEmail) {
-        long userId = userRepository.findByEmail(userEmail).orElseThrow().getId();
+    public List<InitialBattleCharacterDto> updateStat(AddStatDto addStatDto, Long userId) {
         MyCharacter mch =  myCharacterRepository.getMyCharacterUsingUserIdPos(userId, addStatDto.getPos());
         // 스텟 추가
         int usedPoint = 0; // 사용한 스탯 포인트
