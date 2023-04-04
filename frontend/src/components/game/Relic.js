@@ -56,6 +56,7 @@ export default function Relic({ relicIds }) {
                   {relic === 0 ? (
                     <ImageWrapper>
                       <Image src={IMG} />
+                      {/* <ImageDiv url={IMG} /> */}
                     </ImageWrapper>
                   ) : (
                     <ImageWrapper>
@@ -109,6 +110,12 @@ const ImageWrapper = styled.div`
 const Image = styled.img`
   width: 6vw;
   height: 7vh;
+`;
+
+const ImageDiv = styled.div`
+  background-image: url(${(props) => props.url});
+  background-position: center;
+  background-size: contain;
 `;
 
 const DetailImgContainer = styled.div`
