@@ -19,11 +19,15 @@ export default function SecretAPI() {
   };
 
   const kakao = () => {
-    axios('https://j8a303.p.ssafy.io/oauth2/authorization/kakao')
-      .then((res) => console.log(res.data))
-      .catch((err) => {
-        console.log(err.config.url, '카카오 에러');
-      });
+    window.location.href =
+      'https://j8a303.p.ssafy.io/oauth2/authorization/kakao';
+    // axios('https://j8a303.p.ssafy.io/oauth2/authorization/kakao')
+    //   .then((res) => console.log(res.data))
+    //   .catch((err) => {
+    //     console.log(err.config.url, '카카오 에러');
+    //     window.location.href = err.config.url;
+
+    //   });
   };
 
   // input에 이메일, 비밀번호 입력 시 state 변경 함수
