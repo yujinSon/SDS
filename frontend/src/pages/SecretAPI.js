@@ -18,6 +18,12 @@ export default function SecretAPI() {
       .catch((err) => console.log(err));
   };
 
+  const kakao = () => {
+    axios('https://j8a303.p.ssafy.io/oauth2/authorization/kakao')
+      .then((res) => console.log(res.data))
+      .catch((err) => console.log(err));
+  };
+
   // input에 이메일, 비밀번호 입력 시 state 변경 함수
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -171,6 +177,7 @@ export default function SecretAPI() {
   };
   return (
     <div>
+      <button onClick={() => kakao()}>용찬아 카카오 로그인이다 눌러라</button>;
       <button onClick={() => yong()}>용찬아 버튼 눌러라</button>;
       <button onClick={() => testHeaders()}>유진님 버튼 누르십쇼</button>;
       <button onClick={() => testHeaders3()}>유진님 3번째 버튼</button>;
