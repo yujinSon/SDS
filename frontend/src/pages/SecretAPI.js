@@ -37,7 +37,7 @@ export default function SecretAPI() {
     const config = { url, method, data };
 
     axios
-      .post('http://70.12.246.58:8080/api/users/join', data)
+      .post('https://j8a303.p.ssafy.io/api/users/join', data)
       .then((response) => {
         console.log(response.data); // 성공적으로 응답받은 데이터를 출력합니다.
       })
@@ -57,7 +57,7 @@ export default function SecretAPI() {
     const config = { url, method, data };
 
     axios
-      .post('http://70.12.246.58:8080/api/users/login', data)
+      .post('https://j8a303.p.ssafy.io/api/users/login', data)
       .then((response) => {
         console.log(response.data); // 성공적으로 응답받은 데이터를 출력합니다.
         setToken(response.data.token);
@@ -72,7 +72,7 @@ export default function SecretAPI() {
 
   const testHeaders = () => {
     axios({
-      url: 'http://70.12.246.58:8080/api/character/random',
+      url: 'https://j8a303.p.ssafy.io/api/character/random',
       headers: {
         Authorization: `Bearer ${token}`, // Authorization 헤더에 토큰을 넣어줍니다.
       },
@@ -87,7 +87,8 @@ export default function SecretAPI() {
 
   const testHeaders2 = () => {
     axios({
-      url: 'http://70.12.246.58:8080/api/character/save',
+      // url: 'http://70.12.246.58:8080/api/character/save',
+      url: 'https://j8a303.p.ssafy.io/api/character/save',
       method: 'post',
       data: {
         className: '안보',
@@ -154,7 +155,7 @@ export default function SecretAPI() {
 
   const testHeaders3 = () => {
     axios({
-      url: 'http://70.12.246.58:8080/api/character/selected',
+      url: 'https://j8a303.p.ssafy.io/api/character/selected',
       headers: {
         Authorization: `Bearer ${token}`, // Authorization 헤더에 토큰을 넣어줍니다.
       },
