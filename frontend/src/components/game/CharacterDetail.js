@@ -160,5 +160,5 @@ const UpperContainer = styled.div`
 `;
 const BottomContainer = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
 `;
