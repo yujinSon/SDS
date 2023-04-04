@@ -7,8 +7,11 @@ import com.example.gameproject.db.repository.SkillRepository;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 @Getter
 @NoArgsConstructor
@@ -29,15 +32,24 @@ public class RandomCharacterDto {
 
 
     public RandomCharacterDto(DefaultCharacter character, int level, SkillRepository skillRepository){
+        List<Double> myList = Arrays.asList(0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3);
+
+        Random random = new Random();
+        int randomIndex = random.nextInt(myList.size());
         this.className = character.getClassName();
         this.subClassName = character.getSubName();
         this.level = level;
-        this.hp = character.getCharacterStat().getHp();
-        this.ad = character.getCharacterStat().getAd();
-        this.ap = character.getCharacterStat().getAp();
-        this.speed = character.getCharacterStat().getSpeed();
-        this.critical = character.getCharacterStat().getCritical();
-        this.avoid = character.getCharacterStat().getAvoid();
+        this.hp = (int) Math.round(character.getCharacterStat().getHp() * myList.get(randomIndex));
+        randomIndex = random.nextInt(myList.size());
+        this.ad = (int) Math.round(character.getCharacterStat().getAd() * myList.get(randomIndex));
+        randomIndex = random.nextInt(myList.size());
+        this.ap = (int) Math.round(character.getCharacterStat().getAp() * myList.get(randomIndex));
+        randomIndex = random.nextInt(myList.size());
+        this.speed = (int) Math.round(character.getCharacterStat().getSpeed() * myList.get(randomIndex));
+        randomIndex = random.nextInt(myList.size());
+        this.critical = (int) Math.round(character.getCharacterStat().getCritical() * myList.get(randomIndex));
+        randomIndex = random.nextInt(myList.size());
+        this.avoid = (int) Math.round(character.getCharacterStat().getAvoid() * myList.get(randomIndex));
         this.maxHp = character.getCharacterStat().getHp();
         this.pos = -1;
 
