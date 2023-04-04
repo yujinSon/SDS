@@ -238,7 +238,7 @@ export default function BattlePage() {
 
   useEffect(() => {
     if (!turnOrder) return;
-    console.log("12133131241242125235346");
+    console.log('12133131241242125235346');
     setNowTurn(turnOrder[0].pos);
   }, [turnOrder]);
 
@@ -246,7 +246,7 @@ export default function BattlePage() {
   useEffect(() => {
     if (!turnOrder) return;
     console.log(nowIdx, '현재 턴');
-    console.log("turnOrder : ", turnOrder);
+    console.log('turnOrder : ', turnOrder);
     setNowTurn(turnOrder[nowIdx].pos);
     setSelectedCh(-1);
     // console.log('현재 공격 pos', turnOrder[nowIdx]);
@@ -300,6 +300,8 @@ export default function BattlePage() {
       axios(config)
         .then((res) => {
           console.log('몬스터 전멸', res.data);
+          // 스테이지 클리어 시 살아있는 캐릭터의 수를 세션 스토리지에 저장
+          sessionStorage.setItem('chCnt', characters.length);
           setShowVictoryModal(!showVictoryModal);
         })
         .catch((err) => {
@@ -328,7 +330,7 @@ export default function BattlePage() {
         if (found === false) {
           console.log('으아아아아아아아ㅏ아아아아아아');
           if (nowIdx < turnOrder.length - 1) {
-            setNowIdx(nowIdx+1);
+            setNowIdx(nowIdx + 1);
             return;
           } else {
             setNowIdx(0);
@@ -370,6 +372,7 @@ export default function BattlePage() {
         const mySkill =
           myMonster.skills[Math.floor(Math.random() * myMonster.skills.length)];
 
+        console.log('빌런 스킬 사용 직전 state 바로 앞');
         setMonsterWho(myMonster.subName);
         setMonsterWhichSkill(mySkill.skillName);
         // 몬스터가 공격할 대상이 캐릭터인 경우 (1이면 캐릭터 if 문 실행, 0이면 몬스터이므로 pass)
@@ -587,7 +590,7 @@ export default function BattlePage() {
           .catch((err) => {});
 
         setPlayerTurn(0);
-        if (nowIdx < turnOrder.length-1) {
+        if (nowIdx < turnOrder.length - 1) {
           setNowIdx(nowIdx + 1);
         } else {
           setNowIdx(0);
@@ -754,19 +757,21 @@ export default function BattlePage() {
           }
         }
       }
-    }
 
-    // 플레이어 턴 초기화
-    setPlayerTurn(0);
+      // 플레이어 턴 초기화
+      setPlayerTurn(0);
 
-    // 플레이어가 공격했으면 다음 턴으로 넘어감
-    if (nowIdx < turnOrder.length -1) {
-      setNowIdx(nowIdx + 1);
+      // 플레이어가 공격했으면 다음 턴으로 넘어감
+      if (nowIdx < turnOrder.length - 1) {
+        setNowIdx(nowIdx + 1);
+      } else {
+        setNowIdx(0);
+      }
+      // 현재 몇 번재 턴인지 출력
+      console.log('내가 방금 공격한 턴', nowIdx);
     } else {
-      setNowIdx(0);
+      alert('스킬 타겟을 잘못 설정하였습니다.');
     }
-    // 현재 몇 번재 턴인지 출력
-    console.log('내가 방금 공격한 턴', nowIdx);
   };
 
   // 회피여부 판단하는 함수
@@ -841,7 +846,6 @@ const BattleContainer = styled.div`
 `;
 
 const BottomContainer = styled.div`
-
   display: flex;
   flex-direction: row;
   height: 30%;
@@ -854,8 +858,7 @@ const LeftContainer = styled.div`
   flex-direction: column;
   color: black;
   width: 50%;
-  height: 100%
-
+  height: 100%;
 `;
 
 const RightContainer = styled.div`
