@@ -37,7 +37,7 @@ public class UserService {
     private final JwtTokenProvider jwtTokenProvider;
     private final UserRepository userRepository;
 
-    @Transactional(readOnly = false)
+    @Transactional
     public void join(UserDto userDto){
         if (userRepository.existsByEmail(userDto.getEmail())) {
             throw new IllegalArgumentException("이미 존재하는 이메일입니다.");
