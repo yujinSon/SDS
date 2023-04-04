@@ -178,11 +178,11 @@ public class ShopService {
 	}
 
 	@Transactional
-	public RelicResponse getRelic(long userId){
+	public RelicResponse getRelic(String email){
 		String [] className = {"x", "환경", "안보", "질병", "사회", "범죄", "인구", "경제"};
 		Random random = new Random();
 		random.setSeed(System.currentTimeMillis()); //시간에 따라 시드를 설정
-
+		long userId = userRepository.findByEmail(email).orElseThrow().getId();
 		User user = userRepository.findById(userId).orElse(null);
 		List<Artifact> artifactList = artifactRepository.findByClass(className[user.getStage()]);
 		List<UserArtifact> myUserArtifact = userArtifactRepository.findAllByUser_Id(userId);
