@@ -234,9 +234,9 @@ const skillsPK = {
       '한명을 AP*250%로 공격한다.',
     ],
   },
-  '경제학 교수 기성': {
-    subClassName: '경제학 교수 기성',
-    skillNames: ['일반 공격', '선거 참여', '직원 복지 개선'],
+  '경제학교수 기성': {
+    subClassName: '경제학교수 기성',
+    skillNames: ['일반 공격', '선거참여', '직원 복지 개선'],
     skillImgs: [Skill0, 선거참여, 직원복지개선],
     skillDetails: [
       '평범한 공격이다.',
