@@ -756,6 +756,8 @@ export default function BattlePage() {
           }
         }
       }
+    } else {
+      alert('스킬 타겟을 잘못 설정하였습니다.');
     }
 
     // 플레이어 턴 초기화
