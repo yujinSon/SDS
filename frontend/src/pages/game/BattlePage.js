@@ -841,10 +841,10 @@ const BattleContainer = styled.div`
 `;
 
 const BottomContainer = styled.div`
+
   display: flex;
   flex-direction: row;
-
-  flex-grow: 1;
+  height: 30%;
 
   color: black;
 `;
@@ -852,11 +852,10 @@ const BottomContainer = styled.div`
 const LeftContainer = styled.div`
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
-
   color: black;
   width: 50%;
-  height: 100%;
+  height: 100%
+
 `;
 
 const RightContainer = styled.div`
@@ -864,7 +863,7 @@ const RightContainer = styled.div`
   background-color: rgba(189, 189, 189, 0.7);
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
+
   color: #333;
   width: 50%;
   height: 100%;

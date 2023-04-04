@@ -13,7 +13,7 @@ export default function Information({
   clickSkill,
 }) {
   return (
-    <>
+    <NoneTag>
       {character ? (
         <Container>
           <LeftContainer>
@@ -61,8 +61,6 @@ export default function Information({
             ) : (
               <SkillDetail>
                 <div>스킬을 클릭하십쇼</div>
-                <div>.</div>
-                <div>.</div>
               </SkillDetail>
             )}
           </RightContainer>
@@ -72,11 +70,12 @@ export default function Information({
           캐릭터를 클릭하여 능력치와 스킬을 확인하세요.
         </NoneSelectBox>
       )}
-    </>
+    </NoneTag>
   );
 }
 const Container = styled.div`
   background-color: rgba(189, 189, 189, 0.7);
+
   display: flex;
   flex-direction: row;
 
@@ -88,7 +87,6 @@ const Container = styled.div`
 `;
 
 const LeftContainer = styled.div`
-  background-color: red;
   background-color: rgba(93, 93, 93, 0.5);
   border-radius: 10px;
   border: none;
@@ -100,12 +98,13 @@ const LeftContainer = styled.div`
   color: black;
   width: 40%;
   height: 100%;
+
   padding-left: 0.5rem;
 `;
 
 const StatDiv = styled.div`
   margin: 0.1rem;
-  font-size: calc(0.2rem + 1vw);
+  font-size: calc(0.2rem + 0.8vw);
   font-weight: bold;
   max-width: 90%;
 `;
@@ -122,12 +121,11 @@ const RightContainer = styled.div`
 
   color: black;
   width: 60%;
+  
 
-  padding: 0.5rem;
 `;
 
 const SkillContainer = styled.div`
-  background-color: green11;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -139,11 +137,10 @@ const SkillContainer = styled.div`
 `;
 
 const SkillImg = styled.img`
-  width: auto;
-  height: auto;
-  max-width: 60%;
-  max-height: 60%;
+  max-width: 95%;
+  max-height: 95%;
   object-fit: cover;
+  border-radius: 10px;
   ${({ selectedSkill }) =>
     selectedSkill &&
     `
@@ -171,4 +168,10 @@ const NoneSelectBox = styled.div`
   height: 100%;
   font-size: 24px;
   font-weight: bold;
+`;
+
+
+const NoneTag = styled.div`
+display: flex;
+  height: 26.5vh;
 `;
