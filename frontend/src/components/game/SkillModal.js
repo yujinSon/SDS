@@ -4,15 +4,19 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
 export default function SkillModal({
-  data,
   showSkillModal,
   setShowSkillModal,
+  skillName,
+  detail,
+  effect,
 }) {
   const navigate = useNavigate();
-  console.log(data);
+  console.log(detail);
   return (
     <Container>
-      <div>{data}</div>
+      <Div>{skillName}</Div>
+      <Div>{detail}</Div>
+      <Div>효과 : {effect}</Div>
       <Button
         value="완료"
         onClick={() => {
@@ -24,6 +28,11 @@ export default function SkillModal({
 }
 
 const Container = styled.div`
+  font-size: 1.2rem;
   text-align: center;
   background-color: orange;
+`;
+
+const Div = styled.div`
+  margin-bottom: 1rem;
 `;
