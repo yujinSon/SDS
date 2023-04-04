@@ -20,22 +20,22 @@ export default function Main() {
   const [isLogin, setIsLogin] = useState(false);
 
   // 테스트용 API
-  useEffect(() => {
-    if (!isLogin) return;
-    console.log(token);
-    axios({
-      url: 'http://70.12.246.58:8080/api/character/random',
-      headers: {
-        Authorization: `Bearer ${token}`, // Authorization 헤더에 토큰을 넣어줍니다.
-      },
-    })
-      .then((response) => {
-        console.log(response.data); // 성공적으로 응답받은 데이터를 출력합니다.
-      })
-      .catch((error) => {
-        console.error(error, '이건 headers 에러'); // 요청이 실패한 경우 에러 메시지를 출력합니다.
-      });
-  }, [isLogin]);
+  // useEffect(() => {
+  //   if (!isLogin) return;
+  //   console.log(token);
+  //   axios({
+  //     url: 'http://70.12.246.58:8080/api/character/random',
+  //     headers: {
+  //       Authorization: `Bearer ${token}`, // Authorization 헤더에 토큰을 넣어줍니다.
+  //     },
+  //   })
+  //     .then((response) => {
+  //       console.log(response.data); // 성공적으로 응답받은 데이터를 출력합니다.
+  //     })
+  //     .catch((error) => {
+  //       console.error(error, '이건 headers 에러'); // 요청이 실패한 경우 에러 메시지를 출력합니다.
+  //     });
+  // }, [isLogin]);
 
   // 버튼 클릭 시 새로운 게임 시작 API 요청 로직
   const startNewGame = () => {
@@ -47,56 +47,6 @@ export default function Main() {
         navigate('/game');
       })
       .catch((err) => {});
-  };
-
-  // input에 이메일, 비밀번호 입력 시 state 변경 함수
-  const handleEmailChange = (event) => {
-    setEmail(event.target.value);
-  };
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
-  };
-
-  // 회원가입 버튼 클릭 시 API 요청 로직
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const [url, method] = api('signup');
-    const data = {
-      email: email,
-      password: password,
-    };
-    const config = { url, method, data };
-
-    axios
-      .post('http://70.12.246.58:8080/api/users/join', data)
-      .then((response) => {
-        console.log(response.data); // 성공적으로 응답받은 데이터를 출력합니다.
-      })
-      .catch((error) => {
-        console.error(error); // 요청이 실패한 경우 에러 메시지를 출력합니다.
-      });
-  };
-
-  // 로그인 버튼 클릭 시 API 요청 로직
-  const handleLogin = (event) => {
-    event.preventDefault();
-    const [url, method] = api('login');
-    const data = {
-      email: email,
-      password: password,
-    };
-    const config = { url, method, data };
-
-    axios
-      .post('http://70.12.246.58:8080/api/users/login', data)
-      .then((response) => {
-        console.log(response.data); // 성공적으로 응답받은 데이터를 출력합니다.
-        setToken(response.data.token);
-        setIsLogin(true);
-      })
-      .catch((error) => {
-        console.error(error); // 요청이 실패한 경우 에러 메시지를 출력합니다.
-      });
   };
 
   //   myAxios(config)
@@ -112,75 +62,26 @@ export default function Main() {
 
   return (
     <div>
-      <div>
-        <ButtonContainer>
-          <Button
-            size="large"
-            type="gray"
-            onClick={() => {
-              startNewGame();
-            }}
-            value="New Game"
-          />
-        </ButtonContainer>
-        <ButtonContainer>
-          <Button
-            size="large"
-            type="gray"
-            onClick={() => {
-              navigate('/game/ready');
-            }}
-            value="Load"
-          />
-        </ButtonContainer>
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label htmlFor="email">Email:</label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={handleEmailChange}
-            />
-          </div>
-          <div>
-            <label htmlFor="password">Password:</label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={handlePasswordChange}
-            />
-          </div>
-          <button type="submit" onClick={handleSubmit}>
-            회원가입
-          </button>
-        </form>
-
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label htmlFor="email">Email:</label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={handleEmailChange}
-            />
-          </div>
-          <div>
-            <label htmlFor="password">Password:</label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={handlePasswordChange}
-            />
-          </div>
-          <button type="submit" onClick={handleLogin}>
-            로그인
-          </button>
-        </form>
-      </div>
+      <ButtonContainer>
+        <Button
+          size="large"
+          type="gray"
+          onClick={() => {
+            startNewGame();
+          }}
+          value="New Game"
+        />
+      </ButtonContainer>
+      <ButtonContainer>
+        <Button
+          size="large"
+          type="gray"
+          onClick={() => {
+            navigate('/game/ready');
+          }}
+          value="Load"
+        />
+      </ButtonContainer>
     </div>
   );
 }
