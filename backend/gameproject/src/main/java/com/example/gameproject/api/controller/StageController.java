@@ -1,5 +1,6 @@
 package com.example.gameproject.api.controller;
 
+import com.example.gameproject.api.service.BattleService;
 import com.example.gameproject.api.service.StageService;
 import com.example.gameproject.db.entity.MyCharacter;
 import com.example.gameproject.dto.request.StageDto;
@@ -22,7 +23,8 @@ public class StageController {
     // 전투 페이지 진입시 정보 불러오기.
     @GetMapping(value = "/load")
     public ResponseEntity<?> getBattleSetting() throws Exception {
-        Map<String, List> res = stageService.BattleSetting();
+        Long userId = 1l;
+        Map<String, List> res = stageService.BattleSetting(userId);
 
         return ResponseEntity.ok(res);
     }

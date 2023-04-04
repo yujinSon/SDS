@@ -55,15 +55,16 @@ public class BattleController {
     @PutMapping("/finished")
     public ResponseEntity<?> GetTurnFinished(){
         long userId = 1L;
-        battleService.CoolTime();
-        battleService.EffectTime();
+        battleService.CoolTime(userId);
+        battleService.EffectTime(userId);
 
         return ResponseEntity.ok(battleService.MyCharacterList(userId));
     }
 
     @DeleteMapping("/end")
     public ResponseEntity<?> DeleteCoolTimeEffectTime(){
-        battleService.DeleteEffect();
+        long userId = 1L;
+        battleService.DeleteEffect(userId);
         return ResponseEntity.ok("delete_ok");
     }
 

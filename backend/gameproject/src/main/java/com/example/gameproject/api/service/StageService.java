@@ -1,13 +1,7 @@
 package com.example.gameproject.api.service;
 
-import com.example.gameproject.db.entity.MyCharacter;
-import com.example.gameproject.db.entity.Skill;
-import com.example.gameproject.db.entity.User;
-import com.example.gameproject.db.entity.Villain;
-import com.example.gameproject.db.repository.MyCharacterRepository;
-import com.example.gameproject.db.repository.SkillRepository;
-import com.example.gameproject.db.repository.UserRepository;
-import com.example.gameproject.db.repository.VillainRepository;
+import com.example.gameproject.db.entity.*;
+import com.example.gameproject.db.repository.*;
 import com.example.gameproject.dto.request.StageDto;
 import com.example.gameproject.dto.response.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,11 +27,36 @@ public class StageService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private CoolTimeRepository coolTimeRepository;
 
-    public Map<String, List> BattleSetting(){
+    @Autowired
+    private  EffectTimeRepository effectTimeRepository;
+
+
+    public Map<String, List> BattleSetting(Long userId){
         // 유저 정보를 받아서 바꿔줘야 함.
-        Long userId = 1L; // 나중에 로그인 구현시 바꿔줘야될 부분
         User user = userRepository.getById(userId);
+
+
+        if (user.getSubStage() == 1) {
+            List<CoolTime> coolTimes = coolTimeRepository.findByUserId(userId);
+            List<EffectTime> effectTimes = effectTimeRepository.findByUserId(userId);
+
+            for (CoolTime coolTime : coolTimes) {
+                if (coolTime.getMyCharacter().getUser().getId() == userId) {
+                    coolTimeRepository.delete(coolTime);
+                }
+            }
+
+            for (EffectTime effectTime : effectTimes) {
+                if (effectTime.getMyCharacter().getUser().getId() == userId) {
+                    effectTimeRepository.delete(effectTime);
+                }
+            }
+        }
+
+
         int stage = user.getStage();
         int step = user.getSubStage(); // 스텝이 4 이라면 보스스테이지.
         String [] whatStage = {"없음", "환경", "안보", "질병", "사회", "범죄", "인구", "경제"};

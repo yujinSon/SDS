@@ -56,8 +56,8 @@ public class BattleService {
    }
     // CoolTime에서 Turn을 하나씩 지우는 방식을 사용
     @Transactional
-    public void CoolTime() {
-        List<CoolTime> coolTimes = coolTimeRepository.findAll();
+    public void CoolTime(Long userId) {
+        List<CoolTime> coolTimes = coolTimeRepository.findByUserId(userId);
         for (CoolTime coolTime : coolTimes) {
             coolTime.BattleCoolTimeUpdate(coolTime.getTurn());
             if (coolTime.getTurn() <= 0) {
@@ -71,8 +71,8 @@ public class BattleService {
 
     // Effect Turn을 하나씩 지우는 방식을 사용
     @Transactional
-    public void EffectTime() {
-        List<EffectTime> effectTimes = effectTimeRepository.findAll();
+    public void EffectTime(Long userId) {
+        List<EffectTime> effectTimes = effectTimeRepository.findByUserId(userId);
         for (EffectTime effectTime : effectTimes) {
             effectTime.BattleEffectTimeUpdate(effectTime.getTurn());
             if (effectTime.getTurn() <= 0) {
@@ -172,11 +172,10 @@ public class BattleService {
     }
 
     @Transactional
-    public void DeleteEffect() {
-        Long userId = 1L;
+    public void DeleteEffect(Long userId) {
         // 내 정보를 찾아서
-        List<CoolTime> coolTimes = coolTimeRepository.findAll();
-        List<EffectTime> effectTimes = effectTimeRepository.findAll();
+        List<CoolTime> coolTimes = coolTimeRepository.findByUserId(userId);
+        List<EffectTime> effectTimes = effectTimeRepository.findByUserId(userId);
 
         for (CoolTime coolTime : coolTimes) {
             if (coolTime.getMyCharacter().getUser().getId() == userId) {
