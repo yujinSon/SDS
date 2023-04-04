@@ -100,11 +100,11 @@ public class BattlePlayerTurnService {
         for (MyCharacter mc : myCharacters) {
             List<EffectTime> myEffects = effectTimeRepository.findByMyCharacterId(mc.getId());
             List<CoolTime> myCools = coolTimeRepository.findByMyCharacterId(mc.getId());
-//            List<Skill> myCharacterSkills = new ArrayList<>();
+            //            List<Skill> myCharacterSkills = new ArrayList<>();
             List<Skill> myCharacterSkills = skillRepository.findByCharacter_id(mc.getDefaultCharacter().getId());
             List<Long> coolTimeSkillId = new ArrayList<>();
             for (EffectTime et : myEffects) {
-//                myCharacterSkills.add(et.getSkill()); // 내 캐릭중에 mc가 쓴 스킬들
+                //                myCharacterSkills.add(et.getSkill()); // 내 캐릭중에 mc가 쓴 스킬들
                 mySkills.add(et); // 내 캐릭들이 쓴 모든 스킬들 ( 이팩트 타임에서 꺼내 쓸꺼임, 누구에게 쓸건지에 대한 값이 필요해서)
             }
             for (CoolTime ct : myCools) {
