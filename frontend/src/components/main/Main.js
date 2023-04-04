@@ -19,6 +19,10 @@ export default function Main() {
   // 로그인 여부 / 테스트용 API 용 state
   const [isLogin, setIsLogin] = useState(false);
 
+  localStorage.setItem('token', token);
+  const tokenHyunJeong = localStorage.getItem('token');
+  // 세션 스토리지는 브라우저 닫으면 ㅂㅂ / 로컬스토리지는 닫아도 그대로 보존
+
   // 테스트용 API
   // useEffect(() => {
   //   if (!isLogin) return;

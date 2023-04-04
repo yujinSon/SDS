@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import api from 'constants/api';
 import axios from 'libs/axios';
+import testAxios from 'axios';
 
 export default function CharacterDetailStat({
   // 여기서 데이터는 선택된 캐릭터 하나의 객체를 의미함
@@ -11,6 +12,9 @@ export default function CharacterDetailStat({
   setIsChanged,
   selectedCharacter,
 }) {
+  const tokenHyunJeong = sessionStorage.getItem('token');
+  console.log(tokenHyunJeong);
+
   // 처음 주어진 statPoint
   const [firstStatPoint, setFirstStatPoint] = useState(null);
   // data를 ch state에 저장
@@ -172,6 +176,40 @@ export default function CharacterDetailStat({
         console.log(err, 'stat 변경 API 요청 실패');
       });
   };
+
+  // const saveStat = () => {
+  //   testAxios({
+  //     url: 'http://70.12.246.58:8080/api/character/addstat',
+  //     method: 'put',
+  //     data: {
+  //       pos: ch.pos,
+  //       addHp: cntHp,
+  //       addAd: cntAd,
+  //       addAp: cntAp,
+  //       addSpeed: cntSpeed,
+  //       addCritical: cntCritical,
+  //       addAvoid: cntAvoid,
+  //     },
+  //     headers: {
+  //       Authorization: `Bearer ${tokenHyunJeong}`, // Authorization 헤더에 토큰을 넣어줍니다.
+  //     },
+  //   })
+  //     .then((res) => {
+  //       console.log(res.data, 'stat 변경 API 요청 성공');
+  //       // 스텟이 변경되면 상위 컴포넌트에서 반영된 결과를 화면으로 띄워주기 위해 isChanged 변경
+  //       setIsChanged(!isChanged);
+  //       // API 요청 성공 시 다시 stat cnt들을 0으로 초기화해줌
+  //       setCntHp(0);
+  //       setCntAd(0);
+  //       setCntAp(0);
+  //       setCntSpeed(0);
+  //       setCntCritical(0);
+  //       setCntAvoid(0);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err, 'stat 변경 API 요청 실패');
+  //     });
+  // };
 
   return (
     <Container>
