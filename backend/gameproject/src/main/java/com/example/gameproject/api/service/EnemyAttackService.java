@@ -47,17 +47,20 @@ public class EnemyAttackService {
         // 적이 사용한 스킬 객체 가져오고 디버프 일때 이펙트에 등록
         Skill villianSkill = null;
         if (!enemyAttackDto.getSkillName().equals("일반 공격")) {
-            // 그냥 일반공격이면 가져울 수 없음, 디버프 스킬인경우
-            damage = 0;
+            // 그냥 일반공격이면 가져울 수 없음, 이름이 중복돼서;; 디버프 스킬인경우
             villianSkill = skillRepository.getSkillUsingSkillName(enemyAttackDto.getSkillName());
-            for (MyCharacter myc : myCharacters) {
-                if (enemyAttackDto.getTarget() == 3) {
-                    // 전체 범위면 추가
-                    EffectTime skill = new EffectTime(villianSkill, myc, myc.getPos());
-                    effectTimeRepository.save(skill);
-                } else if (enemyAttackDto.getTarget() == myc.getPos()) {
-                    EffectTime skill = new EffectTime(villianSkill, myc, myc.getPos());
-                    effectTimeRepository.save(skill);
+            if (!villianSkill.getStat().equals("hp")) {
+                // 디버프 스킬인경우
+                damage = 0;
+                for (MyCharacter myc : myCharacters) {
+                    if (enemyAttackDto.getTarget() == 3) {
+                        // 전체 범위면 추가
+                        EffectTime skill = new EffectTime(villianSkill, myc, myc.getPos());
+                        effectTimeRepository.save(skill);
+                    } else if (enemyAttackDto.getTarget() == myc.getPos()) {
+                        EffectTime skill = new EffectTime(villianSkill, myc, myc.getPos());
+                        effectTimeRepository.save(skill);
+                    }
                 }
             }
         }

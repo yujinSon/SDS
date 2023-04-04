@@ -12,8 +12,8 @@ public interface DefaultCharacterRepository extends JpaRepository<DefaultCharact
 
 //    @Query(value = "SELECT * FROM default_character c WHERE c.id BETWEEN  1 AND 5 ORDER BY c.id LIMIT3", nativeQuery = true)
 //    List<DefaultCharacter> getRandomCharacters();
-    @Query(value = "select * from default_character c where c.id between :minValue and :maxValue order by rand() limit 3", nativeQuery = true)
-    List<DefaultCharacter> getRandomCharacters(@Param("minValue") int minValue, @Param("maxValue") int maxValue);
+    @Query(value = "select * from default_character c where c.id between 1 and 14 order by rand() limit 3", nativeQuery = true)
+    List<DefaultCharacter> getRandomCharacters();
 
     // RandomCharacter를 가져오기 위한 
     DefaultCharacter getByClassNameAndSubName(String className, String subName);

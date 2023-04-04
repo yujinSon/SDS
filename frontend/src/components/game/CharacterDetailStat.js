@@ -4,6 +4,10 @@ import styled from 'styled-components';
 import api from 'constants/api';
 import axios from 'libs/axios';
 
+import Modal from 'components/common/Modal';
+import skillsPK from 'constants/skillsPK';
+import SkillModal from './SkillModal';
+
 export default function CharacterDetailStat({
   // 여기서 데이터는 선택된 캐릭터 하나의 객체를 의미함
   data,
@@ -11,6 +15,9 @@ export default function CharacterDetailStat({
   setIsChanged,
   selectedCharacter,
 }) {
+  const [selectedSkillIdx, setSelectedSkillIdx] = useState(null);
+  const [showSkillModal, setShowSkillModal] = useState(false);
+
   // 처음 주어진 statPoint
   const [firstStatPoint, setFirstStatPoint] = useState(null);
   // data를 ch state에 저장
@@ -177,97 +184,132 @@ export default function CharacterDetailStat({
     <Container>
       {ch ? (
         <TopDiv>
+          {showSkillModal ? (
+            <ModalContainer>
+              <Modal
+                close={() => setShowSkillModal(!showSkillModal)}
+                content={
+                  <SkillModal
+                    skillName={
+                      skillsPK[ch.subClassName].skillNames[selectedSkillIdx]
+                    }
+                    detail={
+                      skillsPK[ch.subClassName].skillDetails[selectedSkillIdx]
+                    }
+                    effect={
+                      skillsPK[ch.subClassName].skillEffects[selectedSkillIdx]
+                    }
+                    showSkillModal={showSkillModal}
+                    setShowSkillModal={setShowSkillModal}
+                  />
+                }
+              />
+            </ModalContainer>
+          ) : null}
           <div>
-            <StatDiv>{ch.className}</StatDiv>
-            <StatDiv>{ch.subClassName} </StatDiv>
-            <StatDiv>level: {ch.level} </StatDiv>
-            <StatDiv>
-              skills:
-              {ch.skills.map((skill, idx) => (
-                <div key={idx}>{skill.skillName} </div>
-              ))}
-            </StatDiv>
-          </div>
-          <div>
-            <AddStatDiv>
-              {cntHp ? (
-                <ColorSpan>
-                  hp: {ch.hp} / {ch.maxHp}
-                </ColorSpan>
-              ) : (
+            <UpperContainer>
+              <StatDiv>{ch.className}</StatDiv>
+              <StatDiv>
+                {ch.subClassName} (LV.{ch.level})
+              </StatDiv>
+              <StatDiv>
+                {skillsPK[ch.subClassName].skillImgs.map((skillImg, idx) => (
+                  <IMG
+                    src={skillImg}
+                    alt="스킬 이미지"
+                    key={idx}
+                    onClick={() => {
+                      setShowSkillModal(!showSkillModal);
+                      setSelectedSkillIdx(idx);
+                    }}
+                  />
+                ))}
+              </StatDiv>
+            </UpperContainer>
+            <hr />
+            <BottomContainer>
+              {' '}
+              <AddStatDiv>
+                {cntHp ? (
+                  <ColorSpan>
+                    hp: {ch.hp} / {ch.maxHp}
+                  </ColorSpan>
+                ) : (
+                  <span>
+                    hp: {ch.hp} / {ch.maxHp}
+                  </span>
+                )}
                 <span>
-                  hp: {ch.hp} / {ch.maxHp}
+                  <AddStatButton onClick={() => addHp()} />
+                  <MinusStatButton onClick={() => minusHp()} />
                 </span>
-              )}
-              <span>
-                <AddStatButton onClick={() => addHp()} />
-                <MinusStatButton onClick={() => minusHp()} />
-              </span>
-            </AddStatDiv>
-            <AddStatDiv>
-              {cntAd ? (
-                <ColorSpan>ad: {ch.ad}</ColorSpan>
-              ) : (
-                <span>ad: {ch.ad}</span>
-              )}
+              </AddStatDiv>
+              <AddStatDiv>
+                {cntAd ? (
+                  <ColorSpan>ad: {ch.ad}</ColorSpan>
+                ) : (
+                  <span>ad: {ch.ad}</span>
+                )}
 
-              <span>
-                <AddStatButton onClick={() => addAd()} />
-                <MinusStatButton onClick={() => minusAd()} />
-              </span>
-            </AddStatDiv>
-            <AddStatDiv>
-              {cntAp ? (
-                <ColorSpan>ap: {ch.ap}</ColorSpan>
-              ) : (
-                <span>ap: {ch.ap}</span>
-              )}
+                <span>
+                  <AddStatButton onClick={() => addAd()} />
+                  <MinusStatButton onClick={() => minusAd()} />
+                </span>
+              </AddStatDiv>
+              <AddStatDiv>
+                {cntAp ? (
+                  <ColorSpan>ap: {ch.ap}</ColorSpan>
+                ) : (
+                  <span>ap: {ch.ap}</span>
+                )}
 
-              <span>
-                <AddStatButton onClick={() => addAp()} />
-                <MinusStatButton onClick={() => minusAp()} />
-              </span>
-            </AddStatDiv>
-            <AddStatDiv>
-              {cntSpeed ? (
-                <ColorSpan>speed: {ch.speed}</ColorSpan>
-              ) : (
-                <span>speed: {ch.speed}</span>
-              )}
+                <span>
+                  <AddStatButton onClick={() => addAp()} />
+                  <MinusStatButton onClick={() => minusAp()} />
+                </span>
+              </AddStatDiv>
+              <AddStatDiv>
+                {cntSpeed ? (
+                  <ColorSpan>speed: {ch.speed}</ColorSpan>
+                ) : (
+                  <span>speed: {ch.speed}</span>
+                )}
 
-              <span>
-                <AddStatButton onClick={() => addSpeed()} />
-                <MinusStatButton onClick={() => minusSpeed()} />
-              </span>
-            </AddStatDiv>
-            <AddStatDiv>
-              {cntCritical ? (
-                <ColorSpan>critical: {ch.critical}</ColorSpan>
-              ) : (
-                <span>critical: {ch.critical}</span>
-              )}
+                <span>
+                  <AddStatButton onClick={() => addSpeed()} />
+                  <MinusStatButton onClick={() => minusSpeed()} />
+                </span>
+              </AddStatDiv>
+              <AddStatDiv>
+                {cntCritical ? (
+                  <ColorSpan>critical: {ch.critical}</ColorSpan>
+                ) : (
+                  <span>critical: {ch.critical}</span>
+                )}
 
-              <span>
-                <AddStatButton onClick={() => addCritical()} />
-                <MinusStatButton onClick={() => minusCritical()} />
-              </span>
-            </AddStatDiv>
-            <AddStatDiv>
-              {cntAvoid ? (
-                <ColorSpan>avoid: {ch.avoid}</ColorSpan>
-              ) : (
-                <span>avoid: {ch.avoid}</span>
-              )}
+                <span>
+                  <AddStatButton onClick={() => addCritical()} />
+                  <MinusStatButton onClick={() => minusCritical()} />
+                </span>
+              </AddStatDiv>
+              <AddStatDiv>
+                {cntAvoid ? (
+                  <ColorSpan>avoid: {ch.avoid}</ColorSpan>
+                ) : (
+                  <span>avoid: {ch.avoid}</span>
+                )}
 
-              <span>
-                <AddStatButton onClick={() => addAvoid()} />
-                <MinusStatButton onClick={() => minusAvoid()} />
-              </span>
-            </AddStatDiv>
+                <span>
+                  <AddStatButton onClick={() => addAvoid()} />
+                  <MinusStatButton onClick={() => minusAvoid()} />
+                </span>
+              </AddStatDiv>
+            </BottomContainer>
           </div>
+          <div></div>
         </TopDiv>
       ) : (
-        <div>능력치 보고 싶은 캐릭터 선택하셈</div>
+        <div>캐릭터를 선택하여 상세정보를 확인하세요.</div>
       )}
       {ch ? <div>남은 Stat Point: {stat}</div> : null}
       <StatSaveButton onClick={() => saveStat()}>저장</StatSaveButton>
@@ -297,7 +339,8 @@ const TopDiv = styled.div`
 `;
 
 const StatDiv = styled.div`
-  margin: 0.5rem;
+  font-size: 1.3rem;
+  margin: 0.1rem;
 `;
 
 const AddStatDiv = styled(StatDiv)`
@@ -376,4 +419,34 @@ const StatSaveButton = styled.button`
 
 const ColorSpan = styled.span`
   color: yellow;
+`;
+
+const IMG = styled.img`
+  margin: 0.5rem;
+  width: 100px;
+  height: 100px;
+  border: 3px solid white;
+`;
+
+const UpperContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`;
+const BottomContainer = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+`;
+
+const ModalContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000; // z-index 값을 높임
 `;

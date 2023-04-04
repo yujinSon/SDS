@@ -37,7 +37,9 @@ export default function SecretAPI() {
     const config = { url, method, data };
 
     axios
-      .post('http://70.12.246.58:8080/api/users/join', data)
+      .post('https://j8a303.p.ssafy.io/api/users/join', data, {
+        headers: { 'Content-Type': 'application/json' },
+      })
       .then((response) => {
         console.log(response.data); // 성공적으로 응답받은 데이터를 출력합니다.
       })
@@ -57,11 +59,13 @@ export default function SecretAPI() {
     const config = { url, method, data };
 
     axios
-      .post('http://70.12.246.58:8080/api/users/login', data)
+      .post('https://j8a303.p.ssafy.io/api/users/login', data)
       .then((response) => {
         console.log(response.data); // 성공적으로 응답받은 데이터를 출력합니다.
         setToken(response.data.token);
         setIsLogin(true);
+        sessionStorage.setItem('token', response.data.token);
+        // const tokenHyunJeong = localStorage.getItem('token');
       })
       .catch((error) => {
         console.error(error); // 요청이 실패한 경우 에러 메시지를 출력합니다.
@@ -82,10 +86,98 @@ export default function SecretAPI() {
         console.error(error, '이건 headers 에러'); // 요청이 실패한 경우 에러 메시지를 출력합니다.
       });
   };
+
+  const testHeaders2 = () => {
+    axios({
+      // url: 'http://70.12.246.58:8080/api/character/save',
+      url: 'https://j8a303.p.ssafy.io/api/character/save',
+      method: 'post',
+      data: {
+        className: '안보',
+        subClassName: '안보전문가 용찬',
+        level: 3,
+        skills: [
+          {
+            coolTime: 0,
+            factor: 'ad',
+            range: false,
+            skillId: 7,
+            skillName: '일반 공격',
+            skillNum: 0,
+            skillTarget: 0,
+            skillType: 0,
+            stat: 'hp',
+            value: 100,
+          },
+          {
+            coolTime: 6,
+            factor: 'ad',
+            range: false,
+            skillId: 8,
+            skillName: '안보의식 향상',
+            skillNum: 1,
+            skillTarget: 1,
+            skillType: 2,
+            stat: 'ad',
+            value: 100,
+          },
+          {
+            coolTime: 3,
+            factor: 'ad',
+            range: false,
+            skillId: 9,
+            skillName: '정보 보호 강화',
+            skillNum: 2,
+            skillTarget: 0,
+            skillType: 0,
+            stat: 'hp',
+            value: 200,
+          },
+        ],
+        hp: 100,
+        maxHp: 100,
+        ad: 70,
+        ap: 5,
+        speed: 5,
+        critical: 0,
+        avoid: 5,
+        pos: -1,
+      },
+      headers: {
+        Authorization: `Bearer ${token}`, // Authorization 헤더에 토큰을 넣어줍니다.
+      },
+    })
+      .then((response) => {
+        console.log(response.data, '유진님 post 요청 응답 성공입니다.'); // 성공적으로 응답받은 데이터를 출력합니다.
+      })
+      .catch((error) => {
+        console.error(error, '이건 headers 에러'); // 요청이 실패한 경우 에러 메시지를 출력합니다.
+      });
+  };
+
+  const testHeaders3 = () => {
+    axios({
+      url: 'https://j8a303.p.ssafy.io/api/character/selected',
+      headers: {
+        Authorization: `Bearer ${token}`, // Authorization 헤더에 토큰을 넣어줍니다.
+      },
+    })
+      .then((response) => {
+        console.log(response.data); // 성공적으로 응답받은 데이터를 출력합니다.
+      })
+      .catch((error) => {
+        console.error(error, '이건 headers 에러'); // 요청이 실패한 경우 에러 메시지를 출력합니다.
+      });
+  };
   return (
     <div>
       <button onClick={() => yong()}>용찬아 버튼 눌러라</button>;
       <button onClick={() => testHeaders()}>유진님 버튼 누르십쇼</button>;
+      <button onClick={() => testHeaders3()}>유진님 3번째 버튼</button>;
+      <button onClick={() => testHeaders2()}>
+        유진님 새로운 API 요청 버튼입니다악
+      </button>
+      ;
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="email">Email:</label>

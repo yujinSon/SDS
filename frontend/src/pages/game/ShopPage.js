@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
 import axios from 'libs/axios';
+import testAxios from 'axios';
 import api from 'constants/api';
 
 import Modal from 'components/common/Modal';
@@ -25,6 +26,8 @@ export default function ShopPage() {
   const [recoveryModal, setRecoveryModal] = useState(false);
   const [itemModal, setItemModal] = useState(false);
 
+  const tokenHyunJeong = sessionStorage.getItem('token');
+  console.log(tokenHyunJeong);
   return (
     <Container>
       <img src={상점} alt="상점" />
@@ -39,8 +42,28 @@ export default function ShopPage() {
           onClick={() => {
             setRecoveryModal(!recoveryModal);
             // 전체 캐릭터 HP 회복 요청 API
+            // testAxios({
+            //   url: 'http://70.12.246.58:8080/api/shop/rest',
+            //   method: 'put',
+            // headers: {
+            //   Authorization: `Bearer ${tokenHyunJeong}`, // Authorization 헤더에 토큰을 넣어줍니다.
+            //   },
+            // })
+            //   .then((res) => {
+            //     console.log('회복성공', res);
+            //   })
+            //   .catch((err) => {
+            //     console.log('회복실패', err);
+            //   });
+
             const [url, method] = api('rest');
-            const config = { url, method };
+            const config = {
+              url,
+              method,
+              headers: {
+                Authorization: `Bearer ${tokenHyunJeong}`,
+              },
+            };
             axios(config)
               .then((res) => {
                 console.log('상점에서 캐릭터 체력 회복 성공', res.data);

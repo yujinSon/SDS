@@ -27,8 +27,14 @@ export default function CharacterDetail({ data }) {
                 close={() => setShowSkillModal(!showSkillModal)}
                 content={
                   <SkillModal
-                    data={
+                    skillName={
+                      skillsPK[ch.subClassName].skillNames[selectedSkillIdx]
+                    }
+                    detail={
                       skillsPK[ch.subClassName].skillDetails[selectedSkillIdx]
+                    }
+                    effect={
+                      skillsPK[ch.subClassName].skillEffects[selectedSkillIdx]
                     }
                     showSkillModal={showSkillModal}
                     setShowSkillModal={setShowSkillModal}
@@ -39,52 +45,59 @@ export default function CharacterDetail({ data }) {
           ) : null}
 
           <div>
-            <StatDiv>{ch.className}</StatDiv>
-            <StatDiv>{ch.subClassName} </StatDiv>
-            <StatDiv>level: {ch.level} </StatDiv>
-            <StatDiv>
-              skills:
-              {ch.skills.map((skill, idx) => (
-                <div key={idx}>{skill.skillName} </div>
-              ))}
-              {skillsPK[ch.subClassName].skillImgs.map((skillImg, idx) => (
-                <IMG
-                  src={skillImg}
-                  alt="스킬 이미지"
-                  key={idx}
-                  onClick={() => {
-                    setShowSkillModal(!showSkillModal);
-                    setSelectedSkillIdx(idx);
-                  }}
-                />
-              ))}
-            </StatDiv>
-          </div>
-          <div>
-            <AddStatDiv>
-              <span>
-                hp: {ch.hp} / {ch.maxHp}
-              </span>{' '}
-            </AddStatDiv>
-            <AddStatDiv>
-              <span>ad: {ch.ad}</span>{' '}
-            </AddStatDiv>
-            <AddStatDiv>
-              <span>ap: {ch.ap}</span>{' '}
-            </AddStatDiv>
-            <AddStatDiv>
-              <span>speed: {ch.speed}</span>{' '}
-            </AddStatDiv>
-            <AddStatDiv>
-              <span>critical: {ch.critical}</span>{' '}
-            </AddStatDiv>
-            <AddStatDiv>
-              <span>avoid: {ch.avoid}</span>{' '}
-            </AddStatDiv>
+            <UpperContainer>
+              <StatDiv>{ch.className}</StatDiv>
+              <StatDiv>
+                {ch.subClassName} (LV.{ch.level})
+              </StatDiv>
+
+              <StatDiv>
+                {skillsPK[ch.subClassName].skillImgs.map((skillImg, idx) => (
+                  <IMG
+                    src={skillImg}
+                    alt="스킬 이미지"
+                    key={idx}
+                    onClick={() => {
+                      setShowSkillModal(!showSkillModal);
+                      setSelectedSkillIdx(idx);
+                    }}
+                  />
+                ))}
+              </StatDiv>
+            </UpperContainer>
+
+            <hr />
+
+            <BottomContainer>
+              <div>
+                <AddStatDiv>
+                  <span>
+                    hp: {ch.hp} / {ch.maxHp}
+                  </span>{' '}
+                </AddStatDiv>
+                <AddStatDiv>
+                  <span>ad: {ch.ad}</span>{' '}
+                </AddStatDiv>
+                <AddStatDiv>
+                  <span>ap: {ch.ap}</span>{' '}
+                </AddStatDiv>
+              </div>
+              <div>
+                <AddStatDiv>
+                  <span>speed: {ch.speed}</span>{' '}
+                </AddStatDiv>
+                <AddStatDiv>
+                  <span>critical: {ch.critical}</span>{' '}
+                </AddStatDiv>
+                <AddStatDiv>
+                  <span>avoid: {ch.avoid}</span>{' '}
+                </AddStatDiv>
+              </div>
+            </BottomContainer>
           </div>
         </TopDiv>
       ) : (
-        <div>능력치 보고 싶은 캐릭터 선택하셈</div>
+        <div>캐릭터를 선택하여 상세정보를 확인하세요.</div>
       )}
     </Container>
   );
@@ -133,6 +146,19 @@ const ModalContainer = styled.div`
 `;
 
 const IMG = styled.img`
+  margin: 0.5rem;
   width: 100px;
   height: 100px;
+  border: 3px solid white;
+`;
+
+const UpperContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`;
+const BottomContainer = styled.div`
+  display: flex;
+  justify-content: space-evenly;
 `;

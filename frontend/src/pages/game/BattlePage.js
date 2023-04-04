@@ -238,13 +238,15 @@ export default function BattlePage() {
 
   useEffect(() => {
     if (!turnOrder) return;
-    setNowTurn(turnOrder[nowIdx].pos);
+    console.log("12133131241242125235346");
+    setNowTurn(turnOrder[0].pos);
   }, [turnOrder]);
 
   // 턴 순서에 따라서 공격 logic 실행
   useEffect(() => {
     if (!turnOrder) return;
     console.log(nowIdx, '현재 턴');
+    console.log("turnOrder : ", turnOrder);
     setNowTurn(turnOrder[nowIdx].pos);
     setSelectedCh(-1);
     // console.log('현재 공격 pos', turnOrder[nowIdx]);
@@ -326,7 +328,7 @@ export default function BattlePage() {
         if (found === false) {
           console.log('으아아아아아아아ㅏ아아아아아아');
           if (nowIdx < turnOrder.length - 1) {
-            setNowIdx(nowIdx);
+            setNowIdx(nowIdx+1);
             return;
           } else {
             setNowIdx(0);
@@ -585,7 +587,7 @@ export default function BattlePage() {
           .catch((err) => {});
 
         setPlayerTurn(0);
-        if (nowIdx < 6) {
+        if (nowIdx < turnOrder.length-1) {
           setNowIdx(nowIdx + 1);
         } else {
           setNowIdx(0);
@@ -758,7 +760,7 @@ export default function BattlePage() {
     setPlayerTurn(0);
 
     // 플레이어가 공격했으면 다음 턴으로 넘어감
-    if (nowIdx < 6) {
+    if (nowIdx < turnOrder.length -1) {
       setNowIdx(nowIdx + 1);
     } else {
       setNowIdx(0);
@@ -839,10 +841,10 @@ const BattleContainer = styled.div`
 `;
 
 const BottomContainer = styled.div`
+
   display: flex;
   flex-direction: row;
-
-  flex-grow: 1;
+  height: 30%;
 
   color: black;
 `;
@@ -850,11 +852,10 @@ const BottomContainer = styled.div`
 const LeftContainer = styled.div`
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
-
   color: black;
   width: 50%;
-  height: 100%;
+  height: 100%
+
 `;
 
 const RightContainer = styled.div`
@@ -862,7 +863,7 @@ const RightContainer = styled.div`
   background-color: rgba(189, 189, 189, 0.7);
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
+
   color: #333;
   width: 50%;
   height: 100%;

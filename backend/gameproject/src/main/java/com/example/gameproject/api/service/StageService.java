@@ -40,8 +40,8 @@ public class StageService {
 
 
         if (user.getSubStage() == 1) {
-            List<CoolTime> coolTimes = coolTimeRepository.findByUserId(userId);
-            List<EffectTime> effectTimes = effectTimeRepository.findByUserId(userId);
+            List<CoolTime> coolTimes = coolTimeRepository.findAll();
+            List<EffectTime> effectTimes = effectTimeRepository.findAll();
 
             for (CoolTime coolTime : coolTimes) {
                 if (coolTime.getMyCharacter().getUser().getId() == userId) {

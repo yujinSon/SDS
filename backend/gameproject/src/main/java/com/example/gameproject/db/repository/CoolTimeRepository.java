@@ -20,9 +20,6 @@ public interface CoolTimeRepository extends JpaRepository<CoolTime, Long> {
     List<CoolTime> findByMyCharacterId(@Param("id") long myCharacterId);
 
 
-    // userId 의 케릭터 들이 사용한 스킬쿨 가져오기
-    @Query(value = "SELECT * FROM cool_time ct JOIN my_character mc ON ct.mycharacter_id = mc.id JOIN user u ON mc.user_id = u.id WHERE u.id = :userId", nativeQuery = true)
-    List<CoolTime> findByUserId(@Param("userId") Long userId);
 
 
 }
