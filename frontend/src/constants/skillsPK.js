@@ -22,6 +22,21 @@ import 소화기사용법숙지 from 'assets/img/skills/소화기 사용법 숙�
 import 안전벨트착용 from 'assets/img/skills/안전벨트 착용.png';
 import 정속주행 from 'assets/img/skills/정속 주행.png';
 
+import 개인보안강화 from 'assets/img/skills/개인 보안 강화.jpg';
+import 올바른신고정신강화 from 'assets/img/skills/올바른 신고정신 강화.jpg';
+import 범죄예방교육 from 'assets/img/skills/범죄 예방교육.jpg';
+import 올바른시민의식강화 from 'assets/img/skills/올바른 시민 의식 강화.jpg';
+
+import 경각심가지기 from 'assets/img/skills/경각심 가지기.jpg';
+// import 관련제도확인 from 'assets/img/skills/.jpg';
+import 결혼문화의변화인식 from 'assets/img/skills/결혼 문화의 변화 인식.jpg';
+import 어린이집지원 from 'assets/img/skills/어린이집 지원.jpg';
+
+import 지역상점이용 from 'assets/img/skills/지역상점 이용.jpg';
+import 자기계발 from 'assets/img/skills/자기계발.jpg';
+import 선거참여 from 'assets/img/skills/어린이집 지원.jpg';
+import 직원복지개선 from 'assets/img/skills/직원 복지 개선.jpg';
+
 const skillsPK = {
   '환경운동가 유진': {
     subClassName: '환경운동가 유진',
@@ -32,6 +47,11 @@ const skillsPK = {
       '상당한 양의 물을 절약할 수 있다.',
       '미세섬유를 걸러내 수질오염을 방지한다.',
     ],
+    skillEffects: [
+      '한명을 AD * 100% 로 공격한다.',
+      '한 명의 체력을 회복시킨다. hp * 50%',
+      '한 명의 회피율을 올려준다. hp * 5% 3턴',
+    ],
   },
   '환경지킴이 유진': {
     subClassName: '환경지킴이 유진',
@@ -41,6 +61,11 @@ const skillsPK = {
       '평범한 공격이다. AD에 비례한 데미지를 입힌다.',
       '대중교통을 이용하여 탄소배출을 줄여보자',
       '대중교통을 이용하여 탄소배출을 줄여보자',
+    ],
+    skillEffects: [
+      '한명을 AD * 100% 로 공격한다.',
+      '한명의 HP를 회복시킨다. hp * 20%',
+      '모두의 Speed를 올려준다. Hp * 10% 2턴',
     ],
   },
 
@@ -53,6 +78,11 @@ const skillsPK = {
       '안보에 가장 중요한것은 국민의 의식이다.',
       '보안이 필요한 자료들을 잘 보호하자.',
     ],
+    skillEffects: [
+      '한명을 AD * 100% 로 공격한다.',
+      '한명의 AD를 올려준다, AD*100% 2턴',
+      '한명을 AD * 200% 로 공격한다.',
+    ],
   },
   '군인 용찬': {
     subClassName: '군인 용찬',
@@ -62,6 +92,11 @@ const skillsPK = {
       '평범한 공격이다. AD에 비례한 데미지를 입힌다.',
       '간첩신고는 112 혹은 113',
       '기술의 혁신도 안보를 지키는데 이어질 수 있다.',
+    ],
+    skillEffects: [
+      '한명을 AD * 100% 로 공격한다.',
+      '한명을 AD*400% 로 공격한다.',
+      '모두를 AD*70% 로 공격한다.',
     ],
   },
   '질병관리자 민수': {
@@ -73,6 +108,11 @@ const skillsPK = {
       '감염병 예방의 기초',
       '비말을 통한 감염전파를 막아준다.',
     ],
+    skillEffects: [
+      '한명을 AD * 100% 로 공격한다.',
+      '모두의  HP를 회복시킨다. AP*150%',
+      '한명의 HP를 회복시킨다 최대HP * 80%',
+    ],
   },
   '질병전문가 민수': {
     subClassName: '질병전문가 민수',
@@ -82,6 +122,11 @@ const skillsPK = {
       '평범한 공격이다. AD에 비례한 데미지를 입힌다.',
       '식중독 예방에 탁월하다.',
       '예방 뿐만아니라 감염후에도 도움이 된다.',
+    ],
+    skillEffects: [
+      '한명을 AD * 100% 로 공격한다.',
+      '한명의 HP를 회복시킨다 최대HP * 80%',
+      '한명을 AP*200% 로 공격한다.',
     ],
   },
   '사회전문가 정빈': {
@@ -93,6 +138,11 @@ const skillsPK = {
       '맑은 정신은 건강한 몸에서 나온다.',
       '화재 발생시 큰 도움이 된다.',
     ],
+    skillEffects: [
+      '한명을 AD * 100% 로 공격한다.',
+      '한명을 AP*300% 로 공격한다.',
+      '한명의 AP를 올린다. AP*50% 3턴',
+    ],
   },
   '사회학 교수 정빈': {
     subClassName: '사회학 교수 정빈',
@@ -103,65 +153,100 @@ const skillsPK = {
       '권고가 아닌 필수',
       '과속의 인한 교통사고 발생률은 14배',
     ],
+    skillEffects: [
+      '한명을 AD * 100% 로 공격한다.',
+      '한명의 스피드를 올린다. AP*20% 2턴',
+      '모두를 AP*100%로 공격한다.',
+    ],
   },
   '경찰관 병진': {
     subClassName: '경찰관 병진',
     skillNames: ['일반 공격', '개인 보안 강화', '올바른 신고정신 강화'],
-    skillImgs: [Skill0, Skill1, Skill2],
+    skillImgs: [Skill0, 개인보안강화, 올바른신고정신강화],
     skillDetails: [
       '평범한 공격이다. AD에 비례한 데미지를 입힌다.',
       '개인 보안 강화',
       '올바른 신고정신 강화',
     ],
+    skillEffects: [
+      '한명을 AD * 100% 로 공격한다.',
+      '한명을 AD*180% 로 공격한다.',
+      '한명의 AD를 올린다. AD*250% 2턴',
+    ],
   },
   '프로파일러 병진': {
     subClassName: '프로파일러 병진',
     skillNames: ['일반 공격', '범죄 예방교육', '올바른 시민 의식 강화'],
-    skillImgs: [Skill0, Skill1, Skill2],
+    skillImgs: [Skill0, 범죄예방교육, 올바른시민의식강화],
     skillDetails: [
       '평범한 공격이다. AD에 비례한 데미지를 입힌다.',
-      '산좋고 물좋은 스킬~',
-      'AP 계수로 짱 센 스킬',
+      '교육이 중요하며 기본이다.',
+      '범죄없는 사회 만들기',
+    ],
+    skillEffects: [
+      '한명을 AD * 100% 로 공격한다.',
+      '한명은 AD*300% 로 공격한다.',
+      '모두의 AD를 올려준다 AD*60% 2턴',
     ],
   },
   '인구문제에 심각한 민혁': {
     subClassName: '인구문제에 심각한 민혁',
     skillNames: ['일반 공격', '경각심 가지기', '관련 제도 확인'],
-    skillImgs: [Skill0, Skill1, Skill2],
+    skillImgs: [Skill0, 경각심가지기, Skill2],
     skillDetails: [
       '평범한 공격이다. AD에 비례한 데미지를 입힌다.',
-      '산좋고 물좋은 스킬~',
-      'AP 계수로 짱 센 스킬',
+      '문제를 인지하는 것부터 출발이다.',
+      '아이 관련 복지를 확인해보자',
+    ],
+    skillEffects: [
+      '한명을 AD * 100% 로 공격한다.',
+      '모두의 CRITICAL을 올려준다. HP*2% 1턴',
+      '한명의 HP를 회복시킨다. HP*50%',
     ],
   },
   '생명지킴이 민혁': {
     subClassName: '생명지킴이 민혁',
     skillNames: ['일반 공격', '결혼 문화의 변화 인식', '어린이집 지원'],
-    skillImgs: [Skill0, Skill1, Skill2],
+    skillImgs: [Skill0, 결혼문화의변화인식, 어린이집지원],
     skillDetails: [
       '평범한 공격이다. AD에 비례한 데미지를 입힌다.',
-      '산좋고 물좋은 스킬~',
-      'AP 계수로 짱 센 스킬',
+      '다름을 인정하는 문화',
+      '아이를 가진 부부에게 큰 힘이 된다.',
+    ],
+    skillEffects: [
+      '한명을 AD * 100% 로 공격한다.',
+      '한명의 AVOID 를 올린다. HP*5% 2턴',
+      '모두의 HP를 회복시킨다. 최대HP*50%',
     ],
   },
   '경제전문가 기성': {
     subClassName: '경제전문가 기성',
     skillNames: ['일반 공격', '지역상점 이용', '자기계발'],
-    skillImgs: [Skill0, Skill1, Skill2],
+    skillImgs: [Skill0, 지역상점이용, 자기계발],
     skillDetails: [
       '평범한 공격이다. AD에 비례한 데미지를 입힌다.',
-      '산좋고 물좋은 스킬~',
-      'AP 계수로 짱 센 스킬',
+      '지역경제에 도움이 된다.',
+      '높은 생산성으로 이어진다.',
+    ],
+    skillEffects: [
+      '한명을 AD * 100% 로 공격한다.',
+      '한명의 AD를 올린다. AP*100% 2턴',
+      '한명을 AP*250%로 공격한다.',
     ],
   },
   '경제학 교수 기성': {
     subClassName: '경제학 교수 기성',
     skillNames: ['일반 공격', '선거 참여', '직원 복지 개선'],
-    skillImgs: [Skill0, Skill1, Skill2],
+    skillImgs: [Skill0, 선거참여, 직원복지개선],
     skillDetails: [
       '평범한 공격이다. AD에 비례한 데미지를 입힌다.',
-      '산좋고 물좋은 스킬~',
-      'AP 계수로 짱 센 스킬',
+      '우리나라 발전을 위한 한 표',
+      '직원복지는 곧 생산성으로 이어진다.',
+    ],
+    skillEffects: [
+      '한명을 AD * 100% 로 공격한다.',
+      '한명을 AD*250%로 공격한다.',
+      '한명의 AP를 올린다. AD*100% 2턴',
     ],
   },
 };
