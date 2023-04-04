@@ -45,8 +45,8 @@ export default function ShopPage() {
             // testAxios({
             //   url: 'http://70.12.246.58:8080/api/shop/rest',
             //   method: 'put',
-            //   headers: {
-            //     Authorization: `Bearer ${tokenHyunJeong}`, // Authorization 헤더에 토큰을 넣어줍니다.
+            // headers: {
+            //   Authorization: `Bearer ${tokenHyunJeong}`, // Authorization 헤더에 토큰을 넣어줍니다.
             //   },
             // })
             //   .then((res) => {
@@ -57,7 +57,13 @@ export default function ShopPage() {
             //   });
 
             const [url, method] = api('rest');
-            const config = { url, method };
+            const config = {
+              url,
+              method,
+              headers: {
+                Authorization: `Bearer ${tokenHyunJeong}`,
+              },
+            };
             axios(config)
               .then((res) => {
                 console.log('상점에서 캐릭터 체력 회복 성공', res.data);

@@ -39,28 +39,31 @@ export default function CharacterDetail({ data }) {
           ) : null}
 
           <div>
-            <StatDiv>{ch.className}</StatDiv>
-            <StatDiv>{ch.subClassName} </StatDiv>
-            <StatDiv>level: {ch.level} </StatDiv>
-            <StatDiv>
-              skills:
-              {ch.skills.map((skill, idx) => (
-                <div key={idx}>{skill.skillName} </div>
-              ))}
-              {skillsPK[ch.subClassName].skillImgs.map((skillImg, idx) => (
-                <IMG
-                  src={skillImg}
-                  alt="스킬 이미지"
-                  key={idx}
-                  onClick={() => {
-                    setShowSkillModal(!showSkillModal);
-                    setSelectedSkillIdx(idx);
-                  }}
-                />
-              ))}
-            </StatDiv>
-          </div>
-          <div>
+            <UpperContainer>
+              <div>
+                <StatDiv>{ch.className}</StatDiv>
+                <StatDiv>{ch.subClassName} </StatDiv>
+                <StatDiv>level: {ch.level} </StatDiv>
+              </div>
+              <StatDiv>
+                skills:
+                {ch.skills.map((skill, idx) => (
+                  <div key={idx}>{skill.skillName} </div>
+                ))}
+                {skillsPK[ch.subClassName].skillImgs.map((skillImg, idx) => (
+                  <IMG
+                    src={skillImg}
+                    alt="스킬 이미지"
+                    key={idx}
+                    onClick={() => {
+                      setShowSkillModal(!showSkillModal);
+                      setSelectedSkillIdx(idx);
+                    }}
+                  />
+                ))}
+              </StatDiv>
+            </UpperContainer>
+
             <AddStatDiv>
               <span>
                 hp: {ch.hp} / {ch.maxHp}
@@ -135,4 +138,8 @@ const ModalContainer = styled.div`
 const IMG = styled.img`
   width: 100px;
   height: 100px;
+`;
+
+const UpperContainer = styled.div`
+  display: flex;
 `;
