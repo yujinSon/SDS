@@ -51,8 +51,12 @@ export default function Information({
             {selectedSkill != null ? (
               <SkillDetail>
                 <div>{character.skills[selectedSkill].skillName}</div>
-                <div>지하철을 이용함으로써 대기 오염을 줄일 수 있다.</div>
-                <div> 적에게 AD에 비례한 데미지를 입힌다.</div>
+                <div>
+                  {skillsPK[character.subName].skillDetails[selectedSkill]}
+                </div>
+                <div>
+                  {skillsPK[character.subName].skillEffects[selectedSkill]}
+                </div>
               </SkillDetail>
             ) : (
               <SkillDetail>
@@ -137,8 +141,8 @@ const SkillContainer = styled.div`
 const SkillImg = styled.img`
   width: auto;
   height: auto;
-  max-width: 80%;
-  max-height: 80%;
+  max-width: 60%;
+  max-height: 60%;
   object-fit: cover;
   ${({ selectedSkill }) =>
     selectedSkill &&
