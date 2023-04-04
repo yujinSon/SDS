@@ -37,7 +37,7 @@ public class CharacterService {
         List<RandomCharacterDto> result = new ArrayList<>();
         int randomLevel = (int) (Math.random() * 4) + (stage-1) * 4 + 1 ;
 
-        List<DefaultCharacter> characters = defaultCharacterRepository.getRandomCharacters(1 + (randomLevel/10)*6, 6+ (randomLevel/10)*6);
+        List<DefaultCharacter> characters = defaultCharacterRepository.getRandomCharacters();
 
         for (DefaultCharacter character : characters){
                 RandomCharacterDto randomCharacterDto = new RandomCharacterDto(character, randomLevel, skillRepository);
