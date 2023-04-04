@@ -54,7 +54,8 @@ public class ResultService {
     }
 
     @Transactional
-    public void GameWin(Long userId) {
+    public void GameWin(String email) {
+        long userId = userRepository.findByEmail(email).orElseThrow().getId();
         User user = userRepository.getById(userId);
         user.gameWin();
 

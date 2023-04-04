@@ -6,12 +6,14 @@ import com.example.gameproject.db.entity.Skill;
 import com.example.gameproject.db.repository.SkillRepository;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @NoArgsConstructor
+@ToString
 public class RandomCharacterDto {
     private String className;
     private String subClassName;
