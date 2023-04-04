@@ -238,7 +238,7 @@ export default function BattlePage() {
 
   useEffect(() => {
     if (!turnOrder) return;
-    console.log("12133131241242125235346");
+    console.log('12133131241242125235346');
     setNowTurn(turnOrder[0].pos);
   }, [turnOrder]);
 
@@ -246,7 +246,7 @@ export default function BattlePage() {
   useEffect(() => {
     if (!turnOrder) return;
     console.log(nowIdx, '현재 턴');
-    console.log("turnOrder : ", turnOrder);
+    console.log('turnOrder : ', turnOrder);
     setNowTurn(turnOrder[nowIdx].pos);
     setSelectedCh(-1);
     // console.log('현재 공격 pos', turnOrder[nowIdx]);
@@ -300,6 +300,8 @@ export default function BattlePage() {
       axios(config)
         .then((res) => {
           console.log('몬스터 전멸', res.data);
+          // 스테이지 클리어 시 살아있는 캐릭터의 수를 세션 스토리지에 저장
+          sessionStorage.setItem('chCnt', characters.length);
           setShowVictoryModal(!showVictoryModal);
         })
         .catch((err) => {
@@ -328,7 +330,7 @@ export default function BattlePage() {
         if (found === false) {
           console.log('으아아아아아아아ㅏ아아아아아아');
           if (nowIdx < turnOrder.length - 1) {
-            setNowIdx(nowIdx+1);
+            setNowIdx(nowIdx + 1);
             return;
           } else {
             setNowIdx(0);
@@ -587,7 +589,7 @@ export default function BattlePage() {
           .catch((err) => {});
 
         setPlayerTurn(0);
-        if (nowIdx < turnOrder.length-1) {
+        if (nowIdx < turnOrder.length - 1) {
           setNowIdx(nowIdx + 1);
         } else {
           setNowIdx(0);
@@ -760,7 +762,7 @@ export default function BattlePage() {
     setPlayerTurn(0);
 
     // 플레이어가 공격했으면 다음 턴으로 넘어감
-    if (nowIdx < turnOrder.length -1) {
+    if (nowIdx < turnOrder.length - 1) {
       setNowIdx(nowIdx + 1);
     } else {
       setNowIdx(0);
@@ -841,7 +843,6 @@ const BattleContainer = styled.div`
 `;
 
 const BottomContainer = styled.div`
-
   display: flex;
   flex-direction: row;
   height: 30%;
@@ -854,8 +855,7 @@ const LeftContainer = styled.div`
   flex-direction: column;
   color: black;
   width: 50%;
-  height: 100%
-
+  height: 100%;
 `;
 
 const RightContainer = styled.div`
