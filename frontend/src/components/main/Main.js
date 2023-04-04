@@ -44,7 +44,13 @@ export default function Main() {
   // 버튼 클릭 시 새로운 게임 시작 API 요청 로직
   const startNewGame = () => {
     const [url, method] = api('newGame');
-    const config = { url, method };
+    const config = {
+      url,
+      method,
+      headers: {
+        Authorization: `Bearer ${tokenHyunJeong}`, // Authorization 헤더에 토큰을 넣어줍니다.
+      },
+    };
     myAxios(config)
       .then((res) => {
         console.log(res, 'newGame API 요청 성공');

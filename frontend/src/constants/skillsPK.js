@@ -189,8 +189,8 @@ const skillsPK = {
       '모두의 AD를 올려준다 AD*60% 2턴',
     ],
   },
-  '인구문제에 심각한 민혁': {
-    subClassName: '인구문제에 심각한 민혁',
+  '인류애 민혁': {
+    subClassName: '인류애 민혁',
     skillNames: ['일반 공격', '경각심 가지기', '관련 제도 확인'],
     skillImgs: [Skill0, 경각심가지기, Skill2],
     skillDetails: [
