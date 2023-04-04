@@ -25,8 +25,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()					//추가
                 .oauth2Login()				// OAuth2기반의 로그인인 경우
 //                .loginPage("/loginForm")		// 인증이 필요한 URL에 접근하면 /loginForm으로 이동
-                .defaultSuccessUrl("https://j8a303.p.ssafy.io/api/oauth/loginInfo") // 로그인에 성공했을 때 URL을 직접 넣어줌으로써 해결함
-//                .failureUrl("/joinForm")		// 로그인 실패 시 /loginForm으로 이동
+                .defaultSuccessUrl("https://j8a303.p.ssafy.io/api/users/oauth/loginInfo") // 로그인에 성공했을 때 URL을 직접 넣어줌으로써 해결함
+                .failureUrl("/joinForm")		// 로그인 실패 시 /loginForm으로 이동
                 .userInfoEndpoint()			// 로그인 성공 후 사용자정보를 가져온다.
                 .userService(principalOauth2UserService);	//사용자정보를 처리할 때 사용한다
     }
