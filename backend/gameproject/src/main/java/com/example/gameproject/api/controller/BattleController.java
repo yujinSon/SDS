@@ -1,3 +1,4 @@
+
 package com.example.gameproject.api.controller;
 
 import com.example.gameproject.api.service.BattlePlayerTurnService;
@@ -12,15 +13,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.*;
 import java.util.ArrayList;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 import java.util.HashMap;
 import java.util.List;
 
-// @CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/battle")
 public class BattleController {
@@ -33,11 +32,13 @@ public class BattleController {
     @Autowired
     EnemyAttackService enemyAttackService;
 
-    //    @PutMapping("/enemy")
+
     @PutMapping("/enemy")
-    ResponseEntity<?> attackedFromEnemy(@RequestBody EnemyAttackDto enemyAttackDto) {
+    public ResponseEntity<?> attackedFromEnemy(@RequestBody EnemyAttackDto enemyAttackDto) {
         long userId = 1L;
-        List<MyCharacterAttackDto> res = enemyAttackService.enemyAttack(enemyAttackDto, userId);
+//        List<MyCharacterAttackDto> res = enemyAttackService.enemyAttack(enemyAttackDto, userId);
+        Map<String, List> res = enemyAttackService.enemyAttack(enemyAttackDto, userId);
+
 
         return ResponseEntity.status(200).body(res);
     }
@@ -55,15 +56,16 @@ public class BattleController {
     @PutMapping("/finished")
     public ResponseEntity<?> GetTurnFinished(){
         long userId = 1L;
-        battleService.CoolTime();
-        battleService.EffectTime();
+        battleService.CoolTime(userId);
+        battleService.EffectTime(userId);
 
-        return ResponseEntity.ok(battleService.MyCharacterList());
+        return ResponseEntity.ok(battleService.MyCharacterList(userId));
     }
 
     @DeleteMapping("/end")
     public ResponseEntity<?> DeleteCoolTimeEffectTime(){
-        battleService.DeleteEffect();
+        long userId = 1L;
+        battleService.DeleteEffect(userId);
         return ResponseEntity.ok("delete_ok");
     }
 
@@ -75,3 +77,4 @@ public class BattleController {
     }
 
 }
+

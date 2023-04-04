@@ -2,12 +2,10 @@ package com.example.gameproject.security.jwt;
 
 import java.util.Base64;
 import java.util.Date;
-import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -33,10 +31,6 @@ public class JwtTokenProvider {
 	private long tokenValidTime = 30 * 60 * 1000L;     // 토큰 유효시간 30분
 
 	private final UserDetailsService userDetailsService;
-
-	// public JwtTokenProvider(@Qualifier("UserDetailService") UserDetailsService userDetailsService){
-	// 	this.userDetailsService = userDetailsService;
-	// }
 
 	// 객체 초기화, secretKey를 Base64로 인코딩
 	@PostConstruct
@@ -79,8 +73,8 @@ public class JwtTokenProvider {
 		}
 	}
 
-	// Request의 Header에서 token 값 가져오기
-	public String resolveToken(HttpServletRequest request) {
-		return request.getHeader("X-AUTH-TOKEN");
-	}
+	// // Request의 Header에서 token 값 가져오기
+	// public String resolveToken(HttpServletRequest request) {
+	// 	return request.getHeader("X-AUTH-TOKEN");
+	// }
 }

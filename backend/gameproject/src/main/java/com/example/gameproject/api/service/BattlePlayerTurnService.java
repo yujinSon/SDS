@@ -100,11 +100,11 @@ public class BattlePlayerTurnService {
         for (MyCharacter mc : myCharacters) {
             List<EffectTime> myEffects = effectTimeRepository.findByMyCharacterId(mc.getId());
             List<CoolTime> myCools = coolTimeRepository.findByMyCharacterId(mc.getId());
-//            List<Skill> myCharacterSkills = new ArrayList<>();
+            //            List<Skill> myCharacterSkills = new ArrayList<>();
             List<Skill> myCharacterSkills = skillRepository.findByCharacter_id(mc.getDefaultCharacter().getId());
             List<Long> coolTimeSkillId = new ArrayList<>();
             for (EffectTime et : myEffects) {
-//                myCharacterSkills.add(et.getSkill()); // 내 캐릭중에 mc가 쓴 스킬들
+                //                myCharacterSkills.add(et.getSkill()); // 내 캐릭중에 mc가 쓴 스킬들
                 mySkills.add(et); // 내 캐릭들이 쓴 모든 스킬들 ( 이팩트 타임에서 꺼내 쓸꺼임, 누구에게 쓸건지에 대한 값이 필요해서)
             }
             for (CoolTime ct : myCools) {
@@ -125,23 +125,40 @@ public class BattlePlayerTurnService {
             int skillFactorValue = findFactorValue(skillCaster, skillFactor);
             int effSkillValue = (int) (skillFactorValue * ((double) effskillValue / 100));
             String stat = effSkill.getSkill().getStat();
-
-            if (effSkill.getSkill().isRange() == true) {
-                // 전체 스킬인 경우 모두 적용
-                for (MyCharacterAttackDto myc : myCharacterAttackDtos) {
-                    applyEffect(myc, stat, effSkillValue);
+            if (effSkill.getSkill().getSkillNum() != 3) {
+                if (effSkill.getSkill().isRange() == true) {
+                    // 전체 스킬인 경우 모두 적용
+                    for (MyCharacterAttackDto myc : myCharacterAttackDtos) {
+                        applyEffect(myc, stat, effSkillValue);
+                    }
+                } else {
+                    // 단일 스킬인 경우
+                    // 1. 일단 누구에게쓰는 건지 찾기
+                    int tp = effSkill.getPos();
+                    for (MyCharacterAttackDto myc : myCharacterAttackDtos) {
+                        if (myc.getPos() == tp) {
+                            // 찾았으면 적용
+                            applyEffect(myc, stat, effSkillValue);
+                        }
+                    }
                 }
             } else {
-                // 단일 스킬인 경우
-                // 1. 일단 누구에게쓰는 건지 찾기
-                int tp = effSkill.getPos();
                 for (MyCharacterAttackDto myc : myCharacterAttackDtos) {
-                    if (myc.getPos() == tp) {
-                        // 찾았으면 적용
-                        applyEffect(myc, stat, effSkillValue);
+                    if (effSkill.getMyCharacter().getPos() == effSkill.getPos()) {
+                        applyDebuff(myc, effSkill.getSkill().getStat(), effSkill.getSkill().getValue());
                     }
                 }
             }
+
+        }
+
+        // 디버프로 인해서 스텟이 -가 됐다면 0으로 보정
+        for (MyCharacterAttackDto myc : myCharacterAttackDtos) {
+            myc.setAd(Math.max(0, myc.getAd()));
+            myc.setAp(Math.max(0, myc.getAp()));
+            myc.setSpeed(Math.max(0, myc.getSpeed()));
+            myc.setAvoid(Math.max(0, myc.getAvoid()));
+            myc.setCritical(Math.max(0, myc.getCritical()));
         }
 
 
@@ -150,6 +167,28 @@ public class BattlePlayerTurnService {
 
     // MyCharacterAttackDto에 스탯 적용하는 함수
     // 효과 적용이기 떄문에 저장하지는 않음
+    public void applyDebuff(MyCharacterAttackDto myCharacterAttackDto, String stat, int value) {
+        int totalValue;
+        if (stat.equals(("ad"))) {
+            totalValue = myCharacterAttackDto.getAd() - value;
+            myCharacterAttackDto.setAd(totalValue);
+        } else if (stat.equals(("ap"))) {
+            totalValue = myCharacterAttackDto.getAp() - value;
+            myCharacterAttackDto.setAp(totalValue);
+        } else if (stat.equals(("speed"))) {
+            totalValue = myCharacterAttackDto.getSpeed() - value;
+            myCharacterAttackDto.setSpeed(totalValue);
+        } else if (stat.equals(("avoid"))) {
+            totalValue = myCharacterAttackDto.getAvoid() - value;
+            myCharacterAttackDto.setAvoid(totalValue);
+        } else {
+            // critical
+            totalValue = myCharacterAttackDto.getCritical() - value;
+            myCharacterAttackDto.setCritical(totalValue);
+        }
+    }
+
+
     public void applyEffect(MyCharacterAttackDto myCharacterAttackDto, String stat, int value) {
         int totalValue;
         if (stat.equals(("ad"))) {

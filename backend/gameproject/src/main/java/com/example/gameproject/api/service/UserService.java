@@ -67,7 +67,8 @@ public class UserService {
         return userResponse;
     }
 
-    public List<Long> getMyRelic(Long userId){
+    public List<Long> getMyRelic(String email){
+        long userId = userRepository.findByEmail(email).orElseThrow().getId();
         User user = userRepository.findById(userId).orElse(null);
         List<UserArtifact> myArtifact = userArtifactRepository.findAllByUser_Id(userId);
         List<Long> res = new ArrayList<>();
@@ -78,7 +79,8 @@ public class UserService {
     }
 
     @Transactional
-    public void reStart(long userId){
+    public void reStart(String email){
+        long userId = userRepository.findByEmail(email).orElseThrow().getId();
         User user = userRepository.getById(userId);
 
         // 마이캐릭터 삭제

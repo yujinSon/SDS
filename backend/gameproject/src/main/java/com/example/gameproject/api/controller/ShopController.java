@@ -30,24 +30,28 @@ public class ShopController {
 	private final JwtTokenProvider jwtTokenProvider;
 
 	@PostMapping("/add")
-	public ResponseEntity<String> addCharacter(@RequestBody List<ShopAddRequest> characterList){
-		long userId = 1L;
-		shopService.addCharacter(userId, characterList);
+	public ResponseEntity<String> addCharacter(@RequestHeader String Authorization, @RequestBody List<ShopAddRequest> characterList){
+		String token = Authorization.split(" ")[1];
+		String email = jwtTokenProvider.getUserPk(token);
+		shopService.addCharacter(email, characterList);
 		return ResponseEntity.status(201).body("success");
 	}
 
 	@PutMapping("/change")
-	public ResponseEntity<String> changeCharacter(@RequestBody List<ShopChangeRequest> characterList){
-		long userId = 1L;
-		shopService.changeCharacter(userId, characterList);
+	public ResponseEntity<String> changeCharacter(@RequestHeader String Authorization, @RequestBody List<ShopChangeRequest> characterList){
+		String token = Authorization.split(" ")[1];
+		String email = jwtTokenProvider.getUserPk(token);
+		shopService.changeCharacter(email, characterList);
 		return ResponseEntity.status(200).body("success");
 
 	}
 
 	@PutMapping("/rest")
-	public ResponseEntity<?> healHp(){
-		long userId = 1L;
-		shopService.updateHp(userId);
+	public ResponseEntity<?> healHp(@RequestHeader String Authorization){
+		System.out.println("rest Controller된다");
+		String token = Authorization.split(" ")[1];
+		String email = jwtTokenProvider.getUserPk(token);
+		shopService.updateHp(email);
 		return ResponseEntity.status(200).body("success");
 	}
 
