@@ -22,36 +22,40 @@ from konlpy.tag import Komoran
 def wordtoken(request):
     if request.method == 'GET': # 유물을 시간에 따라서 Update 한다.
         subject = ['환경', '안보', '질병', '사회', '범죄', '인구', '경제']
+        # subject = ['인구']
         comment = {'환경': [], '안보': [], '질병': [], '사회': [], '범죄': [], '인구': [], '경제': []}
+        remove_list = ['것', '거', '문재인', '문재앙', '윤석열', '어', '데', '때문', '지', '듯', '등', '!!', '!', '!!!',
+                       '좌파', '페미', '페미니즘', '페미니스트', '똥', '서신애', '새끼', '곳', '미친', '미친놈', '미친개', '병신']
+
         spacing = Spacing()
         for sub in subject:
-            youtube_data = Youtube.objects.filter(subject = sub)
-            print(len(youtube_data))
-            print(youtube_data)
-            # comment = {1: []}
+            youtube_data = Youtube.objects.filter(subject=sub)
+            # print(len(youtube_data))
+            # print(youtube_data)
 
             check = []
             # 띄어쓰기 보정
             for data in youtube_data:
-                # comment[1].append({"word": data.comment, "value": data.id})
-
                 # 띄어쓰기 보정
                 kospacing_sent = spacing(data.comment) # str 이어야함
                 print(kospacing_sent)  # str
                 # print("띄어쓰기 끝!")
-
                 check.append(kospacing_sent)
 
+            print('형태소 시작')
             # 형태소 분석
             komoran = Komoran()
             map_noun = {}
             for row in check:
                 output = komoran.nouns(row)
                 for out in output:
-                    if out in map_noun:
-                        map_noun[out] += 1
+                    if out not in remove_list:
+                        if out in map_noun:
+                            map_noun[out] += 1
+                        else:
+                            map_noun[out] = 1
                     else:
-                        map_noun[out] = 1
+                        continue
             # 많은 데이터 순으로 정렬
             sorted_map_noun = sorted(map_noun.items(), key=lambda item: item[1], reverse=True)
             comment[sub] = sorted_map_noun
@@ -59,9 +63,8 @@ def wordtoken(request):
         # comment에서 하나씩 꺼내서 저장
         for su in comment:
             for k, v in comment[su]:
-                token = WordTokenizing(name = k, value = v, subject = su)
+                token = WordTokenizing(name=k, value=v, subject=su)
                 token.save()
-
 
                 # 쟝고에 데이터를 저장한다
             # comment = {'환경' : [("쓰레기", 10), ("dd", 20), ], '경제' : }
