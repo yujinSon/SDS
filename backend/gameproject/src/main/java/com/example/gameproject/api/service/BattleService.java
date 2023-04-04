@@ -57,14 +57,16 @@ public class BattleService {
     // CoolTime에서 Turn을 하나씩 지우는 방식을 사용
     @Transactional
     public void CoolTime(Long userId) {
-        List<CoolTime> coolTimes = coolTimeRepository.findByUserId(userId);
+        List<CoolTime> coolTimes = coolTimeRepository.findAll();
         for (CoolTime coolTime : coolTimes) {
-            coolTime.BattleCoolTimeUpdate(coolTime.getTurn());
-            if (coolTime.getTurn() <= 0) {
-                coolTimeRepository.delete(coolTime);
-            } else {
-                coolTimeRepository.save(coolTime);
-                // 여기에 챔피언을 강화시키는 로직 처리 필요
+            if (coolTime.getMyCharacter().getUser().getId() == userId) {
+                coolTime.BattleCoolTimeUpdate(coolTime.getTurn());
+                if (coolTime.getTurn() <= 0) {
+                    coolTimeRepository.delete(coolTime);
+                } else {
+                    coolTimeRepository.save(coolTime);
+                    // 여기에 챔피언을 강화시키는 로직 처리 필요
+                }
             }
         }
     }
@@ -72,13 +74,15 @@ public class BattleService {
     // Effect Turn을 하나씩 지우는 방식을 사용
     @Transactional
     public void EffectTime(Long userId) {
-        List<EffectTime> effectTimes = effectTimeRepository.findByUserId(userId);
+        List<EffectTime> effectTimes = effectTimeRepository.findAll();
         for (EffectTime effectTime : effectTimes) {
-            effectTime.BattleEffectTimeUpdate(effectTime.getTurn());
-            if (effectTime.getTurn() <= 0) {
-                effectTimeRepository.delete(effectTime);
-            } else {
-                effectTimeRepository.save(effectTime);
+            if (effectTime.getMyCharacter().getUser().getId() == userId) {
+                effectTime.BattleEffectTimeUpdate(effectTime.getTurn());
+                if (effectTime.getTurn() <= 0) {
+                    effectTimeRepository.delete(effectTime);
+                } else {
+                    effectTimeRepository.save(effectTime);
+                }
             }
         }
     }
@@ -174,8 +178,8 @@ public class BattleService {
     @Transactional
     public void DeleteEffect(Long userId) {
         // 내 정보를 찾아서
-        List<CoolTime> coolTimes = coolTimeRepository.findByUserId(userId);
-        List<EffectTime> effectTimes = effectTimeRepository.findByUserId(userId);
+        List<CoolTime> coolTimes = coolTimeRepository.findAll();
+        List<EffectTime> effectTimes = effectTimeRepository.findAll();
 
         for (CoolTime coolTime : coolTimes) {
             if (coolTime.getMyCharacter().getUser().getId() == userId) {
