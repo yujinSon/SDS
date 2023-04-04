@@ -372,6 +372,7 @@ export default function BattlePage() {
         const mySkill =
           myMonster.skills[Math.floor(Math.random() * myMonster.skills.length)];
 
+        console.log('빌런 스킬 사용 직전 state 바로 앞');
         setMonsterWho(myMonster.subName);
         setMonsterWhichSkill(mySkill.skillName);
         // 몬스터가 공격할 대상이 캐릭터인 경우 (1이면 캐릭터 if 문 실행, 0이면 몬스터이므로 pass)
@@ -756,21 +757,21 @@ export default function BattlePage() {
           }
         }
       }
+
+      // 플레이어 턴 초기화
+      setPlayerTurn(0);
+
+      // 플레이어가 공격했으면 다음 턴으로 넘어감
+      if (nowIdx < turnOrder.length - 1) {
+        setNowIdx(nowIdx + 1);
+      } else {
+        setNowIdx(0);
+      }
+      // 현재 몇 번재 턴인지 출력
+      console.log('내가 방금 공격한 턴', nowIdx);
     } else {
       alert('스킬 타겟을 잘못 설정하였습니다.');
     }
-
-    // 플레이어 턴 초기화
-    setPlayerTurn(0);
-
-    // 플레이어가 공격했으면 다음 턴으로 넘어감
-    if (nowIdx < turnOrder.length - 1) {
-      setNowIdx(nowIdx + 1);
-    } else {
-      setNowIdx(0);
-    }
-    // 현재 몇 번재 턴인지 출력
-    console.log('내가 방금 공격한 턴', nowIdx);
   };
 
   // 회피여부 판단하는 함수
