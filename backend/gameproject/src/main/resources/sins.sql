@@ -141,9 +141,9 @@ INSERT INTO `sins`.`skill` (`id`, `stat`, `cool_time`, `duration_turn`, `factor`
 -- 질병 --
 INSERT INTO `sins`.`skill` (`id`, `stat`, `cool_time`, `duration_turn`, `factor`, `is_range`, `skill_name`, `skill_num`, `skill_target`, `value`, `character_id`) VALUES ('13', 'hp', '0', '0', 'ad', 0, '일반 공격', '0', '0', '100', '5');
 INSERT INTO `sins`.`skill` (`id`, `stat`, `cool_time`, `duration_turn`, `factor`, `is_range`, `skill_name`, `skill_num`, `skill_target`, `value`, `character_id`) VALUES ('14', 'hp', '7', '0', 'ap', 1, '손 씻기', '1', '1', '150', '5');
-INSERT INTO `sins`.`skill` (`id`, `stat`, `cool_time`, `duration_turn`, `factor`, `is_range`, `skill_name`, `skill_num`, `skill_target`, `value`, `character_id`) VALUES ('15', 'hp', '2', '0', 'maxhp', 0, '마스크 착용', '2', '1', '80', '5');
+INSERT INTO `sins`.`skill` (`id`, `stat`, `cool_time`, `duration_turn`, `factor`, `is_range`, `skill_name`, `skill_num`, `skill_target`, `value`, `character_id`) VALUES ('15', 'hp', '2', '0', 'maxHp', 0, '마스크 착용', '2', '1', '80', '5');
 INSERT INTO `sins`.`skill` (`id`, `stat`, `cool_time`, `duration_turn`, `factor`, `is_range`, `skill_name`, `skill_num`, `skill_target`, `value`, `character_id`) VALUES ('16', 'hp', '0', '0', 'ad', 0, '일반 공격', '0', '0', '100', '6');
-INSERT INTO `sins`.`skill` (`id`, `stat`, `cool_time`, `duration_turn`, `factor`, `is_range`, `skill_name`, `skill_num`, `skill_target`, `value`, `character_id`) VALUES ('17', 'hp', '3', '0', 'maxhp', 0, '익힌 음식 먹기', '1', '1', '100', '6');
+INSERT INTO `sins`.`skill` (`id`, `stat`, `cool_time`, `duration_turn`, `factor`, `is_range`, `skill_name`, `skill_num`, `skill_target`, `value`, `character_id`) VALUES ('17', 'hp', '3', '0', 'maxHp', 0, '익힌 음식 먹기', '1', '1', '100', '6');
 INSERT INTO `sins`.`skill` (`id`, `stat`, `cool_time`, `duration_turn`, `factor`, `is_range`, `skill_name`, `skill_num`, `skill_target`, `value`, `character_id`) VALUES ('18', 'hp', '2', '0', 'ap', 0, '예방 접종', '2', '0', '200', '6');
 -- 사회 --
 INSERT INTO `sins`.`skill` (`id`, `stat`, `cool_time`, `duration_turn`, `factor`, `is_range`, `skill_name`, `skill_num`, `skill_target`, `value`, `character_id`) VALUES ('19', 'hp', '0', '0', 'ad', 0, '일반 공격', '0', '0', '100', '7');
@@ -166,7 +166,7 @@ INSERT INTO `sins`.`skill` (`id`, `stat`, `cool_time`, `duration_turn`, `factor`
 INSERT INTO `sins`.`skill` (`id`, `stat`, `cool_time`, `duration_turn`, `factor`, `is_range`, `skill_name`, `skill_num`, `skill_target`, `value`, `character_id`) VALUES ('33', 'hp', '0', '0', 'hp', 0, '관련 제도 확인', '2', '1', '50', '11');
 INSERT INTO `sins`.`skill` (`id`, `stat`, `cool_time`, `duration_turn`, `factor`, `is_range`, `skill_name`, `skill_num`, `skill_target`, `value`, `character_id`) VALUES ('34', 'hp', '0', '0', 'ad', 0, '일반 공격', '0', '0', '100', '12');
 INSERT INTO `sins`.`skill` (`id`, `stat`, `cool_time`, `duration_turn`, `factor`, `is_range`, `skill_name`, `skill_num`, `skill_target`, `value`, `character_id`) VALUES ('35', 'avoid', '6', '2', 'hp', 0, '결혼 문화의 변화 인식', '1', '1', '5', '12');
-INSERT INTO `sins`.`skill` (`id`, `stat`, `cool_time`, `duration_turn`, `factor`, `is_range`, `skill_name`, `skill_num`, `skill_target`, `value`, `character_id`) VALUES ('36', 'hp', '8', '0', 'maxhp', 1, '어린이집 지원', '2', '1', '50', '12');
+INSERT INTO `sins`.`skill` (`id`, `stat`, `cool_time`, `duration_turn`, `factor`, `is_range`, `skill_name`, `skill_num`, `skill_target`, `value`, `character_id`) VALUES ('36', 'hp', '8', '0', 'maxHp', 1, '어린이집 지원', '2', '1', '50', '12');
 
 -- 경제 --
 INSERT INTO `sins`.`skill` (`id`, `stat`, `cool_time`, `duration_turn`, `factor`, `is_range`, `skill_name`, `skill_num`, `skill_target`, `value`, `character_id`) VALUES ('37', 'hp', '0', '0', 'ad', 0, '일반 공격', '0', '0', '100', '13');
