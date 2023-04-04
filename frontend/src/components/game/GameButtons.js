@@ -2,21 +2,23 @@ import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
-import Button from 'components/common/Button';
-
-export default function GameButtons({
-  saveCh,
-  itemModal,
-  setItemModal,
-  statModal,
-  setStatModal,
-}) {
+export default function GameButtons({ selectedChList }) {
   const navigate = useNavigate();
 
   return (
     <Container>
       <ButtonContainer>
-        <StartButton onClick={() => navigate('/game/ready')}>완료</StartButton>
+        <StartButton
+          onClick={() => {
+            if (selectedChList.length === 0) {
+              alert('캐릭터를 최소 1명 이상 선택해야합니다.');
+            } else {
+              navigate('/game/ready');
+            }
+          }}
+        >
+          완료
+        </StartButton>
       </ButtonContainer>
     </Container>
   );

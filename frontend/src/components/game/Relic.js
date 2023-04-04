@@ -4,45 +4,42 @@ import styled from 'styled-components';
 import IMG from 'assets/img/item1.png';
 
 import relic from 'constants/relic';
-import RelicImg from 'assets/img/손민혁.png';
 
 export default function Relic({ relicIds }) {
-  const [isTheLast, setIsTheLast] = useState(false);
-  const [chunks, setChunks] = useState([]);
-  const [images, setImages] = useState([
+  // 초기 유물 리스트 (값이 0이면 획득하지 못한 유물로, 자물쇠 이미지를 띄울 것임)
+  const [relicInfo, setRelicInfo] = useState([
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   ]);
-
+  // 실제 화면에 띄울 유물 리스트
+  const [relicList, setrelicList] = useState([]);
   // 현재 선택된 유물 이미지 인덱스
   const [nowIdx, setNowIdx] = useState(0);
 
   useEffect(() => {
     if (!relicIds) return;
-
     let copy = [
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ];
+    // 획득한 유물 id들을 담은 relicIds를 순회해서 id에 해당하는 유물에 대한 정보(객체)를 copyIdx에 담아줌
+    // 유물 id는 1부터 시작하므로 copy[idx - 1]에 값을 저장해줌
     for (let idx = 0; idx < relicIds.length; idx++) {
-      // console.log(relicIds[idx]);
       copy[relicIds[idx] - 1] = relic[relicIds[idx]];
     }
-
-    setImages(copy);
+    setRelicInfo(copy);
   }, [relicIds]);
 
   useEffect(() => {
     if (!relicIds) return;
 
+    // 3*8 배치를 위해 for문 돌려서 새로운 배열에 넣어줌 [[], [], [], ...] 형태
     let copy = [];
-
-    for (let i = 0; i < images.length; i += 3) {
-      copy.push(images.slice(i, i + 3));
+    for (let i = 0; i < relicInfo.length; i += 3) {
+      copy.push(relicInfo.slice(i, i + 3));
     }
+    setrelicList(copy);
+  }, [relicInfo]);
 
-    console.log(copy);
-    setChunks(copy);
-  }, [images, isTheLast]);
-
+  // 유물 클릭 시 idx를 변경해줌으로써 유물 상세정보를 알 수 있게 해줌
   const changeIdx = (idx) => {
     setNowIdx(idx);
     console.log(nowIdx);
@@ -51,20 +48,18 @@ export default function Relic({ relicIds }) {
   return (
     <OutFrame>
       <Container>
-        {chunks.map((chunk, idx) => (
+        {relicList.map((relics, idx) => (
           <Row key={idx}>
-            {chunk.map((number, idx2) => {
-              // console.log(number);
-              const imageUrl = `https://example.com/images/${number}.jpg`;
+            {relics.map((relic, idx2) => {
               return (
                 <div key={idx2} onClick={() => changeIdx(3 * idx + idx2)}>
-                  {number === 0 ? (
+                  {relic === 0 ? (
                     <ImageWrapper>
                       <Image src={IMG} />
                     </ImageWrapper>
                   ) : (
                     <ImageWrapper>
-                      <Image src={number.relicImg} />
+                      <Image src={relic.relicImg} />
                     </ImageWrapper>
                   )}
                 </div>
@@ -75,13 +70,13 @@ export default function Relic({ relicIds }) {
       </Container>
       <ArtifactDetail>
         <DetailImgContainer>
-          {images && images[nowIdx] !== 0 ? (
-            <DetailImg src={images[nowIdx].relicImg} />
+          {relicInfo && relicInfo[nowIdx] !== 0 ? (
+            <DetailImg src={relicInfo[nowIdx].relicImg} />
           ) : (
             <DetailImg src={IMG} />
           )}
         </DetailImgContainer>
-        <DetailText>{images[nowIdx].relicDetail}</DetailText>
+        <DetailText>{relicInfo[nowIdx].relicDetail}</DetailText>
       </ArtifactDetail>
     </OutFrame>
   );

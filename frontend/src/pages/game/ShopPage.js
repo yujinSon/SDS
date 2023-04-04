@@ -9,6 +9,7 @@ import Modal from 'components/common/Modal';
 import ItemModal from 'components/game/ItemModal';
 import RecoveryModal from 'components/game/RecoveryModal';
 
+// 상점 페이지에 쓰일 이미지 import
 import 영입 from 'assets/img/영입.png';
 import 휴식 from 'assets/img/휴식.png';
 import 유물 from 'assets/img/유물.png';
@@ -20,10 +21,9 @@ import 유물버튼 from 'assets/img/유물버튼.png';
 export default function ShopPage() {
   const navigate = useNavigate();
 
+  // 회복, 유물 Modal 관련 state
   const [recoveryModal, setRecoveryModal] = useState(false);
   const [itemModal, setItemModal] = useState(false);
-
-  useEffect(() => {}, []);
 
   return (
     <Container>
@@ -38,6 +38,7 @@ export default function ShopPage() {
         <CardItem
           onClick={() => {
             setRecoveryModal(!recoveryModal);
+            // 전체 캐릭터 HP 회복 요청 API
             const [url, method] = api('rest');
             const config = { url, method };
             axios(config)
@@ -57,6 +58,7 @@ export default function ShopPage() {
         <CardItem
           onClick={() => {
             setItemModal(!itemModal);
+            // 유물 획득 API 요청
             const [url, method] = api('addItem');
             const config = { url, method };
             axios(config)
