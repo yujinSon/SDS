@@ -30,7 +30,7 @@ import lombok.RequiredArgsConstructor;
 @Transactional(readOnly = true)
 public class UserService {
     //main에 올려보기
-    
+
     @Autowired
     UserArtifactRepository userArtifactRepository;
     @Autowired
