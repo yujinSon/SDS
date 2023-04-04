@@ -42,35 +42,35 @@ export default function ShopPage() {
           onClick={() => {
             setRecoveryModal(!recoveryModal);
             // 전체 캐릭터 HP 회복 요청 API
-            // testAxios({
-            //   url: 'http://70.12.246.58:8080/api/shop/rest',
-            //   method: 'put',
-            // headers: {
-            //   Authorization: `Bearer ${tokenHyunJeong}`, // Authorization 헤더에 토큰을 넣어줍니다.
-            //   },
-            // })
-            //   .then((res) => {
-            //     console.log('회복성공', res);
-            //   })
-            //   .catch((err) => {
-            //     console.log('회복실패', err);
-            //   });
-
-            const [url, method] = api('rest');
-            const config = {
-              url,
-              method,
+            testAxios({
+              url: 'http://70.12.246.58:8080/api/shop/rest',
+              method: 'put',
               headers: {
-                Authorization: `Bearer ${tokenHyunJeong}`,
+                Authorization: `Bearer ${tokenHyunJeong}`, // Authorization 헤더에 토큰을 넣어줍니다.
               },
-            };
-            axios(config)
+            })
               .then((res) => {
-                console.log('상점에서 캐릭터 체력 회복 성공', res.data);
+                console.log('회복성공', res);
               })
               .catch((err) => {
-                console.log('상점에서 캐릭터 체력 회복 에러', err);
+                console.log('회복실패', err);
               });
+
+            // const [url, method] = api('rest');
+            // const config = {
+            //   url,
+            //   method,
+            //   headers: {
+            //     Authorization: `Bearer ${tokenHyunJeong}`,
+            //   },
+            // };
+            // axios(config)
+            //   .then((res) => {
+            //     console.log('상점에서 캐릭터 체력 회복 성공', res.data);
+            //   })
+            //   .catch((err) => {
+            //     console.log('상점에서 캐릭터 체력 회복 에러', err);
+            //   });
           }}
         >
           <img src={휴식} alt="휴식" />
