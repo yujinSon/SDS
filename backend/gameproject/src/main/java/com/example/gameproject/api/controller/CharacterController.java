@@ -66,5 +66,4 @@ public class CharacterController {
         List<InitialBattleCharacterDto> res = characterService.updateStat(addStatDto, email);
         return ResponseEntity.status(200).body(res);
     }
-
 }
