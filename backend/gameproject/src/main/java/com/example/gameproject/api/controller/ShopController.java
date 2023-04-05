@@ -53,7 +53,7 @@ public class ShopController {
 		return ResponseEntity.status(200).body("success");
 	}
 
-	@PostMapping("relic")
+	@PostMapping("/relic")
 	public ResponseEntity<RelicResponse> sendRelic(@RequestHeader String Authorization){
 		String token = Authorization.split(" ")[1];
 		String email = jwtTokenProvider.getUserPk(token);
