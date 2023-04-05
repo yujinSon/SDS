@@ -34,6 +34,42 @@ export default function BattlePage() {
   }
 
 
+  // 스텟 변동 깜박임 효과
+  const [dynamicStat, setdynamicStat] = useState(Array(7).fill(""));
+
+  const setSpecificDynamicStat = (indices, stat, plusOrminus) => {
+    setdynamicStat((prevDynamicStat) => {
+      const updatedDynamicStat = [...prevDynamicStat];
+      indices.forEach((index) => {
+        updatedDynamicStat[index] = plusOrminus + " " + stat;
+      });
+      return updatedDynamicStat;
+    });
+  };
+
+  // 커스텀 빌런의 전체 공격시
+  const setCoustomDynamicStat = (indices, valueRes) => {
+    setdynamicStat((prevDynamicStat) => {
+      const updatedDynamicStat = [...prevDynamicStat];
+      indices.forEach((index) => {
+        if (valueRes[index] != -1) {
+          if (valueRes[index] > 0) {
+            updatedDynamicStat[index] = "MISS";
+          } else {
+            updatedDynamicStat[index] = "- HP";
+          }
+        } 
+      });
+      return updatedDynamicStat;
+    });
+  };
+
+
+  const resetDynamicStat = () => {
+    setdynamicStat(Array(7).fill(""));
+  }
+
+
 
 
   // 스테이지, 캐릭터, 빌런 정보 state
@@ -492,6 +528,13 @@ export default function BattlePage() {
               if (mySkill.stat === 'hp') {
                 if (mySkill.range === true) {
                   // 전체 스킬인경우
+
+                  setCoustomDynamicStat([0,1,2], valueRes)
+
+                  setTimeout(() => {
+                    resetDynamicStat();
+                  }, 1500);
+
                   const makeMsg = function (
                     monsterName,
                     monsterUsedSKill,
@@ -531,6 +574,14 @@ export default function BattlePage() {
 
                 } else {
                   // 단일 스킬
+
+                  setSpecificDynamicStat([data.target], "HP", "-")
+
+                  setTimeout(() => {
+                    resetDynamicStat();
+                  }, 1500);
+
+
                   let targetCharacter = '';
                   for (let ch of characters) {
                     if (data.target == ch.pos) {
@@ -579,6 +630,14 @@ export default function BattlePage() {
 
                 if (mySkill.range === true) {
                   // 전체 스킬인경우
+
+
+                  setSpecificDynamicStat([0,1,2], mySkill.stat.toUpperCase, "-")
+
+                  setTimeout(() => {
+                    resetDynamicStat();
+                  }, 1500);
+
                   const makeMsg = function (
                     monsterName,
                     monsterUsedSKill,
@@ -614,6 +673,12 @@ export default function BattlePage() {
                       targetCharacter = ch.subName;
                     }
                   }
+
+                  setSpecificDynamicStat([data.target], mySkill.stat.toUpperCase, "-")
+
+                  setTimeout(() => {
+                    resetDynamicStat();
+                  }, 1500);
 
                   const makeMsg = function (
                     monsterName,
@@ -664,6 +729,13 @@ export default function BattlePage() {
           // 전체 빌런에게 힐 스킬 적용
           if (mySkill.range === true) {
             console.log('빌런의 전체 회복 스킬!!!');
+
+            setSpecificDynamicStat([3,4,5,6], "HP", "+")
+
+            setTimeout(() => {
+              resetDynamicStat();
+            }, 1500);
+
             const makeMsg = function (
               monsterName,
               monsterUsedSKill,
@@ -690,6 +762,7 @@ export default function BattlePage() {
           } else {
             // 몬스터에서 피 가장 적은 애한테 힐 스킬 적용
             console.log('빌런의 단일 회복 스킬!!!');
+
             let minHpMonsterPos = -1;
             let minValue = 999999999;
             let targetMonsterName = '';
@@ -700,6 +773,14 @@ export default function BattlePage() {
                 targetMonsterName = monster.subName;
               }
             }
+
+            setSpecificDynamicStat([minHpMonsterPos], "HP", "+")
+
+            setTimeout(() => {
+              resetDynamicStat();
+            }, 1500);
+
+
             for (let monster of monsters) {
               if (minHpMonsterPos === monster.pos) {
                 monster.hp = min(monster.hp + healAmount, monster.maxHp);
@@ -776,6 +857,12 @@ export default function BattlePage() {
           const healRange = characters[chIdx].skills[selectedSkill].range;
           // 전체회복
           if (healRange === true) {
+            setSpecificDynamicStat([0,1,2], "HP", "+")
+
+            setTimeout(() => {
+              resetDynamicStat();
+            }, 1500);
+
             for (let idx = 0; idx < characters.length; idx++) {
               setChHeal(healAmount);
               setChHealTowhom(characters[idx].subName);
@@ -783,6 +870,12 @@ export default function BattlePage() {
             }
           } // 단일 회복
           else {
+            setSpecificDynamicStat([ch.pos], "HP", "+")
+
+            setTimeout(() => {
+              resetDynamicStat();
+            }, 1500);
+
             setChHeal(healAmount);
             setChHealTowhom(ch.subName);
             await new Promise((resolve) => setTimeout(resolve, 0));
@@ -796,8 +889,15 @@ export default function BattlePage() {
           console.log(buffAmount, '버프 증가량');
 
           const buffRange = characters[chIdx].skills[selectedSkill].range;
-          // 전체회복
+          // 전체
           if (buffRange === true) {
+
+            setSpecificDynamicStat([0,1,2], characters[chIdx].skills[selectedSkill].stat.toUpperCase(), "+")
+
+            setTimeout(() => {
+              resetDynamicStat();
+            }, 1500);
+
             for (let idx = 0; idx < characters.length; idx++) {
               setChBuffStat(statPK[usedSkill.stat]);
               setChBuff(buffAmount);
@@ -806,6 +906,12 @@ export default function BattlePage() {
             }
           } // 단일 회복
           else {
+            setSpecificDynamicStat([ch.pos], characters[chIdx].skills[selectedSkill].stat.toUpperCase(), "+")
+
+            setTimeout(() => {
+              resetDynamicStat();
+            }, 1500);
+
             setChBuffStat(statPK[usedSkill.stat]);
             setChBuff(buffAmount);
             setChBuffTowhom(ch.subName);
@@ -963,16 +1069,29 @@ export default function BattlePage() {
           eachDamage *= calculateDodge(monsters[idx].avoid);
           const afterHp = monsters[idx].hp - eachDamage;
           copy[idx].hp = afterHp;
-          console.log(afterHp, '남은 체력');
+          console.log(afterHp, '남은 체력')
 
           setAmount(eachDamage);
           setToWhom(monsters[idx].subName);
           setSpecificCharacterShakingTrue([3,4,5,6])
 
+          if (eachDamage > 0) {
+            setSpecificDynamicStat([monsters[idx].pos], "HP", "-")
+          } else {
+            setSpecificDynamicStat([monsters[idx].pos], "MISS!", "")
+          }
+
+
           // 섹시해 chatGPT ㅎㅅㅎ
           
           await new Promise((resolve) => setTimeout(resolve, 0));
         }
+
+          setTimeout(() => {
+            resetDynamicStat();
+          }, 1500);
+
+
         // hp가 0이하로 떨어져서 사망한 경우
         for (let i = 0; i < copy.length; i++) {
           if (copy[i].hp > 0) {
@@ -985,12 +1104,23 @@ export default function BattlePage() {
       }
       // 단일 스킬인 경우
       else {
+
         for (let idx = 0; idx < monsters.length; idx++) {
           if (monsters[idx].pos === pos) {
             console.log(monsters[idx].hp, '이전 체력');
             // 회피했는지 아닌지 계산
             damage *= calculateDodge(monsters[idx].avoid);
             const afterHp = monsters[idx].hp - damage;
+
+            if (damage > 0) {
+              setSpecificDynamicStat([pos], "HP", "-")
+            } else {
+              setSpecificDynamicStat([pos], "MISS!", "")
+            }
+
+            setTimeout(() => {
+              resetDynamicStat();
+            }, 1500);
 
             // 메시지 띄울 데미지랑 대상 업데이트
             setAmount(damage);
@@ -1068,6 +1198,7 @@ export default function BattlePage() {
           showVictoryModal={showVictoryModal}
           showDefeatModal={showDefeatModal}
           characterShaking = {characterShaking}
+          dynamicStat = {dynamicStat}
         />
       </BattleContainer>
 
