@@ -46,6 +46,7 @@ public class CharacterController {
         long userId = 1L;
         //여기서 access token에서 userId값 가져와야함
         List<SelectedCharacterDto> result = characterService.getCharacterList(userId);
+        System.out.println("ss");
         return ResponseEntity.status(200).body(result);
     }
 
