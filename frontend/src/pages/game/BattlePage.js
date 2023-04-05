@@ -1016,6 +1016,8 @@ const AttackResult = styled.div`
 
 const TextBox = styled.div`
   padding: 1rem;
+  height: 100%;
+  overflow-y: auto;
 `;
 
 const NoneSelectBox = styled.div`
@@ -1024,6 +1026,7 @@ const NoneSelectBox = styled.div`
   align-items: center;
   background-color: rgba(189, 189, 189, 0.7);
   height: 100%;
+  width: 100%;
   font-size: 24px;
   font-weight: bold;
 `;
