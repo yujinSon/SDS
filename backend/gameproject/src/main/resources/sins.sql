@@ -118,9 +118,9 @@ INSERT INTO `sins`.`artifact` (`id`, `is_range`, `name`, `stat`, `target_class`,
 INSERT INTO `sins`.`artifact` (`id`, `is_range`, `name`, `stat`, `target_class`, `value`) VALUES ('21', 1, '경제유물-3', 'hp', '경제', '10');
 
 -- 전체 유물 (3개) --
-INSERT INTO `sins`.`artifact` (`id`, `is_range`, `name`, `stat`, `target_class`, `value`) VALUES ('23', 1, '전체유물-1', 'hp', '전체', '10');
-INSERT INTO `sins`.`artifact` (`id`, `is_range`, `name`, `stat`, `target_class`, `value`) VALUES ('24', 1, '전체유물-2', 'hp', '전체', '10');
-INSERT INTO `sins`.`artifact` (`id`, `is_range`, `name`, `stat`, `target_class`, `value`) VALUES ('25', 1, '전체유물-3', 'hp', '전체', '10');
+INSERT INTO `sins`.`artifact` (`id`, `is_range`, `name`, `stat`, `target_class`, `value`) VALUES ('22', 1, '전체유물-1', 'hp', '전체', '10');
+INSERT INTO `sins`.`artifact` (`id`, `is_range`, `name`, `stat`, `target_class`, `value`) VALUES ('23', 1, '전체유물-2', 'hp', '전체', '10');
+INSERT INTO `sins`.`artifact` (`id`, `is_range`, `name`, `stat`, `target_class`, `value`) VALUES ('24', 1, '전체유물-3', 'hp', '전체', '10');
 
 -- 스킬 --
 -- 캐릭터 스킬 --
