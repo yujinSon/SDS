@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Youtube
+from .models import Youtube, WordTokenizing
 
 class CommentSerializer(serializers.Serializer):
     # title = serializers.CharField()
@@ -11,3 +11,9 @@ class youtubeListSerializer(serializers.ModelSerializer):
         model = Youtube
         fields = '__all__'
         # fields = ('id', 'title', 'content', 'user', 'username')
+
+class WordTokenizingSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = WordTokenizing
+        fields = "__all__"
