@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import IMG from 'assets/img/item1.png';
 
-import relic from 'constants/relic';
+import relic from 'constants/relicPK';
 
 export default function Relic({ relicIds }) {
   // 초기 유물 리스트 (값이 0이면 획득하지 못한 유물로, 자물쇠 이미지를 띄울 것임)
