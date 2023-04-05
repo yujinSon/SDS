@@ -15,7 +15,7 @@ import Stats from 'components/game/Stats';
 
 export default function RecruitPage() {
   const navigate = useNavigate();
-  const tokenHyunJeong = localStorage.getItem('token');
+  const token = sessionStorage.getItem('token');
 
   // 랜덤 캐릭터 리스트, 선택된 랜덤 캐릭터의 idx state
   const [randomChList, setRandomChList] = useState(null);
@@ -31,7 +31,7 @@ export default function RecruitPage() {
       url,
       method,
       headers: {
-        Authorization: `Bearer ${tokenHyunJeong}`, // Authorization 헤더에 토큰을 넣어줍니다.
+        Authorization: `Bearer ${token}`, // Authorization 헤더에 토큰을 넣어줍니다.
       },
     };
     axios(config)
@@ -49,7 +49,7 @@ export default function RecruitPage() {
       url,
       method,
       headers: {
-        Authorization: `Bearer ${tokenHyunJeong}`, // Authorization 헤더에 토큰을 넣어줍니다.
+        Authorization: `Bearer ${token}`, // Authorization 헤더에 토큰을 넣어줍니다.
       },
     };
     axios(config)
@@ -66,7 +66,7 @@ export default function RecruitPage() {
       url,
       method,
       headers: {
-        Authorization: `Bearer ${tokenHyunJeong}`, // Authorization 헤더에 토큰을 넣어줍니다.
+        Authorization: `Bearer ${token}`, // Authorization 헤더에 토큰을 넣어줍니다.
       },
     };
     axios(config)
@@ -86,7 +86,7 @@ export default function RecruitPage() {
       method,
       data,
       headers: {
-        Authorization: `Bearer ${tokenHyunJeong}`, // Authorization 헤더에 토큰을 넣어줍니다.
+        Authorization: `Bearer ${token}`, // Authorization 헤더에 토큰을 넣어줍니다.
       },
     };
     // 아직 영입한 캐릭터가 없으면 새로운 배열을 만들어 추가
