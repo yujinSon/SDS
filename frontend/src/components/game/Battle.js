@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import styled, {keyframes, css} from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 
 import VictoryModal from './VictoryModal';
 import DefeatModal from './DefeatModal';
 import POS from 'constants/pk';
+import charactersPK from 'constants/charactersPK';
 import monstersPK from 'constants/monstersPK';
 
 import IMG from 'assets/img/고병진.png';
@@ -153,10 +154,11 @@ const CharacterContainer = styled.div`
     border-color: yellow;
   `}
 
-  ${({shaking}) => shaking && css`animation: ${shakeAnimation} 0.3s;`}
-
-  
-  
+  ${({ shaking }) =>
+    shaking &&
+    css`
+      animation: ${shakeAnimation} 0.3s;
+    `}
 `;
 
 const MonsterContainer = styled.div`
@@ -169,8 +171,11 @@ const MonsterContainer = styled.div`
   flex-direction: column;
   align-items: center;
 
-  ${({shaking}) => shaking && css`animation: ${shakeAnimation} 0.3s;`}
-  
+  ${({ shaking }) =>
+    shaking &&
+    css`
+      animation: ${shakeAnimation} 0.3s;
+    `}
 `;
 
 const Circle = styled.img`
