@@ -1,4 +1,4 @@
-import Skill0 from 'assets/img/basicskill.png';
+import 기본공격 from 'assets/img/skills/기본공격.png';
 import Skill1 from 'assets/img/skill1.png';
 import Skill2 from 'assets/img/skill2.png';
 
@@ -28,7 +28,7 @@ import 범죄예방교육 from 'assets/img/skills/범죄 예방교육.jpg';
 import 올바른시민의식강화 from 'assets/img/skills/올바른 시민 의식 강화.jpg';
 
 import 경각심가지기 from 'assets/img/skills/경각심 가지기.jpg';
-// import 관련제도확인 from 'assets/img/skills/.jpg';
+import 관련제도확인 from 'assets/img/skills/관련 제도 확인.jpg';
 import 결혼문화의변화인식 from 'assets/img/skills/결혼 문화의 변화 인식.jpg';
 import 어린이집지원 from 'assets/img/skills/어린이집 지원.jpg';
 
@@ -41,7 +41,7 @@ const skillsPK = {
   '환경운동가 유진': {
     subClassName: '환경운동가 유진',
     skillNames: ['일반 공격', '양치컵 사용', '세탁망 사용'],
-    skillImgs: [Skill0, 양치컵사용, 세탁망사용],
+    skillImgs: [기본공격, 양치컵사용, 세탁망사용],
     skillDetails: [
       '평범한 공격이다.',
       '상당한 양의 물을 절약할 수 있다.',
@@ -56,7 +56,7 @@ const skillsPK = {
   '환경지킴이 유진': {
     subClassName: '환경지킴이 유진',
     skillNames: ['일반 공격', '지하철 이용', '버스 이용'],
-    skillImgs: [Skill0, 지하철이용, 버스이용],
+    skillImgs: [기본공격, 지하철이용, 버스이용],
     skillDetails: [
       '평범한 공격이다.',
       '대중교통을 이용하여 탄소배출을 줄여보자',
@@ -72,7 +72,7 @@ const skillsPK = {
   '안보전문가 용찬': {
     subClassName: '안보안보전문가 용찬',
     skillNames: ['일반 공격', '안보의식 향상', '정보 보호 강화'],
-    skillImgs: [Skill0, 안보의식향상, 정보보호강화],
+    skillImgs: [기본공격, 안보의식향상, 정보보호강화],
     skillDetails: [
       '평범한 공격이다.',
       '안보에 가장 중요한것은 국민의 의식이다.',
@@ -87,7 +87,7 @@ const skillsPK = {
   '군인 용찬': {
     subClassName: '군인 용찬',
     skillNames: ['일반 공격', '간첩 신고', '관련 기술 협력'],
-    skillImgs: [Skill0, 간첩신고, 관련기술협력],
+    skillImgs: [기본공격, 간첩신고, 관련기술협력],
     skillDetails: [
       '평범한 공격이다.',
       '간첩신고는 112 혹은 113',
@@ -102,7 +102,7 @@ const skillsPK = {
   '질병관리자 민수': {
     subClassName: '질병관리자 민수',
     skillNames: ['일반 공격', '손 씻기', '마스크 착용'],
-    skillImgs: [Skill0, 손씻기, 마스크착용],
+    skillImgs: [기본공격, 손씻기, 마스크착용],
     skillDetails: [
       '평범한 공격이다.',
       '감염병 예방의 기초',
@@ -117,7 +117,7 @@ const skillsPK = {
   '질병전문가 민수': {
     subClassName: '질병전문가 민수',
     skillNames: ['일반 공격', '익힌 음식 먹기', '예방 접종'],
-    skillImgs: [Skill0, 익힌음식먹기, 예방접종],
+    skillImgs: [기본공격, 익힌음식먹기, 예방접종],
     skillDetails: [
       '평범한 공격이다.',
       '식중독 예방에 탁월하다.',
@@ -132,7 +132,7 @@ const skillsPK = {
   '사회전문가 정빈': {
     subClassName: '사회전문가 정빈',
     skillNames: ['일반 공격', '가벼운 운동', '소화기 사용법 숙지'],
-    skillImgs: [Skill0, 가벼운운동, 소화기사용법숙지],
+    skillImgs: [기본공격, 가벼운운동, 소화기사용법숙지],
     skillDetails: [
       '평범한 공격이다.',
       '맑은 정신은 건강한 몸에서 나온다.',
@@ -147,7 +147,7 @@ const skillsPK = {
   '사회학 교수 정빈': {
     subClassName: '사회학 교수 정빈',
     skillNames: ['일반 공격', '안전벨트 착용', '정속 주행'],
-    skillImgs: [Skill0, 안전벨트착용, 정속주행],
+    skillImgs: [기본공격, 안전벨트착용, 정속주행],
     skillDetails: [
       '평범한 공격이다.',
       '권고가 아닌 필수',
@@ -162,7 +162,7 @@ const skillsPK = {
   '경찰관 병진': {
     subClassName: '경찰관 병진',
     skillNames: ['일반 공격', '개인 보안 강화', '올바른 신고정신 강화'],
-    skillImgs: [Skill0, 개인보안강화, 올바른신고정신강화],
+    skillImgs: [기본공격, 개인보안강화, 올바른신고정신강화],
     skillDetails: [
       '평범한 공격이다.',
       '악용되는걸 방지하자.',
@@ -177,7 +177,7 @@ const skillsPK = {
   '프로파일러 병진': {
     subClassName: '프로파일러 병진',
     skillNames: ['일반 공격', '범죄 예방교육', '올바른 시민 의식 강화'],
-    skillImgs: [Skill0, 범죄예방교육, 올바른시민의식강화],
+    skillImgs: [기본공격, 범죄예방교육, 올바른시민의식강화],
     skillDetails: [
       '평범한 공격이다.',
       '교육이 중요하며 기본이다.',
@@ -192,7 +192,7 @@ const skillsPK = {
   '인류애 민혁': {
     subClassName: '인류애 민혁',
     skillNames: ['일반 공격', '경각심 가지기', '관련 제도 확인'],
-    skillImgs: [Skill0, 경각심가지기, Skill2],
+    skillImgs: [기본공격, 경각심가지기, 관련제도확인],
     skillDetails: [
       '평범한 공격이다.',
       '문제를 인지하는 것부터 출발이다.',
@@ -207,7 +207,7 @@ const skillsPK = {
   '생명지킴이 민혁': {
     subClassName: '생명지킴이 민혁',
     skillNames: ['일반 공격', '결혼 문화의 변화 인식', '어린이집 지원'],
-    skillImgs: [Skill0, 결혼문화의변화인식, 어린이집지원],
+    skillImgs: [기본공격, 결혼문화의변화인식, 어린이집지원],
     skillDetails: [
       '평범한 공격이다.',
       '다름을 인정하는 문화',
@@ -222,7 +222,7 @@ const skillsPK = {
   '경제전문가 기성': {
     subClassName: '경제전문가 기성',
     skillNames: ['일반 공격', '지역상점 이용', '자기계발'],
-    skillImgs: [Skill0, 지역상점이용, 자기계발],
+    skillImgs: [기본공격, 지역상점이용, 자기계발],
     skillDetails: [
       '평범한 공격이다.',
       '지역경제에 도움이 된다.',
@@ -237,7 +237,7 @@ const skillsPK = {
   '경제학교수 기성': {
     subClassName: '경제학교수 기성',
     skillNames: ['일반 공격', '선거참여', '직원 복지 개선'],
-    skillImgs: [Skill0, 선거참여, 직원복지개선],
+    skillImgs: [기본공격, 선거참여, 직원복지개선],
     skillDetails: [
       '평범한 공격이다.',
       '우리나라 발전을 위한 한 표',
