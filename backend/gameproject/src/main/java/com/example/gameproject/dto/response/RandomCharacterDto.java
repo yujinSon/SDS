@@ -41,17 +41,17 @@ public class RandomCharacterDto {
         this.className = character.getClassName();
         this.subClassName = character.getSubName();
         this.level = level;
-        this.hp = (int) Math.round(character.getCharacterStat().getHp() * myList.get(randomIndex));
+        this.hp = (int) Math.round(character.getCharacterStat().getHp());
         randomIndex = random.nextInt(myList.size());
-        this.ad = (int) Math.round(character.getCharacterStat().getAd() * myList.get(randomIndex));
+        this.ad = (int) Math.round(character.getCharacterStat().getAd());
         randomIndex = random.nextInt(myList.size());
-        this.ap = (int) Math.round(character.getCharacterStat().getAp() * myList.get(randomIndex));
+        this.ap = (int) Math.round(character.getCharacterStat().getAp());
         randomIndex = random.nextInt(myList.size());
-        this.speed = (int) Math.round(character.getCharacterStat().getSpeed() * myList.get(randomIndex));
+        this.speed = (int) Math.round(character.getCharacterStat().getSpeed());
         randomIndex = random.nextInt(myList.size());
-        this.critical = (int) Math.round(character.getCharacterStat().getCritical() * myList.get(randomIndex));
+        this.critical = (int) Math.round(character.getCharacterStat().getCritical());
         randomIndex = random.nextInt(myList.size());
-        this.avoid = (int) Math.round(character.getCharacterStat().getAvoid() * myList.get(randomIndex));
+        this.avoid = (int) Math.round(character.getCharacterStat().getAvoid());
         this.maxHp = character.getCharacterStat().getHp();
         this.pos = -1;
 
