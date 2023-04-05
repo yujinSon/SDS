@@ -58,4 +58,3 @@ pymysql
 mysqlclient
 emoji
 konlpy
-git+https://github.com/haven-jeon/PyKoSpacing.git
