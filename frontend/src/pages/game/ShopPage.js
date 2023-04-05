@@ -26,10 +26,10 @@ export default function ShopPage() {
   const [recoveryModal, setRecoveryModal] = useState(false);
   const [itemModal, setItemModal] = useState(false);
 
-  const tokenHyunJeong = sessionStorage.getItem('token');
+  const token = sessionStorage.getItem('token');
   const chCnt = parseInt(sessionStorage.getItem('chCnt'));
   console.log(chCnt, '살아있는 캐릭터 수');
-  console.log(tokenHyunJeong, '토큰');
+  console.log(token, '토큰');
   return (
     <Container>
       <img src={상점} alt="상점" />
@@ -58,7 +58,7 @@ export default function ShopPage() {
               url,
               method,
               headers: {
-                Authorization: `Bearer ${tokenHyunJeong}`,
+                Authorization: `Bearer ${token}`,
               },
             };
             axios(config)
@@ -80,7 +80,13 @@ export default function ShopPage() {
             setItemModal(!itemModal);
             // 유물 획득 API 요청
             const [url, method] = api('addItem');
-            const config = { url, method };
+            const config = {
+              url,
+              method,
+              headers: {
+                Authorization: `Bearer ${token}`, // Authorization 헤더에 토큰을 넣어줍니다.
+              },
+            };
             axios(config)
               .then((res) => {
                 console.log('상점에서 유물 획득 성공', res.data);

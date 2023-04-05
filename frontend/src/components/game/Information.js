@@ -161,13 +161,22 @@ const SkillDetail = styled.div`
 `;
 
 const NoneSelectBox = styled.div`
+  background-color: rgba(189, 189, 189, 0.7);
+  
   display: flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
-  background-color: rgba(189, 189, 189, 0.7);
+
+  color: black;
   height: 100%;
+  width: 100%;
   font-size: 24px;
   font-weight: bold;
+
+  padding: 1rem;
+  gap: 0.5rem;
+
 `;
 
 
