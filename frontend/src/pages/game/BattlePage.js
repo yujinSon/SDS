@@ -994,6 +994,11 @@ export default function BattlePage() {
     // 현재 턴인 캐릭터의 객체 정보
     const myCharacter = characters[selectedCh];
 
+    if (mySkill.skillTarget === 1) {
+      alert('스킬 타겟을 잘못 설정하였습니다.');
+      return
+    }
+
     let chIdx = 0;
     for (let idx = 0; idx < characters.length; idx++) {
       if (characters[idx].pos === nowTurn) {
@@ -1156,18 +1161,27 @@ export default function BattlePage() {
       setTimeout(() => {
         resetCharacterShaking();
       }, 300);
+      
+      setTimeout(() => {
 
-      // 플레이어 턴 초기화
-      setPlayerTurn(0);
+        console.log("showVictoryModal : ", showVictoryModal)
+        if (showVictoryModal == true) {
+          return;
+        }
 
-      // 플레이어가 공격했으면 다음 턴으로 넘어감
-      if (nowIdx < turnOrder.length - 1) {
-        setNowIdx(nowIdx + 1);
-      } else {
-        setNowIdx(0);
-      }
-      // 현재 몇 번재 턴인지 출력
-      console.log('내가 방금 공격한 턴', nowIdx);
+        // 플레이어 턴 초기화
+        setPlayerTurn(0);
+
+          // 플레이어가 공격했으면 다음 턴으로 넘어감
+        if (nowIdx < turnOrder.length - 1) {
+          setNowIdx(nowIdx + 1);
+        } else {
+          setNowIdx(0);
+        }
+        // 현재 몇 번재 턴인지 출력
+        console.log('내가 방금 공격한 턴', nowIdx);
+
+      }, 1000)
     } else {
       alert('스킬 타겟을 잘못 설정하였습니다.');
     }
