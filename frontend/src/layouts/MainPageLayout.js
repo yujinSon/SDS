@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { loginBgImg } from 'assets/img/bgs/login.jpg';
 
 export default function MainPageLayout({ children }) {
   const [Up, Down] = children;
@@ -23,9 +24,8 @@ const Container = styled.div`
 
   height: 100%;
 
-  background-image: url(${({ theme }) => theme.mainPageBgImg});
+  background-image: url(${({ theme }) => theme.loginBgImg});
   background-size: cover;
-
 `;
 
 const UpperPane = styled.div`
