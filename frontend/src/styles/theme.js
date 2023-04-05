@@ -1,6 +1,12 @@
-import mainPageBgImg from 'assets/img/bg-mainpage.png';
-import mapBgImg from 'assets/img/frame.png';
-import battleBgImg from 'assets/img/battle.png';
+import loginBgImg from 'assets/img/bgs/login.jpg';
+import mainBgImg from 'assets/img/bgs/gamemain.jpg';
+import battleBgImg1 from 'assets/img/bgs/battle1.png';
+import battleBgImg2 from 'assets/img/bgs/battle2.png';
+import battleBgImg3 from 'assets/img/bgs/battle3.png';
+import battleBgImg4 from 'assets/img/bgs/battle4.jpg';
+import battleBgImg5 from 'assets/img/bgs/battle5.jpg';
+import battleBgImg6 from 'assets/img/bgs/battle6.png';
+import battleBgImg7 from 'assets/img/bgs/battle7.jpg';
 import shopBgImg from 'assets/img/shopBgimg.png';
 
 export const theme = {
@@ -13,8 +19,16 @@ export const theme = {
     medium: '16px',
     large: '20px',
   },
-  mainPageBgImg: mainPageBgImg,
-  mapBgImg: mapBgImg,
-  battleBgImg: battleBgImg,
-  shopBgImg: shopBgImg,
+  loginBgImg,
+  mainBgImg,
+  battleBgImg1,
+  battleBgImg2,
+  battleBgImg3,
+  battleBgImg4,
+  battleBgImg5,
+  battleBgImg6,
+  battleBgImg7,
+  shopBgImg,
 };
+
+export default theme;
