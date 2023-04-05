@@ -49,9 +49,13 @@ export default function SecretAPI() {
     const config = { url, method, data };
 
     axios
-      .post('https://j8a303.p.ssafy.io/api/users/join', data, {
-        headers: { 'Content-Type': 'application/json' },
-      })
+      .post(
+        'https://j8a303.p.ssafy.io/api/users/join',
+        data,
+        // {
+        //   headers: { 'Content-Type': 'application/json' },
+        // }
+      )
       .then((response) => {
         console.log(response.data); // 성공적으로 응답받은 데이터를 출력합니다.
       })
