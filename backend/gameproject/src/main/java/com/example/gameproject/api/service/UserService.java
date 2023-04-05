@@ -1,6 +1,5 @@
 package com.example.gameproject.api.service;
 
-import java.util.Collections;
 import com.example.gameproject.db.entity.Role;
 import com.example.gameproject.db.entity.MyCharacter;
 import com.example.gameproject.db.entity.User;
@@ -18,10 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 

@@ -4,8 +4,6 @@ package com.example.gameproject.api.service;
 import com.example.gameproject.db.entity.*;
 import com.example.gameproject.db.repository.*;
 import com.example.gameproject.dto.request.EnemyAttackDto;
-import com.example.gameproject.dto.request.PlayerAttackDto;
-import com.example.gameproject.dto.response.ArtifactDto;
 import com.example.gameproject.dto.response.MyCharacterAttackDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,11 +23,12 @@ public class EnemyAttackService {
     private final EffectTimeRepository effectTimeRepository;
     private final CoolTimeRepository coolTimeRepository;
     private final UserArtifactRespository userArtifactRespository;
+    private final UserRepository userRepository;
 
 
     @Transactional
-    public Map<String, List> enemyAttack(EnemyAttackDto enemyAttackDto, Long userId) {
-
+    public Map<String, List> enemyAttack(EnemyAttackDto enemyAttackDto, String email) {
+        long userId = userRepository.findByEmail(email).orElseThrow().getId();
         Map<String, List> res = new HashMap<>();
         List<Integer> valueRes = new ArrayList<>();
         for (int i = 0; i < 3; i++) {

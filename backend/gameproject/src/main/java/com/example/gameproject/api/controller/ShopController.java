@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -48,7 +47,6 @@ public class ShopController {
 
 	@PutMapping("/rest")
 	public ResponseEntity<?> healHp(@RequestHeader String Authorization){
-		System.out.println("rest Controller된다");
 		String token = Authorization.split(" ")[1];
 		String email = jwtTokenProvider.getUserPk(token);
 		shopService.updateHp(email);

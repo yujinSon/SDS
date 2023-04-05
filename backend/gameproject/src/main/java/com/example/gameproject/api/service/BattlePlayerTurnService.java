@@ -4,7 +4,6 @@ package com.example.gameproject.api.service;
 import com.example.gameproject.db.entity.*;
 import com.example.gameproject.db.repository.*;
 import com.example.gameproject.dto.request.PlayerAttackDto;
-import com.example.gameproject.dto.response.ArtifactDto;
 import com.example.gameproject.dto.response.MyCharacterAttackDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,13 +22,14 @@ public class BattlePlayerTurnService {
     private final EffectTimeRepository effectTimeRepository;
     private final ArtifactRepository artifactRepository;
     private final UserArtifactRespository userArtifactRespository;
+    private final UserRepository userRepository;
 
     @Transactional
-    public List<MyCharacterAttackDto> myTurnAttack(PlayerAttackDto playerAttackDto, Long userId) {
+    public List<MyCharacterAttackDto> myTurnAttack(PlayerAttackDto playerAttackDto, String email) {
         int casterPos = playerAttackDto.getPos(); // 스킬을 쓴 케릭터 위치값
         int targetPos = playerAttackDto.getTarget(); // 스킬의 효과를 받은 대상 위치값, 전체라면 3
 
-
+        long userId = userRepository.findByEmail(email).orElseThrow().getId();
         // 위치값을 가지고 myCharacter 가져오기.
         MyCharacter caster = myCharacterRepository.getMyCharacterUsingUserIdPos(userId, casterPos);
         Long casterId = caster.getId();

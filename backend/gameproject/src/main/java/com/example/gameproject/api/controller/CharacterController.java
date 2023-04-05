@@ -8,7 +8,6 @@ import com.example.gameproject.dto.response.RandomCharacterDto;
 import com.example.gameproject.dto.response.SelectedCharacterDto;
 import com.example.gameproject.security.jwt.JwtTokenProvider;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,17 +15,14 @@ import java.util.List;
 
 import lombok.RequiredArgsConstructor;
 
-// @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/character")
 @RequiredArgsConstructor
 public class CharacterController {
-    @Autowired
-    private CharacterService characterService;
+    private final CharacterService characterService;
     private final JwtTokenProvider jwtTokenProvider;
 
     // 랜덤으로 3명을 데려온다.
-    //@PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping(value = "/random")
     public ResponseEntity<List<RandomCharacterDto>> getRandomCharactersList(@RequestHeader String Authorization) throws Exception{
         String token = Authorization.split(" ")[1];

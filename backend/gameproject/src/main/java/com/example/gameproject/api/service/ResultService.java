@@ -1,8 +1,6 @@
 package com.example.gameproject.api.service;
 
-import com.example.gameproject.db.entity.DefaultCharacter;
 import com.example.gameproject.db.entity.MyCharacter;
-import com.example.gameproject.db.entity.Skill;
 import com.example.gameproject.db.entity.User;
 import com.example.gameproject.db.repository.DefaultCharacterRepository;
 import com.example.gameproject.db.repository.MyCharacterRepository;

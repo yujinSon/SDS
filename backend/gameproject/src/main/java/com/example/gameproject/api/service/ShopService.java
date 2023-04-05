@@ -9,7 +9,6 @@ import com.example.gameproject.db.entity.Artifact;
 import com.example.gameproject.db.entity.CharacterStat;
 import com.example.gameproject.db.entity.DefaultCharacter;
 import com.example.gameproject.db.entity.MyCharacter;
-import com.example.gameproject.db.entity.Skill;
 import com.example.gameproject.db.entity.User;
 import com.example.gameproject.db.entity.UserArtifact;
 import com.example.gameproject.db.repository.ArtifactRepository;
@@ -21,7 +20,6 @@ import com.example.gameproject.db.repository.UserArtifactRepository;
 import com.example.gameproject.db.repository.UserRepository;
 import com.example.gameproject.dto.request.ShopAddRequest;
 import com.example.gameproject.dto.request.ShopChangeRequest;
-import com.example.gameproject.dto.request.SkillRequest;
 import com.example.gameproject.dto.response.RelicResponse;
 
 import lombok.Builder;
@@ -167,7 +165,6 @@ public class ShopService {
 	//휴식 기능
 	@Transactional
 	public void updateHp(String email){
-		System.out.println("rest service도 된다!!!!");
 		long userId = userRepository.findByEmail(email).orElseThrow().getId();
 		List<MyCharacter> myCharacterList = myCharacterRepository.findAllByUser_Id(userId);
 		for(int i=0; i<myCharacterList.size(); i++){

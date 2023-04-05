@@ -1,14 +1,11 @@
 package com.example.gameproject.api.controller;
 
 import com.example.gameproject.api.service.UserService;
-import com.example.gameproject.db.repository.UserRepository;
 import com.example.gameproject.dto.request.UserDto;
 import com.example.gameproject.dto.response.UserResponse;
 import com.example.gameproject.security.jwt.JwtTokenProvider;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
@@ -22,13 +19,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
 public class UserController {
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final UserService userService;
     private final JwtTokenProvider jwtTokenProvider;
 
     // 회원가입 API

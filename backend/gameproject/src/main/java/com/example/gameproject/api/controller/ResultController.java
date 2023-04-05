@@ -1,15 +1,10 @@
 package com.example.gameproject.api.controller;
 
 import com.example.gameproject.api.service.ResultService;
-import com.example.gameproject.dto.response.RandomCharacterDto;
-import com.example.gameproject.dto.response.RankingDto;
 import com.example.gameproject.security.jwt.JwtTokenProvider;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 import lombok.RequiredArgsConstructor;
 
@@ -17,9 +12,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/result")
 @RequiredArgsConstructor
 public class ResultController {
-    @Autowired
-    ResultService resultService;
-
+    private final ResultService resultService;
     private final JwtTokenProvider jwtTokenProvider;
 
     @GetMapping("/ranking")

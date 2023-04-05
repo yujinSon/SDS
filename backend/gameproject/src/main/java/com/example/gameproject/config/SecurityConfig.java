@@ -1,5 +1,4 @@
 package com.example.gameproject.config;
-import java.util.Arrays;
 
 import com.example.gameproject.security.jwt.JwtAuthenticationFilter;
 import com.example.gameproject.security.jwt.JwtTokenProvider;
