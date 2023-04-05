@@ -6,6 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="2d71b76b-93ed-4917-b696-053b8e4d514a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bigdata/my_api/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/bigdata/my_api/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bigdata/youtube/serializer.py" beforeDir="false" afterPath="$PROJECT_DIR$/bigdata/youtube/serializer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bigdata/youtube/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/bigdata/youtube/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bigdata/youtube/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/bigdata/youtube/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -116,7 +119,8 @@
       <workItem from="1680085457672" duration="60000" />
       <workItem from="1680137968325" duration="11308000" />
       <workItem from="1680238091627" duration="26090000" />
-      <workItem from="1680569674960" duration="12854000" />
+      <workItem from="1680569674960" duration="13001000" />
+      <workItem from="1680653172268" duration="6645000" />
     </task>
     <servers />
   </component>

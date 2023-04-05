@@ -2,10 +2,11 @@ from django.shortcuts import render
 from rest_framework.decorators import api_view
 from .models import Youtube, WordTokenizing
 from django.http import HttpResponse
-from .serializer import CommentSerializer, youtubeListSerializer
+from .serializer import CommentSerializer, youtubeListSerializer, WordTokenizingSerializer
 from django.http import JsonResponse
 from django.core import serializers
 from rest_framework.response import Response
+from rest_framework.renderers import JSONRenderer
 import datetime
 
 import pandas as pd
@@ -16,6 +17,7 @@ import re
 from emoji import core
 from pykospacing import Spacing
 from konlpy.tag import Komoran
+import json
 
 # Create your views here.
 @api_view(['PUT','GET'])
@@ -72,6 +74,34 @@ def wordtoken(request):
 
         return Response(comment)
     # return Response(comment)
+
+
+# wordcloud
+
+@api_view(['GET'])
+def wordcloud(request):
+    if request.method == 'GET':
+        subject = ['환경', '안보', '질병', '사회', '범죄', '인구', '경제']
+        word = {'환경': [], '안보': [], '질병': [], '사회': [], '범죄': [], '인구': [], '경제': []}
+        for sub in subject:
+            tokens = WordTokenizing.objects.filter(subject=sub)
+            for token in tokens:
+                if sub == '환경' and token.value > 130:
+                    word[sub].append({'text': token.name, 'value': token.value})
+                elif sub == '안보' and token.value > 140:
+                    word[sub].append({'text': token.name, 'value': token.value})
+                elif sub == '질병' and token.value > 60:
+                    word[sub].append({'text': token.name, 'value': token.value})
+                elif sub == '사회' and token.value > 75:
+                    word[sub].append({'text': token.name, 'value': token.value})
+                elif sub == '범죄' and token.value > 290:
+                    word[sub].append({'text': token.name, 'value': token.value})
+                elif sub == '인구' and token.value > 390:
+                    word[sub].append({'text': token.name, 'value': token.value})
+                elif sub == '경제' and token.value > 195:
+                    word[sub].append({'text': token.name, 'value': token.value})
+
+        return Response(word)
 
 
 # 크롤링 코드

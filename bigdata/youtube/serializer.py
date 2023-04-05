@@ -16,4 +16,4 @@ class WordTokenizingSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = WordTokenizing
-        fieldss = "__all__"
+        fields = "__all__"
