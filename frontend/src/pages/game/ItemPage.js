@@ -12,6 +12,7 @@ import Relic from 'components/game/Relic';
 
 export default function ItemPage() {
   const navigate = useNavigate();
+  const token = sessionStorage.getItem('token');
 
   // 영입하 캐릭터 목록, 캐릭터의 idx state
   const [selectedChList, setSelectedChList] = useState(null);
@@ -25,7 +26,13 @@ export default function ItemPage() {
   // 선택된 캐릭터 리스트 조회 (스텟이 업데이트 되면 다시 화면에 반영해주기 위해 API 요청)
   useEffect(() => {
     const [url, method] = api('getSelectedCh');
-    const config = { url, method };
+    const config = {
+      url,
+      method,
+      headers: {
+        Authorization: `Bearer ${token}`, // Authorization 헤더에 토큰을 넣어줍니다.
+      },
+    };
     axios(config)
       .then((res) => {
         console.log('선택된 캐릭터 조회', res.data);
@@ -43,7 +50,13 @@ export default function ItemPage() {
   // 현재 보유 유물 리스트 조회
   useEffect(() => {
     const [url, method] = api('getRelic');
-    const config = { url, method };
+    const config = {
+      url,
+      method,
+      headers: {
+        Authorization: `Bearer ${token}`, // Authorization 헤더에 토큰을 넣어줍니다.
+      },
+    };
     axios(config)
       .then((res) => {
         console.log(res.data, '현재 보유 유물 리스트 조회');
