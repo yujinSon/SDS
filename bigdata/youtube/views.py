@@ -86,19 +86,19 @@ def wordcloud(request):
         for sub in subject:
             tokens = WordTokenizing.objects.filter(subject=sub)
             for token in tokens:
-                if sub == '환경' and token.value > 130:
+                if sub == '환경' and token.value > 120:
                     word[sub].append({'text': token.name, 'value': token.value})
-                elif sub == '안보' and token.value > 140:
+                elif sub == '안보' and token.value > 130:
                     word[sub].append({'text': token.name, 'value': token.value})
-                elif sub == '질병' and token.value > 60:
+                elif sub == '질병' and token.value > 55:
                     word[sub].append({'text': token.name, 'value': token.value})
-                elif sub == '사회' and token.value > 75:
+                elif sub == '사회' and token.value > 67:
                     word[sub].append({'text': token.name, 'value': token.value})
-                elif sub == '범죄' and token.value > 290:
+                elif sub == '범죄' and token.value > 270:
                     word[sub].append({'text': token.name, 'value': token.value})
-                elif sub == '인구' and token.value > 390:
+                elif sub == '인구' and token.value > 365:
                     word[sub].append({'text': token.name, 'value': token.value})
-                elif sub == '경제' and token.value > 195:
+                elif sub == '경제' and token.value > 185:
                     word[sub].append({'text': token.name, 'value': token.value})
 
         return Response(word)
