@@ -1,11 +1,10 @@
 package com.example.gameproject.api.service;
 
+import com.example.gameproject.db.entity.Artifact;
 import com.example.gameproject.db.entity.MyCharacter;
 import com.example.gameproject.db.entity.User;
-import com.example.gameproject.db.repository.DefaultCharacterRepository;
-import com.example.gameproject.db.repository.MyCharacterRepository;
-import com.example.gameproject.db.repository.SkillRepository;
-import com.example.gameproject.db.repository.UserRepository;
+import com.example.gameproject.db.entity.UserArtifact;
+import com.example.gameproject.db.repository.*;
 import com.example.gameproject.dto.response.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,6 +21,7 @@ public class ResultService {
     private final DefaultCharacterRepository defaultCharacterRepository;
     private final UserRepository userRepository;
     private final SkillRepository skillRepository;
+    private final UserArtifactRepository userArtifactRepository;
 
 
     public List<RankingDto> Ranking(){
@@ -45,6 +45,11 @@ public class ResultService {
         User user = userRepository.getById(userId);
         user.gameOverUpdate();
         userRepository.save(user);
+
+        List<UserArtifact> myArtifacts = userArtifactRepository.findAllByUser_Id(userId);
+        for (UserArtifact uaf : myArtifacts) {
+            userArtifactRepository.delete(uaf);
+        }
     }
 
     @Transactional

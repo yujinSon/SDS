@@ -21,6 +21,7 @@ export default function Battle({
   showVictoryModal,
   showDefeatModal,
   characterShaking,
+  dynamicStat,
 }) {
   return (
     <>
@@ -28,7 +29,7 @@ export default function Battle({
         {stageStep ? (
           <>
             <StageDiv>
-              {stageStep[0]} - {stageStep[1]}
+              {stageStep[0]} - {stageStep[1]}, {dynamicStat}
             </StageDiv>
             <BarContainer>
               <Bar progress={stageStep[1]} />
@@ -57,9 +58,11 @@ export default function Battle({
               // go={selectedCh === ch.pos}
               selectedCh={selectedCh === idx}
               POS={POS}
-              shaking={characterShaking[ch.pos]}
+              shaking = {characterShaking[ch.pos]}
+              dynamicStat = {dynamicStat[ch.pos] !== ""}
             >
-              <Circle src={charactersPK[ch.subName]}></Circle>
+              <DynamicStat dynamicStat={dynamicStat} chPos={ch.pos}>{dynamicStat[ch.pos]}</DynamicStat>
+              <Circle src={IMG2}></Circle>
               <Text>{ch.subName}</Text>
               <ProgressContainer>
                 <ProgressBar hpBar={(ch.hp / ch.maxHp) * 100} />
@@ -75,8 +78,11 @@ export default function Battle({
               key={idx}
               POS={POS}
               onClick={() => clickMonster(monster.pos)}
-              shaking={characterShaking[monster.pos]}
+              shaking = {characterShaking[monster.pos]}
+              dynamicStat = {dynamicStat[monster.pos] !== ""}
             >
+
+              <DynamicStat dynamicStat={dynamicStat} chPos={monster.pos}>{dynamicStat[monster.pos]}</DynamicStat>
               <Circle src={monstersPK[monster.subName]}></Circle>
               <Text>{monster.subName}</Text>
               <ProgressContainer>
@@ -100,6 +106,35 @@ const shakeAnimation = keyframes`
   20%, 40%, 60%, 80% {
     transform: translate(calc(-50% + 10px), -50%);
   }
+`;
+
+const blinkingAnimation = keyframes`
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+`;
+
+
+const DynamicStat = styled.div`
+
+  font-size: 23px;
+  font-weight: bold;
+  min-height:35px;
+
+  color: ${({ dynamicStat, chPos }) => {
+    const stat = dynamicStat[chPos];
+    return stat.startsWith("+") ? "red" : stat.startsWith("-") ? "blue" : "white";
+  }};
+  
+  ${({dynamicStat, chPos}) => 
+    dynamicStat[chPos] && css`
+      animation: ${blinkingAnimation} 0.5s linear infinite;
+      animation-duration: 1s;
+  `}
+  
 `;
 
 const CharacterContainer = styled.div`
