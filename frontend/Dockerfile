@@ -7,6 +7,7 @@ COPY package*.json ../
 
 RUN npm install
 RUN npm install axios
+RUN npm install react-wordcloud
 
 COPY . .
 CMD [ "npm", "run","start" ]
