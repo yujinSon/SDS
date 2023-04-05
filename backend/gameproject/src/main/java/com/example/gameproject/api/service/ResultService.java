@@ -40,8 +40,9 @@ public class ResultService {
     }
 
     @Transactional
-    public void GameOver(){
-        User user = userRepository.getById(1L);
+    public void GameOver(String email){
+        long userId = userRepository.findByEmail(email).orElseThrow().getId();
+        User user = userRepository.getById(userId);
         user.gameOverUpdate();
         userRepository.save(user);
     }

@@ -15,6 +15,27 @@ export default function BattlePage() {
   const navigate = useNavigate();
   const token = sessionStorage.getItem('token');
 
+  // 흔들림 효과적용할 배열 True 면 흔들림 효과
+  const [characterShaking, setCharacterShaking] = useState(Array(7).fill(false));
+
+  // 흔들림 효과 특정 단일 캐릭터 공격, 단일 빌런 공격
+  const setSpecificCharacterShakingTrue = (indices) => {
+    setCharacterShaking((prevCharacterShaking) => {
+      const updatedCharacterShaking = [...prevCharacterShaking];
+      indices.forEach((index) => {
+        updatedCharacterShaking[index] = true;
+      });
+      return updatedCharacterShaking;
+    });
+  };
+
+  const resetCharacterShaking = () => {
+    setCharacterShaking(Array(7).fill(false));
+  }
+
+
+
+
   // 스테이지, 캐릭터, 빌런 정보 state
   const [stageStep, setStageStep] = useState(null);
   const [characters, setCharacters] = useState(null);
@@ -266,7 +287,7 @@ export default function BattlePage() {
 
   // 캐릭터, 빌런 전멸 여부 체크
   useEffect(() => {
-    if (!characters | !monsters) return;
+    if (!characters && !monsters) return;
 
     if (characters.length === 0) {
       console.log('캐릭터 모두 사망함');
@@ -308,7 +329,7 @@ export default function BattlePage() {
     }
 
     if (monsters.length === 0) {
-      console.log('몬스터 전멸함');
+      console.log('몬스터 전멸함123');
       let [url, method] = api('endBattle');
       let config = {
         url,
@@ -345,6 +366,7 @@ export default function BattlePage() {
         });
     }
   }, [characters, monsters]);
+
 
   // *** 빌런 공격 로직 및 캐릭터 사망 시 턴 넘김 logic ***
   useEffect(() => {
@@ -501,6 +523,12 @@ export default function BattlePage() {
                     setMsg(copy);
                   };
                   makeMsg(monsterName, monsterUsedSKill, characters, valueRes);
+
+                  setSpecificCharacterShakingTrue([0, 1, 2])
+                  setTimeout(() => {
+                    resetCharacterShaking();
+                  }, 500);
+
                 } else {
                   // 단일 스킬
                   let targetCharacter = '';
@@ -509,6 +537,11 @@ export default function BattlePage() {
                       targetCharacter = ch.subName;
                     }
                   }
+
+                  setSpecificCharacterShakingTrue([data.target])
+                  setTimeout(() => {
+                    resetCharacterShaking();
+                  }, 500);
 
                   const makeMsg = function (
                     monsterName,
@@ -934,8 +967,10 @@ export default function BattlePage() {
 
           setAmount(eachDamage);
           setToWhom(monsters[idx].subName);
+          setSpecificCharacterShakingTrue([3,4,5,6])
 
           // 섹시해 chatGPT ㅎㅅㅎ
+          
           await new Promise((resolve) => setTimeout(resolve, 0));
         }
         // hp가 0이하로 떨어져서 사망한 경우
@@ -944,7 +979,9 @@ export default function BattlePage() {
             tmp.push(copy[i]);
           }
         }
-        setMonsters(tmp);
+        setTimeout(() => {
+          setMonsters(tmp);
+        }, 500);
       }
       // 단일 스킬인 경우
       else {
@@ -958,6 +995,7 @@ export default function BattlePage() {
             // 메시지 띄울 데미지랑 대상 업데이트
             setAmount(damage);
             setToWhom(monsters[idx].subName);
+            setSpecificCharacterShakingTrue([pos])
 
             console.log(afterHp, '남은 체력');
             let copy = [...monsters];
@@ -970,7 +1008,11 @@ export default function BattlePage() {
                   tmp.push(copy[i]);
                 }
               }
-              setMonsters(tmp);
+
+              setTimeout(() => {
+                setMonsters(tmp);
+              }, 500);
+              // setMonsters(tmp);
               // hp가 달았지만 그래도 0이상인 경우
             } else {
               copy[idx].hp = afterHp;
@@ -980,6 +1022,10 @@ export default function BattlePage() {
           }
         }
       }
+
+      setTimeout(() => {
+        resetCharacterShaking();
+      }, 300);
 
       // 플레이어 턴 초기화
       setPlayerTurn(0);
@@ -1021,6 +1067,7 @@ export default function BattlePage() {
           stageStep={stageStep}
           showVictoryModal={showVictoryModal}
           showDefeatModal={showDefeatModal}
+          characterShaking = {characterShaking}
         />
       </BattleContainer>
 
