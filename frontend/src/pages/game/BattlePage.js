@@ -16,7 +16,9 @@ export default function BattlePage() {
   const token = sessionStorage.getItem('token');
 
   // 흔들림 효과적용할 배열 True 면 흔들림 효과
-  const [characterShaking, setCharacterShaking] = useState(Array(7).fill(false));
+  const [characterShaking, setCharacterShaking] = useState(
+    Array(7).fill(false),
+  );
 
   // 흔들림 효과 특정 단일 캐릭터 공격, 단일 빌런 공격
   const setSpecificCharacterShakingTrue = (indices) => {
@@ -77,6 +79,8 @@ export default function BattlePage() {
   const [characters, setCharacters] = useState(null);
   const [monsters, setMonsters] = useState(null);
 
+  const [bgImg, setBgImg] = useState(null);
+
   // playerTurn이 2가 된 상태에서 몬스터를 클릭하면 공격하는 것으로 간주 (0, 1, 2)
   const [playerTurn, setPlayerTurn] = useState(0);
   // 클릭된 캐릭터의 인덱스
@@ -136,6 +140,13 @@ export default function BattlePage() {
       return b;
     }
   }
+
+  useEffect(() => {
+    if (!stageStep) return;
+    const bgImgPath = `battleBgImg${stageStep[0]}`;
+    console.log(bgImgPath);
+    setBgImg(bgImgPath);
+  }, [stageStep]);
 
   // 전투페이지 입장 시 캐릭터, 빌런, 스테이지 불러와서 정보 저장
   useEffect(() => {
@@ -403,7 +414,6 @@ export default function BattlePage() {
     }
   }, [characters, monsters]);
 
-
   // *** 빌런 공격 로직 및 캐릭터 사망 시 턴 넘김 logic ***
   useEffect(() => {
     console.log(turnOrder, '빌런 공격 시의 turnOrder');
@@ -567,11 +577,10 @@ export default function BattlePage() {
                   };
                   makeMsg(monsterName, monsterUsedSKill, characters, valueRes);
 
-                  setSpecificCharacterShakingTrue([0, 1, 2])
+                  setSpecificCharacterShakingTrue([0, 1, 2]);
                   setTimeout(() => {
                     resetCharacterShaking();
                   }, 500);
-
                 } else {
                   // 단일 스킬
 
@@ -589,7 +598,7 @@ export default function BattlePage() {
                     }
                   }
 
-                  setSpecificCharacterShakingTrue([data.target])
+                  setSpecificCharacterShakingTrue([data.target]);
                   setTimeout(() => {
                     resetCharacterShaking();
                   }, 500);
@@ -1078,7 +1087,7 @@ export default function BattlePage() {
 
           setAmount(eachDamage);
           setToWhom(monsters[idx].subName);
-          setSpecificCharacterShakingTrue([3,4,5,6])
+          setSpecificCharacterShakingTrue([3, 4, 5, 6]);
 
           if (eachDamage > 0) {
             setSpecificDynamicStat([monsters[idx].pos], "HP", "-")
@@ -1088,7 +1097,7 @@ export default function BattlePage() {
 
 
           // 섹시해 chatGPT ㅎㅅㅎ
-          
+
           await new Promise((resolve) => setTimeout(resolve, 0));
         }
 
@@ -1130,7 +1139,7 @@ export default function BattlePage() {
             // 메시지 띄울 데미지랑 대상 업데이트
             setAmount(damage);
             setToWhom(monsters[idx].subName);
-            setSpecificCharacterShakingTrue([pos])
+            setSpecificCharacterShakingTrue([pos]);
 
             console.log(afterHp, '남은 체력');
             let copy = [...monsters];
@@ -1200,7 +1209,7 @@ export default function BattlePage() {
 
   return (
     <MainContainer>
-      <BattleContainer>
+      <BattleContainer bgImg={bgImg}>
         <Battle
           characters={characters}
           monsters={monsters}
@@ -1256,7 +1265,9 @@ const BattleContainer = styled.div`
   width: 100%;
   height: 70%;
 
-  background-image: url(${({ theme }) => `${theme.battleBgImg}`});
+  background-image: url(${({ theme, bgImg }) => `${theme[`${bgImg}`]}`});
+
+  background-position: center bottom;
   background-size: cover;
 `;
 
