@@ -15,12 +15,12 @@ export default function Main() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   // 로그인 시 받은 token 값 저장
-  const [token, setToken] = useState(null);
+  // const [token, setToken] = useState(null);
   // 로그인 여부 / 테스트용 API 용 state
   const [isLogin, setIsLogin] = useState(false);
 
-  localStorage.setItem('token', token);
-  const tokenHyunJeong = localStorage.getItem('token');
+  // localStorage.setItem('token', token);
+  const token = sessionStorage.getItem('token');
   // 세션 스토리지는 브라우저 닫으면 ㅂㅂ / 로컬스토리지는 닫아도 그대로 보존
 
   // 테스트용 API
@@ -48,7 +48,7 @@ export default function Main() {
       url,
       method,
       headers: {
-        Authorization: `Bearer ${tokenHyunJeong}`, // Authorization 헤더에 토큰을 넣어줍니다.
+        Authorization: `Bearer ${token}`, // Authorization 헤더에 토큰을 넣어줍니다.
       },
     };
     myAxios(config)

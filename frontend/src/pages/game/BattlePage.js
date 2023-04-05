@@ -13,6 +13,7 @@ import Information from 'components/game/Information';
 
 export default function BattlePage() {
   const navigate = useNavigate();
+  const token = sessionStorage.getItem('token');
 
   // 스테이지, 캐릭터, 빌런 정보 state
   const [stageStep, setStageStep] = useState(null);
@@ -82,7 +83,13 @@ export default function BattlePage() {
   // 전투페이지 입장 시 캐릭터, 빌런, 스테이지 불러와서 정보 저장
   useEffect(() => {
     const [url, method] = api('loadStage');
-    const config = { url, method };
+    const config = {
+      url,
+      method,
+      headers: {
+        Authorization: `Bearer ${token}`, // Authorization 헤더에 토큰을 넣어줍니다.
+      },
+    };
     axios(config)
       .then((res) => {
         console.log('전투페이지 불러오기', res.data);
@@ -214,7 +221,13 @@ export default function BattlePage() {
 
     // 턴 종료 (=새로운 턴 시작) 될 때 백에 알려줌
     const [url, method] = api('finishTurn');
-    const config = { url, method };
+    const config = {
+      url,
+      method,
+      headers: {
+        Authorization: `Bearer ${token}`, // Authorization 헤더에 토큰을 넣어줍니다.
+      },
+    };
     axios(config)
       .then((res) => {
         console.log('전체 한 턴 끝났다고 백에 알려줬음', res.data);
@@ -260,7 +273,13 @@ export default function BattlePage() {
 
       // 캐릭터가 다 사망해서 api 보냄 (let으로 설정해서 나중에 오류 뜨면 수정해야함)
       let [url, method] = api('gameOver');
-      let config = { url, method };
+      let config = {
+        url,
+        method,
+        headers: {
+          Authorization: `Bearer ${token}`, // Authorization 헤더에 토큰을 넣어줍니다.
+        },
+      };
       axios(config)
         .then((res) => {
           console.log('캐릭터 사망 response:', res.data);
@@ -271,7 +290,13 @@ export default function BattlePage() {
 
       // 캐릭터 or 빌런이 다 죽어서 게임 끝
       [url, method] = api('endBattle');
-      config = { url, method };
+      config = {
+        url,
+        method,
+        headers: {
+          Authorization: `Bearer ${token}`, // Authorization 헤더에 토큰을 넣어줍니다.
+        },
+      };
       axios(config)
         .then((res) => {
           console.log('캐릭터 전멸해서 게임 끝', res.data);
@@ -285,7 +310,13 @@ export default function BattlePage() {
     if (monsters.length === 0) {
       console.log('몬스터 전멸함');
       let [url, method] = api('endBattle');
-      let config = { url, method };
+      let config = {
+        url,
+        method,
+        headers: {
+          Authorization: `Bearer ${token}`, // Authorization 헤더에 토큰을 넣어줍니다.
+        },
+      };
       axios(config)
         .then((res) => {
           console.log('몬스터 전멸', res.data);
@@ -295,7 +326,13 @@ export default function BattlePage() {
         });
 
       [url, method] = api('stepClear');
-      config = { url, method };
+      config = {
+        url,
+        method,
+        headers: {
+          Authorization: `Bearer ${token}`, // Authorization 헤더에 토큰을 넣어줍니다.
+        },
+      };
       axios(config)
         .then((res) => {
           console.log('몬스터 전멸', res.data);
@@ -408,7 +445,14 @@ export default function BattlePage() {
           }
 
           const [url, method] = api('enemysTurn');
-          const config = { url, method, data };
+          const config = {
+            url,
+            method,
+            data,
+            headers: {
+              Authorization: `Bearer ${token}`, // Authorization 헤더에 토큰을 넣어줍니다.
+            },
+          };
           axios(config)
             .then((res) => {
               console.log('빌런 공격 결과', res.data);
@@ -746,7 +790,14 @@ export default function BattlePage() {
         };
         console.log(data, '회복스킬 시전 시 보낼 data');
         const [url, method] = api('playersTurn');
-        const config = { url, method, data };
+        const config = {
+          url,
+          method,
+          data,
+          headers: {
+            Authorization: `Bearer ${token}`, // Authorization 헤더에 토큰을 넣어줍니다.
+          },
+        };
         axios(config)
           .then((res) => {
             console.log('버프 요청 axios', res.data);
@@ -833,7 +884,14 @@ export default function BattlePage() {
     // 선택된 스킬의 기본 쿨타임이 0이 아니어서 백쪽에서 쿨타임을 관리해야할 경우 (쿨타임이 0이면 스킬 쿨타임이 없다는 의미)
     if (characters[chIdx].skills[selectedSkill].coolTime !== 0) {
       const [url, method] = api('playersTurn');
-      const config = { url, method, data };
+      const config = {
+        url,
+        method,
+        data,
+        headers: {
+          Authorization: `Bearer ${token}`, // Authorization 헤더에 토큰을 넣어줍니다.
+        },
+      };
       axios(config)
         .then((res) => {
           console.log('스킬 쿨타임 용 API 요청 성공', res.data);
@@ -1051,6 +1109,8 @@ const AttackResult = styled.div`
 
 const TextBox = styled.div`
   padding: 1rem;
+  height: 100%;
+  overflow-y: auto;
 `;
 
 const NoneSelectBox = styled.div`
@@ -1059,6 +1119,7 @@ const NoneSelectBox = styled.div`
   align-items: center;
   background-color: rgba(189, 189, 189, 0.7);
   height: 100%;
+  width: 100%;
   font-size: 24px;
   font-weight: bold;
 `;

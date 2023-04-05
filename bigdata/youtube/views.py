@@ -1,11 +1,12 @@
 from django.shortcuts import render
 from rest_framework.decorators import api_view
-from .models import Youtube
+from .models import Youtube, WordTokenizing
 from django.http import HttpResponse
-from .serializer import CommentSerializer, youtubeListSerializer
+from .serializer import CommentSerializer, youtubeListSerializer, WordTokenizingSerializer
 from django.http import JsonResponse
 from django.core import serializers
 from rest_framework.response import Response
+from rest_framework.renderers import JSONRenderer
 import datetime
 
 import pandas as pd
@@ -16,56 +17,91 @@ import re
 from emoji import core
 from pykospacing import Spacing
 from konlpy.tag import Komoran
+import json
 
 # Create your views here.
 @api_view(['PUT','GET'])
 def wordtoken(request):
     if request.method == 'GET': # 유물을 시간에 따라서 Update 한다.
         subject = ['환경', '안보', '질병', '사회', '범죄', '인구', '경제']
+        # subject = ['경제']
         comment = {'환경': [], '안보': [], '질병': [], '사회': [], '범죄': [], '인구': [], '경제': []}
+        remove_list = ['것', '거', '문재인', '문재앙', '윤석열', '어', '데', '때문', '지', '듯', '등', '!!', '!', '!!!',
+                       '좌파', '페미', '페미니즘', '페미니스트', '똥', '서신애', '새끼', '곳', '미친', '미친놈', '미친개', '병신',
+                       '게']
+
         spacing = Spacing()
         for sub in subject:
-            youtube_data = Youtube.subject(sub)
-            print(len(youtube_data))
-            print(youtube_data)
-            # comment = {1: []}
+            youtube_data = Youtube.objects.filter(subject=sub)
+            # print(len(youtube_data))
+            # print(youtube_data)
 
             check = []
             # 띄어쓰기 보정
             for data in youtube_data:
-                # comment[1].append({"word": data.comment, "value": data.id})
-
                 # 띄어쓰기 보정
                 kospacing_sent = spacing(data.comment) # str 이어야함
                 print(kospacing_sent)  # str
                 # print("띄어쓰기 끝!")
-
                 check.append(kospacing_sent)
 
+            print('형태소 시작')
             # 형태소 분석
             komoran = Komoran()
             map_noun = {}
             for row in check:
                 output = komoran.nouns(row)
                 for out in output:
-                    if out in map_noun:
-                        map_noun[out] += 1
+                    if out not in remove_list:
+                        if out in map_noun:
+                            map_noun[out] += 1
+                        else:
+                            map_noun[out] = 1
                     else:
-                        map_noun[out] = 1
+                        continue
             # 많은 데이터 순으로 정렬
             sorted_map_noun = sorted(map_noun.items(), key=lambda item: item[1], reverse=True)
-            comment[sub].append(sorted_map_noun)
-            # comment[1].append({"word" : "asdjadj", "value":10})
+            comment[sub] = sorted_map_noun
 
-            # seralizer = youtubeListSerializer(youtube_data, many=True)
-            # 이 밑에 word Tokenzing을 실행한다.
+        # comment에서 하나씩 꺼내서 저장
+        for su in comment:
+            for k, v in comment[su]:
+                token = WordTokenizing(name=k, value=v, subject=su)
+                token.save()
 
-            # 이 밑에 word Tokenizing 알고리즘을 진행한다.
+                # 쟝고에 데이터를 저장한다
+            # comment = {'환경' : [("쓰레기", 10), ("dd", 20), ], '경제' : }
 
-            # 이 밑에 [("word", 10), ...]과 같은 형태로 나타낸다. List형태로 담아서 내보낼 것.
-        
         return Response(comment)
     # return Response(comment)
+
+
+# wordcloud
+
+@api_view(['GET'])
+def wordcloud(request):
+    if request.method == 'GET':
+        subject = ['환경', '안보', '질병', '사회', '범죄', '인구', '경제']
+        word = {'환경': [], '안보': [], '질병': [], '사회': [], '범죄': [], '인구': [], '경제': []}
+        for sub in subject:
+            tokens = WordTokenizing.objects.filter(subject=sub)
+            for token in tokens:
+                if sub == '환경' and token.value > 120:
+                    word[sub].append({'text': token.name, 'value': token.value})
+                elif sub == '안보' and token.value > 130:
+                    word[sub].append({'text': token.name, 'value': token.value})
+                elif sub == '질병' and token.value > 55:
+                    word[sub].append({'text': token.name, 'value': token.value})
+                elif sub == '사회' and token.value > 67:
+                    word[sub].append({'text': token.name, 'value': token.value})
+                elif sub == '범죄' and token.value > 270:
+                    word[sub].append({'text': token.name, 'value': token.value})
+                elif sub == '인구' and token.value > 365:
+                    word[sub].append({'text': token.name, 'value': token.value})
+                elif sub == '경제' and token.value > 185:
+                    word[sub].append({'text': token.name, 'value': token.value})
+
+        return Response(word)
 
 
 # 크롤링 코드

@@ -48,7 +48,7 @@ UPDATE `sins`.`character_stat` SET `character_id` = '10' WHERE (`id` = '10');
 -- 인구 (hp에 중점을 둔다.)--
 INSERT INTO `sins`.`character_stat` (`id`, `hp`, `add_hp`, `ad`, `add_ad`, `ap`, `add_ap`, `speed`, `add_speed`, `avoid`, `add_avoid`, `critical`, `add_critical`) VALUES ('11', '70', '7', '10', '7', '10', '5', '5', '3', '5', '1', '0', '1');
 INSERT INTO `sins`.`character_stat` (`id`, `hp`, `add_hp`, `ad`, `add_ad`, `ap`, `add_ap`, `speed`, `add_speed`, `avoid`, `add_avoid`, `critical`, `add_critical`) VALUES ('12', '70', '7', '10', '7', '10', '5', '5', '3', '5', '1', '0', '1');
-INSERT INTO `sins`.`default_character` (`id`, `class_name`, `sub_name`, `character_stat_id`) VALUES ('11', '인구', '인구문제에 심각한 민혁', '11');
+INSERT INTO `sins`.`default_character` (`id`, `class_name`, `sub_name`, `character_stat_id`) VALUES ('11', '인구', '인류애 민혁', '11');
 INSERT INTO `sins`.`default_character` (`id`, `class_name`, `sub_name`, `character_stat_id`) VALUES ('12', '인구', '생명지킴이 민혁', '12');
 UPDATE `sins`.`character_stat` SET `character_id` = '11' WHERE (`id` = '11');
 UPDATE `sins`.`character_stat` SET `character_id` = '12' WHERE (`id` = '12');
