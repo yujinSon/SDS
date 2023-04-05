@@ -38,11 +38,10 @@ export default function BattlePage() {
   const [showDefeatModal, setShowDefeactModal] = useState(false);
 
   // 공격 시마다 띄울 메시지
-  const [msg, setMsg] = useState([
-    '손유진이 박용찬에게 어퍼컷을 날려 100의 데미지를 입혔다.',
-  ]);
+  const [msg, setMsg] = useState(['']);
   // 우측 하단 텍스트 부분에 최대로 띄울 메시지 갯수 (7이면 6개까지 띄울 수 있음)
-  const textCnt = 7;
+  const textCnt = 8;
+  const textLine = '---------------------------------------------------------';
 
   // 캐릭터 공격 시 '누가' 공격했고, '어떤 스킬'을 사용했는지 저장할 state
   const [who, setWho] = useState('');
@@ -238,7 +237,7 @@ export default function BattlePage() {
 
   useEffect(() => {
     if (!turnOrder) return;
-    console.log("12133131241242125235346");
+    console.log('12133131241242125235346');
     setNowTurn(turnOrder[0].pos);
   }, [turnOrder]);
 
@@ -246,7 +245,7 @@ export default function BattlePage() {
   useEffect(() => {
     if (!turnOrder) return;
     console.log(nowIdx, '현재 턴');
-    console.log("turnOrder : ", turnOrder);
+    console.log('turnOrder : ', turnOrder);
     setNowTurn(turnOrder[nowIdx].pos);
     setSelectedCh(-1);
     // console.log('현재 공격 pos', turnOrder[nowIdx]);
@@ -300,6 +299,8 @@ export default function BattlePage() {
       axios(config)
         .then((res) => {
           console.log('몬스터 전멸', res.data);
+          // 스테이지 클리어 시 살아있는 캐릭터의 수를 세션 스토리지에 저장
+          sessionStorage.setItem('chCnt', characters.length);
           setShowVictoryModal(!showVictoryModal);
         })
         .catch((err) => {
@@ -328,7 +329,7 @@ export default function BattlePage() {
         if (found === false) {
           console.log('으아아아아아아아ㅏ아아아아아아');
           if (nowIdx < turnOrder.length - 1) {
-            setNowIdx(nowIdx+1);
+            setNowIdx(nowIdx + 1);
             return;
           } else {
             setNowIdx(0);
@@ -370,8 +371,11 @@ export default function BattlePage() {
         const mySkill =
           myMonster.skills[Math.floor(Math.random() * myMonster.skills.length)];
 
-        setMonsterWho(myMonster.subName);
-        setMonsterWhichSkill(mySkill.skillName);
+        console.log('빌런 스킬 사용 직전 state 바로 앞');
+
+        let monsterName = myMonster.subName; // 텍스트 출력용
+        let monsterUsedSKill = mySkill.skillName; // 텍스트 출력용
+
         // 몬스터가 공격할 대상이 캐릭터인 경우 (1이면 캐릭터 if 문 실행, 0이면 몬스터이므로 pass)
         if (mySkill.skillTarget === 1) {
           let damage = mySkill.value;
@@ -420,20 +424,145 @@ export default function BattlePage() {
 
               // 빌런의 스킬이 공격 스킬일 때 (데미지)
               if (mySkill.stat === 'hp') {
-                for (let ch of characters) {
-                  if (valueRes[ch.pos] !== -1) {
-                    setMonsterTowhom(ch.subName);
-                    setMonsterAmount(valueRes[ch.pos]);
+                if (mySkill.range === true) {
+                  // 전체 스킬인경우
+                  const makeMsg = function (
+                    monsterName,
+                    monsterUsedSKill,
+                    characters,
+                    valueRes,
+                  ) {
+                    let firstMsg = `${monsterName}(이)가 ${monsterUsedSKill}을(를)  사용했다!`;
+                    let copy = [firstMsg, textLine, ...msg];
+
+                    for (let i = 0; i < 3; i++) {
+                      if (valueRes[i] !== -1) {
+                        for (let ch of characters) {
+                          if (ch.pos === i) {
+                            if (valueRes[i] > 0) {
+                              let secMsg = `${ch.subName}(이)가 ${valueRes[i]}만큼의 데미지를 받았다.`;
+                              copy = [secMsg, ...copy];
+                            } else {
+                              let secMsg = `${ch.subName}(이)가 공격을 회피했다.`;
+                              copy = [secMsg, ...copy];
+                            }
+                          }
+                        }
+                      }
+                    }
+
+                    if (copy.length >= textCnt) {
+                      copy.pop();
+                    }
+                    setMsg(copy);
+                  };
+                  makeMsg(monsterName, monsterUsedSKill, characters, valueRes);
+                } else {
+                  // 단일 스킬
+                  let targetCharacter = '';
+                  for (let ch of characters) {
+                    if (data.target == ch.pos) {
+                      targetCharacter = ch.subName;
+                    }
                   }
+
+                  const makeMsg = function (
+                    monsterName,
+                    monsterUsedSKill,
+                    characters,
+                    valueRes,
+                  ) {
+                    let firstMsg = `${monsterName}(이)가 ${monsterUsedSKill}을(를)  사용했다!`;
+                    let copy = [firstMsg, textLine, ...msg];
+
+                    for (let ch of characters) {
+                      if (valueRes[ch.pos] > 0) {
+                        let secMsg = `${ch.subName}(이)가 ${
+                          valueRes[ch.pos]
+                        }만큼의 데미지를 받았다`;
+                        copy = [secMsg, ...copy];
+                      } else if (valueRes[ch.pos] === 0) {
+                        let secMsg = `${ch.subName}(이)가 공격을 회피했다.`;
+                        copy = [secMsg, ...copy];
+                      }
+                    }
+
+                    if (copy.length >= textCnt) {
+                      copy.pop();
+                    }
+
+                    setMsg(copy);
+                  };
+                  makeMsg(monsterName, monsterUsedSKill, characters, valueRes);
                 }
               } // 빌런의 스킬이 디버프 스킬일 때
               else {
-                for (let ch of characters) {
-                  if (valueRes[ch.pos] !== -1) {
-                    setMonsterTowhom(ch.subName);
-                    setMonsterDebuffAmount(valueRes[ch.pos]);
-                    setMonsterDebuffStat(statPK[mySkill.stat]);
+                let reciveValue = mySkill.value;
+                let effectStat = statPK[mySkill.stat];
+
+                if (mySkill.range === true) {
+                  // 전체 스킬인경우
+                  const makeMsg = function (
+                    monsterName,
+                    monsterUsedSKill,
+                    reciveValue,
+                    effectStat,
+                    characters,
+                  ) {
+                    let firstMsg = `${monsterName}(이)가 ${monsterUsedSKill}을(를)  사용했다!`;
+                    let copy = [firstMsg, textLine, ...msg];
+
+                    for (let ch of characters) {
+                      let secMsg = `${ch.subName}의 ${effectStat}(이)가 ${reciveValue}만큼 감소했다.`;
+                      copy = [secMsg, ...copy];
+                    }
+
+                    if (copy.length >= textCnt) {
+                      copy.pop();
+                    }
+                    setMsg(copy);
+                  };
+                  makeMsg(
+                    monsterName,
+                    monsterUsedSKill,
+                    reciveValue,
+                    effectStat,
+                    characters,
+                  );
+                } else {
+                  // 단일 스킬인 경우
+                  let targetCharacter = '';
+                  for (let ch of characters) {
+                    if (data.target == ch.pos) {
+                      targetCharacter = ch.subName;
+                    }
                   }
+
+                  const makeMsg = function (
+                    monsterName,
+                    monsterUsedSKill,
+                    targetCharacter,
+                    reciveValue,
+                    effectStat,
+                  ) {
+                    let firstMsg = `${monsterName}(이)가 ${monsterUsedSKill}을(를)  사용했다!`;
+                    let copy = [firstMsg, textLine, ...msg];
+
+                    let secMsg = `${targetCharacter}의 ${effectStat}(이)가 ${reciveValue}만큼 감소했다.`;
+
+                    copy = [secMsg, firstMsg, ...msg];
+                    if (copy.length >= textCnt) {
+                      copy.pop();
+                    }
+                    setMsg(copy);
+                  };
+                  makeMsg(
+                    monsterName,
+                    monsterUsedSKill,
+                    targetCharacter,
+                    reciveValue,
+                    effectStat,
+                  );
                 }
               }
 
@@ -458,23 +587,40 @@ export default function BattlePage() {
           // 전체 빌런에게 힐 스킬 적용
           if (mySkill.range === true) {
             console.log('빌런의 전체 회복 스킬!!!');
-            for (let monster of monsters) {
-              // setTimeout(() => {
-              monster.hp = min(monster.hp + healAmount, monster.maxHp);
-              setChHeal(mySkill.value);
-              setChHealTowhom(monster.subName);
-              // }, 300);
-            }
+            const makeMsg = function (
+              monsterName,
+              monsterUsedSKill,
+              reciveValue,
+              monsters,
+            ) {
+              let firstMsg = `${monsterName}(이)가 ${monsterUsedSKill}을(를)  사용했다!`;
+              let copy = [' ', ...msg];
+              copy = [firstMsg, textLine, ...msg];
+
+              for (let ms of monsters) {
+                let secMsg = `${ms.subName}의 체력이 ${reciveValue}만큼 회복됐다.`;
+                copy = [secMsg, ...copy];
+              }
+
+              if (copy.length >= textCnt) {
+                copy.pop();
+              }
+              setMsg(copy);
+            };
+            makeMsg(monsterName, monsterUsedSKill, healAmount, monsters);
+
             // 빌런 한 마리에게 힐 스킬 적용
           } else {
             // 몬스터에서 피 가장 적은 애한테 힐 스킬 적용
             console.log('빌런의 단일 회복 스킬!!!');
             let minHpMonsterPos = -1;
             let minValue = 999999999;
+            let targetMonsterName = '';
             for (let monster of monsters) {
               if (minValue > monster.hp) {
                 minValue = monster.hp;
                 minHpMonsterPos = monster.pos;
+                targetMonsterName = monster.subName;
               }
             }
             for (let monster of monsters) {
@@ -482,6 +628,30 @@ export default function BattlePage() {
                 monster.hp = min(monster.hp + healAmount, monster.maxHp);
               }
             }
+
+            const makeMsg = function (
+              monsterName,
+              monsterUsedSKill,
+              healAmount,
+              targetMonsterName,
+            ) {
+              let firstMsg = `${monsterName}(이)가 ${monsterUsedSKill}을(를)  사용했다!`;
+              let copy = [firstMsg, textLine, ...msg];
+
+              let secMsg = `${targetMonsterName}의 체력이 ${healAmount}만큼 회복됐다.`;
+              copy = [secMsg, ...copy];
+
+              if (copy.length >= textCnt) {
+                copy.pop();
+              }
+              setMsg(copy);
+            };
+            makeMsg(
+              monsterName,
+              monsterUsedSKill,
+              healAmount,
+              targetMonsterName,
+            );
           }
           if (nowIdx < turnOrder.length - 1) {
             setNowIdx(nowIdx + 1);
@@ -499,8 +669,7 @@ export default function BattlePage() {
       console.log('옛다 버프다~');
 
       let madeMsg = `${who}(이)가 ${whichSkill}을(를)  사용했다!`;
-      let copy = [...msg];
-      copy = [madeMsg, ...msg];
+      let copy = [madeMsg, textLine, ...msg];
       if (copy.length >= textCnt) {
         copy.pop();
       }
@@ -587,7 +756,7 @@ export default function BattlePage() {
           .catch((err) => {});
 
         setPlayerTurn(0);
-        if (nowIdx < turnOrder.length-1) {
+        if (nowIdx < turnOrder.length - 1) {
           setNowIdx(nowIdx + 1);
         } else {
           setNowIdx(0);
@@ -645,8 +814,7 @@ export default function BattlePage() {
 
     // 오른쪽 아래 출력 메시지 생성 (사용 캐릭터, 사용 스킬)
     let madeMsg = `${who}(이)가 ${whichSkill}을(를)  사용했다!`;
-    let copy = [...msg];
-    copy = [madeMsg, ...msg];
+    let copy = [madeMsg, textLine, ...msg];
     if (copy.length >= textCnt) {
       copy.pop();
     }
@@ -754,19 +922,21 @@ export default function BattlePage() {
           }
         }
       }
-    }
 
-    // 플레이어 턴 초기화
-    setPlayerTurn(0);
+      // 플레이어 턴 초기화
+      setPlayerTurn(0);
 
-    // 플레이어가 공격했으면 다음 턴으로 넘어감
-    if (nowIdx < turnOrder.length -1) {
-      setNowIdx(nowIdx + 1);
+      // 플레이어가 공격했으면 다음 턴으로 넘어감
+      if (nowIdx < turnOrder.length - 1) {
+        setNowIdx(nowIdx + 1);
+      } else {
+        setNowIdx(0);
+      }
+      // 현재 몇 번재 턴인지 출력
+      console.log('내가 방금 공격한 턴', nowIdx);
     } else {
-      setNowIdx(0);
+      alert('스킬 타겟을 잘못 설정하였습니다.');
     }
-    // 현재 몇 번재 턴인지 출력
-    console.log('내가 방금 공격한 턴', nowIdx);
   };
 
   // 회피여부 판단하는 함수
@@ -841,7 +1011,6 @@ const BattleContainer = styled.div`
 `;
 
 const BottomContainer = styled.div`
-
   display: flex;
   flex-direction: row;
   height: 30%;
@@ -854,8 +1023,7 @@ const LeftContainer = styled.div`
   flex-direction: column;
   color: black;
   width: 50%;
-  height: 100%
-
+  height: 100%;
 `;
 
 const RightContainer = styled.div`

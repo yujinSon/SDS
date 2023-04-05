@@ -15,6 +15,7 @@ import Stats from 'components/game/Stats';
 
 export default function RecruitPage() {
   const navigate = useNavigate();
+  const tokenHyunJeong = localStorage.getItem('token');
 
   // 랜덤 캐릭터 리스트, 선택된 랜덤 캐릭터의 idx state
   const [randomChList, setRandomChList] = useState(null);
@@ -26,7 +27,13 @@ export default function RecruitPage() {
   // 랜덤 캐릭터 리스트 조회
   useEffect(() => {
     const [url, method] = api('getRandomCh');
-    const config = { url, method };
+    const config = {
+      url,
+      method,
+      headers: {
+        Authorization: `Bearer ${tokenHyunJeong}`, // Authorization 헤더에 토큰을 넣어줍니다.
+      },
+    };
     axios(config)
       .then((res) => {
         console.log('랜덤 캐릭터 조회', res.data);
@@ -38,7 +45,13 @@ export default function RecruitPage() {
   // 선택된 캐릭터 리스트 조회
   useEffect(() => {
     const [url, method] = api('getSelectedCh');
-    const config = { url, method };
+    const config = {
+      url,
+      method,
+      headers: {
+        Authorization: `Bearer ${tokenHyunJeong}`, // Authorization 헤더에 토큰을 넣어줍니다.
+      },
+    };
     axios(config)
       .then((res) => {
         console.log('선택된 캐릭터 조회', res.data);
@@ -49,7 +62,13 @@ export default function RecruitPage() {
 
   const getSelectedChList = () => {
     const [url, method] = api('getSelectedCh');
-    const config = { url, method };
+    const config = {
+      url,
+      method,
+      headers: {
+        Authorization: `Bearer ${tokenHyunJeong}`, // Authorization 헤더에 토큰을 넣어줍니다.
+      },
+    };
     axios(config)
       .then((res) => {
         console.log('선택된 캐릭터 조회(함수-Axios 요청)', res.data);
@@ -62,7 +81,14 @@ export default function RecruitPage() {
   const addCharacter = () => {
     const data = randomChList[selectedRandomCh];
     const [url, method] = api('saveCh');
-    const config = { url, method, data };
+    const config = {
+      url,
+      method,
+      data,
+      headers: {
+        Authorization: `Bearer ${tokenHyunJeong}`, // Authorization 헤더에 토큰을 넣어줍니다.
+      },
+    };
     // 아직 영입한 캐릭터가 없으면 새로운 배열을 만들어 추가
     if (selectedChList === null) {
       axios(config)

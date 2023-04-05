@@ -23,6 +23,7 @@ public class ResultController {
     // 내 캐릭이 다 죽어서 게임 패배
     @PutMapping("/gameover")
     public ResponseEntity<?> getGameOver() throws Exception{
+        resultService.GameOver();
         return ResponseEntity.ok("update ok");
     }
 

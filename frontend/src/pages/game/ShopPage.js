@@ -27,12 +27,23 @@ export default function ShopPage() {
   const [itemModal, setItemModal] = useState(false);
 
   const tokenHyunJeong = sessionStorage.getItem('token');
-  console.log(tokenHyunJeong);
+  const chCnt = parseInt(sessionStorage.getItem('chCnt'));
+  console.log(chCnt, '살아있는 캐릭터 수');
+  console.log(tokenHyunJeong, '토큰');
   return (
     <Container>
       <img src={상점} alt="상점" />
       <Card>
-        <CardItem onClick={() => navigate('/game')}>
+        <CardItem
+          onClick={() => {
+            console.log(chCnt);
+            if (chCnt === 3) {
+              alert('캐릭터가 3명인 경우에는 더 이상 영입할 수 없습니다.');
+            } else {
+              navigate('/game');
+            }
+          }}
+        >
           <img src={영입} alt="영입" />
           <button>
             <img src={영입버튼} alt="영입버튼" />
@@ -41,36 +52,22 @@ export default function ShopPage() {
         <CardItem
           onClick={() => {
             setRecoveryModal(!recoveryModal);
-            // 전체 캐릭터 HP 회복 요청 API
-            testAxios({
-              url: 'http://70.12.246.58:8080/api/shop/rest',
-              method: 'put',
+
+            const [url, method] = api('rest');
+            const config = {
+              url,
+              method,
               headers: {
-                Authorization: `Bearer ${tokenHyunJeong}`, // Authorization 헤더에 토큰을 넣어줍니다.
+                Authorization: `Bearer ${tokenHyunJeong}`,
               },
-            })
+            };
+            axios(config)
               .then((res) => {
-                console.log('회복성공', res);
+                console.log('상점에서 캐릭터 체력 회복 성공', res.data);
               })
               .catch((err) => {
-                console.log('회복실패', err);
+                console.log('상점에서 캐릭터 체력 회복 에러', err);
               });
-
-            // const [url, method] = api('rest');
-            // const config = {
-            //   url,
-            //   method,
-            //   headers: {
-            //     Authorization: `Bearer ${tokenHyunJeong}`,
-            //   },
-            // };
-            // axios(config)
-            //   .then((res) => {
-            //     console.log('상점에서 캐릭터 체력 회복 성공', res.data);
-            //   })
-            //   .catch((err) => {
-            //     console.log('상점에서 캐릭터 체력 회복 에러', err);
-            //   });
           }}
         >
           <img src={휴식} alt="휴식" />
