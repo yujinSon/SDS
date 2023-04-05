@@ -1,5 +1,5 @@
 FROM nginx:stable-alpine
-FROM node:18-alpine
+FROM node:16-alpine
 WORKDIR /runtogether/src/app
 COPY package*.json ./
 COPY package*.json ../
