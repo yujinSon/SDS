@@ -34,7 +34,8 @@ public class StageService {
     private  EffectTimeRepository effectTimeRepository;
 
 
-    public Map<String, List> BattleSetting(Long userId){
+    public Map<String, List> BattleSetting(String email){
+        long userId = userRepository.findByEmail(email).orElseThrow().getId();
         // 유저 정보를 받아서 바꿔줘야 함.
         User user = userRepository.getById(userId);
 
