@@ -1,19 +1,13 @@
 package com.example.gameproject.api.service;
 
 import com.example.gameproject.db.entity.MyCharacter;
-import com.example.gameproject.db.entity.User;
 import com.example.gameproject.db.repository.EffectTimeRepository;
 import com.example.gameproject.db.repository.MyCharacterRepository;
 import com.example.gameproject.db.repository.UserRepository;
 import com.example.gameproject.dto.request.CharacterVictoryStat;
-import com.example.gameproject.dto.request.EnemyAttackDto;
-import com.example.gameproject.dto.request.SkillRequestDto;
 import com.example.gameproject.dto.response.MyCharacterAttackDto;
-import com.example.gameproject.dto.response.MyCharacterUpdateDto;
 import com.example.gameproject.db.entity.*;
 import com.example.gameproject.db.repository.*;
-import com.example.gameproject.dto.response.BattleTurnSkillDto;
-import com.example.gameproject.dto.response.MyCharacterTurnDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,7 +29,8 @@ public class BattleService {
 
 
     @Transactional
-    public void updateStat(long userId, List<CharacterVictoryStat> chagedStatList){
+    public void updateStat(String email, List<CharacterVictoryStat> chagedStatList){
+        long userId = userRepository.findByEmail(email).orElseThrow().getId();
         for(int i=0;i<chagedStatList.size();i++){
             MyCharacter myCharacter = myCharacterRepository.findByUserIdAndPos(userId,i);
             CharacterVictoryStat stat = chagedStatList.get(i);
@@ -56,8 +51,9 @@ public class BattleService {
    }
     // CoolTime에서 Turn을 하나씩 지우는 방식을 사용
     @Transactional
-    public void CoolTime(Long userId) {
+    public void CoolTime(String email) {
         List<CoolTime> coolTimes = coolTimeRepository.findAll();
+        long userId = userRepository.findByEmail(email).orElseThrow().getId();
         for (CoolTime coolTime : coolTimes) {
             if (coolTime.getMyCharacter().getUser().getId() == userId) {
                 coolTime.BattleCoolTimeUpdate(coolTime.getTurn());
@@ -73,8 +69,9 @@ public class BattleService {
 
     // Effect Turn을 하나씩 지우는 방식을 사용
     @Transactional
-    public void EffectTime(Long userId) {
+    public void EffectTime(String email) {
         List<EffectTime> effectTimes = effectTimeRepository.findAll();
+        long userId = userRepository.findByEmail(email).orElseThrow().getId();
         for (EffectTime effectTime : effectTimes) {
             if (effectTime.getMyCharacter().getUser().getId() == userId) {
                 effectTime.BattleEffectTimeUpdate(effectTime.getTurn());
@@ -105,8 +102,9 @@ public class BattleService {
         return null;
     }
 
-    public List<MyCharacterAttackDto> MyCharacterList(Long userId) {
+    public List<MyCharacterAttackDto> MyCharacterList(String email) {
         List<MyCharacterAttackDto> myCharacterAttackDtos = new ArrayList<>();
+        long userId = userRepository.findByEmail(email).orElseThrow().getId();
         List<MyCharacter> myCharacters = myCharacterRepository.getMyCharacters(userId);
         List<EffectTime> mySkills = new ArrayList<>();
         for (MyCharacter mc : myCharacters) {
@@ -176,11 +174,11 @@ public class BattleService {
     }
 
     @Transactional
-    public void DeleteEffect(Long userId) {
+    public void DeleteEffect(String email) {
         // 내 정보를 찾아서
         List<CoolTime> coolTimes = coolTimeRepository.findAll();
         List<EffectTime> effectTimes = effectTimeRepository.findAll();
-
+        long userId = userRepository.findByEmail(email).orElseThrow().getId();
         for (CoolTime coolTime : coolTimes) {
             if (coolTime.getMyCharacter().getUser().getId() == userId) {
                 coolTimeRepository.delete(coolTime);
