@@ -77,6 +77,7 @@ export default function Relic({ relicIds }) {
             <DetailImg src={IMG} />
           )}
         </DetailImgContainer>
+        <DetailText>{relicInfo[nowIdx].relicName}</DetailText>
         <DetailText>{relicInfo[nowIdx].relicDetail}</DetailText>
       </ArtifactDetail>
     </OutFrame>
