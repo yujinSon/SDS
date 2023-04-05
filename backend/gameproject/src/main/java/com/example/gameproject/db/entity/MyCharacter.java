@@ -84,7 +84,7 @@ public class MyCharacter implements Serializable {
         this.addAvoid = (int) Math.round(defaultCharacter.getCharacterStat().getAddAvoid() * randombox[rand.nextInt(randombox.length)]);
 
         this.pos = pos;
-        this.statPoint = (randomCharacterDto.getLevel() - 1) * 5;
+        this.statPoint = (randomCharacterDto.getLevel() - 1) * 3;
     }
     public void updateHP(){
         this.hp = this.maxHp;
@@ -105,7 +105,7 @@ public class MyCharacter implements Serializable {
 
     public void levelUp() {
         this.level += 1;
-        this.statPoint += 5;
+        this.statPoint += 3;
     }
 
     public void updateStat(int hp, int ap, int ad, int speed, int critical, int avoid){
