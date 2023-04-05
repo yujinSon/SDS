@@ -1,5 +1,9 @@
 const api = function (type, options = {}) {
   const apiObject = {
+    // 회원가입
+    signup: ['users/join', 'post'],
+    login: ['uesrs/login', 'post'],
+
     // 새로운 게임 시작
     newGame: ['users/newgame', 'post'],
 
@@ -8,11 +12,6 @@ const api = function (type, options = {}) {
     getSelectedCh: ['/character/selected', 'get'], // 전투 승리했을 때 한 번 더 불러와야함 (스텟 찍기 전에)
     saveCh: ['/character/save', 'post'],
     getRelic: ['/users/relic', 'get'],
-
-    // 맵 페이지
-    loadMap: ['/map/load', 'get'],
-    selectMap: ['/map/save', 'put'],
-    saveStage: ['/stage/save', 'put'],
 
     // 전투 페이지
     loadStage: ['/stage/load', 'get'],
@@ -31,9 +30,6 @@ const api = function (type, options = {}) {
     addCh: ['/shop/add', 'post'],
     rest: ['/shop/rest', 'put'],
     addItem: ['/shop/relic', 'post'],
-
-    // 랭킹
-    ranking: ['/result/ranking', 'get'],
 
     // 전투 승리 or 패배
     stepClear: ['/result/win', 'put'],

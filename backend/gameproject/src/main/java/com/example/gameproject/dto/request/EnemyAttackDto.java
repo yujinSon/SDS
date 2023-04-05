@@ -11,4 +11,5 @@ import lombok.NoArgsConstructor;
 public class EnemyAttackDto {
     int target;
     int damage;
+    String skillName;
 }

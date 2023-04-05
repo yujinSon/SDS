@@ -19,5 +19,8 @@ public interface CoolTimeRepository extends JpaRepository<CoolTime, Long> {
     @Query(value = "select * from cool_time ct where ct.mycharacter_id=:id", nativeQuery = true)
     List<CoolTime> findByMyCharacterId(@Param("id") long myCharacterId);
 
+
+
+
 }
 

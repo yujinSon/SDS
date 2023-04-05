@@ -6,7 +6,6 @@ import com.example.gameproject.dto.request.AddStatDto;
 import com.example.gameproject.dto.request.YoutubeDto;
 import com.example.gameproject.dto.response.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,18 +25,19 @@ public class CharacterService {
     private final SkillRepository skillRepository;
     private final ArtifactRepository artifactRepository;
 
-
-    public List<RandomCharacterDto> RandomCharacter(Long userId) throws IOException {
+    public List<RandomCharacterDto> RandomCharacter(String email) throws IOException {
         String testurl = "http://127.0.0.1:8000/";
         URL url = new URL(testurl);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        
+
+        long userId = userRepository.findByEmail(email).orElseThrow().getId();
+
         User user = userRepository.getById(userId);
         int stage = user.getStage();
         List<RandomCharacterDto> result = new ArrayList<>();
         int randomLevel = (int) (Math.random() * 4) + (stage-1) * 4 + 1 ;
 
-        List<DefaultCharacter> characters = defaultCharacterRepository.getRandomCharacters(1 + (randomLevel/10)*6, 6+ (randomLevel/10)*6);
+        List<DefaultCharacter> characters = defaultCharacterRepository.getRandomCharacters();
 
         for (DefaultCharacter character : characters){
                 RandomCharacterDto randomCharacterDto = new RandomCharacterDto(character, randomLevel, skillRepository);
@@ -47,9 +47,10 @@ public class CharacterService {
     }
 
     @Transactional
-    public void SaveRandomCharacter(RandomCharacterDto randomCharacterDto, Long userId) {
+    public void SaveRandomCharacter(RandomCharacterDto randomCharacterDto, String email) {
 
         DefaultCharacter defaultCharacter = defaultCharacterRepository.getByClassNameAndSubName(randomCharacterDto.getClassName(), randomCharacterDto.getSubClassName());
+        long userId = userRepository.findByEmail(email).orElseThrow().getId();
         User user = userRepository.getById(userId);
         List<Integer> poseDefine = new ArrayList<>();
 
@@ -99,8 +100,9 @@ public class CharacterService {
         }
     }
 
-    public List<SelectedCharacterDto> getCharacterList(long userId){
+    public List<SelectedCharacterDto> getCharacterList(String email){
         List<SelectedCharacterDto> result = new ArrayList<>();
+        long userId = userRepository.findByEmail(email).orElseThrow().getId();
         //user 찾기
         User user = userRepository.findById(userId).get();
         //내 캐릭터 리스트 찾기
@@ -161,7 +163,8 @@ public class CharacterService {
 
     // api/character/addstat
     @Transactional
-    public List<InitialBattleCharacterDto> updateStat(AddStatDto addStatDto, Long userId) {
+    public List<InitialBattleCharacterDto> updateStat(AddStatDto addStatDto, String userEmail) {
+        long userId = userRepository.findByEmail(userEmail).orElseThrow().getId();
         MyCharacter mch =  myCharacterRepository.getMyCharacterUsingUserIdPos(userId, addStatDto.getPos());
         // 스텟 추가
         int usedPoint = 0; // 사용한 스탯 포인트

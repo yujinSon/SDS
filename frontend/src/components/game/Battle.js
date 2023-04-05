@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import VictoryModal from './VictoryModal';
-import DefeatModal from 'pages/game/DefeatModal';
+import DefeatModal from './DefeatModal';
 import POS from 'constants/pk';
+import monstersPK from 'constants/monstersPK';
 
 import IMG from 'assets/img/고병진.png';
 import IMG2 from 'assets/img/손민혁.png';
@@ -72,7 +73,7 @@ export default function Battle({
               POS={POS}
               onClick={() => clickMonster(monster.pos)}
             >
-              <Circle src={IMG}></Circle>
+              <Circle src={monstersPK[monster.subName]}></Circle>
               <Text>{monster.subName}</Text>
               <ProgressContainer>
                 <ProgressBar hpBar={(monster.hp / monster.maxHp) * 100} />

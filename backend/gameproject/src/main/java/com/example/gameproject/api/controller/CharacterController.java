@@ -6,46 +6,46 @@ import com.example.gameproject.dto.request.YoutubeDto;
 import com.example.gameproject.dto.response.InitialBattleCharacterDto;
 import com.example.gameproject.dto.response.RandomCharacterDto;
 import com.example.gameproject.dto.response.SelectedCharacterDto;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.gameproject.security.jwt.JwtTokenProvider;
+
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.List;
 
-@CrossOrigin(origins = "*")
+import lombok.RequiredArgsConstructor;
+
 @RestController
 @RequestMapping("/api/character")
+@RequiredArgsConstructor
 public class CharacterController {
-    @Autowired
-    private CharacterService characterService;
+    private final CharacterService characterService;
+    private final JwtTokenProvider jwtTokenProvider;
 
     // 랜덤으로 3명을 데려온다.
-//    @GetMapping(value = "/random")
     @GetMapping(value = "/random")
-    public ResponseEntity<?> getRandomCharactersList() throws Exception{
-        long userId = 1L;
-        List<RandomCharacterDto> result = characterService.RandomCharacter(1L);
+    public ResponseEntity<List<RandomCharacterDto>> getRandomCharactersList(@RequestHeader String Authorization) throws Exception{
+        String token = Authorization.split(" ")[1];
+        String email = jwtTokenProvider.getUserPk(token);
+        List<RandomCharacterDto> result = characterService.RandomCharacter(email);
         return ResponseEntity.ok(result);
     }
 
     @PostMapping(value = "/save")
-    public ResponseEntity<?> postSaveRandomCharacter(@RequestBody RandomCharacterDto randomCharacterDto) throws Exception {
-        Long userId = 1l;
-        characterService.SaveRandomCharacter(randomCharacterDto, userId);
+    public ResponseEntity<?> postSaveRandomCharacter(@RequestHeader String Authorization, @RequestBody RandomCharacterDto randomCharacterDto) throws Exception {
+        System.out.println(randomCharacterDto.toString());
+        String token = Authorization.split(" ")[1];
+        String email = jwtTokenProvider.getUserPk(token);
+        characterService.SaveRandomCharacter(randomCharacterDto, email);
         return ResponseEntity.ok("OK");
     }
 
 //    @GetMapping("/selected")
     @GetMapping("/selected")
-    public ResponseEntity<?> getSelectedCharacterList(){
-        long userId = 1L;
-        //여기서 access token에서 userId값 가져와야함
-        List<SelectedCharacterDto> result = characterService.getCharacterList(userId);
+    public ResponseEntity<?> getSelectedCharacterList(@RequestHeader String Authorization){
+        String token = Authorization.split(" ")[1];
+        String email = jwtTokenProvider.getUserPk(token);
+        List<SelectedCharacterDto> result = characterService.getCharacterList(email);
         return ResponseEntity.status(200).body(result);
     }
 
@@ -56,10 +56,10 @@ public class CharacterController {
     }
 
     @PutMapping("/addstat")
-    public ResponseEntity<?> updateStat(@RequestBody AddStatDto addStatDto) throws Exception{
-        Long userId = 1l;
-        List<InitialBattleCharacterDto> res = characterService.updateStat(addStatDto, userId);
+    public ResponseEntity<?> updateStat(@RequestHeader String Authorization, @RequestBody AddStatDto addStatDto) throws Exception{
+        String token = Authorization.split(" ")[1];
+        String email = jwtTokenProvider.getUserPk(token);
+        List<InitialBattleCharacterDto> res = characterService.updateStat(addStatDto, email);
         return ResponseEntity.status(200).body(res);
     }
-
 }
