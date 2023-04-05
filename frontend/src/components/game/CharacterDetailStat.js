@@ -15,6 +15,7 @@ export default function CharacterDetailStat({
   setIsChanged,
   selectedCharacter,
 }) {
+  const token = sessionStorage.getItem('token');
   const [selectedSkillIdx, setSelectedSkillIdx] = useState(null);
   const [showSkillModal, setShowSkillModal] = useState(false);
 
@@ -161,7 +162,14 @@ export default function CharacterDetailStat({
     // console.log(data);
     // Stat 변경 API 호출
     const [url, method] = api('changeStat');
-    const config = { url, method, data };
+    const config = {
+      url,
+      method,
+      data,
+      headers: {
+        Authorization: `Bearer ${token}`, // Authorization 헤더에 토큰을 넣어줍니다.
+      },
+    };
     axios(config)
       .then((res) => {
         console.log(res.data, 'stat 변경 API 요청 성공');

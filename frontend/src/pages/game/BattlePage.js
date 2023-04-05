@@ -13,6 +13,28 @@ import Information from 'components/game/Information';
 
 export default function BattlePage() {
   const navigate = useNavigate();
+  const token = sessionStorage.getItem('token');
+
+  // 흔들림 효과적용할 배열 True 면 흔들림 효과
+  const [characterShaking, setCharacterShaking] = useState(Array(7).fill(false));
+
+  // 흔들림 효과 특정 단일 캐릭터 공격, 단일 빌런 공격
+  const setSpecificCharacterShakingTrue = (indices) => {
+    setCharacterShaking((prevCharacterShaking) => {
+      const updatedCharacterShaking = [...prevCharacterShaking];
+      indices.forEach((index) => {
+        updatedCharacterShaking[index] = true;
+      });
+      return updatedCharacterShaking;
+    });
+  };
+
+  const resetCharacterShaking = () => {
+    setCharacterShaking(Array(7).fill(false));
+  }
+
+
+
 
   // 스테이지, 캐릭터, 빌런 정보 state
   const [stageStep, setStageStep] = useState(null);
@@ -38,11 +60,10 @@ export default function BattlePage() {
   const [showDefeatModal, setShowDefeactModal] = useState(false);
 
   // 공격 시마다 띄울 메시지
-  const [msg, setMsg] = useState([
-    '손유진이 박용찬에게 어퍼컷을 날려 100의 데미지를 입혔다.',
-  ]);
+  const [msg, setMsg] = useState(['']);
   // 우측 하단 텍스트 부분에 최대로 띄울 메시지 갯수 (7이면 6개까지 띄울 수 있음)
-  const textCnt = 7;
+  const textCnt = 8;
+  const textLine = '---------------------------------------------------------';
 
   // 캐릭터 공격 시 '누가' 공격했고, '어떤 스킬'을 사용했는지 저장할 state
   const [who, setWho] = useState('');
@@ -83,7 +104,13 @@ export default function BattlePage() {
   // 전투페이지 입장 시 캐릭터, 빌런, 스테이지 불러와서 정보 저장
   useEffect(() => {
     const [url, method] = api('loadStage');
-    const config = { url, method };
+    const config = {
+      url,
+      method,
+      headers: {
+        Authorization: `Bearer ${token}`, // Authorization 헤더에 토큰을 넣어줍니다.
+      },
+    };
     axios(config)
       .then((res) => {
         console.log('전투페이지 불러오기', res.data);
@@ -215,7 +242,13 @@ export default function BattlePage() {
 
     // 턴 종료 (=새로운 턴 시작) 될 때 백에 알려줌
     const [url, method] = api('finishTurn');
-    const config = { url, method };
+    const config = {
+      url,
+      method,
+      headers: {
+        Authorization: `Bearer ${token}`, // Authorization 헤더에 토큰을 넣어줍니다.
+      },
+    };
     axios(config)
       .then((res) => {
         console.log('전체 한 턴 끝났다고 백에 알려줬음', res.data);
@@ -238,7 +271,7 @@ export default function BattlePage() {
 
   useEffect(() => {
     if (!turnOrder) return;
-    console.log("12133131241242125235346");
+    console.log('12133131241242125235346');
     setNowTurn(turnOrder[0].pos);
   }, [turnOrder]);
 
@@ -246,7 +279,7 @@ export default function BattlePage() {
   useEffect(() => {
     if (!turnOrder) return;
     console.log(nowIdx, '현재 턴');
-    console.log("turnOrder : ", turnOrder);
+    console.log('turnOrder : ', turnOrder);
     setNowTurn(turnOrder[nowIdx].pos);
     setSelectedCh(-1);
     // console.log('현재 공격 pos', turnOrder[nowIdx]);
@@ -254,14 +287,20 @@ export default function BattlePage() {
 
   // 캐릭터, 빌런 전멸 여부 체크
   useEffect(() => {
-    if (!characters | !monsters) return;
+    if (!characters && !monsters) return;
 
     if (characters.length === 0) {
       console.log('캐릭터 모두 사망함');
 
       // 캐릭터가 다 사망해서 api 보냄 (let으로 설정해서 나중에 오류 뜨면 수정해야함)
       let [url, method] = api('gameOver');
-      let config = { url, method };
+      let config = {
+        url,
+        method,
+        headers: {
+          Authorization: `Bearer ${token}`, // Authorization 헤더에 토큰을 넣어줍니다.
+        },
+      };
       axios(config)
         .then((res) => {
           console.log('캐릭터 사망 response:', res.data);
@@ -272,7 +311,13 @@ export default function BattlePage() {
 
       // 캐릭터 or 빌런이 다 죽어서 게임 끝
       [url, method] = api('endBattle');
-      config = { url, method };
+      config = {
+        url,
+        method,
+        headers: {
+          Authorization: `Bearer ${token}`, // Authorization 헤더에 토큰을 넣어줍니다.
+        },
+      };
       axios(config)
         .then((res) => {
           console.log('캐릭터 전멸해서 게임 끝', res.data);
@@ -284,9 +329,15 @@ export default function BattlePage() {
     }
 
     if (monsters.length === 0) {
-      console.log('몬스터 전멸함');
+      console.log('몬스터 전멸함123');
       let [url, method] = api('endBattle');
-      let config = { url, method };
+      let config = {
+        url,
+        method,
+        headers: {
+          Authorization: `Bearer ${token}`, // Authorization 헤더에 토큰을 넣어줍니다.
+        },
+      };
       axios(config)
         .then((res) => {
           console.log('몬스터 전멸', res.data);
@@ -296,10 +347,18 @@ export default function BattlePage() {
         });
 
       [url, method] = api('stepClear');
-      config = { url, method };
+      config = {
+        url,
+        method,
+        headers: {
+          Authorization: `Bearer ${token}`, // Authorization 헤더에 토큰을 넣어줍니다.
+        },
+      };
       axios(config)
         .then((res) => {
           console.log('몬스터 전멸', res.data);
+          // 스테이지 클리어 시 살아있는 캐릭터의 수를 세션 스토리지에 저장
+          sessionStorage.setItem('chCnt', characters.length);
           setShowVictoryModal(!showVictoryModal);
         })
         .catch((err) => {
@@ -307,6 +366,7 @@ export default function BattlePage() {
         });
     }
   }, [characters, monsters]);
+
 
   // *** 빌런 공격 로직 및 캐릭터 사망 시 턴 넘김 logic ***
   useEffect(() => {
@@ -328,7 +388,7 @@ export default function BattlePage() {
         if (found === false) {
           console.log('으아아아아아아아ㅏ아아아아아아');
           if (nowIdx < turnOrder.length - 1) {
-            setNowIdx(nowIdx+1);
+            setNowIdx(nowIdx + 1);
             return;
           } else {
             setNowIdx(0);
@@ -370,8 +430,11 @@ export default function BattlePage() {
         const mySkill =
           myMonster.skills[Math.floor(Math.random() * myMonster.skills.length)];
 
-        setMonsterWho(myMonster.subName);
-        setMonsterWhichSkill(mySkill.skillName);
+        console.log('빌런 스킬 사용 직전 state 바로 앞');
+
+        let monsterName = myMonster.subName; // 텍스트 출력용
+        let monsterUsedSKill = mySkill.skillName; // 텍스트 출력용
+
         // 몬스터가 공격할 대상이 캐릭터인 경우 (1이면 캐릭터 if 문 실행, 0이면 몬스터이므로 pass)
         if (mySkill.skillTarget === 1) {
           let damage = mySkill.value;
@@ -404,7 +467,14 @@ export default function BattlePage() {
           }
 
           const [url, method] = api('enemysTurn');
-          const config = { url, method, data };
+          const config = {
+            url,
+            method,
+            data,
+            headers: {
+              Authorization: `Bearer ${token}`, // Authorization 헤더에 토큰을 넣어줍니다.
+            },
+          };
           axios(config)
             .then((res) => {
               console.log('빌런 공격 결과', res.data);
@@ -420,20 +490,156 @@ export default function BattlePage() {
 
               // 빌런의 스킬이 공격 스킬일 때 (데미지)
               if (mySkill.stat === 'hp') {
-                for (let ch of characters) {
-                  if (valueRes[ch.pos] !== -1) {
-                    setMonsterTowhom(ch.subName);
-                    setMonsterAmount(valueRes[ch.pos]);
+                if (mySkill.range === true) {
+                  // 전체 스킬인경우
+                  const makeMsg = function (
+                    monsterName,
+                    monsterUsedSKill,
+                    characters,
+                    valueRes,
+                  ) {
+                    let firstMsg = `${monsterName}(이)가 ${monsterUsedSKill}을(를)  사용했다!`;
+                    let copy = [firstMsg, textLine, ...msg];
+
+                    for (let i = 0; i < 3; i++) {
+                      if (valueRes[i] !== -1) {
+                        for (let ch of characters) {
+                          if (ch.pos === i) {
+                            if (valueRes[i] > 0) {
+                              let secMsg = `${ch.subName}(이)가 ${valueRes[i]}만큼의 데미지를 받았다.`;
+                              copy = [secMsg, ...copy];
+                            } else {
+                              let secMsg = `${ch.subName}(이)가 공격을 회피했다.`;
+                              copy = [secMsg, ...copy];
+                            }
+                          }
+                        }
+                      }
+                    }
+
+                    if (copy.length >= textCnt) {
+                      copy.pop();
+                    }
+                    setMsg(copy);
+                  };
+                  makeMsg(monsterName, monsterUsedSKill, characters, valueRes);
+
+                  setSpecificCharacterShakingTrue([0, 1, 2])
+                  setTimeout(() => {
+                    resetCharacterShaking();
+                  }, 500);
+
+                } else {
+                  // 단일 스킬
+                  let targetCharacter = '';
+                  for (let ch of characters) {
+                    if (data.target == ch.pos) {
+                      targetCharacter = ch.subName;
+                    }
                   }
+
+                  setSpecificCharacterShakingTrue([data.target])
+                  setTimeout(() => {
+                    resetCharacterShaking();
+                  }, 500);
+
+                  const makeMsg = function (
+                    monsterName,
+                    monsterUsedSKill,
+                    characters,
+                    valueRes,
+                  ) {
+                    let firstMsg = `${monsterName}(이)가 ${monsterUsedSKill}을(를)  사용했다!`;
+                    let copy = [firstMsg, textLine, ...msg];
+
+                    for (let ch of characters) {
+                      if (valueRes[ch.pos] > 0) {
+                        let secMsg = `${ch.subName}(이)가 ${
+                          valueRes[ch.pos]
+                        }만큼의 데미지를 받았다`;
+                        copy = [secMsg, ...copy];
+                      } else if (valueRes[ch.pos] === 0) {
+                        let secMsg = `${ch.subName}(이)가 공격을 회피했다.`;
+                        copy = [secMsg, ...copy];
+                      }
+                    }
+
+                    if (copy.length >= textCnt) {
+                      copy.pop();
+                    }
+
+                    setMsg(copy);
+                  };
+                  makeMsg(monsterName, monsterUsedSKill, characters, valueRes);
                 }
               } // 빌런의 스킬이 디버프 스킬일 때
               else {
-                for (let ch of characters) {
-                  if (valueRes[ch.pos] !== -1) {
-                    setMonsterTowhom(ch.subName);
-                    setMonsterDebuffAmount(valueRes[ch.pos]);
-                    setMonsterDebuffStat(statPK[mySkill.stat]);
+                let reciveValue = mySkill.value;
+                let effectStat = statPK[mySkill.stat];
+
+                if (mySkill.range === true) {
+                  // 전체 스킬인경우
+                  const makeMsg = function (
+                    monsterName,
+                    monsterUsedSKill,
+                    reciveValue,
+                    effectStat,
+                    characters,
+                  ) {
+                    let firstMsg = `${monsterName}(이)가 ${monsterUsedSKill}을(를)  사용했다!`;
+                    let copy = [firstMsg, textLine, ...msg];
+
+                    for (let ch of characters) {
+                      let secMsg = `${ch.subName}의 ${effectStat}(이)가 ${reciveValue}만큼 감소했다.`;
+                      copy = [secMsg, ...copy];
+                    }
+
+                    if (copy.length >= textCnt) {
+                      copy.pop();
+                    }
+                    setMsg(copy);
+                  };
+                  makeMsg(
+                    monsterName,
+                    monsterUsedSKill,
+                    reciveValue,
+                    effectStat,
+                    characters,
+                  );
+                } else {
+                  // 단일 스킬인 경우
+                  let targetCharacter = '';
+                  for (let ch of characters) {
+                    if (data.target == ch.pos) {
+                      targetCharacter = ch.subName;
+                    }
                   }
+
+                  const makeMsg = function (
+                    monsterName,
+                    monsterUsedSKill,
+                    targetCharacter,
+                    reciveValue,
+                    effectStat,
+                  ) {
+                    let firstMsg = `${monsterName}(이)가 ${monsterUsedSKill}을(를)  사용했다!`;
+                    let copy = [firstMsg, textLine, ...msg];
+
+                    let secMsg = `${targetCharacter}의 ${effectStat}(이)가 ${reciveValue}만큼 감소했다.`;
+
+                    copy = [secMsg, firstMsg, ...msg];
+                    if (copy.length >= textCnt) {
+                      copy.pop();
+                    }
+                    setMsg(copy);
+                  };
+                  makeMsg(
+                    monsterName,
+                    monsterUsedSKill,
+                    targetCharacter,
+                    reciveValue,
+                    effectStat,
+                  );
                 }
               }
 
@@ -458,23 +664,40 @@ export default function BattlePage() {
           // 전체 빌런에게 힐 스킬 적용
           if (mySkill.range === true) {
             console.log('빌런의 전체 회복 스킬!!!');
-            for (let monster of monsters) {
-              // setTimeout(() => {
-              monster.hp = min(monster.hp + healAmount, monster.maxHp);
-              setChHeal(mySkill.value);
-              setChHealTowhom(monster.subName);
-              // }, 300);
-            }
+            const makeMsg = function (
+              monsterName,
+              monsterUsedSKill,
+              reciveValue,
+              monsters,
+            ) {
+              let firstMsg = `${monsterName}(이)가 ${monsterUsedSKill}을(를)  사용했다!`;
+              let copy = [' ', ...msg];
+              copy = [firstMsg, textLine, ...msg];
+
+              for (let ms of monsters) {
+                let secMsg = `${ms.subName}의 체력이 ${reciveValue}만큼 회복됐다.`;
+                copy = [secMsg, ...copy];
+              }
+
+              if (copy.length >= textCnt) {
+                copy.pop();
+              }
+              setMsg(copy);
+            };
+            makeMsg(monsterName, monsterUsedSKill, healAmount, monsters);
+
             // 빌런 한 마리에게 힐 스킬 적용
           } else {
             // 몬스터에서 피 가장 적은 애한테 힐 스킬 적용
             console.log('빌런의 단일 회복 스킬!!!');
             let minHpMonsterPos = -1;
             let minValue = 999999999;
+            let targetMonsterName = '';
             for (let monster of monsters) {
               if (minValue > monster.hp) {
                 minValue = monster.hp;
                 minHpMonsterPos = monster.pos;
+                targetMonsterName = monster.subName;
               }
             }
             for (let monster of monsters) {
@@ -482,6 +705,30 @@ export default function BattlePage() {
                 monster.hp = min(monster.hp + healAmount, monster.maxHp);
               }
             }
+
+            const makeMsg = function (
+              monsterName,
+              monsterUsedSKill,
+              healAmount,
+              targetMonsterName,
+            ) {
+              let firstMsg = `${monsterName}(이)가 ${monsterUsedSKill}을(를)  사용했다!`;
+              let copy = [firstMsg, textLine, ...msg];
+
+              let secMsg = `${targetMonsterName}의 체력이 ${healAmount}만큼 회복됐다.`;
+              copy = [secMsg, ...copy];
+
+              if (copy.length >= textCnt) {
+                copy.pop();
+              }
+              setMsg(copy);
+            };
+            makeMsg(
+              monsterName,
+              monsterUsedSKill,
+              healAmount,
+              targetMonsterName,
+            );
           }
           if (nowIdx < turnOrder.length - 1) {
             setNowIdx(nowIdx + 1);
@@ -499,8 +746,7 @@ export default function BattlePage() {
       console.log('옛다 버프다~');
 
       let madeMsg = `${who}(이)가 ${whichSkill}을(를)  사용했다!`;
-      let copy = [...msg];
-      copy = [madeMsg, ...msg];
+      let copy = [madeMsg, textLine, ...msg];
       if (copy.length >= textCnt) {
         copy.pop();
       }
@@ -577,7 +823,14 @@ export default function BattlePage() {
         };
         console.log(data, '회복스킬 시전 시 보낼 data');
         const [url, method] = api('playersTurn');
-        const config = { url, method, data };
+        const config = {
+          url,
+          method,
+          data,
+          headers: {
+            Authorization: `Bearer ${token}`, // Authorization 헤더에 토큰을 넣어줍니다.
+          },
+        };
         axios(config)
           .then((res) => {
             console.log('버프 요청 axios', res.data);
@@ -587,7 +840,7 @@ export default function BattlePage() {
           .catch((err) => {});
 
         setPlayerTurn(0);
-        if (nowIdx < turnOrder.length-1) {
+        if (nowIdx < turnOrder.length - 1) {
           setNowIdx(nowIdx + 1);
         } else {
           setNowIdx(0);
@@ -645,8 +898,7 @@ export default function BattlePage() {
 
     // 오른쪽 아래 출력 메시지 생성 (사용 캐릭터, 사용 스킬)
     let madeMsg = `${who}(이)가 ${whichSkill}을(를)  사용했다!`;
-    let copy = [...msg];
-    copy = [madeMsg, ...msg];
+    let copy = [madeMsg, textLine, ...msg];
     if (copy.length >= textCnt) {
       copy.pop();
     }
@@ -665,7 +917,14 @@ export default function BattlePage() {
     // 선택된 스킬의 기본 쿨타임이 0이 아니어서 백쪽에서 쿨타임을 관리해야할 경우 (쿨타임이 0이면 스킬 쿨타임이 없다는 의미)
     if (characters[chIdx].skills[selectedSkill].coolTime !== 0) {
       const [url, method] = api('playersTurn');
-      const config = { url, method, data };
+      const config = {
+        url,
+        method,
+        data,
+        headers: {
+          Authorization: `Bearer ${token}`, // Authorization 헤더에 토큰을 넣어줍니다.
+        },
+      };
       axios(config)
         .then((res) => {
           console.log('스킬 쿨타임 용 API 요청 성공', res.data);
@@ -708,8 +967,10 @@ export default function BattlePage() {
 
           setAmount(eachDamage);
           setToWhom(monsters[idx].subName);
+          setSpecificCharacterShakingTrue([3,4,5,6])
 
           // 섹시해 chatGPT ㅎㅅㅎ
+          
           await new Promise((resolve) => setTimeout(resolve, 0));
         }
         // hp가 0이하로 떨어져서 사망한 경우
@@ -718,7 +979,9 @@ export default function BattlePage() {
             tmp.push(copy[i]);
           }
         }
-        setMonsters(tmp);
+        setTimeout(() => {
+          setMonsters(tmp);
+        }, 500);
       }
       // 단일 스킬인 경우
       else {
@@ -732,6 +995,7 @@ export default function BattlePage() {
             // 메시지 띄울 데미지랑 대상 업데이트
             setAmount(damage);
             setToWhom(monsters[idx].subName);
+            setSpecificCharacterShakingTrue([pos])
 
             console.log(afterHp, '남은 체력');
             let copy = [...monsters];
@@ -744,7 +1008,11 @@ export default function BattlePage() {
                   tmp.push(copy[i]);
                 }
               }
-              setMonsters(tmp);
+
+              setTimeout(() => {
+                setMonsters(tmp);
+              }, 500);
+              // setMonsters(tmp);
               // hp가 달았지만 그래도 0이상인 경우
             } else {
               copy[idx].hp = afterHp;
@@ -754,19 +1022,25 @@ export default function BattlePage() {
           }
         }
       }
-    }
 
-    // 플레이어 턴 초기화
-    setPlayerTurn(0);
+      setTimeout(() => {
+        resetCharacterShaking();
+      }, 300);
 
-    // 플레이어가 공격했으면 다음 턴으로 넘어감
-    if (nowIdx < turnOrder.length -1) {
-      setNowIdx(nowIdx + 1);
+      // 플레이어 턴 초기화
+      setPlayerTurn(0);
+
+      // 플레이어가 공격했으면 다음 턴으로 넘어감
+      if (nowIdx < turnOrder.length - 1) {
+        setNowIdx(nowIdx + 1);
+      } else {
+        setNowIdx(0);
+      }
+      // 현재 몇 번재 턴인지 출력
+      console.log('내가 방금 공격한 턴', nowIdx);
     } else {
-      setNowIdx(0);
+      alert('스킬 타겟을 잘못 설정하였습니다.');
     }
-    // 현재 몇 번재 턴인지 출력
-    console.log('내가 방금 공격한 턴', nowIdx);
   };
 
   // 회피여부 판단하는 함수
@@ -793,6 +1067,7 @@ export default function BattlePage() {
           stageStep={stageStep}
           showVictoryModal={showVictoryModal}
           showDefeatModal={showDefeatModal}
+          characterShaking = {characterShaking}
         />
       </BattleContainer>
 
@@ -841,7 +1116,6 @@ const BattleContainer = styled.div`
 `;
 
 const BottomContainer = styled.div`
-
   display: flex;
   flex-direction: row;
   height: 30%;
@@ -854,8 +1128,7 @@ const LeftContainer = styled.div`
   flex-direction: column;
   color: black;
   width: 50%;
-  height: 100%
-
+  height: 100%;
 `;
 
 const RightContainer = styled.div`
@@ -883,6 +1156,8 @@ const AttackResult = styled.div`
 
 const TextBox = styled.div`
   padding: 1rem;
+  height: 100%;
+  overflow-y: auto;
 `;
 
 const NoneSelectBox = styled.div`
@@ -891,6 +1166,7 @@ const NoneSelectBox = styled.div`
   align-items: center;
   background-color: rgba(189, 189, 189, 0.7);
   height: 100%;
+  width: 100%;
   font-size: 24px;
   font-weight: bold;
 `;

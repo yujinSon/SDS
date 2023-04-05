@@ -1,8 +1,6 @@
 package com.example.gameproject.api.service;
 
-import com.example.gameproject.db.entity.DefaultCharacter;
 import com.example.gameproject.db.entity.MyCharacter;
-import com.example.gameproject.db.entity.Skill;
 import com.example.gameproject.db.entity.User;
 import com.example.gameproject.db.repository.DefaultCharacterRepository;
 import com.example.gameproject.db.repository.MyCharacterRepository;
@@ -42,8 +40,9 @@ public class ResultService {
     }
 
     @Transactional
-    public void GameOver(){
-        User user = userRepository.getById(1L);
+    public void GameOver(String email){
+        long userId = userRepository.findByEmail(email).orElseThrow().getId();
+        User user = userRepository.getById(userId);
         user.gameOverUpdate();
         userRepository.save(user);
     }
@@ -54,7 +53,8 @@ public class ResultService {
     }
 
     @Transactional
-    public void GameWin(Long userId) {
+    public void GameWin(String email) {
+        long userId = userRepository.findByEmail(email).orElseThrow().getId();
         User user = userRepository.getById(userId);
         user.gameWin();
 
