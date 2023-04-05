@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import styled, {keyframes, css} from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 
 import VictoryModal from './VictoryModal';
 import DefeatModal from './DefeatModal';
 import POS from 'constants/pk';
+import charactersPK from 'constants/charactersPK';
 import monstersPK from 'constants/monstersPK';
 
 import IMG from 'assets/img/고병진.png';
@@ -56,9 +57,9 @@ export default function Battle({
               // go={selectedCh === ch.pos}
               selectedCh={selectedCh === idx}
               POS={POS}
-              shaking = {characterShaking[ch.pos]}
+              shaking={characterShaking[ch.pos]}
             >
-              <Circle src={IMG2}></Circle>
+              <Circle src={charactersPK[ch.subName]}></Circle>
               <Text>{ch.subName}</Text>
               <ProgressContainer>
                 <ProgressBar hpBar={(ch.hp / ch.maxHp) * 100} />
@@ -74,7 +75,7 @@ export default function Battle({
               key={idx}
               POS={POS}
               onClick={() => clickMonster(monster.pos)}
-              shaking = {characterShaking[monster.pos]}
+              shaking={characterShaking[monster.pos]}
             >
               <Circle src={monstersPK[monster.subName]}></Circle>
               <Text>{monster.subName}</Text>
@@ -118,10 +119,11 @@ const CharacterContainer = styled.div`
     border-color: yellow;
   `}
 
-  ${({shaking}) => shaking && css`animation: ${shakeAnimation} 0.3s;`}
-
-  
-  
+  ${({ shaking }) =>
+    shaking &&
+    css`
+      animation: ${shakeAnimation} 0.3s;
+    `}
 `;
 
 const MonsterContainer = styled.div`
@@ -134,8 +136,11 @@ const MonsterContainer = styled.div`
   flex-direction: column;
   align-items: center;
 
-  ${({shaking}) => shaking && css`animation: ${shakeAnimation} 0.3s;`}
-  
+  ${({ shaking }) =>
+    shaking &&
+    css`
+      animation: ${shakeAnimation} 0.3s;
+    `}
 `;
 
 const Circle = styled.img`
