@@ -8,8 +8,8 @@ import 경제전문가기성 from 'assets/img/chs/경제전문가기성.PNG';
 import 경제학교수기성 from 'assets/img/chs/경제학교수기성.PNG';
 import 경찰관병진 from 'assets/img/chs/경찰관병진.PNG';
 import 프로파일러병진 from 'assets/img/chs/프로파일러병진.PNG';
-import 환경운동가유진 from 'assets/img/chs/사회전문가정빈.PNG';
-import 환경지킴이유진 from 'assets/img/chs/사회전문가정빈.PNG';
+import 환경운동가유진 from 'assets/img/chs/환경운동가유진.PNG';
+import 환경지킴이유진 from 'assets/img/chs/환경지킴이유진.PNG';
 import 질병관리자민수 from 'assets/img/chs/질병관리자민수.PNG';
 import 질병전문가민수 from 'assets/img/chs/질병전문가민수.PNG';
 
