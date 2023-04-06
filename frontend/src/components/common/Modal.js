@@ -49,12 +49,13 @@ const Container = styled.div`
   position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, 20%);
 
-  width: 100vw;
-  height: 100vh;
+  width: 50vw;
+  height: 30vh;
 
-  background-color: #00000090;
+
+  background-color: rgba(0, 0, 0, 0);
 
   z-index: 10;
 `;
@@ -67,7 +68,7 @@ const Wrapper = styled.div`
   padding: 2rem 2rem 1.5rem;
 
   border-radius: 1rem;
-  background-color: ${({ theme }) => theme.secondaryColor};
+  background-color: rgba(53, 53, 53, 0.9);
 `;
 
 const StyledDiv = styled.div`

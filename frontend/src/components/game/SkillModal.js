@@ -13,26 +13,36 @@ export default function SkillModal({
   const navigate = useNavigate();
   console.log(detail);
   return (
-    <Container>
-      <Div>{skillName}</Div>
-      <Div>{detail}</Div>
-      <Div>효과 : {effect}</Div>
-      <Button
-        value="완료"
-        onClick={() => {
-          setShowSkillModal(!showSkillModal);
-        }}
-      />
-    </Container>
+      <Container>
+        <Div>{skillName}</Div>
+        <Div>{detail}</Div>
+        <Div>{effect}</Div>
+      </Container>
+
   );
 }
+
 
 const Container = styled.div`
   font-size: 1.2rem;
   text-align: center;
-  background-color: orange;
 `;
 
 const Div = styled.div`
   margin-bottom: 1rem;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 0.5rem;
+`;
+
+const SelectedButton = styled.button`
+  background-color: rgba(140, 140, 140, 0.8);
+  font-size: 1.5rem;
+  color: white;
+  border-radius: 10px;
+  padding: 0.2rem 2rem 0.2rem 2rem;
+  border: none;
 `;
