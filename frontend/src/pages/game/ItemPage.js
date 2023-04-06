@@ -68,8 +68,7 @@ export default function ItemPage() {
   }, []);
 
   return (
-    <>
-      <h1>준비 페이지</h1>
+    <TopDiv>
       <MainContainer>
         <SubContainerLeft>
           <SelectedCharacterList
@@ -84,7 +83,7 @@ export default function ItemPage() {
               setIsChanged={setIsChanged}
               selectedCharacter={selectedCharacter}
             />
-          ) : null}
+          ) : null}``
         </SubContainerLeft>
         <SubContainerRight>
           <Relic relicIds={relicIds} />
@@ -97,9 +96,18 @@ export default function ItemPage() {
           </StartButton>
         </SubContainerRight>
       </MainContainer>
-    </>
+    </TopDiv>
   );
 }
+
+const TopDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+`;
 
 const MainContainer = styled.div`
   display: flex;

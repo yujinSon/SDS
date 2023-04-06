@@ -31,7 +31,7 @@ export default function SelectedCharacterList({
     <Container>
       {list
         ? list.map((character, idx) => (
-            <div key={idx}>
+            <Wrapper key={idx}>
               {character.subClassName != null ? (
                 <CharacterContainer
                   onClick={() => {
@@ -59,7 +59,7 @@ export default function SelectedCharacterList({
                   </TextContainer>
                 </NoneCharacterContainer>
               )}
-            </div>
+            </Wrapper>
           ))
         : null}
     </Container>
@@ -67,7 +67,10 @@ export default function SelectedCharacterList({
 }
 
 const Container = styled.div`
+  width: 100%;
+  height: 40%;
   display: flex;
+  justify-content: center;
 `;
 
 const CharacterContainer = styled.span`
@@ -84,6 +87,9 @@ const CharacterContainer = styled.span`
   margin-right: 0.5rem;
   margin-left: 0.5rem;
 
+  height: 80%;
+  width: 80%;
+
   ${(props) =>
     props.selected &&
     `
@@ -93,15 +99,13 @@ const CharacterContainer = styled.span`
 `;
 
 const ImageContainer = styled.div`
+
   display: flex;
   justify-content: center;
   align-items: center;
   width: 6rem;
   height: 6rem;
   border-radius: 50%;
-  overflow: hidden;
-  margin-right: 1rem;
-  margin: 0 auto;
 
   img {
     width: 100%;
@@ -118,3 +122,8 @@ const TextContainer = styled.div`
   align-items: center;
   text-align: center;
 `;
+
+const Wrapper = styled.div`
+  margin: 0 0.5rem;
+`;
+
