@@ -140,8 +140,7 @@ export default function RecruitPage() {
   // }, []);
 
   return (
-    <>
-      <h1>캐릭터 영입 페이지</h1>
+    <TopDiv>
       <MainContainer>
         <SubContainerLeft>
           <SelectedCharacterList
@@ -163,11 +162,21 @@ export default function RecruitPage() {
           <GameButtons selectedChList={selectedChList} />
         </SubContainerRight>
       </MainContainer>
-    </>
+    </TopDiv>
   );
 }
 
+const TopDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+`;
+
 const MainContainer = styled.div`
+
   display: flex;
 
   width: 90%;
@@ -177,15 +186,20 @@ const MainContainer = styled.div`
 `;
 
 const SubContainerLeft = styled.div`
+
   display: flex;
   flex-direction: column;
   align-items: center;
-
   height: 100%;
+  width: 40%;
 `;
 
 const SubContainerRight = styled.div`
+
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  width: 40%;
+
 `;

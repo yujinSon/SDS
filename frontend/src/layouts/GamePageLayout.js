@@ -24,7 +24,7 @@ const Container = styled.div`
   height: 100%;
 
   background-image: url(${({ theme, bgImgUrl }) =>
-    bgImgUrl || theme.mainPageBgImg});
+    bgImgUrl || theme.mainBgImg});
   background-size: cover;
 `;
 
@@ -35,5 +35,5 @@ const Pane = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-bottom : 1rem;
+  padding-bottom: 1rem;
 `;

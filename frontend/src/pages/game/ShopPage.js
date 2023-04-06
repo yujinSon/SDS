@@ -3,8 +3,9 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
 import axios from 'libs/axios';
-import testAxios from 'axios';
 import api from 'constants/api';
+
+import relicPK from 'constants/relicPK';
 
 import Modal from 'components/common/Modal';
 import ItemModal from 'components/game/ItemModal';
@@ -26,10 +27,14 @@ export default function ShopPage() {
   const [recoveryModal, setRecoveryModal] = useState(false);
   const [itemModal, setItemModal] = useState(false);
 
+  // 획득한 유물 id
+  const [relicId, setRelicId] = useState(null);
+
+  // 세션 스토리지 로직
   const token = sessionStorage.getItem('token');
   const chCnt = parseInt(sessionStorage.getItem('chCnt'));
   console.log(chCnt, '살아있는 캐릭터 수');
-  console.log(token, '토큰');
+  // console.log(token, '토큰');
   return (
     <Container>
       <img src={상점} alt="상점" />
@@ -90,6 +95,7 @@ export default function ShopPage() {
             axios(config)
               .then((res) => {
                 console.log('상점에서 유물 획득 성공', res.data);
+                setRelicId(res.data.id);
               })
               .catch((err) => {
                 console.log('상점에서 유물 획득 에러', err);
@@ -109,7 +115,10 @@ export default function ShopPage() {
         />
       ) : null}
       {itemModal ? (
-        <Modal close={() => navigate('/game/ready')} content={<ItemModal />} />
+        <Modal
+          close={() => navigate('/game/ready')}
+          content={<ItemModal relicId={relicId} />}
+        />
       ) : null}
     </Container>
   );
@@ -120,7 +129,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
 
-  background-image: url(${({ theme }) => `${theme.mapBgImg}`});
+  background-image: url(${({ theme }) => `${theme.mainBgImg}`});
   background-size: cover;
   background-position: center;
   height: 100vh;

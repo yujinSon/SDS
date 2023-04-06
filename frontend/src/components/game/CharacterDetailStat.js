@@ -317,7 +317,7 @@ export default function CharacterDetailStat({
           <div></div>
         </TopDiv>
       ) : (
-        <div>캐릭터를 선택하여 상세정보를 확인하세요.</div>
+        <div>캐릭터를 클릭하세요.</div>
       )}
       {ch ? <div>남은 Stat Point: {stat}</div> : null}
       <StatSaveButton onClick={() => saveStat()}>저장</StatSaveButton>
@@ -343,7 +343,6 @@ const Container = styled.div`
 const TopDiv = styled.div`
   display: flex;
   justify-content: space-between;
-  padding-right: 2rem;
 `;
 
 const StatDiv = styled.div`
@@ -422,7 +421,7 @@ const StatSaveButton = styled.button`
   border-radius: 10px;
   padding: 0.2rem 2rem 0.2rem 2rem;
   border: none;
-  width: 20vw;
+  width: 10rem;
 `;
 
 const ColorSpan = styled.span`
@@ -431,8 +430,8 @@ const ColorSpan = styled.span`
 
 const IMG = styled.img`
   margin: 0.5rem;
-  width: 100px;
-  height: 100px;
+  width: 85px;
+  height: 85px;
   border: 3px solid white;
 `;
 
