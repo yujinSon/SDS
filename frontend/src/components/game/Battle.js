@@ -6,6 +6,8 @@ import DefeatModal from './DefeatModal';
 import POS from 'constants/pk';
 import charactersPK from 'constants/charactersPK';
 import monstersPK from 'constants/monstersPK';
+import stagePK from 'constants/stagePK';
+import stepPK from 'constants/stepPK';
 
 export default function Battle({
   characters,
@@ -26,7 +28,7 @@ export default function Battle({
         {stageStep ? (
           <>
             <StageDiv>
-              {stageStep[0]} - {stageStep[1]}
+              {stagePK[stageStep[0]]} - {stepPK[stageStep[1]]} Stage
             </StageDiv>
             <BarContainer>
               <Bar progress={stageStep[1]} />

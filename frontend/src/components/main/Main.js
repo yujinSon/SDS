@@ -7,7 +7,6 @@ import axios from 'libs/axios';
 import myAxios from 'axios';
 
 import Modal from 'components/common/Modal';
-import Button from 'components/common/Button';
 
 import SignupModal from './SignupModal';
 
@@ -72,7 +71,7 @@ export default function Main() {
     myAxios
       .post('https://j8a303.p.ssafy.io/api/users/login', data)
       .then((response) => {
-        console.log(response.data); // 성공적으로 응답받은 데이터를 출력합니다.
+        // console.log(response.data);
         setLoginToken(response.data.token);
         setIsLogin(true);
         sessionStorage.setItem('token', response.data.token);
