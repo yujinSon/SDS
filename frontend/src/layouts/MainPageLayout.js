@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { loginBgImg } from 'assets/img/bgs/login.jpg';
 
 export default function MainPageLayout({ children }) {
   const [Up, Down] = children;

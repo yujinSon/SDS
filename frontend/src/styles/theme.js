@@ -7,7 +7,6 @@ import battleBgImg4 from 'assets/img/bgs/battle4.jpg';
 import battleBgImg5 from 'assets/img/bgs/battle5.jpg';
 import battleBgImg6 from 'assets/img/bgs/battle6.png';
 import battleBgImg7 from 'assets/img/bgs/battle7.jpg';
-import shopBgImg from 'assets/img/shopBgimg.png';
 
 export const theme = {
   primaryColor: '#007bff',
@@ -28,7 +27,6 @@ export const theme = {
   battleBgImg5,
   battleBgImg6,
   battleBgImg7,
-  shopBgImg,
 };
 
 export default theme;
