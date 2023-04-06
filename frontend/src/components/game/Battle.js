@@ -7,9 +7,6 @@ import POS from 'constants/pk';
 import charactersPK from 'constants/charactersPK';
 import monstersPK from 'constants/monstersPK';
 
-import IMG from 'assets/img/고병진.png';
-import IMG2 from 'assets/img/손민혁.png';
-
 export default function Battle({
   characters,
   monsters,

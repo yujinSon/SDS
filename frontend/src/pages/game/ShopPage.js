@@ -36,6 +36,7 @@ export default function ShopPage() {
   return (
     <Container>
       <img src={상점} alt="상점" />
+
       <Card>
         <CardItem
           onClick={() => {
@@ -106,22 +107,29 @@ export default function ShopPage() {
           </button>
         </CardItem>
       </Card>
-      {recoveryModal ? (
-        <Modal
-          close={() => navigate('/game/ready')}
-          content={<RecoveryModal />}
-        />
-      ) : null}
-      {itemModal ? (
-        <Modal
-          close={() => navigate('/game/ready')}
-          content={<ItemModal relicId={relicId} />}
-        />
-      ) : null}
+      <ModalContainer>
+        {recoveryModal ? (
+          <Modal
+            close={() => navigate('/game/ready')}
+            content={<RecoveryModal />}
+          />
+        ) : null}
+        {itemModal ? (
+          <Modal
+            close={() => navigate('/game/ready')}
+            content={<ItemModal relicId={relicId} />}
+          />
+        ) : null}
+      </ModalContainer>
     </Container>
   );
 }
-
+const ModalContainer = styled.div`
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+`;
 const Container = styled.div`
   display: flex;
   flex-direction: column;
