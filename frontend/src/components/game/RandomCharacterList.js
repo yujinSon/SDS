@@ -70,8 +70,8 @@ const ImageContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 5rem;
-  height: 5rem;
+  width: 6rem;
+  height: 6rem;
   border-radius: 50%;
   overflow: hidden;
   margin-right: 1rem;
@@ -85,6 +85,7 @@ const ImageContainer = styled.div`
 const TextContainer = styled.div`
   display: flex;
   flex-direction: column;
+  font-size: 1.2rem;
 `;
 
 const Frame = styled.div`
