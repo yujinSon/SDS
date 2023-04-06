@@ -96,6 +96,7 @@ const CharacterContainer = styled.span`
     `
     border-color: yellow;
     border: 5px solid;
+    min-width: 135px
   `}
 `;
 
@@ -109,7 +110,7 @@ const ImageContainer = styled.div`
   border-radius: 50%;
 
   img {
-    width: 120%;
+    width: 100%;
     height: auto;
   }
 `;
