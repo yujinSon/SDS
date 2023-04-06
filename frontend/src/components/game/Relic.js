@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import IMG from 'assets/img/item1.png';
 
 import relic from 'constants/relicPK';
+import relicPK from 'constants/relicPK';
 
 export default function Relic({ relicIds }) {
   // 초기 유물 리스트 (값이 0이면 획득하지 못한 유물로, 자물쇠 이미지를 띄울 것임)
@@ -55,12 +56,18 @@ export default function Relic({ relicIds }) {
                 <div key={idx2} onClick={() => changeIdx(3 * idx + idx2)}>
                   {relic === 0 ? (
                     <ImageWrapper>
-                      <Image src={IMG} />
+                      <Image
+                        src={relicPK[0].relicImg}
+                        selected={nowIdx === 3 * idx + idx2}
+                      />
                       {/* <ImageDiv url={IMG} /> */}
                     </ImageWrapper>
                   ) : (
                     <ImageWrapper>
-                      <Image src={relic.relicImg} />
+                      <Image
+                        src={relic.relicImg}
+                        selected={nowIdx === 3 * idx + idx2}
+                      />
                     </ImageWrapper>
                   )}
                 </div>
@@ -72,13 +79,21 @@ export default function Relic({ relicIds }) {
       <ArtifactDetail>
         <DetailImgContainer>
           {relicInfo && relicInfo[nowIdx] !== 0 ? (
-            <DetailImg src={relicInfo[nowIdx].relicImg} />
+            <>
+              <DetailImg src={relicPK[nowIdx + 1].relicImg} />
+              <RelicName>{relicPK[nowIdx + 1].relicName}</RelicName>
+              <DetailText>{relicPK[nowIdx + 1].relicDetail}</DetailText>
+              <DetailText>효과: {relicPK[nowIdx + 1].relicEffect}</DetailText>
+            </>
           ) : (
-            <DetailImg src={IMG} />
+            <>
+              <DetailImg src={relicPK[0].relicImg} />
+              <RelicName>{relicPK[0].relicName}</RelicName>
+              <DetailText>{relicPK[0].relicDetail}</DetailText>
+              <DetailText>{relicPK[0].relicEffect}</DetailText>
+            </>
           )}
         </DetailImgContainer>
-        <DetailText>{relicInfo[nowIdx].relicName}</DetailText>
-        <DetailText>{relicInfo[nowIdx].relicDetail}</DetailText>
       </ArtifactDetail>
     </OutFrame>
   );
@@ -105,12 +120,18 @@ const Row = styled.div`
 const ImageWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 0.1rem;
+  margin: 0.2rem;
 `;
 
 const Image = styled.img`
-  width: 6vw;
-  height: 7vh;
+  width: 5.5vw;
+  height: 9vh;
+
+  ${(props) =>
+    props.selected &&
+    `
+    border: 3px solid;
+  `}
 `;
 
 const ImageDiv = styled.div`
@@ -121,7 +142,11 @@ const ImageDiv = styled.div`
 
 const DetailImgContainer = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
+  text-align: center;
+
   width: 100%;
   margin-top: 2rem;
   margin-bottom: 1rem;
@@ -141,11 +166,20 @@ const ArtifactDetail = styled.div`
 const DetailImg = styled.img`
   width: 50%;
   height: 100%;
+  margin-bottom: 1.5rem;
+`;
+
+const RelicName = styled.div`
+  font-size: 2rem;
+  font-weight: bold;
+  width: 80%;
+  height: 50%;
+  margin-bottom: 2rem;
 `;
 
 const DetailText = styled.div`
-  background-color: green;
+  font-size: 1.4rem;
   width: 80%;
   height: 50%;
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
 `;

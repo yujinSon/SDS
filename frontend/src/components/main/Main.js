@@ -3,43 +3,38 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
 import api from 'constants/api';
-import axios from 'axios';
-import myAxios from 'libs/axios';
+import axios from 'libs/axios';
+import myAxios from 'axios';
 
+import Modal from 'components/common/Modal';
 import Button from 'components/common/Button';
+
+import SignupModal from './SignupModal';
 
 export default function Main() {
   const navigate = useNavigate();
 
   // 회원가입, 로그인 시 input 아이디, 비밀번호
-  const [email, setEmail] = useState('');
+  const [id, setId] = useState('');
   const [password, setPassword] = useState('');
   // 로그인 시 받은 token 값 저장
-  // const [token, setToken] = useState(null);
+  const [loginToken, setLoginToken] = useState(null);
   // 로그인 여부 / 테스트용 API 용 state
   const [isLogin, setIsLogin] = useState(false);
 
+  const [showSingupModal, setShowSignupModal] = useState(false);
+
   // localStorage.setItem('token', token);
-  const token = sessionStorage.getItem('token');
+
   // 세션 스토리지는 브라우저 닫으면 ㅂㅂ / 로컬스토리지는 닫아도 그대로 보존
 
-  // 테스트용 API
-  // useEffect(() => {
-  //   if (!isLogin) return;
-  //   console.log(token);
-  //   axios({
-  //     url: 'http://70.12.246.58:8080/api/character/random',
-  //     headers: {
-  //       Authorization: `Bearer ${token}`, // Authorization 헤더에 토큰을 넣어줍니다.
-  //     },
-  //   })
-  //     .then((response) => {
-  //       console.log(response.data); // 성공적으로 응답받은 데이터를 출력합니다.
-  //     })
-  //     .catch((error) => {
-  //       console.error(error, '이건 headers 에러'); // 요청이 실패한 경우 에러 메시지를 출력합니다.
-  //     });
-  // }, [isLogin]);
+  const token = sessionStorage.getItem('token');
+
+  useEffect(() => {
+    if (token) {
+      setIsLogin(true);
+    }
+  });
 
   // 버튼 클릭 시 새로운 게임 시작 API 요청 로직
   const startNewGame = () => {
@@ -51,7 +46,7 @@ export default function Main() {
         Authorization: `Bearer ${token}`, // Authorization 헤더에 토큰을 넣어줍니다.
       },
     };
-    myAxios(config)
+    axios(config)
       .then((res) => {
         console.log(res, 'newGame API 요청 성공');
         navigate('/game');
@@ -59,44 +54,184 @@ export default function Main() {
       .catch((err) => {});
   };
 
-  //   myAxios(config)
-  //     .then((res) => {
-  //       console.log(res.data);
-  //       // 회원가입이 성공했을 경우 처리할 코드를 작성합니다.
-  //     })
-  //     .catch((err) => {
-  //       console.error(err);
-  //       // 회원가입이 실패했을 경우 처리할 코드를 작성합니다.
-  //     });
-  // };
+  // input에 이메일, 비밀번호 입력 시 state 변경 함수
+  const handleEmailChange = (event) => {
+    setId(event.target.value);
+  };
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
+  };
 
+  // 로그인 버튼 클릭 시 API 요청 로직
+  const handleLogin = (event) => {
+    event.preventDefault();
+    const data = {
+      email: id,
+      password: password,
+    };
+    myAxios
+      .post('https://j8a303.p.ssafy.io/api/users/login', data)
+      .then((response) => {
+        console.log(response.data); // 성공적으로 응답받은 데이터를 출력합니다.
+        setLoginToken(response.data.token);
+        setIsLogin(true);
+        sessionStorage.setItem('token', response.data.token);
+      })
+      .catch((error) => {
+        console.error(error); // 요청이 실패한 경우 에러 메시지를 출력합니다.
+      });
+  };
   return (
-    <div>
-      <ButtonContainer>
-        <Button
-          size="large"
-          type="gray"
-          onClick={() => {
-            startNewGame();
-          }}
-          value="New Game"
-        />
-      </ButtonContainer>
-      <ButtonContainer>
-        <Button
-          size="large"
-          type="gray"
-          onClick={() => {
-            navigate('/game/ready');
-          }}
-          value="Load"
-        />
-      </ButtonContainer>
-    </div>
+    <>
+      {isLogin ? (
+        <>
+          <ButtonContainer>
+            <MyButton2
+              onClick={() => {
+                startNewGame();
+              }}
+            >
+              New Game
+            </MyButton2>
+          </ButtonContainer>
+          <ButtonContainer>
+            <MyButton2
+              onClick={() => {
+                navigate('/game/ready');
+              }}
+            >
+              Load
+            </MyButton2>
+          </ButtonContainer>
+        </>
+      ) : (
+        <>
+          <FormContainer>
+            <form onSubmit={handleLogin}>
+              <InputContainer>
+                <InputLabel>ID </InputLabel>
+                <Input
+                  type="text"
+                  id="id"
+                  value={id}
+                  onChange={handleEmailChange}
+                />
+              </InputContainer>
+              <InputContainer>
+                <InputLabel>PW </InputLabel>
+                <Input
+                  type="password"
+                  id="password"
+                  value={password}
+                  onChange={handlePasswordChange}
+                />
+              </InputContainer>
+              <ButtonContainer>
+                <MyButton type="submit" onClick={handleLogin}>
+                  로그인
+                </MyButton>
+              </ButtonContainer>
+            </form>
+            <ButtonContainer>
+              <MyButton onClick={() => setShowSignupModal(true)}>
+                회원가입
+              </MyButton>
+            </ButtonContainer>
+          </FormContainer>
+          {showSingupModal ? (
+            <Modal
+              close={() => setShowSignupModal(false)}
+              content={<SignupModal setShowSignupModal={setShowSignupModal} />}
+            />
+          ) : null}
+        </>
+      )}
+    </>
   );
 }
 
-const ButtonContainer = styled.div`
+const FormContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+
+  form {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+`;
+
+const InputContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const InputLabel = styled.label`
+  display: block;
+  margin-bottom: 5px;
+  margin-right: 10px;
+  font-size: 1.5rem;
+  font-weight: bold;
+`;
+
+const Input = styled.input`
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 7px;
+  font-size: 1.5rem;
+  width: 100%;
   margin-bottom: 10px;
+
+  &:focus {
+    outline: none;
+    border-color: #333;
+  }
+`;
+
+const ButtonContainer = styled.div`
   text-align: center;
+  margin-bottom: 10px;
+`;
+
+const MyButton = styled.button`
+  background: linear-gradient(to right, #ffb347, #ffcc33);
+  color: #fff;
+  width: 10rem;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 7px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+
+  &:hover {
+    background: linear-gradient(to right, #ffcc33, #ffb347);
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  }
+`;
+
+const MyButton2 = styled.button`
+  background: linear-gradient(to right, #ffb347, #ffcc33);
+  color: #fff;
+  width: 15rem;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 7px;
+  font-size: 2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+
+  &:hover {
+    background: linear-gradient(to right, #ffcc33, #ffb347);
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  }
 `;

@@ -52,3 +52,9 @@ tzdata==2022.1
 uritemplate==4.1.1
 urllib3==1.26.10
 mysqlclient==2.1.1
+google-api-python-client
+sqlalchemy
+pymysql
+mysqlclient
+emoji
+konlpy

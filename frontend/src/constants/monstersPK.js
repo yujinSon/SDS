@@ -1,7 +1,7 @@
-// import 지구온난화 from 'assets/img/monsters/지구 온난화.PNG';
-// import 수질오염 from 'assets/img/monsters/수질 오염.PNG';
-// import 대기오염 from 'assets/img/monsters/대기 오염.PNG';
-// import 토양오염 from 'assets/img/monsters/토양 오염.PNG';
+import 지구온난화 from 'assets/img/monsters/지구 온난화.PNG';
+import 수질오염 from 'assets/img/monsters/수질 오염.PNG';
+import 대기오염 from 'assets/img/monsters/대기 오염.PNG';
+import 토양오염 from 'assets/img/monsters/토양 오염.PNG';
 
 import 핵 from 'assets/img/monsters/핵.PNG';
 import 탱크 from 'assets/img/monsters/탱크.PNG';
@@ -34,13 +34,13 @@ import 고용불안 from 'assets/img/monsters/고용 불안.PNG';
 import 의욕상실 from 'assets/img/monsters/의욕 상실.PNG';
 
 const monstersPK = {
-  지구온난화: 핵,
+  지구온난화,
   살인,
   저출산,
   저성장,
-  수질오염: 탱크,
-  대기오염: 총,
-  토양오염: 무인기,
+  수질오염,
+  대기오염,
+  토양오염,
   탱크,
   무인기,
   총,
