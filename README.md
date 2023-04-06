@@ -74,9 +74,6 @@
 
 📎 UCC
 
-UCC링크
-
-
 📌 5. 프로젝트 산출물
 
 
@@ -90,7 +87,7 @@ UCC링크
 
 
 📎 ERD
-
+![ERD](/uploads/c221ee5f57dd21d1259bcb115c2c89e0/ERD.PNG)
 
 📎 회의록
 

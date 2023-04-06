@@ -139,7 +139,7 @@ const relicPK = {
     id: 15,
     relicName: '법전',
     relicImg: 법전,
-    relicDetail: '사회질서를 유지하기 위한 구성원 간의 약속이다',
+    relicDetail: '사회질서를 유지하기 위한 구성원 간의 약속이다.',
     relicEffect: '전체 캐릭터의 Speed를 40 올려준다.',
   },
   16: {
