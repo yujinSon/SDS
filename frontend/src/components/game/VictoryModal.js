@@ -13,6 +13,10 @@ export default function VictoryModal({ stageStep }) {
         onClick={() => {
           if (stageStep[1] === 2) {
             navigate('/shop');
+          } else if (stageStep[1] === 4) {
+            console.log(stageStep[0], '현재 스테이지');
+            sessionStorage.setItem('stage', stageStep[0]);
+            navigate('/data');
           } else {
             navigate('/game/ready');
           }

@@ -5,15 +5,12 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import ReactWordcloud from 'react-wordcloud';
 
-// import words from 'constants/bigdata';
-
-export default function DataPage() {
-  let stage = sessionStorage.getItem('stage');
-  console.log('현재 스테이지', stage);
+export default function DataDefeatPage() {
+  let stageDefeat = sessionStorage.getItem('stage2');
+  console.log('현재 스테이지', stageDefeat);
 
   const navigate = useNavigate();
   const [words, setWords] = useState(null);
-  const [didWin, setDidWin] = useState(true);
 
   useEffect(() => {
     axios('https://j8a303.p.ssafy.io/youtube/wordcloud')
@@ -42,30 +39,16 @@ export default function DataPage() {
 
   return (
     <Div>
-      {didWin ? (
-        <button
-          onClick={() => {
-            navigate('/game/ready');
-          }}
-        >
-          다음 스테이지로
-        </button>
-      ) : (
-        <button
-          onClick={() => {
-            navigate('/game');
-          }}
-        >
-          다시하기
-        </button>
-      )}
-      {words ? <ReactWordcloud words={words[stage]} options={options} /> : null}
-      {/* {words ? <ReactWordcloud words={words.안보} options={options} /> : null}
-      {words ? <ReactWordcloud words={words.질병} options={options} /> : null}
-      {words ? <ReactWordcloud words={words.사회} options={options} /> : null}
-      {words ? <ReactWordcloud words={words.범죄} options={options} /> : null}
-      {words ? <ReactWordcloud words={words.인구} options={options} /> : null}
-      {words ? <ReactWordcloud words={words.경제} options={options} /> : null} */}
+      <button
+        onClick={() => {
+          navigate('/game');
+        }}
+      >
+        다시하기
+      </button>
+      {words ? (
+        <ReactWordcloud words={words[stageDefeat]} options={options} />
+      ) : null}
     </Div>
   );
 }

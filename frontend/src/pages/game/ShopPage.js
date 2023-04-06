@@ -5,8 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'libs/axios';
 import api from 'constants/api';
 
-import relicPK from 'constants/relicPK';
-
 import Modal from 'components/common/Modal';
 import ItemModal from 'components/game/ItemModal';
 import RecoveryModal from 'components/game/RecoveryModal';
@@ -94,8 +92,8 @@ export default function ShopPage() {
             };
             axios(config)
               .then((res) => {
-                console.log('상점에서 유물 획득 성공', res.data);
                 setRelicId(res.data.id);
+                console.log('상점에서 유물 획득 성공', res.data);
               })
               .catch((err) => {
                 console.log('상점에서 유물 획득 에러', err);
