@@ -159,8 +159,6 @@ const FormContainer = styled.div`
   align-items: center;
   padding: 20px;
 
-  color: black;
-
   form {
     display: flex;
     justify-content: center;
