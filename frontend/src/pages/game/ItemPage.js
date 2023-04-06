@@ -83,7 +83,7 @@ export default function ItemPage() {
               setIsChanged={setIsChanged}
               selectedCharacter={selectedCharacter}
             />
-          ) : null}``
+          ) : null}
         </SubContainerLeft>
         <SubContainerRight>
           <Relic relicIds={relicIds} />
