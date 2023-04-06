@@ -97,25 +97,25 @@ INSERT INTO `sins`.`villain` (`id`, `ad`, `ap`, `avoid`, `class_name`, `critical
 -- 유뭃 (21개) --
 INSERT INTO `sins`.`artifact` (`id`, `is_range`, `name`, `stat`, `target_class`, `value`) VALUES ('1', 0, '분리수거', 'hp', '환경', '600');
 INSERT INTO `sins`.`artifact` (`id`, `is_range`, `name`, `stat`, `target_class`, `value`) VALUES ('2', 0, '전기차', 'hp', '환경', '600');
-INSERT INTO `sins`.`artifact` (`id`, `is_range`, `name`, `stat`, `target_class`, `value`) VALUES ('3', 1, '다회용품', 'hp', '전체', '300');
+INSERT INTO `sins`.`artifact` (`id`, `is_range`, `name`, `stat`, `target_class`, `value`) VALUES ('3', 1, '다회용품', 'hp', '환경', '300');
 INSERT INTO `sins`.`artifact` (`id`, `is_range`, `name`, `stat`, `target_class`, `value`) VALUES ('4', 0, '전쟁의 아픔', 'ad', '안보', '100');
 INSERT INTO `sins`.`artifact` (`id`, `is_range`, `name`, `stat`, `target_class`, `value`) VALUES ('5', 0, '군사훈련', 'ad', '안보', '100');
-INSERT INTO `sins`.`artifact` (`id`, `is_range`, `name`, `stat`, `target_class`, `value`) VALUES ('6', 1, '역사의식', 'hp', '전체', '50');
+INSERT INTO `sins`.`artifact` (`id`, `is_range`, `name`, `stat`, `target_class`, `value`) VALUES ('6', 1, '역사의식', 'hp', '안보', '50');
 INSERT INTO `sins`.`artifact` (`id`, `is_range`, `name`, `stat`, `target_class`, `value`) VALUES ('7', 0, '마스크', 'hp', '질병', '600');
 INSERT INTO `sins`.`artifact` (`id`, `is_range`, `name`, `stat`, `target_class`, `value`) VALUES ('8', 0, '질병관리본부', 'ap', '질병', '80');
-INSERT INTO `sins`.`artifact` (`id`, `is_range`, `name`, `stat`, `target_class`, `value`) VALUES ('9', 1, '백신', 'hp', '전체', '300');
+INSERT INTO `sins`.`artifact` (`id`, `is_range`, `name`, `stat`, `target_class`, `value`) VALUES ('9', 1, '백신', 'hp', '질병', '300');
 INSERT INTO `sins`.`artifact` (`id`, `is_range`, `name`, `stat`, `target_class`, `value`) VALUES ('10', 0, '안전모', 'ap', '사회', '150');
 INSERT INTO `sins`.`artifact` (`id`, `is_range`, `name`, `stat`, `target_class`, `value`) VALUES ('11', 0, '차별금지', 'ap', '사회', '150');
 INSERT INTO `sins`.`artifact` (`id`, `is_range`, `name`, `stat`, `target_class`, `value`) VALUES ('12', 1, '공공예절', 'ap', '사회', '80');
 INSERT INTO `sins`.`artifact` (`id`, `is_range`, `name`, `stat`, `target_class`, `value`) VALUES ('13', 0, '소년원', 'ad', '범죄', '100');
 INSERT INTO `sins`.`artifact` (`id`, `is_range`, `name`, `stat`, `target_class`, `value`) VALUES ('14', 0, '네티켓', 'speed', '범죄', '80');
-INSERT INTO `sins`.`artifact` (`id`, `is_range`, `name`, `stat`, `target_class`, `value`) VALUES ('15', 1, '법전', 'speed', '전체', '40');
+INSERT INTO `sins`.`artifact` (`id`, `is_range`, `name`, `stat`, `target_class`, `value`) VALUES ('15', 1, '법전', 'speed', '범죄', '40');
 INSERT INTO `sins`.`artifact` (`id`, `is_range`, `name`, `stat`, `target_class`, `value`) VALUES ('16', 0, '어린이집', 'hp', '인구', '300');
 INSERT INTO `sins`.`artifact` (`id`, `is_range`, `name`, `stat`, `target_class`, `value`) VALUES ('17', 0, '육아휴직', 'critical', '인구', '20');
-INSERT INTO `sins`.`artifact` (`id`, `is_range`, `name`, `stat`, `target_class`, `value`) VALUES ('18', 1, '정규직 채용', 'critical', '전체', '10');
+INSERT INTO `sins`.`artifact` (`id`, `is_range`, `name`, `stat`, `target_class`, `value`) VALUES ('18', 1, '정규직 채용', 'critical', '인구', '10');
 INSERT INTO `sins`.`artifact` (`id`, `is_range`, `name`, `stat`, `target_class`, `value`) VALUES ('19', 0, '청년', 'ad', '경제', '150');
 INSERT INTO `sins`.`artifact` (`id`, `is_range`, `name`, `stat`, `target_class`, `value`) VALUES ('20', 0, '시간', 'ap', '경제', '230');
-INSERT INTO `sins`.`artifact` (`id`, `is_range`, `name`, `stat`, `target_class`, `value`) VALUES ('21', 1, '중소기업', 'avoid', '전체', '5');
+INSERT INTO `sins`.`artifact` (`id`, `is_range`, `name`, `stat`, `target_class`, `value`) VALUES ('21', 1, '중소기업', 'avoid', '경제', '5');
 
 -- 전체 유물 (3개) --
 INSERT INTO `sins`.`artifact` (`id`, `is_range`, `name`, `stat`, `target_class`, `value`) VALUES ('22', 1, '3팀의 가호', 'avoid', '전체', '10');
