@@ -29,7 +29,7 @@ const charactersPK = {
   '생명지킴이 민혁': 생명지킴이민혁,
   '경제전문가 기성': 경제전문가기성,
   '경제학교수 기성': 경제학교수기성,
-  사망,
+  '사망' : 사망,
 };
 
 export default charactersPK;

@@ -56,7 +56,9 @@ const Container = styled.div`
   border: 1px solid #ccc;
   border-radius: 20px;
   cursor: pointer;
-  margin-bottom: 0.2rem;
+  margin-bottom: 0.5rem;
+
+  
 
   ${(props) =>
     props.selected &&
@@ -70,14 +72,14 @@ const ImageContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 6rem;
-  height: 6rem;
+  width: 7rem;
+  height: 7rem;
   border-radius: 50%;
   overflow: hidden;
   margin-right: 1rem;
 
   img {
-    width: 100%;
+    width: 130%;
     height: auto;
   }
 `;
@@ -85,7 +87,7 @@ const ImageContainer = styled.div`
 const TextContainer = styled.div`
   display: flex;
   flex-direction: column;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
 `;
 
 const Frame = styled.div`
