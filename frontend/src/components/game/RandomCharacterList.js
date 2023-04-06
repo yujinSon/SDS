@@ -87,7 +87,7 @@ const ImageContainer = styled.div`
 const TextContainer = styled.div`
   display: flex;
   flex-direction: column;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
 `;
 
 const Frame = styled.div`

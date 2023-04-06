@@ -89,7 +89,7 @@ const CharacterContainer = styled.span`
 
   height: 80%;
   width: 80%;
-  min-width: 150px
+  min-width: 140px
 
   ${(props) =>
     props.selected &&
