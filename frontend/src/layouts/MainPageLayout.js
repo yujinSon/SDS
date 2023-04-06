@@ -23,7 +23,7 @@ const Container = styled.div`
 
   height: 100%;
 
-  background-image: url(${({ theme }) => theme.loginBgImg});
+  background-image: url(${({ theme }) => theme.mainBgImg});
   background-size: cover;
 `;
 
