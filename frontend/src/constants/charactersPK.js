@@ -12,6 +12,7 @@ import 환경운동가유진 from 'assets/img/chs/환경운동가유진.PNG';
 import 환경지킴이유진 from 'assets/img/chs/환경지킴이유진.PNG';
 import 질병관리자민수 from 'assets/img/chs/질병관리자민수.PNG';
 import 질병전문가민수 from 'assets/img/chs/질병전문가민수.PNG';
+import 사망 from 'assets/img/chs/사망.png';
 
 const charactersPK = {
   '환경운동가 유진': 환경운동가유진,
@@ -28,6 +29,7 @@ const charactersPK = {
   '생명지킴이 민혁': 생명지킴이민혁,
   '경제전문가 기성': 경제전문가기성,
   '경제학교수 기성': 경제학교수기성,
+  사망,
 };
 
 export default charactersPK;

@@ -52,7 +52,7 @@ export default function SelectedCharacterList({
               ) : (
                 <NoneCharacterContainer>
                   <ImageContainer>
-                    <img src={IMG} alt="없는 케릭터 img" />
+                    <img src={charactersPK.사망} alt="없는 케릭터 img" />
                   </ImageContainer>
                   <TextContainer>
                     <div>???</div>
