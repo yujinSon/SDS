@@ -1203,7 +1203,7 @@ export default function BattlePage() {
 
         // 플레이어 턴 초기화
         setPlayerTurn(0);
-
+        setTimeout(() => {
           // 플레이어가 공격했으면 다음 턴으로 넘어감
         if (nowIdx < turnOrder.length - 1) {
           setNowIdx(nowIdx + 1);
@@ -1212,6 +1212,7 @@ export default function BattlePage() {
         }
         // 현재 몇 번재 턴인지 출력
         console.log('내가 방금 공격한 턴', nowIdx);
+        }, 1000)
 
       } else {
         alert('스킬 타겟을 잘못 설정하였습니다.');

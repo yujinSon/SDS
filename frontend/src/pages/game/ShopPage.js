@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import AuthContext from 'ShopAuthContext';
 
 import axios from 'libs/axios';
 import api from 'constants/api';
@@ -20,6 +21,13 @@ import 유물버튼 from 'assets/img/유물버튼.png';
 
 export default function ShopPage() {
   const navigate = useNavigate();
+  const { isAuthorized, setIsAuthorized } = useContext(AuthContext);
+  useEffect(() => {
+    if (!isAuthorized) {
+      alert("어허!")
+      navigate("/game/ready");
+    }
+  }, [navigate]);
 
   // 회복, 유물 Modal 관련 state
   const [recoveryModal, setRecoveryModal] = useState(false);
@@ -44,6 +52,7 @@ export default function ShopPage() {
             if (chCnt === 3) {
               alert('캐릭터가 3명인 경우에는 더 이상 영입할 수 없습니다.');
             } else {
+              setIsAuthorized(false)              
               navigate('/game');
             }
           }}
@@ -55,6 +64,7 @@ export default function ShopPage() {
         </CardItem>
         <CardItem
           onClick={() => {
+            setIsAuthorized(false)            
             setRecoveryModal(!recoveryModal);
 
             const [url, method] = api('rest');
@@ -81,6 +91,7 @@ export default function ShopPage() {
         </CardItem>
         <CardItem
           onClick={() => {
+            setIsAuthorized(false)            
             setItemModal(!itemModal);
             // 유물 획득 API 요청
             const [url, method] = api('addItem');

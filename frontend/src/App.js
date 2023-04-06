@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Route, Routes, useNavigate, useLocation, useBlocker  } from 'react-router-dom';
 import styled, { ThemeProvider, createGlobalStyle } from 'styled-components';
 import { theme } from 'styles/theme';
+import { AuthProvider } from 'ShopAuthContext';
 
 import GameMainPageLayout from 'layouts/GamePageLayout';
 
@@ -27,10 +28,7 @@ function App() {
   useEffect(() => {
     const handleBackButton = () => {
       // 원하는 페이지로 이동
-      navigate("/");
-      if (previousPath && previousPath === "/shop") {
-        navigate("/game/ready");
-      } 
+      navigate("/game/ready");
     };
 
     const previousPath = sessionStorage.getItem("previousPath");
@@ -43,15 +41,17 @@ function App() {
       handleBackButton();
     }
 
+
     sessionStorage.setItem("previousPath", location.pathname);
 
-  }, [location, navigate]);
+  }, [navigate]);
 
 
   return (
     <>
       <GlobalStyle />
       <ThemeProvider theme={theme}>
+        <AuthProvider>
         <Routes>
           <Route path="/" element={<MainPage />} />
           <Route path="/game" element={<GameMainPageLayout />}>
@@ -65,6 +65,8 @@ function App() {
           <Route path="/datadefeat" element={<DataDefeatPage />} />
           <Route path="/yongchan" element={<SecretAPI />} />
         </Routes>
+
+        </AuthProvider>
       </ThemeProvider>
     </>
   );

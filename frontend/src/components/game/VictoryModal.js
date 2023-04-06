@@ -1,16 +1,20 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import Button from 'components/common/Button';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import AuthContext from 'ShopAuthContext';
 
 export default function VictoryModal({ stageStep }) {
   const navigate = useNavigate();
+  const { isAuthorized, setIsAuthorized } = useContext(AuthContext);
+
   return (
     <Container>
       <TextDiv>전투에서 승리하였습니다.</TextDiv>
 
       <ButtonContainer onClick={() => {
           if (stageStep[1] === 2) {
+            setIsAuthorized(true)
             navigate('/shop');
           } else if (stageStep[1] === 4) {
             console.log(stageStep[0], '현재 스테이지');
