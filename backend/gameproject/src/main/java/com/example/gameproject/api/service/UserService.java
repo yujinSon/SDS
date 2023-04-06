@@ -1,12 +1,7 @@
 package com.example.gameproject.api.service;
 
-import com.example.gameproject.db.entity.Role;
-import com.example.gameproject.db.entity.MyCharacter;
-import com.example.gameproject.db.entity.User;
-import com.example.gameproject.db.entity.UserArtifact;
-import com.example.gameproject.db.repository.MyCharacterRepository;
-import com.example.gameproject.db.repository.UserArtifactRepository;
-import com.example.gameproject.db.repository.UserRepository;
+import com.example.gameproject.db.entity.*;
+import com.example.gameproject.db.repository.*;
 import com.example.gameproject.dto.request.UserDto;
 import com.example.gameproject.dto.response.UserResponse;
 import com.example.gameproject.security.jwt.JwtTokenProvider;
@@ -34,6 +29,8 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final UserRepository userRepository;
+    private final CoolTimeRepository coolTimeRepository;
+    private final EffectTimeRepository effectTimeRepository;
 
     @Transactional
     public void join(UserDto userDto){
@@ -90,5 +87,29 @@ public class UserService {
         // 스테이지 1 - 1 로 초기화
         user.reGame();
         userRepository.save(user);
+        
+        // 유물삭제
+        List<UserArtifact> myArtifact = userArtifactRepository.findAllByUser_Id(userId);
+        for (UserArtifact uaf : myArtifact) {
+            userArtifactRepository.delete(uaf);
+        }
+        
+        
+        // 쿨타임 이펙트 타임 삭제
+        List<CoolTime> coolTimes = coolTimeRepository.findAll();
+        List<EffectTime> effectTimes = effectTimeRepository.findAll();
+        for (CoolTime coolTime : coolTimes) {
+            if (coolTime.getMyCharacter().getUser().getId() == userId) {
+                coolTimeRepository.delete(coolTime);
+            }
+        }
+
+        for (EffectTime effectTime : effectTimes) {
+            if (effectTime.getMyCharacter().getUser().getId() == userId) {
+                effectTimeRepository.delete(effectTime);
+            }
+        }
+        
+
     }
 }
