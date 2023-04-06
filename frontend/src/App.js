@@ -27,7 +27,10 @@ function App() {
   useEffect(() => {
     const handleBackButton = () => {
       // 원하는 페이지로 이동
-      navigate("/game/ready");
+      navigate("/");
+      if (previousPath && previousPath === "/shop") {
+        navigate("/game/ready");
+      } 
     };
 
     const previousPath = sessionStorage.getItem("previousPath");

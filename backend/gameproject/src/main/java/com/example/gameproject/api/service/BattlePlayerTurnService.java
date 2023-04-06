@@ -43,50 +43,46 @@ public class BattlePlayerTurnService {
         int factorValue = findFactorValue(caster, factor);
 
         int skillValue = (int) (factorValue * ((double) skill.getValue() / 100));
+        if (skill.getSkillTarget() == 1) {
+            // skill.getSkillTarget() == 1 -> 버프나 회복스킬
+            if (!skill.getStat().equals("hp")) {
+                // skill.getStat() 이 hp 라면 회복 스킬임 -> 이펙트가 없는 스킬
+                // 이팩트타임 등
+                EffectTime effectTime = new EffectTime(skill, caster, targetPos);
+                effectTimeRepository.save(effectTime);
 
-        if (!skill.getStat().equals("hp")) {
-            // skill.getStat() 이 hp 라면 회복 스킬임 -> 이펙트가 없는 스킬
-            // 이팩트타임 등
-            EffectTime effectTime = new EffectTime();
-            effectTime.setPos(targetPos); // 스킬적용 대상 위치값
-            effectTime.setTurn(skill.getDurationTurn()); // 스킬 효과 지속시간
-            effectTime.setMyCharacter(caster);
-            effectTime.setSkill(skill);
-            effectTimeRepository.save(effectTime);
-
-        } else {
-            List<MyCharacter> myCharacters= myCharacterRepository.getMyCharacters(userId);
-            // 단순 체력 회복
-            int addHp = skillValue;
-            if (targetPos == 3) {
-                // 전체 회복인 경우
-                for (MyCharacter myc : myCharacters) {
-                    int value = min(myc.getHp()+addHp, myc.getMaxHp());
-                    myc.setHp(value);
-                    myCharacterRepository.save(myc);
-                }
             } else {
-                // 단일 회복인 경우.
-                for (MyCharacter myc : myCharacters) {
-                    if (targetPos == myc.getPos()) {
-                        System.out.println("회복전 hp : " + myc.getHp());
+                List<MyCharacter> myCharacters= myCharacterRepository.getMyCharacters(userId);
+                // 단순 체력 회복
+                int addHp = skillValue;
+                if (targetPos == 3) {
+                    // 전체 회복인 경우
+                    for (MyCharacter myc : myCharacters) {
                         int value = min(myc.getHp()+addHp, myc.getMaxHp());
-                        System.out.println("회복치 : " + addHp);
                         myc.setHp(value);
-                        System.out.println(myc.getHp());
-                        System.out.println("회복후 hp : " + myc.getHp());
                         myCharacterRepository.save(myc);
                     }
+                } else {
+                    // 단일 회복인 경우.
+                    for (MyCharacter myc : myCharacters) {
+                        if (targetPos == myc.getPos()) {
+                            System.out.println("회복전 hp : " + myc.getHp());
+                            int value = min(myc.getHp()+addHp, myc.getMaxHp());
+                            System.out.println("회복치 : " + addHp);
+                            myc.setHp(value);
+                            System.out.println(myc.getHp());
+                            System.out.println("회복후 hp : " + myc.getHp());
+                            myCharacterRepository.save(myc);
+                        }
+                    }
                 }
-            }
 
+            }
         }
 
+
         // 쿨타임 등록
-        CoolTime coolTime = new CoolTime();
-        coolTime.setTurn(skill.getCoolTime());
-        coolTime.setMyCharacter(caster);
-        coolTime.setSkill(skill);
+        CoolTime coolTime = new CoolTime(skill, caster);
         coolTimeRepository.save(coolTime);
 
 

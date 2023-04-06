@@ -25,6 +25,13 @@ public class CoolTime implements Serializable {
     @JoinColumn(name = "skill_id")
     private Skill skill;
 
+    public CoolTime(Skill skill, MyCharacter myCharacter) {
+        this.turn = skill.getCoolTime();
+        this.myCharacter = myCharacter;
+        this.skill = skill;
+
+    }
+
 
     public void BattleCoolTimeUpdate(int turn){
         this.turn = turn - 1;

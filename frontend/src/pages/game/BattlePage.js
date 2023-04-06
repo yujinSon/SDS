@@ -15,6 +15,9 @@ export default function BattlePage() {
   const navigate = useNavigate();
   const token = sessionStorage.getItem('token');
 
+  // 게임이 지속적인가?? = 게임을 계속 진행해도 되는지
+  let isGameing = true;
+
   // 흔들림 효과적용할 배열 True 면 흔들림 효과
   const [characterShaking, setCharacterShaking] = useState(
     Array(7).fill(false),
@@ -342,6 +345,7 @@ export default function BattlePage() {
   // 캐릭터, 빌런 전멸 여부 체크
   useEffect(() => {
     if (!characters && !monsters) return;
+    isGameing = false;
 
     if (characters.length === 0) {
       console.log('캐릭터 모두 사망함');
@@ -424,6 +428,9 @@ export default function BattlePage() {
   // *** ``````````````````````````````빌런`````````````````````````````` 
   // 공격 로직 및 캐릭터 사망 시 턴 넘김 logic ***
   useEffect(() => {
+    if (isGameing === false) {
+      return
+    }
     console.log(turnOrder, '빌런 공격 시의 turnOrder');
     // 캐릭터 공격 차례면 죽었는지 확인하고 Turn 넘기는 Logic 처리
     if (nowTurn < 3) {
@@ -724,6 +731,10 @@ export default function BattlePage() {
                     effectStat,
                   );
                 }
+              }
+
+              if (isGameing === false) {
+                return
               }
 
               if (nowIdx < turnOrder.length - 1) {

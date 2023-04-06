@@ -131,6 +131,8 @@ const Image = styled.img`
     props.selected &&
     `
     border: 3px solid;
+    width: 5.19vw;
+    height: 8.4vh;
   `}
 `;
 
