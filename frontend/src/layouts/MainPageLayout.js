@@ -34,7 +34,6 @@ const UpperPane = styled.div`
 `;
 
 const LowerPane = styled.div`
-  padding: 0rem 2rem;
   width: 100%;
   height: 100%;
 `;

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
+import stagePK from 'constants/stagePK';
 import axios from 'axios';
 import ReactWordcloud from 'react-wordcloud';
 
@@ -13,7 +14,6 @@ export default function DataPage() {
 
   const navigate = useNavigate();
   const [words, setWords] = useState(null);
-  const [didWin, setDidWin] = useState(true);
 
   useEffect(() => {
     axios('https://j8a303.p.ssafy.io/youtube/wordcloud')
@@ -31,7 +31,7 @@ export default function DataPage() {
     fontFamily: 'impact',
     fontSizes: [30, 100],
     fontStyle: 'normal',
-    fontWeight: 'normal',
+    fontWeight: 'bold',
     padding: 3,
     rotations: 3,
     rotationAngles: [0, 80],
@@ -42,56 +42,60 @@ export default function DataPage() {
 
   return (
     <Div>
-      {didWin ? (
-        <button
-          onClick={() => {
-            navigate('/game/ready');
-          }}
-        >
-          다음 스테이지로
-        </button>
-      ) : (
-        <button
-          onClick={() => {
-            navigate('/game');
-          }}
-        >
-          다시하기
-        </button>
-      )}
-      {words ? <ReactWordcloud words={words[stage]} options={options} /> : null}
-      {/* {words ? <ReactWordcloud words={words.안보} options={options} /> : null}
-      {words ? <ReactWordcloud words={words.질병} options={options} /> : null}
-      {words ? <ReactWordcloud words={words.사회} options={options} /> : null}
-      {words ? <ReactWordcloud words={words.범죄} options={options} /> : null}
-      {words ? <ReactWordcloud words={words.인구} options={options} /> : null}
-      {words ? <ReactWordcloud words={words.경제} options={options} /> : null} */}
+      <MyButton
+        onClick={() => {
+          navigate('/game/ready');
+        }}
+      >
+        다음 스테이지로
+      </MyButton>
+      <Issue>{stagePK[stage]} 이슈에 대한 사람들의 의견</Issue>
+      {words ? <MyWordCloud words={words[stage]} options={options} /> : null}
     </Div>
   );
 }
 
-const Div = styled.div`
-  text-align: center;
-  width: 100%;
-  height: 100%;
+const MyWordCloud = styled(ReactWordcloud)`
+  position: relative;
+  top: -5rem;
+`;
 
-  button {
-    font-size: 1.5rem;
-    padding: 1rem 2rem;
-    margin: 1rem;
-    border-radius: 5px;
-    background-color: #1f77b4;
-    color: white;
-    border: none;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-    transition: all 0.2s ease-in-out;
-    font-family: sans-serif;
-    font-weight: bold;
+const Issue = styled.span`
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+`;
 
-    &:hover {
-      background-color: #0e63a8;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-      transform: translateY(-2px);
-    }
+const MyButton = styled.span`
+  font-size: 1.3rem;
+  padding: 0.6rem 1.5rem;
+  margin: 1rem 0rem;
+  border-radius: 5px;
+  background-color: skyblue;
+  color: white;
+  border: 2px solid white;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease-in-out;
+  font-family: sans-serif;
+  font-weight: bold;
+
+  &:hover {
+    background-color: #0e63a8;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    transform: translateY(-2px);
   }
+`;
+const Div = styled.div`
+  background-color: black;
+  background-size: cover;
+  background-position: center;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  min-height: 100vh;
 `;
