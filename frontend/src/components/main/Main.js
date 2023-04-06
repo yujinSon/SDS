@@ -86,24 +86,22 @@ export default function Main() {
       {isLogin ? (
         <>
           <ButtonContainer>
-            <Button
-              size="large"
-              type="gray"
+            <MyButton2
               onClick={() => {
                 startNewGame();
               }}
-              value="New Game"
-            />
+            >
+              New Game
+            </MyButton2>
           </ButtonContainer>
           <ButtonContainer>
-            <Button
-              size="large"
-              type="gray"
+            <MyButton2
               onClick={() => {
                 navigate('/game/ready');
               }}
-              value="Load"
-            />
+            >
+              Load
+            </MyButton2>
           </ButtonContainer>
         </>
       ) : (
@@ -177,15 +175,15 @@ const InputLabel = styled.label`
   display: block;
   margin-bottom: 5px;
   margin-right: 10px;
-  font-size: 20px;
+  font-size: 1.5rem;
   font-weight: bold;
 `;
 
 const Input = styled.input`
   padding: 8px;
   border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 16px;
+  border-radius: 7px;
+  font-size: 1.5rem;
   width: 100%;
   margin-bottom: 10px;
 
@@ -201,17 +199,39 @@ const ButtonContainer = styled.div`
 `;
 
 const MyButton = styled.button`
-  background-color: #4caf50;
+  background: linear-gradient(to right, #ffb347, #ffcc33);
   color: #fff;
+  width: 10rem;
   padding: 10px 20px;
   border: none;
-  border-radius: 5px;
-  font-size: 16px;
+  border-radius: 7px;
+  font-size: 1.5rem;
   font-weight: bold;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 
   &:hover {
-    background-color: #3e8e41;
+    background: linear-gradient(to right, #ffcc33, #ffb347);
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  }
+`;
+
+const MyButton2 = styled.button`
+  background: linear-gradient(to right, #ffb347, #ffcc33);
+  color: #fff;
+  width: 15rem;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 7px;
+  font-size: 2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+
+  &:hover {
+    background: linear-gradient(to right, #ffcc33, #ffb347);
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
   }
 `;
