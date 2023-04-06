@@ -82,24 +82,26 @@ def wordtoken(request):
 def wordcloud(request):
     if request.method == 'GET':
         subject = ['환경', '안보', '질병', '사회', '범죄', '인구', '경제']
-        word = {'환경': [], '안보': [], '질병': [], '사회': [], '범죄': [], '인구': [], '경제': []}
+        word = {1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: []}
+        index = 1
         for sub in subject:
             tokens = WordTokenizing.objects.filter(subject=sub)
             for token in tokens:
                 if sub == '환경' and token.value > 120:
-                    word[sub].append({'text': token.name, 'value': token.value})
+                    word[index].append({'text': token.name, 'value': token.value})
                 elif sub == '안보' and token.value > 130:
-                    word[sub].append({'text': token.name, 'value': token.value})
+                    word[index].append({'text': token.name, 'value': token.value})
                 elif sub == '질병' and token.value > 55:
-                    word[sub].append({'text': token.name, 'value': token.value})
+                    word[index].append({'text': token.name, 'value': token.value})
                 elif sub == '사회' and token.value > 67:
-                    word[sub].append({'text': token.name, 'value': token.value})
+                    word[index].append({'text': token.name, 'value': token.value})
                 elif sub == '범죄' and token.value > 270:
-                    word[sub].append({'text': token.name, 'value': token.value})
+                    word[index].append({'text': token.name, 'value': token.value})
                 elif sub == '인구' and token.value > 365:
-                    word[sub].append({'text': token.name, 'value': token.value})
+                    word[index].append({'text': token.name, 'value': token.value})
                 elif sub == '경제' and token.value > 185:
-                    word[sub].append({'text': token.name, 'value': token.value})
+                    word[index].append({'text': token.name, 'value': token.value})
+            index += 1
 
         return Response(word)
 
