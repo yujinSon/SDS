@@ -110,8 +110,8 @@ const ImageWrapper = styled.div`
 `;
 
 const Image = styled.img`
-  width: 6vw;
-  height: 7vh;
+  width: 5.5vw;
+  height: 9vh;
 `;
 
 const ImageDiv = styled.div`

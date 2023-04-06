@@ -97,7 +97,7 @@ export default function CharacterDetail({ data }) {
           </div>
         </TopDiv>
       ) : (
-        <div>캐릭터를 선택하여 상세정보를 확인하세요.</div>
+        <div>캐릭터를 클릭하세요.</div>
       )}
     </Container>
   );
@@ -121,7 +121,6 @@ const Container = styled.div`
 const TopDiv = styled.div`
   display: flex;
   justify-content: space-between;
-  padding-right: 2rem;
 `;
 
 const StatDiv = styled.div`
@@ -147,8 +146,8 @@ const ModalContainer = styled.div`
 
 const IMG = styled.img`
   margin: 0.5rem;
-  width: 100px;
-  height: 100px;
+  width: 85px;
+  height: 85px;
   border: 3px solid white;
 `;
 
