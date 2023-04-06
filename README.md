@@ -1,9 +1,7 @@
 ‍♂️ 7 Deadly Sins - 대한민국의 7개의 문제를 게임을 통하여 즐겨보자!
 
 ![로고_1번](/uploads/91f0f8d0b7cdfec45fdd2e96b7fcae16/로고_1번.png)
-
-![로고_3번](/uploads/402db9b29bb421754997999c7f8a1eb3/로고_3번.png)
-
+<img src="/uploads/91f0f8d0b7cdfec45fdd2e96b7fcae16/로고_1번.png")></img>
 ![게임영상](/uploads/5ef5e3b858cabb93383b724c6f61bcfe/게임영상.mp4)
 
 
