@@ -23,16 +23,18 @@ const Container = styled.div`
 
   height: 100%;
 
-  background-image: url(${({ theme }) => theme.mainPageBgImg});
+  background-image: url(${({ theme }) => theme.mainBgImg});
   background-size: cover;
-
 `;
 
 const UpperPane = styled.div`
   width: 100%;
+  height: 30%;
   margin-bottom: 2rem;
 `;
 
 const LowerPane = styled.div`
   padding: 0rem 2rem;
+  width: 100%;
+  height: 100%;
 `;

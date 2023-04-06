@@ -22,8 +22,10 @@ public class ResultController {
 
     // 내 캐릭이 다 죽어서 게임 패배
     @PutMapping("/gameover")
-    public ResponseEntity<?> getGameOver() throws Exception{
-        resultService.GameOver();
+    public ResponseEntity<?> getGameOver(@RequestHeader String Authorization) throws Exception{
+        String token = Authorization.split(" ")[1];
+        String email = jwtTokenProvider.getUserPk(token);
+        resultService.GameOver(email);
         return ResponseEntity.ok("update ok");
     }
 
