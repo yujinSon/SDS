@@ -132,8 +132,6 @@ const SubContainerRight = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 50%;
-  height: 100%;
-  margin-bottom: 3rem;
 `;
 
 const StartButton = styled.button`
@@ -143,5 +141,5 @@ const StartButton = styled.button`
   border-radius: 10px;
   padding: 0.2rem 2rem 0.2rem 2rem;
   border: none;
-  width: 20vw;
+  width: 10rem;
 `;
