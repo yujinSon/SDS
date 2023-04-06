@@ -2,7 +2,7 @@ import React, {useContext} from 'react';
 import Button from 'components/common/Button';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import AuthContext from 'ShopAuthContext';
+import AuthContext from 'components/main/ShopAuthContext';
 
 export default function VictoryModal({ stageStep }) {
   const navigate = useNavigate();

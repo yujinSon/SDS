@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Route, Routes, useNavigate, useLocation, useBlocker  } from 'react-router-dom';
 import styled, { ThemeProvider, createGlobalStyle } from 'styled-components';
 import { theme } from 'styles/theme';
-import { AuthProvider } from 'ShopAuthContext';
+import { AuthProvider } from 'components/main/ShopAuthContext';
 
 import GameMainPageLayout from 'layouts/GamePageLayout';
 

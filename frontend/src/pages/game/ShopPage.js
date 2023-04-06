@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import AuthContext from 'ShopAuthContext';
+import AuthContext from 'components/main/ShopAuthContext';
 
 import axios from 'libs/axios';
 import api from 'constants/api';
