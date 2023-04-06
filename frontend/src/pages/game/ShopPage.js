@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
 import axios from 'libs/axios';
-import testAxios from 'axios';
+
 import api from 'constants/api';
 
 import Modal from 'components/common/Modal';
@@ -120,7 +120,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
 
-  background-image: url(${({ theme }) => `${theme.mapBgImg}`});
+  background-image: url(${({ theme }) => `${theme.mainBgImg}`});
   background-size: cover;
   background-position: center;
   height: 100vh;

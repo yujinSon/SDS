@@ -86,92 +86,152 @@ export default function Main() {
       {isLogin ? (
         <>
           <ButtonContainer>
-            <Button
-              size="large"
-              type="gray"
+            <MyButton2
               onClick={() => {
                 startNewGame();
               }}
-              value="New Game"
-            />
+            >
+              New Game
+            </MyButton2>
           </ButtonContainer>
           <ButtonContainer>
-            <Button
-              size="large"
-              type="gray"
+            <MyButton2
               onClick={() => {
                 navigate('/game/ready');
               }}
-              value="Load"
-            />
+            >
+              Load
+            </MyButton2>
           </ButtonContainer>
         </>
       ) : (
         <>
+          <FormContainer>
+            <form onSubmit={handleLogin}>
+              <InputContainer>
+                <InputLabel>ID </InputLabel>
+                <Input
+                  type="text"
+                  id="id"
+                  value={id}
+                  onChange={handleEmailChange}
+                />
+              </InputContainer>
+              <InputContainer>
+                <InputLabel>PW </InputLabel>
+                <Input
+                  type="password"
+                  id="password"
+                  value={password}
+                  onChange={handlePasswordChange}
+                />
+              </InputContainer>
+              <ButtonContainer>
+                <MyButton type="submit" onClick={handleLogin}>
+                  로그인
+                </MyButton>
+              </ButtonContainer>
+            </form>
+            <ButtonContainer>
+              <MyButton onClick={() => setShowSignupModal(true)}>
+                회원가입
+              </MyButton>
+            </ButtonContainer>
+          </FormContainer>
           {showSingupModal ? (
             <Modal
               close={() => setShowSignupModal(false)}
               content={<SignupModal setShowSignupModal={setShowSignupModal} />}
             />
           ) : null}
-          <form onSubmit={handleLogin}>
-            <div>
-              <label htmlFor="id">ID :</label>
-              <input
-                type="id"
-                id="id"
-                value={id}
-                onChange={handleEmailChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="password">PW :</label>
-              <input
-                type="password"
-                id="password"
-                value={password}
-                onChange={handlePasswordChange}
-              />
-            </div>
-            <ButtonContainer>
-              <button type="submit" onClick={handleLogin}>
-                로그인
-              </button>
-            </ButtonContainer>
-          </form>
-          <ButtonContainer>
-            <button
-              onClick={() => {
-                setShowSignupModal(true);
-              }}
-            >
-              회원가입
-            </button>
-          </ButtonContainer>
         </>
       )}
     </>
   );
 }
 
-const ButtonContainer = styled.div`
+const FormContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+
+  form {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+`;
+
+const InputContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const InputLabel = styled.label`
+  display: block;
+  margin-bottom: 5px;
+  margin-right: 10px;
+  font-size: 1.5rem;
+  font-weight: bold;
+`;
+
+const Input = styled.input`
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 7px;
+  font-size: 1.5rem;
+  width: 100%;
   margin-bottom: 10px;
+
+  &:focus {
+    outline: none;
+    border-color: #333;
+  }
+`;
+
+const ButtonContainer = styled.div`
   text-align: center;
+  margin-bottom: 10px;
+`;
 
-  button {
-    background-color: #e8e8e8;
-    color: #333;
-    padding: 8px 16px;
-    border-radius: 4px;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
-    transition: all 0.3s ease-in-out;
+const MyButton = styled.button`
+  background: linear-gradient(to right, #ffb347, #ffcc33);
+  color: #fff;
+  width: 10rem;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 7px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 
-    &:hover {
-      background-color: #333;
-      color: #fff;
-    }
+  &:hover {
+    background: linear-gradient(to right, #ffcc33, #ffb347);
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  }
+`;
+
+const MyButton2 = styled.button`
+  background: linear-gradient(to right, #ffb347, #ffcc33);
+  color: #fff;
+  width: 15rem;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 7px;
+  font-size: 2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+
+  &:hover {
+    background: linear-gradient(to right, #ffcc33, #ffb347);
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
   }
 `;

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
+import charactersPK from 'constants/charactersPK';
 import IMG from 'assets/img/고병진.png';
 
 export default function SelectedCharacterList({
@@ -30,7 +31,7 @@ export default function SelectedCharacterList({
     <Container>
       {list
         ? list.map((character, idx) => (
-            <div key={idx}>
+            <Wrapper key={idx}>
               {character.subClassName != null ? (
                 <CharacterContainer
                   onClick={() => {
@@ -39,7 +40,10 @@ export default function SelectedCharacterList({
                   selected={selectedCharacter === idx}
                 >
                   <ImageContainer>
-                    <img src={IMG} alt="캐릭터 img" />
+                    <img
+                      src={charactersPK[character.subClassName]}
+                      alt="캐릭터 img"
+                    />
                   </ImageContainer>
                   <TextContainer>
                     <div>{character.subClassName}</div>
@@ -55,7 +59,7 @@ export default function SelectedCharacterList({
                   </TextContainer>
                 </NoneCharacterContainer>
               )}
-            </div>
+            </Wrapper>
           ))
         : null}
     </Container>
@@ -63,7 +67,10 @@ export default function SelectedCharacterList({
 }
 
 const Container = styled.div`
+  width: 100%;
+  height: 40%;
   display: flex;
+  justify-content: center;
 `;
 
 const CharacterContainer = styled.span`
@@ -80,6 +87,9 @@ const CharacterContainer = styled.span`
   margin-right: 0.5rem;
   margin-left: 0.5rem;
 
+  height: 80%;
+  width: 80%;
+
   ${(props) =>
     props.selected &&
     `
@@ -89,21 +99,19 @@ const CharacterContainer = styled.span`
 `;
 
 const ImageContainer = styled.div`
+
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 80%;
-  height: 80%;
+  width: 6rem;
+  height: 6rem;
   border-radius: 50%;
-  overflow: hidden;
-  margin-bottom: 0.5rem;
 
   img {
     width: 100%;
     height: auto;
   }
 `;
-
 const NoneCharacterContainer = styled(CharacterContainer)`
   cursor: auto;
 `;
@@ -114,3 +122,8 @@ const TextContainer = styled.div`
   align-items: center;
   text-align: center;
 `;
+
+const Wrapper = styled.div`
+  margin: 0 0.5rem;
+`;
+

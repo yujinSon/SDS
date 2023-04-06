@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
@@ -15,10 +15,70 @@ export default function BattlePage() {
   const navigate = useNavigate();
   const token = sessionStorage.getItem('token');
 
+  // 흔들림 효과적용할 배열 True 면 흔들림 효과
+  const [characterShaking, setCharacterShaking] = useState(
+    Array(7).fill(false),
+  );
+
+  // 흔들림 효과 특정 단일 캐릭터 공격, 단일 빌런 공격
+  const setSpecificCharacterShakingTrue = (indices) => {
+    setCharacterShaking((prevCharacterShaking) => {
+      const updatedCharacterShaking = [...prevCharacterShaking];
+      indices.forEach((index) => {
+        updatedCharacterShaking[index] = true;
+      });
+      return updatedCharacterShaking;
+    });
+  };
+
+  const resetCharacterShaking = () => {
+    setCharacterShaking(Array(7).fill(false));
+  }
+
+
+  // 스텟 변동 깜박임 효과
+  const [dynamicStat, setdynamicStat] = useState(Array(7).fill(""));
+
+  const setSpecificDynamicStat = (indices, stat, plusOrminus) => {
+    setdynamicStat((prevDynamicStat) => {
+      const updatedDynamicStat = [...prevDynamicStat];
+      indices.forEach((index) => {
+        updatedDynamicStat[index] = plusOrminus + " " + stat;
+      });
+      return updatedDynamicStat;
+    });
+  };
+
+  // 커스텀 빌런의 전체 공격시
+  const setCoustomDynamicStat = (indices, valueRes) => {
+    setdynamicStat((prevDynamicStat) => {
+      const updatedDynamicStat = [...prevDynamicStat];
+      indices.forEach((index) => {
+        if (valueRes[index] != -1) {
+          if (valueRes[index] > 0) {
+            updatedDynamicStat[index] = "- HP";
+          } else {
+            updatedDynamicStat[index] = "MISS";
+          }
+        } 
+      });
+      return updatedDynamicStat;
+    });
+  };
+
+
+  const resetDynamicStat = () => {
+    setdynamicStat(Array(7).fill(""));
+  }
+
+
+
   // 스테이지, 캐릭터, 빌런 정보 state
   const [stageStep, setStageStep] = useState(null);
   const [characters, setCharacters] = useState(null);
   const [monsters, setMonsters] = useState(null);
+
+  const [bgImg, setBgImg] = useState(null);
 
   // playerTurn이 2가 된 상태에서 몬스터를 클릭하면 공격하는 것으로 간주 (0, 1, 2)
   const [playerTurn, setPlayerTurn] = useState(0);
@@ -37,6 +97,10 @@ export default function BattlePage() {
   // 전투 승리, 패배 시 띄울 Modal
   const [showVictoryModal, setShowVictoryModal] = useState(false);
   const [showDefeatModal, setShowDefeactModal] = useState(false);
+
+  const showVictoryModalRef = useRef(showVictoryModal);
+  const showDefeatModalRef = useRef(showDefeatModal);
+
 
   // 공격 시마다 띄울 메시지
   const [msg, setMsg] = useState(['']);
@@ -79,6 +143,17 @@ export default function BattlePage() {
       return b;
     }
   }
+
+  useEffect(() => {
+    showVictoryModalRef.current = showVictoryModal;
+  }, [showVictoryModal]);
+
+  useEffect(() => {
+    if (!stageStep) return;
+    const bgImgPath = `battleBgImg${stageStep[0]}`;
+    console.log(bgImgPath);
+    setBgImg(bgImgPath);
+  }, [stageStep]);
 
   // 전투페이지 입장 시 캐릭터, 빌런, 스테이지 불러와서 정보 저장
   useEffect(() => {
@@ -266,7 +341,7 @@ export default function BattlePage() {
 
   // 캐릭터, 빌런 전멸 여부 체크
   useEffect(() => {
-    if (!characters | !monsters) return;
+    if (!characters && !monsters) return;
 
     if (characters.length === 0) {
       console.log('캐릭터 모두 사망함');
@@ -308,7 +383,7 @@ export default function BattlePage() {
     }
 
     if (monsters.length === 0) {
-      console.log('몬스터 전멸함');
+      console.log('몬스터 전멸함123');
       let [url, method] = api('endBattle');
       let config = {
         url,
@@ -346,7 +421,8 @@ export default function BattlePage() {
     }
   }, [characters, monsters]);
 
-  // *** 빌런 공격 로직 및 캐릭터 사망 시 턴 넘김 logic ***
+  // *** ``````````````````````````````빌런`````````````````````````````` 
+  // 공격 로직 및 캐릭터 사망 시 턴 넘김 logic ***
   useEffect(() => {
     console.log(turnOrder, '빌런 공격 시의 turnOrder');
     // 캐릭터 공격 차례면 죽었는지 확인하고 Turn 넘기는 Logic 처리
@@ -392,7 +468,8 @@ export default function BattlePage() {
       }
       // 빌런 공격 시에 차례대로 보여주기 위해 setTimeout 함수 실행 (2초 간격)
       setTimeout(function () {
-        // 현재 nowTurn인 몬스터의 pos를 monster 찾을 수 있는지 변수
+        if (showVictoryModalRef.current) return;
+        if (showDefeatModalRef.current) return;
 
         // 몬스터가 이미 죽어서 해당 nowTurn의 pos를 찾을 수 없으면 다음 턴으로 넘김
         if (found === 0) {
@@ -470,6 +547,13 @@ export default function BattlePage() {
               if (mySkill.stat === 'hp') {
                 if (mySkill.range === true) {
                   // 전체 스킬인경우
+
+                  setCoustomDynamicStat([0,1,2], valueRes)
+
+                  setTimeout(() => {
+                    resetDynamicStat();
+                  }, 1500);
+
                   const makeMsg = function (
                     monsterName,
                     monsterUsedSKill,
@@ -501,14 +585,32 @@ export default function BattlePage() {
                     setMsg(copy);
                   };
                   makeMsg(monsterName, monsterUsedSKill, characters, valueRes);
+
+                  setSpecificCharacterShakingTrue([0, 1, 2]);
+                  setTimeout(() => {
+                    resetCharacterShaking();
+                  }, 500);
                 } else {
                   // 단일 스킬
+
+                  setSpecificDynamicStat([data.target], "HP", "-")
+
+                  setTimeout(() => {
+                    resetDynamicStat();
+                  }, 1500);
+
+
                   let targetCharacter = '';
                   for (let ch of characters) {
                     if (data.target == ch.pos) {
                       targetCharacter = ch.subName;
                     }
                   }
+
+                  setSpecificCharacterShakingTrue([data.target]);
+                  setTimeout(() => {
+                    resetCharacterShaking();
+                  }, 500);
 
                   const makeMsg = function (
                     monsterName,
@@ -546,6 +648,14 @@ export default function BattlePage() {
 
                 if (mySkill.range === true) {
                   // 전체 스킬인경우
+
+
+                  setSpecificDynamicStat([0,1,2], mySkill.stat.toUpperCase(), "-")
+
+                  setTimeout(() => {
+                    resetDynamicStat();
+                  }, 1500);
+
                   const makeMsg = function (
                     monsterName,
                     monsterUsedSKill,
@@ -581,6 +691,12 @@ export default function BattlePage() {
                       targetCharacter = ch.subName;
                     }
                   }
+
+                  setSpecificDynamicStat([data.target], mySkill.stat.toUpperCase(), "-")
+
+                  setTimeout(() => {
+                    resetDynamicStat();
+                  }, 1500);
 
                   const makeMsg = function (
                     monsterName,
@@ -631,6 +747,13 @@ export default function BattlePage() {
           // 전체 빌런에게 힐 스킬 적용
           if (mySkill.range === true) {
             console.log('빌런의 전체 회복 스킬!!!');
+
+            setSpecificDynamicStat([3,4,5,6], "HP", "+")
+
+            setTimeout(() => {
+              resetDynamicStat();
+            }, 1500);
+
             const makeMsg = function (
               monsterName,
               monsterUsedSKill,
@@ -657,6 +780,7 @@ export default function BattlePage() {
           } else {
             // 몬스터에서 피 가장 적은 애한테 힐 스킬 적용
             console.log('빌런의 단일 회복 스킬!!!');
+
             let minHpMonsterPos = -1;
             let minValue = 999999999;
             let targetMonsterName = '';
@@ -667,6 +791,14 @@ export default function BattlePage() {
                 targetMonsterName = monster.subName;
               }
             }
+
+            setSpecificDynamicStat([minHpMonsterPos], "HP", "+")
+
+            setTimeout(() => {
+              resetDynamicStat();
+            }, 1500);
+
+
             for (let monster of monsters) {
               if (minHpMonsterPos === monster.pos) {
                 monster.hp = min(monster.hp + healAmount, monster.maxHp);
@@ -709,6 +841,7 @@ export default function BattlePage() {
 
   const clickCh = async (ch) => {
     // 버프 주는 거임
+    console.log("버 프 나 힐 주는 것")
     if (playerTurn === 2) {
       console.log('옛다 버프다~');
 
@@ -743,6 +876,12 @@ export default function BattlePage() {
           const healRange = characters[chIdx].skills[selectedSkill].range;
           // 전체회복
           if (healRange === true) {
+            setSpecificDynamicStat([0,1,2], "HP", "+")
+
+            setTimeout(() => {
+              resetDynamicStat();
+            }, 1500);
+
             for (let idx = 0; idx < characters.length; idx++) {
               setChHeal(healAmount);
               setChHealTowhom(characters[idx].subName);
@@ -750,6 +889,12 @@ export default function BattlePage() {
             }
           } // 단일 회복
           else {
+            setSpecificDynamicStat([ch.pos], "HP", "+")
+
+            setTimeout(() => {
+              resetDynamicStat();
+            }, 1500);
+
             setChHeal(healAmount);
             setChHealTowhom(ch.subName);
             await new Promise((resolve) => setTimeout(resolve, 0));
@@ -763,8 +908,15 @@ export default function BattlePage() {
           console.log(buffAmount, '버프 증가량');
 
           const buffRange = characters[chIdx].skills[selectedSkill].range;
-          // 전체회복
+          // 전체
           if (buffRange === true) {
+
+            setSpecificDynamicStat([0,1,2], characters[chIdx].skills[selectedSkill].stat.toUpperCase(), "+")
+
+            setTimeout(() => {
+              resetDynamicStat();
+            }, 1500);
+
             for (let idx = 0; idx < characters.length; idx++) {
               setChBuffStat(statPK[usedSkill.stat]);
               setChBuff(buffAmount);
@@ -773,6 +925,12 @@ export default function BattlePage() {
             }
           } // 단일 회복
           else {
+            setSpecificDynamicStat([ch.pos], characters[chIdx].skills[selectedSkill].stat.toUpperCase(), "+")
+
+            setTimeout(() => {
+              resetDynamicStat();
+            }, 1500);
+
             setChBuffStat(statPK[usedSkill.stat]);
             setChBuff(buffAmount);
             setChBuffTowhom(ch.subName);
@@ -848,152 +1006,206 @@ export default function BattlePage() {
 
   const clickMonster = async (pos) => {
     // 몬스터를 세 번째로 클릭하지 않으면 함수 종료 (1번째는 반드시 캐릭터, 2번째는 반드시 스킬이어야 함)
-    if (playerTurn !== 2) return;
+    if (playerTurn == 2) {
 
-    // 사용자가 사용할 스킬
-    const mySkill = characters[selectedCh].skills[selectedSkill];
-    // 현재 턴인 캐릭터의 객체 정보
-    const myCharacter = characters[selectedCh];
+      // 사용자가 사용할 스킬
+      const mySkill = characters[selectedCh].skills[selectedSkill];
+      // 현재 턴인 캐릭터의 객체 정보
+      const myCharacter = characters[selectedCh];
 
-    let chIdx = 0;
-    for (let idx = 0; idx < characters.length; idx++) {
-      if (characters[idx].pos === nowTurn) {
-        chIdx = idx;
-        break;
+      if (mySkill.skillTarget === 1) {
+        alert('스킬 타겟을 잘못 설정하였습니다.');
+        return
       }
-    }
 
-    // 오른쪽 아래 출력 메시지 생성 (사용 캐릭터, 사용 스킬)
-    let madeMsg = `${who}(이)가 ${whichSkill}을(를)  사용했다!`;
-    let copy = [madeMsg, textLine, ...msg];
-    if (copy.length >= textCnt) {
-      copy.pop();
-    }
-    setMsg(copy);
+      let chIdx = 0;
+      for (let idx = 0; idx < characters.length; idx++) {
+        if (characters[idx].pos === nowTurn) {
+          chIdx = idx;
+          break;
+        }
+      }
 
-    let skillName = '';
-    const data = {
-      // 스킬 사용 시전자의 pos
-      pos: nowTurn,
-      skillName: characters[chIdx].skills[selectedSkill].skillName,
-      // 스킬을 적용시킬 대상의 pos - 전체면 3 (ch.pos)
-      target: 0,
-    };
-    console.log(data, '몬스터에게 스킬 시전 시 보낼 data');
+      // 오른쪽 아래 출력 메시지 생성 (사용 캐릭터, 사용 스킬)
+      let madeMsg = `${who}(이)가 ${whichSkill}을(를)  사용했다!`;
+      let copy = [madeMsg, textLine, ...msg];
+      if (copy.length >= textCnt) {
+        copy.pop();
+      }
+      setMsg(copy);
 
-    // 선택된 스킬의 기본 쿨타임이 0이 아니어서 백쪽에서 쿨타임을 관리해야할 경우 (쿨타임이 0이면 스킬 쿨타임이 없다는 의미)
-    if (characters[chIdx].skills[selectedSkill].coolTime !== 0) {
-      const [url, method] = api('playersTurn');
-      const config = {
-        url,
-        method,
-        data,
-        headers: {
-          Authorization: `Bearer ${token}`, // Authorization 헤더에 토큰을 넣어줍니다.
-        },
+      let skillName = '';
+      const data = {
+        // 스킬 사용 시전자의 pos
+        pos: nowTurn,
+        skillName: characters[chIdx].skills[selectedSkill].skillName,
+        // 스킬을 적용시킬 대상의 pos - 전체면 3 (ch.pos)
+        target: 0,
       };
-      axios(config)
-        .then((res) => {
-          console.log('스킬 쿨타임 용 API 요청 성공', res.data);
-          // 쿨타임 새롭게 업데이트 된 캐릭터 정보 저장
-          setCharacters(res.data);
-        })
-        .catch((err) => {
-          console.log(err, '캐릭터 쿨타임 API 요청 실패');
-        });
-    }
+      console.log(data, '몬스터에게 스킬 시전 시 보낼 data');
 
-    // 스킬의 적용 대상이 빌런일 경우
-    if (mySkill.skillTarget === 0) {
-      let factorStat = myCharacter[mySkill.factor];
-      let damage = parseInt((factorStat * mySkill.value) / 100);
-
-      const randomPercent = Math.floor(Math.random() * 100);
-      // console.log('랜덤', randomNum);
-      if (randomPercent <= myCharacter.critical) {
-        console.log('크리티컬 데미지가 적용되었습니다.');
-        const criticalPercent = Math.random() + 1;
-        damage = Math.floor(criticalPercent * damage);
+      // 선택된 스킬의 기본 쿨타임이 0이 아니어서 백쪽에서 쿨타임을 관리해야할 경우 (쿨타임이 0이면 스킬 쿨타임이 없다는 의미)
+      if (characters[chIdx].skills[selectedSkill].coolTime !== 0) {
+        const [url, method] = api('playersTurn');
+        const config = {
+          url,
+          method,
+          data,
+          headers: {
+            Authorization: `Bearer ${token}`, // Authorization 헤더에 토큰을 넣어줍니다.
+          },
+        };
+        axios(config)
+          .then((res) => {
+            console.log('스킬 쿨타임 용 API 요청 성공', res.data);
+            // 쿨타임 새롭게 업데이트 된 캐릭터 정보 저장
+            setCharacters(res.data);
+          })
+          .catch((err) => {
+            console.log(err, '캐릭터 쿨타임 API 요청 실패');
+          });
       }
 
-      // 스킬이 1인 범위일 경우, 전체 스킬 일 경우 분기 설정
-      // 전체 스킬인 경우
-      if (mySkill.range === true) {
-        let copy = [...monsters];
-        let tmp = [];
+      // 스킬의 적용 대상이 빌런일 경우
+      if (mySkill.skillTarget === 0) {
+        let factorStat = myCharacter[mySkill.factor];
+        let damage = parseInt((factorStat * mySkill.value) / 100);
 
-        for (let idx = 0; idx < monsters.length; idx++) {
-          // 개별 데미지 적용
-          let eachDamage = damage;
-          console.log(monsters[idx].hp, '이전 체력');
-          // 회피했는지 아닌지 계산
-          eachDamage *= calculateDodge(monsters[idx].avoid);
-          const afterHp = monsters[idx].hp - eachDamage;
-          copy[idx].hp = afterHp;
-          console.log(afterHp, '남은 체력');
-
-          setAmount(eachDamage);
-          setToWhom(monsters[idx].subName);
-
-          // 섹시해 chatGPT ㅎㅅㅎ
-          await new Promise((resolve) => setTimeout(resolve, 0));
+        const randomPercent = Math.floor(Math.random() * 100);
+        // console.log('랜덤', randomNum);
+        if (randomPercent <= myCharacter.critical) {
+          console.log('크리티컬 데미지가 적용되었습니다.');
+          const criticalPercent = Math.random() + 1;
+          damage = Math.floor(criticalPercent * damage);
         }
-        // hp가 0이하로 떨어져서 사망한 경우
-        for (let i = 0; i < copy.length; i++) {
-          if (copy[i].hp > 0) {
-            tmp.push(copy[i]);
-          }
-        }
-        setMonsters(tmp);
-      }
-      // 단일 스킬인 경우
-      else {
-        for (let idx = 0; idx < monsters.length; idx++) {
-          if (monsters[idx].pos === pos) {
+
+        // 스킬이 1인 범위일 경우, 전체 스킬 일 경우 분기 설정
+        // 전체 스킬인 경우
+        if (mySkill.range === true) {
+          let copy = [...monsters];
+          let tmp = [];
+
+          for (let idx = 0; idx < monsters.length; idx++) {
+            // 개별 데미지 적용
+            let eachDamage = damage;
             console.log(monsters[idx].hp, '이전 체력');
             // 회피했는지 아닌지 계산
-            damage *= calculateDodge(monsters[idx].avoid);
-            const afterHp = monsters[idx].hp - damage;
+            eachDamage *= calculateDodge(monsters[idx].avoid);
+            const afterHp = monsters[idx].hp - eachDamage;
+            copy[idx].hp = afterHp;
+            console.log(afterHp, '남은 체력')
 
-            // 메시지 띄울 데미지랑 대상 업데이트
-            setAmount(damage);
+            setAmount(eachDamage);
             setToWhom(monsters[idx].subName);
+            setSpecificCharacterShakingTrue([3, 4, 5, 6]);
 
-            console.log(afterHp, '남은 체력');
-            let copy = [...monsters];
-            let tmp = [];
-
-            // hp가 0이하로 떨어져서 사망한 경우
-            if (afterHp <= 0) {
-              for (let i = 0; i < copy.length; i++) {
-                if (i !== idx) {
-                  tmp.push(copy[i]);
-                }
-              }
-              setMonsters(tmp);
-              // hp가 달았지만 그래도 0이상인 경우
+            if (eachDamage > 0) {
+              setSpecificDynamicStat([monsters[idx].pos], "HP", "-")
             } else {
-              copy[idx].hp = afterHp;
-              setMonsters(copy);
+              setSpecificDynamicStat([monsters[idx].pos], "MISS!", "")
             }
-            break;
+
+
+            // 섹시해 chatGPT ㅎㅅㅎ
+
+            await new Promise((resolve) => setTimeout(resolve, 0));
+          }
+
+            setTimeout(() => {
+              resetDynamicStat();
+            }, 1500);
+
+
+          // hp가 0이하로 떨어져서 사망한 경우
+          for (let i = 0; i < copy.length; i++) {
+            if (copy[i].hp > 0) {
+              tmp.push(copy[i]);
+            }
+          }
+          setTimeout(() => {
+            setMonsters(tmp);
+          }, 500);
+        }
+        // 단일 스킬인 경우
+        else {
+
+          for (let idx = 0; idx < monsters.length; idx++) {
+            if (monsters[idx].pos === pos) {
+              console.log(monsters[idx].hp, '이전 체력');
+              // 회피했는지 아닌지 계산
+              damage *= calculateDodge(monsters[idx].avoid);
+              const afterHp = monsters[idx].hp - damage;
+
+              if (damage > 0) {
+                setSpecificDynamicStat([pos], "HP", "-")
+              } else {
+                setSpecificDynamicStat([pos], "MISS!", "")
+              }
+
+              setTimeout(() => {
+                resetDynamicStat();
+              }, 1500);
+
+              // 메시지 띄울 데미지랑 대상 업데이트
+              setAmount(damage);
+              setToWhom(monsters[idx].subName);
+              setSpecificCharacterShakingTrue([pos]);
+
+              console.log(afterHp, '남은 체력');
+              let copy = [...monsters];
+              let tmp = [];
+
+              // hp가 0이하로 떨어져서 사망한 경우
+              if (afterHp <= 0) {
+                for (let i = 0; i < copy.length; i++) {
+                  if (i !== idx) {
+                    tmp.push(copy[i]);
+                  }
+                }
+
+                setTimeout(() => {
+                  setMonsters(tmp);
+                }, 500);
+                // setMonsters(tmp);
+                // hp가 달았지만 그래도 0이상인 경우
+              } else {
+                copy[idx].hp = afterHp;
+                setMonsters(copy);
+              }
+              break;
+            }
           }
         }
-      }
 
-      // 플레이어 턴 초기화
-      setPlayerTurn(0);
+        setTimeout(() => {
+          resetCharacterShaking();
+        }, 300);
+        
+        console.log("버그 확인 : ", monsters)
+        if (showVictoryModalRef.current) return;
+ 
 
-      // 플레이어가 공격했으면 다음 턴으로 넘어감
-      if (nowIdx < turnOrder.length - 1) {
-        setNowIdx(nowIdx + 1);
+        console.log("showVictoryModal : ", showVictoryModal)
+        if (showVictoryModal == true) {
+          return;
+        }
+
+        // 플레이어 턴 초기화
+        setPlayerTurn(0);
+
+          // 플레이어가 공격했으면 다음 턴으로 넘어감
+        if (nowIdx < turnOrder.length - 1) {
+          setNowIdx(nowIdx + 1);
+        } else {
+          setNowIdx(0);
+        }
+        // 현재 몇 번재 턴인지 출력
+        console.log('내가 방금 공격한 턴', nowIdx);
+
       } else {
-        setNowIdx(0);
-      }
-      // 현재 몇 번재 턴인지 출력
-      console.log('내가 방금 공격한 턴', nowIdx);
-    } else {
-      alert('스킬 타겟을 잘못 설정하였습니다.');
+        alert('스킬 타겟을 잘못 설정하였습니다.');
+      }      
+
     }
   };
 
@@ -1010,7 +1222,7 @@ export default function BattlePage() {
 
   return (
     <MainContainer>
-      <BattleContainer>
+      <BattleContainer bgImg={bgImg}>
         <Battle
           characters={characters}
           monsters={monsters}
@@ -1021,6 +1233,8 @@ export default function BattlePage() {
           stageStep={stageStep}
           showVictoryModal={showVictoryModal}
           showDefeatModal={showDefeatModal}
+          characterShaking = {characterShaking}
+          dynamicStat = {dynamicStat}
         />
       </BattleContainer>
 
@@ -1064,7 +1278,9 @@ const BattleContainer = styled.div`
   width: 100%;
   height: 70%;
 
-  background-image: url(${({ theme }) => `${theme.battleBgImg}`});
+  background-image: url(${({ theme, bgImg }) => `${theme[`${bgImg}`]}`});
+
+  background-position: center bottom;
   background-size: cover;
 `;
 

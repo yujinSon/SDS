@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import IMG from 'assets/img/item1.png';
 
 import relic from 'constants/relicPK';
+import relicPK from 'constants/relicPK';
 
 export default function Relic({ relicIds }) {
   // 초기 유물 리스트 (값이 0이면 획득하지 못한 유물로, 자물쇠 이미지를 띄울 것임)
@@ -55,7 +56,7 @@ export default function Relic({ relicIds }) {
                 <div key={idx2} onClick={() => changeIdx(3 * idx + idx2)}>
                   {relic === 0 ? (
                     <ImageWrapper>
-                      <Image src={IMG} />
+                      <Image src={relicPK[0].relicImg} />
                       {/* <ImageDiv url={IMG} /> */}
                     </ImageWrapper>
                   ) : (
@@ -74,7 +75,7 @@ export default function Relic({ relicIds }) {
           {relicInfo && relicInfo[nowIdx] !== 0 ? (
             <DetailImg src={relicInfo[nowIdx].relicImg} />
           ) : (
-            <DetailImg src={IMG} />
+            <DetailImg src={relicPK[0].relicImg} />
           )}
         </DetailImgContainer>
         <DetailText>{relicInfo[nowIdx].relicName}</DetailText>
@@ -109,8 +110,8 @@ const ImageWrapper = styled.div`
 `;
 
 const Image = styled.img`
-  width: 6vw;
-  height: 7vh;
+  width: 5.5vw;
+  height: 9vh;
 `;
 
 const ImageDiv = styled.div`

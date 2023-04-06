@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
+import charactersPK from 'constants/charactersPK';
+
 import IMG from 'assets/img/고병진.png';
 
 export default function RandomCharacterList({
@@ -19,7 +21,10 @@ export default function RandomCharacterList({
               selected={selectedRandomCh === idx}
             >
               <ImageContainer>
-                <img src={IMG} alt="캐릭터 img" />
+                <img
+                  src={charactersPK[character.subClassName]}
+                  alt="캐릭터 img"
+                />
               </ImageContainer>
               <TextContainer>
                 <div>{character.className}</div>
@@ -65,8 +70,8 @@ const ImageContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 5rem;
-  height: 5rem;
+  width: 6rem;
+  height: 6rem;
   border-radius: 50%;
   overflow: hidden;
   margin-right: 1rem;
@@ -80,6 +85,7 @@ const ImageContainer = styled.div`
 const TextContainer = styled.div`
   display: flex;
   flex-direction: column;
+  font-size: 1.2rem;
 `;
 
 const Frame = styled.div`
