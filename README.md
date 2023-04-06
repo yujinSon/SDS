@@ -1,12 +1,12 @@
-## ♂️ 7 Deadly Sins - 대한민국의 7개의 문제를 게임을 통하여 즐겨보자!
+‍♂️ 7 Deadly Sins - 대한민국의 7개의 문제를 게임을 통하여 즐겨보자!
 
 
-<img src="/uploads/91f0f8d0b7cdfec45fdd2e96b7fcae16/로고_1번.png" style="width:200; height=100;"/>
+<img src="/uploads/91f0f8d0b7cdfec45fdd2e96b7fcae16/로고_1번.png" style="width:200"/>
 
-<img src="/uploads/781351b627e411b5778df70f09e0f449/sds.gif" style="width:200; height=100;" />
+<img src="/uploads/781351b627e411b5778df70f09e0f449/sds.gif" />
 
 
-## 🚀목차
+🚀목차
 
 진행기간
 개요 / 서비스 소개  
@@ -73,8 +73,6 @@
 📎 PPT
 
 📎 UCC
-![특화_303](/uploads/f141ea2c2a10b752b2812fc2689019ba/특화_303.mp4)
-
 
 📌 5. 프로젝트 산출물
 
@@ -89,7 +87,7 @@
 
 
 📎 ERD
-
+<img src="/uploads/c221ee5f57dd21d1259bcb115c2c89e0/ERD.PNG" style="width:200"/>
 
 📎 회의록
 
