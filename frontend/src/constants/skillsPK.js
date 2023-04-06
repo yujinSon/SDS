@@ -1,6 +1,5 @@
 import 기본공격 from 'assets/img/skills/기본공격.png';
-import Skill1 from 'assets/img/skill1.png';
-import Skill2 from 'assets/img/skill2.png';
+import 쿨타임 from 'assets/img/skills/쿨타임.PNG';
 
 import 양치컵사용 from 'assets/img/skills/양치컵 사용.png';
 import 세탁망사용 from 'assets/img/skills/세탁망 사용.png';
@@ -38,6 +37,7 @@ import 선거참여 from 'assets/img/skills/어린이집 지원.jpg';
 import 직원복지개선 from 'assets/img/skills/직원 복지 개선.jpg';
 
 const skillsPK = {
+  0: 쿨타임,
   '환경운동가 유진': {
     subClassName: '환경운동가 유진',
     skillNames: ['일반 공격', '양치컵 사용', '세탁망 사용'],

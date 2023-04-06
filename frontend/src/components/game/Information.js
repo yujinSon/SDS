@@ -44,7 +44,7 @@ export default function Information({
                     selectedSkill={selectedSkill === idx}
                   />
                 ) : (
-                  <SkillImg src={IMG} alt="스킬사진" key={idx} />
+                  <SkillImg src={skillsPK[0]} alt="스킬사진" key={idx} />
                 );
               })}
             </SkillContainer>
@@ -121,8 +121,6 @@ const RightContainer = styled.div`
 
   color: black;
   width: 60%;
-  
-
 `;
 
 const SkillContainer = styled.div`
@@ -162,7 +160,7 @@ const SkillDetail = styled.div`
 
 const NoneSelectBox = styled.div`
   background-color: rgba(189, 189, 189, 0.7);
-  
+
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -176,11 +174,9 @@ const NoneSelectBox = styled.div`
 
   padding: 1rem;
   gap: 0.5rem;
-
 `;
 
-
 const NoneTag = styled.div`
-display: flex;
+  display: flex;
   height: 26.5vh;
 `;

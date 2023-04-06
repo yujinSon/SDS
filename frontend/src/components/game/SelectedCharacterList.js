@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
+import charactersPK from 'constants/charactersPK';
 import IMG from 'assets/img/고병진.png';
 
 export default function SelectedCharacterList({
@@ -39,7 +40,10 @@ export default function SelectedCharacterList({
                   selected={selectedCharacter === idx}
                 >
                   <ImageContainer>
-                    <img src={IMG} alt="캐릭터 img" />
+                    <img
+                      src={charactersPK[character.subClassName]}
+                      alt="캐릭터 img"
+                    />
                   </ImageContainer>
                   <TextContainer>
                     <div>{character.subClassName}</div>
@@ -92,18 +96,18 @@ const ImageContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 80%;
-  height: 80%;
+  width: 6rem;
+  height: 6rem;
   border-radius: 50%;
   overflow: hidden;
-  margin-bottom: 0.5rem;
+  margin-right: 1rem;
+  margin: 0 auto;
 
   img {
     width: 100%;
     height: auto;
   }
 `;
-
 const NoneCharacterContainer = styled(CharacterContainer)`
   cursor: auto;
 `;
