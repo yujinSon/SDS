@@ -1,5 +1,5 @@
 ‍♂️ 7 Deadly Sins - 대한민국의 7개의 문제를 게임을 통하여 즐겨보자!
-![검흰흰](https://www.notion.so/26ade000e019425cac9829e5be347acf?pvs=4#e816ca5f5c8f4c13a7261ac427a0cd39)
+![로고_1번](/uploads/91f0f8d0b7cdfec45fdd2e96b7fcae16/로고_1번.png)
 
 
 🚀목차
