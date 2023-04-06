@@ -421,7 +421,7 @@ const StatSaveButton = styled.button`
   border-radius: 10px;
   padding: 0.2rem 2rem 0.2rem 2rem;
   border: none;
-  width: 20vw;
+  width: 10rem;
 `;
 
 const ColorSpan = styled.span`
