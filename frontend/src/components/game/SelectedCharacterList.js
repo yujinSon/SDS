@@ -55,7 +55,7 @@ export default function SelectedCharacterList({
                     <img src={IMG} alt="없는 케릭터 img" />
                   </ImageContainer>
                   <TextContainer>
-                    <div>???</div>
+                    <div>  ......  </div>
                   </TextContainer>
                 </NoneCharacterContainer>
               )}
@@ -75,11 +75,11 @@ const Container = styled.div`
 
 const CharacterContainer = styled.span`
   background-color: rgba(189, 189, 189, 0.7);
-
+  
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 20px;
@@ -89,6 +89,7 @@ const CharacterContainer = styled.span`
 
   height: 80%;
   width: 80%;
+  min-width: 150px
 
   ${(props) =>
     props.selected &&
@@ -108,10 +109,11 @@ const ImageContainer = styled.div`
   border-radius: 50%;
 
   img {
-    width: 100%;
+    width: 120%;
     height: auto;
   }
 `;
+
 const NoneCharacterContainer = styled(CharacterContainer)`
   cursor: auto;
 `;
