@@ -11,6 +11,7 @@ import BattlePage from 'pages/game/BattlePage';
 import EndingPage from 'pages/game/EndingPage';
 import ShopPage from 'pages/game/ShopPage';
 import DataPage from 'pages/game/DataPage';
+import DataDefeatPage from 'pages/game/DataDefeatPage';
 
 import SecretAPI from 'pages/SecretAPI';
 
@@ -33,6 +34,7 @@ function App() {
           <Route path="/shop" element={<ShopPage />} />
           <Route path="/ending" element={<EndingPage />} />
           <Route path="/data" element={<DataPage />} />
+          <Route path="/datadefeat" element={<DataDefeatPage />} />
           <Route path="/yongchan" element={<SecretAPI />} />
         </Routes>
       </ThemeProvider>
