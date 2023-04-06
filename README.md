@@ -3,7 +3,7 @@
 
 <img src="/uploads/91f0f8d0b7cdfec45fdd2e96b7fcae16/로고_1번.png" style="width:200"/>
 
-<img src="/uploads/781351b627e411b5778df70f09e0f449/sds.gif" />
+![특화_303](/uploads/f141ea2c2a10b752b2812fc2689019ba/특화_303.mp4)
 
 
 🚀목차
@@ -73,8 +73,7 @@
 📎 PPT
 
 📎 UCC
-
-UCC링크
+![특화_303](/uploads/f141ea2c2a10b752b2812fc2689019ba/특화_303.mp4)
 
 
 📌 5. 프로젝트 산출물
