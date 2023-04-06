@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
+import charactersPK from 'constants/charactersPK';
+
 import IMG from 'assets/img/고병진.png';
 
 export default function RandomCharacterList({
@@ -19,7 +21,10 @@ export default function RandomCharacterList({
               selected={selectedRandomCh === idx}
             >
               <ImageContainer>
-                <img src={IMG} alt="캐릭터 img" />
+                <img
+                  src={charactersPK[character.subClassName]}
+                  alt="캐릭터 img"
+                />
               </ImageContainer>
               <TextContainer>
                 <div>{character.className}</div>
