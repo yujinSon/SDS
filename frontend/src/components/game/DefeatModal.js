@@ -11,7 +11,9 @@ export default function DefeatModal({ stageStep }) {
       <Button
         value="완료"
         onClick={() => {
-          navigate('/ending');
+          sessionStorage.setItem('stage2', stageStep[0]);
+          console.log(stageStep[0], '현재 스테이지');
+          navigate('/datadefeat');
         }}
       />
     </Container>
