@@ -87,7 +87,7 @@
 
 
 📎 ERD
-![ERD](/uploads/c221ee5f57dd21d1259bcb115c2c89e0/ERD.PNG)
+![ERD](/uploads/572030402e9053faa3bcc2b560cdae1f/ERD.PNG)
 
 📎 회의록
 
